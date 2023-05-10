@@ -28,6 +28,9 @@ export default {
         'loggedIn': function(msg, context){
           context.doLogedIn(msg, context);
         },
+        'configurePage':function(msg, context){
+          context.doConfigurePage(msg, context);
+        },
 /*
         'default': function(msg, context){
           console.log('evtHandler - something else', msg, context);
@@ -74,9 +77,10 @@ export default {
         'editPage': function(msg, context){
           context.doEditPage(msg, context);
         },
-        'pageSetup':function(msg, context){
-          context.doSetupPage(msg, context);
-        }
+        'pageSetup': function(msg, context){
+          context.doPageSetup(msg, context);
+        },
+
       }
       try {
         (evtType[msg[1]](msg, self));
@@ -99,10 +103,21 @@ export default {
     doEditPage(msg, context){
       console.log('doEditPage selected', msg, context);
     },
-    doSetupPage(msg, context){
+    doPageSetup(msg, context){
       console.log('pageSetup selected', msg, context);
-      context.dialogConfiguration='createPage';
+      context.dialogConfiguration='pageDefaultSelect';
       context.showDialog=true;
+    },
+    doConfigurePage(msg, context){
+      console.log('switchboard doConfigurePage-', msg, context);
+      debugger;
+      if(typeof(msg[1].pageType)=='undefined'){
+        this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a page type','topLevelMenu']);
+      }else{
+        context.dialogConfiguration=msg[1].pageType;
+        context.dialogReload+=1;
+      }
+
     },
     doShowLogin(context){
 //      debugger;

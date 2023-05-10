@@ -80,7 +80,7 @@ export default {
             if(availableHandlers.length>0){
               for(var a=0;a<availableHandlers.length;a++){
                 debugger;
-                this.cmdHandlers[availableHandlers[a]]([args[2], args[1], args[2]]);
+                this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
               }
             }
 

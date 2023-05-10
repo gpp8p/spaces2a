@@ -11,6 +11,7 @@
           v-if="this.showDialog==true"
           :config="dialogConfiguration"
           name="mainDialog"
+          :key="dialogReload"
           @cevt="handleEvt"
       ></dialog2>
       <section class="content">
@@ -135,6 +136,7 @@ export default{
       showDialog:false,
       mode:0,
       EDIT_GRID:1,
+      dialogReload:0
 
     }
   }

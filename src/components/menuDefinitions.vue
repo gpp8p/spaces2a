@@ -106,7 +106,8 @@ export default {
         case 'dialogSubMenu1':{
           return {
             items: [
-              ['Cancel', 'dismissDialog']
+              ['Cancel', 'dismissDialog'],
+              ['Configure Page', 'configurePage']
             ],
             currentSelectedMenuOption: 'Appearence',
             style: 'color:blue; font-family: Geneva; font-size: 10px;',

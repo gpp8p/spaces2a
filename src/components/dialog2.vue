@@ -157,6 +157,9 @@ export default {
         'loginVerify': function(msg, context){
           context.doLoginVerify(msg, context);
         },
+        'configurePage': function(msg, context){
+          context.doConfigurePage(msg, context);
+        },
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -171,6 +174,11 @@ export default {
       console.log('in doLoginVerify', msg, context);
       var loginParams = ['loginVerify', this.dialogData, 'login'];
       this.$emit('cevt', loginParams);
+    },
+    doConfigurePage(msg,context){
+      console.log('dialog doConfigurePage-', msg, context);
+      var configurePageParams = ['configurePage', this.dialogData, 'configurePage'];
+      this.$emit('cevt', configurePageParams);
     },
     setupDialog(dialogDef, target, action, existingData){
       //console.log('setupDialog-', dialogDef, target, existingData);

@@ -1,6 +1,10 @@
 <template>
   <span class="layoutMenu">
-      <menu-items :currentItems="currentItems"
+      <span v-if="this.showMessage==true">
+        {{this.currentMessage}}
+      </span>
+      <menu-items v-if="this.showMessage==false"
+                  :currentItems="currentItems"
                   :key="menuVersion"
                   name="menuItems"
                   @cevt="handleEvt"
@@ -35,6 +39,8 @@ export default {
       menuVersion:0,
       currentItems:[],
       cmdHandlers:{},
+      currentMessage:'',
+      showMessage:false
     }
   },
   methods:{
@@ -43,12 +49,15 @@ export default {
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
-//      debugger;
+      debugger;
 //      console.log('cmdHandler-',args[2], this.name);
       if(args[2]==this.name){
         var cmdType ={
           'setMenu': function(args, context){
             context.doSetMenu(args, context);
+          },
+          'setMessage': function(args, context){
+            context.doSetMessage(args, context);
           },
         }
         if(typeof(cmdType)!='undefined'){
@@ -67,6 +76,11 @@ export default {
       context.currentItems=this.getMenuOpts(msg[1]);
       this.cmdHandlers['menuItems'](['setCurrentItems', this.currentItems, 'menuItems']);
 //      this.menuVersion+=1;
+    },
+    doSetMessage(msg, context){
+      console.log('in doSetMessage-', msg, context);
+      this.showMessage=true;
+      this.currentMessage=msg[1];
     },
 
     evtOpt(msg){

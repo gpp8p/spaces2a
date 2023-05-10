@@ -386,7 +386,7 @@ name: "dialogDefinitions",
                   type: "vSelect",
                   options: [
                     {
-                      val: 'oneWindow',
+                      val: 'createPage',
                       label: 'One Window Page',
                       isDisabled: false,
                       isSelected: false
