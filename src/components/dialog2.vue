@@ -57,6 +57,16 @@ export default {
     console.log('dialogFields-', this.dialogFields['createPage']);
     this.dialogStyle = this.dialogFields[this.config].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config].fields;
+    this.dialogDefaults = this.getDialogDefaults(this.config);
+    if(typeof(this.dialogDefaults)!='undefined'){
+      debugger;
+      var d;
+      for(d=0; d<this.dialogComponents.length;d++){
+        if(typeof(this.dialogDefaults[this.dialogComponents[d].fieldIdentifier])!='undefined'){
+          this.dialogComponents[d].fieldValue = this.dialogDefaults[this.dialogComponents[d].fieldIdentifier];
+        }
+      }
+    }
     this.cmdHandlers['dialogMenu'](['setMenu', this.dialogFields[this.config].menuName,'dialogMenu']);
   },
   beforeDestroy() {
@@ -74,6 +84,7 @@ export default {
       dialogMenuName:'dialogMenu',
       dialogData:{},
       dialogFields:[],
+      dialogDefaults:{},
       dialogComponents:[],
       menuVisible: false
     }
@@ -85,10 +96,14 @@ export default {
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
+      debugger;
       if(args[2]==this.name){
         var cmdType ={
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
+          },
+          'setValue':function(context, args){
+            self.doSetValue(context, args);
           }
         }
         if(typeof(cmdType)!='undefined'){
@@ -146,6 +161,13 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
+    },
+    doSetValue(args, context){
+      debugger;
+      console.log('doSetValue in dialog', context, args);
+      var dynamicDataKeys = Object.keys(args[1]);
+      console.log('dynamicDataKeys-', dynamicDataKeys);
+
     },
     doFieldInput(msg, context){
       console.log('at doFieldInput-', msg, context);

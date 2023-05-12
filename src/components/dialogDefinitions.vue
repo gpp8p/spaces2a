@@ -5,9 +5,9 @@ name: "dialogDefinitions",
   methods: {
     getDialogDefinition(dialogName){
       switch(dialogName){
-        case 'createPage':{
+        case 'oneWindow':{
           return {
-            createPage:{
+            oneWindow:{
               dialogStyle :{
                 position:'fixed',
                 top:'30%',
@@ -386,7 +386,7 @@ name: "dialogDefinitions",
                   type: "vSelect",
                   options: [
                     {
-                      val: 'createPage',
+                      val: 'oneWindow',
                       label: 'One Window Page',
                       isDisabled: false,
                       isSelected: false
