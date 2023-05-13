@@ -32,12 +32,13 @@ import vCheckBox from "../components/vCheckBox.vue";
 import vSelect from "../components/vSelect.vue";
 import vRadioGroup from "../components/vRadioGroup.vue";
 import vBackgroundPicker from "../components/vBackgroundPicker.vue";
+import textLiteral from "../components/textLiteral.vue";
 import vButton from "@/components/vbutton";
 
 
 export default {
   name: "dialog2",
-  components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, Menu},
+  components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, textLiteral, Menu},
   mixins: [utils, menuDefinitions, dialogDefinitions],
   props:{
     name:{
@@ -54,10 +55,13 @@ export default {
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.dialogFields = this.getDialogDefinition(this.config);
-    console.log('dialogFields-', this.dialogFields['createPage']);
+    console.log('dialogFields-', this.dialogFields);
     this.dialogStyle = this.dialogFields[this.config].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config].fields;
     this.dialogDefaults = this.getDialogDefaults(this.config);
+    if(typeof( this.dialogFields[this.config].leafComponent)!= 'undefined'){
+      this.leafComponent=this.dialogFields[this.config].leafComponent;
+    }
     if(typeof(this.dialogDefaults)!='undefined'){
       debugger;
       var d;
@@ -86,7 +90,8 @@ export default {
       dialogFields:[],
       dialogDefaults:{},
       dialogComponents:[],
-      menuVisible: false
+      menuVisible: false,
+      leafComponent:false
     }
   },
   methods:{
@@ -97,20 +102,28 @@ export default {
     },
     cmdHandler(args, self){
       debugger;
-      if(args[2]==this.name){
+      if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
           },
-          'setValue':function(context, args){
-            self.doSetValue(context, args);
-          }
+
         }
         if(typeof(cmdType)!='undefined'){
           try {
             (cmdType[args[0]](args, self));
           } catch (e) {
+            debugger;
             console.log('unknown cmd -',args, this.name);
+            var availableHandlers = Object.keys(this.cmdHandlers);
+            console.log('available cmd handlers-',availableHandlers);
+
+            if(availableHandlers.length>0){
+              for(var a=0;a<availableHandlers.length;a++){
+                debugger;
+                this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
+              }
+            }
           }
         }
       }
@@ -162,13 +175,7 @@ export default {
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     },
-    doSetValue(args, context){
-      debugger;
-      console.log('doSetValue in dialog', context, args);
-      var dynamicDataKeys = Object.keys(args[1]);
-      console.log('dynamicDataKeys-', dynamicDataKeys);
 
-    },
     doFieldInput(msg, context){
       console.log('at doFieldInput-', msg, context);
       this.dialogData[msg[1]]=msg[2];

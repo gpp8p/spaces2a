@@ -117,10 +117,7 @@ export default {
         context.dialogConfiguration=msg[1].pageType;
         context.dialogReload+=1;
       }
-      var dynamicData = {
-        pageType: msg[1].pageType
-      }
-      this.cmdHandlers['mainDialog'](['setValue',dynamicData, 'mainDialog' ]);
+
 
     },
     doShowLogin(context){

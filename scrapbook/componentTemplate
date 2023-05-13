@@ -27,6 +27,7 @@ export default {
   data(){
     return {
       cmdHandlers:{},
+      leafComponent: false
     }
   },
   methods:{
@@ -36,7 +37,7 @@ export default {
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
-      if(args[2]==this.name){
+      if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
@@ -54,7 +55,7 @@ export default {
                     if(availableHandlers.length>0){
                       for(var a=0;a<availableHandlers.length;a++){
                         debugger;
-                        this.cmdHandlers[availableHandlers[a]]([args[2], args[1], args[2]]);
+                        this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
                       }
                     }
               }
