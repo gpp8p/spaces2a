@@ -703,7 +703,7 @@ name: "dialogDefinitions",
           return {
             pageBackground:{
               backgroundType:"color",
-              colorSelect:"#ffffff",
+              colorSelect:"#0a3aff",
             },
             pageDescription:"page description",
             pageName:"page name",

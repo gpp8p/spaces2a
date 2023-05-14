@@ -27,10 +27,6 @@ export default {
       type: Object,
       required: false
     },
-    cmdObjectVersion: {
-      type: Number,
-      required: false
-    },
     name: {
       type: String,
       required: false
@@ -38,6 +34,7 @@ export default {
   },
   mounted(){
 //    debugger;
+    this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.backgroundCmdObject = this.cmdObject;
     if(typeof(this.cmdObject.hasLabel)!='undefined'){
       this.hasLabel = this.cmdObject.hasLabel;
@@ -64,15 +61,15 @@ export default {
     }
     let r;
     if(typeof(this.cmdObject.styles.backGroundRadioGroupStyle)!='undefined'){
-//      debugger;
+      debugger;
       this.backGroundRadioGroupStyle = this.cmdObject.styles.backGroundRadioGroupStyle;
-      if(typeof(this.cmdObject.existingData)!='undefined'){
+      if(typeof(this.cmdObject.fieldValue)!='undefined'){
         for (r=0; r<this.backGroundRadioGroupStyle.radioButtons.length; r++){
-          this.backGroundRadioGroupStyle.radioButtons[r].existingData=this.cmdObject.existingData.backgroundType;
+          this.backGroundRadioGroupStyle.radioButtons[r].existingData=this.cmdObject.fieldValue.backgroundType;
         }
-        this.setBackgroundType(this.cmdObject.existingData.backgroundType);
-        if(typeof(this.cmdObject.existingData.colorSelect)!='undefined'){
-          this.colorValue = this.cmdObject.existingData.colorSelect;
+        this.setBackgroundType(this.cmdObject.fieldValue.backgroundType);
+        if(typeof(this.cmdObject.fieldValue.colorSelect)!='undefined'){
+          this.colorValue = this.cmdObject.fieldValue.colorSelect;
         }else{
           this.colorValue = "#ffffff";
         }
@@ -84,11 +81,6 @@ export default {
         this.backgroundType=this.BACKGROUND_COLOR;
         this.colorValue = "#ffffff";
       }
-
-
-
-
-
     }else{
       this.backGroundRadioGroupStyle = this.backGroundDefaultRadioGroupStyle;
     }
@@ -96,6 +88,9 @@ export default {
     console.log('backgroundPicker sets  -', this.cmdObject.existingData);
     this.cmdVersion+=1;
 
+  },
+  beforeDestroy() {
+    this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
   },
   methods:{
     colorSelect(evt){
@@ -122,9 +117,109 @@ export default {
         }
       }
     },
+    handleCmd(args){
+      console.log(this.name, ' handleCmd', args);
+      this.cmdHandler(args, this);
+    },
+    cmdHandler(args, self){
+      if(args[2]==this.name || this.leafComponent==false){
+        var cmdType ={
+          'default': function(context, args){
+            console.log('cmdHandler in dummy - something else', args, context);
+          }
+        }
+        if(typeof(cmdType)!='undefined'){
+          try {
+            (cmdType[args[0]](args, self));
+          } catch (e) {
+            console.log('unknown cmd -',args, this.name);
+            console.log('unknown cmd -',args, this.name);
+            var availableHandlers = Object.keys(this.cmdHandlers);
+            console.log('available cmd handlers-',availableHandlers);
+
+            if(availableHandlers.length>0){
+              for(var a=0;a<availableHandlers.length;a++){
+                debugger;
+                this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
+              }
+            }
+          }
+        }
+      }
+    },
+// put do cmds here
+
+//event handler
+    evtOpt(msg){
+      console.log('evtOpt in menu', msg);
+      this.evtHandler(msg, this);
+    },
+    evtHandler(msg, self){
+      console.log('evtHandler in menu-', msg, self);
+      debugger;
+      var evtType = {
+        'setCmdHandler': function(msg, context){
+          //console.log('evtHandler - a menu event', msg);
+          context.doSetCmdHandler(msg, context);
+        },
+        'removeCmdHandler': function(msg, context){
+          context.doRemoveCmdHandler(msg, context);
+        },
+        'fieldInput': function(msg, context){
+          context.doFieldInput(msg, context);
+        },
+        'default': function(msg, context){
+          console.log('evtHandler in menu  - something else', msg, context);
+        }
+      }
+      if(typeof(evtType)!='undefined'){
+        try {
+          (evtType[msg[0]](msg, self));
+        } catch (e) {
+          this.$emit('cevt', msg);
+        }
+      }
+    },
+    doFieldInput(msg, context){
+      console.log('at doFieldInput-', msg, context);
+      switch(msg[1]){
+        case 'backgroundType':{
+          switch(msg[2]){
+            case 'color':{
+              this.backgroundType=this.BACKGROUND_COLOR;
+              this.$emit('cevt',['fieldInput', this.name, 'color']);
+              break;
+            }
+            case 'image':{
+              this.backgroundType=this.BACKGROUND_IMAGE;
+              this.$emit('cevt',['fieldInput', this.name, 'image']);
+              break;
+            }
+            case 'transparent':{
+              this.backgroundType=this.BACKGROUND_TRANSPARENT;
+              this.$emit('cevt', ['fieldInput', this.name, 'transparent']);
+              break;
+            }
+          }
+          break;
+        }
+      }
+    },
+    doSetCmdHandler(msg, context){
+      debugger;
+      console.log('doSetCmdHandler-',msg, context);
+      this.cmdHandlers[msg[2]]=msg[1];
+    },
+    doRemoveCmdHandler(msg, context){
+      console.log('doRemoveCmdHandler-',msg, context);
+      delete(this.cmdHandlers[msg[2]]);
+    },
+
+
+/*
     evtOpt(msg){
       console.log('cevt in backgroundPicker-', msg);
-//      debugger;
+      debugger;
       switch(msg[0]){
         case 'fieldInput':{
           switch(msg[1]){
@@ -149,13 +244,19 @@ export default {
               break;
             }
           }
+
           break;
         }
       }
     }
+*/
+
+
   },
   data(){
     return {
+      cmdHandlers:{},
+      leafComponent: false,
       backgroundType:0,
       BACKGROUND_TYPE_NOT_CHOSEN:0,
       BACKGROUND_COLOR:3,

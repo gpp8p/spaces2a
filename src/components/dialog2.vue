@@ -6,7 +6,6 @@
                  :is="thisField.type"
                  :key="index"
                  :cmdObject="thisField"
-                 :cmdObjectVersion="cmdObjectVersion"
                  :name="thisField.name"
                  @cevt="handleEvt"
       ></component>
@@ -59,6 +58,7 @@ export default {
     this.dialogStyle = this.dialogFields[this.config].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config].fields;
     this.dialogDefaults = this.getDialogDefaults(this.config);
+    console.log('dialogDefaults-', this.dialogDefaults);
     if(typeof( this.dialogFields[this.config].leafComponent)!= 'undefined'){
       this.leafComponent=this.dialogFields[this.config].leafComponent;
     }

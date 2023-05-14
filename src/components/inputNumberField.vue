@@ -38,10 +38,6 @@ name: "inputNumberField",
       type: Object,
       required: false
     },
-    cmdObjectVersion: {
-      type: Number,
-      required: false
-    },
     name:{
       type: String,
       required: false

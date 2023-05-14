@@ -44,8 +44,6 @@ name: "vRadio",
     this.fieldLabel = this.cmdObject.fieldLabel;
     this.labelStyle = this.cmdObject.buttonLabelStyle;
     this.groupName = this.name;
-
-
   },
   data(){
     return {
@@ -61,7 +59,9 @@ name: "vRadio",
       this.$emit('cevt', ['fieldInput', this.name, this.cmdObject.val]);
     }
   },
+
   watch:{
+
     cmdObjectVersion: function () {
 //      debugger;
       if(typeof(this.cmdObject.existingData)!='undefined'){
@@ -71,8 +71,10 @@ name: "vRadio",
           this.isSelected=false;
         }
       }
+
     }
   }
+
 }
 </script>
 
