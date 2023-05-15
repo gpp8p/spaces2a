@@ -151,6 +151,7 @@ name: "inputNumberField",
     cType = typeof this.cmdObject.fieldValue;
     if(cType !='undefined'){
       this.fieldValue = this.cmdObject.fieldValue;
+      this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.fieldValue]);
     }
     cType = typeof this.cmdObject.fieldSize;
     if(cType!='undefined'){
@@ -183,10 +184,12 @@ name: "inputNumberField",
       console.log('focus called')
       this.$refs.input.focus();
     }
+/*
     if(typeof(this.cmdObject.existingData)!='undefined'){
       this.fieldValue=this.cmdObject.existingData;
       this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.fieldValue]);
     }
+ */
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   beforeDestroy() {

@@ -96,9 +96,13 @@ name: "vRadioGroup",
       }
     }
 //    debugger;
-    for(o =0; o<this.radioButtons.length; o++){
-      this.radioButtons[o].existingData = this.cmdObject.fieldValue;
+    if(typeof(this.cmdObject.fieldValue)!='undefined'){
+      for(o =0; o<this.radioButtons.length; o++){
+        this.radioButtons[o].existingData = this.cmdObject.fieldValue;
+      }
+      this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.cmdObject.fieldValue]);
     }
+
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.thisCmdObjectVersion+=1;
   },

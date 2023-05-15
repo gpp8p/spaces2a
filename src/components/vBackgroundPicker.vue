@@ -73,7 +73,9 @@ export default {
         }else{
           this.colorValue = "#ffffff";
         }
-        this.backGroundRadioGroupStyle.existingData=this.cmdObject.existingData.backgroundType;
+        debugger;
+//        this.backGroundRadioGroupStyle.existingData=this.cmdObject.existingData.backgroundType;
+        this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.cmdObject.fieldValue]);
       }else{
         for (r=0; r<this.backGroundRadioGroupStyle.radioButtons.length; r++){
           this.backGroundRadioGroupStyle.radioButtons[r].existingData='color';
@@ -84,7 +86,7 @@ export default {
     }else{
       this.backGroundRadioGroupStyle = this.backGroundDefaultRadioGroupStyle;
     }
-    this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.cmdObject.existingData, this.name]);
+//    this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.cmdObject.existingData, this.name]);
     console.log('backgroundPicker sets  -', this.cmdObject.existingData);
     this.cmdVersion+=1;
 

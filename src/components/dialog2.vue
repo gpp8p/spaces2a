@@ -104,9 +104,12 @@ export default {
       debugger;
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
-          'default': function(context, args){
+          'default': function(args, context){
             console.log('cmdHandler in dummy - something else', args, context);
           },
+          'getScreenConfig': function(args, context){
+            context.doGetScreenConfig(args, context);
+          }
 
         }
         if(typeof(cmdType)!='undefined'){
@@ -129,7 +132,11 @@ export default {
       }
     },
 // put do cmds here
-
+    doGetScreenConfig(args, context){
+      console.log('dialog2 doGetScreenConfigs-', args, context);
+      var pageConfig = ['pageConfig', this.dialogData, 'pageConfig'];
+      this.$emit('cevt', pageConfig);
+    },
 //event handler
     evtOpt(msg){
       console.log('evtOpt in menu', msg);

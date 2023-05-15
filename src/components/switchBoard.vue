@@ -31,6 +31,9 @@ export default {
         'configurePage':function(msg, context){
           context.doConfigurePage(msg, context);
         },
+        'pageConfig':function(msg, context){
+          context.doPageConfig(msg, context);
+        },
 /*
         'default': function(msg, context){
           console.log('evtHandler - something else', msg, context);
@@ -72,6 +75,10 @@ export default {
 
       }
     },
+    doPageConfig(msg, context){
+      console.log('in doPageConfig-', msg, context);
+      context.showDialog=false;
+    },
     doMenuSelection(msg, self){
       var evtType = {
         'editPage': function(msg, context){
@@ -79,6 +86,9 @@ export default {
         },
         'pageSetup': function(msg, context){
           context.doPageSetup(msg, context);
+        },
+        'saveScreenEntry':function(msg, context){
+          context.doSaveScreenEntry(msg, context);
         },
 
       }
@@ -117,8 +127,10 @@ export default {
         context.dialogConfiguration=msg[1].pageType;
         context.dialogReload+=1;
       }
-
-
+    },
+    doSaveScreenEntry(msg, context){
+      console.log('switchboard doSaveScreenEntry', msg, context);
+      this.cmdHandlers['mainDialog'](['getScreenConfig', 'getScreenConfig', 'getScreenConfig'])
     },
     doShowLogin(context){
 //      debugger;
