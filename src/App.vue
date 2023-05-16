@@ -4,6 +4,7 @@
       <section class="navbar">
         <mainNavigationArea
           name="mainNavArea"
+          :config="pageConfiguration"
           @cevt="handleEvt"
         ></mainNavigationArea>
       </section>
@@ -15,10 +16,10 @@
           @cevt="handleEvt"
       ></dialog2>
       <section class="content">
-        <eGrid v-if="this.mode==this.EDIT_GRID"
-            name ='editGrid1'
+        <Page v-if="this.mode==this.SHOW_PAGE"
+            name ='mainPage'
             @cevt="handleEvt"
-        ></eGrid>
+        ></Page>
       </section>
 
     </span>
@@ -27,8 +28,9 @@
 <script>
 import store from './store';
 import utils from './components/utils.vue';
-import eGrid from './components/eGrid.vue';
+//import eGrid from './components/eGrid.vue';
 import switchBoard from './components/switchBoard.vue';
+import Page from "./components/Page.vue";
 //import Menu from './components/menu.vue';
 import dialog2 from './components/dialog2';
 import mainNavigationArea from "./components/mainNavigationArea.vue";
@@ -36,7 +38,7 @@ import mainNavigationArea from "./components/mainNavigationArea.vue";
 export default{
   name: "App",
   mixins: [utils, switchBoard],
-  components: {eGrid, mainNavigationArea, dialog2},
+  components: { mainNavigationArea, dialog2, Page},
   created() {
 //    debugger;
     console.log('entry path is - ', this.$route.path);
@@ -135,8 +137,9 @@ export default{
       dialogConfiguration:'',
       showDialog:false,
       mode:0,
-      EDIT_GRID:1,
-      dialogReload:0
+      SHOW_PAGE:1,
+      dialogReload:0,
+      pageConfiguration:{}
 
     }
   }

@@ -34,6 +34,9 @@ export default {
         'pageConfig':function(msg, context){
           context.doPageConfig(msg, context);
         },
+        'getPageConfiguration':function(msg, context){
+          context.doSetPageConfig(msg, context);
+        },
 /*
         'default': function(msg, context){
           console.log('evtHandler - something else', msg, context);
@@ -78,6 +81,11 @@ export default {
     doPageConfig(msg, context){
       console.log('in doPageConfig-', msg, context);
       context.showDialog=false;
+      context.mode=context.SHOW_PAGE;
+      context.pageConfiguration=msg[1];
+    },
+    doSetPageConfig(msg,context){
+      context.cmdHandlers['mainPage'](['setPageConfig', context.pageConfiguration,'mainPage']);
     },
     doMenuSelection(msg, self){
       var evtType = {
