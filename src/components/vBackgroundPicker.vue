@@ -158,7 +158,7 @@ export default {
     },
     evtHandler(msg, self){
       console.log('evtHandler in menu-', msg, self);
-      debugger;
+//      debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
           //console.log('evtHandler - a menu event', msg);

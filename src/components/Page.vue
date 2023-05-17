@@ -1,11 +1,16 @@
 <template>
   <span class="defaultClass">
-    Page Component here!
+    <eGrid v-if="this.mode==this.PAGE_EDIT"
+        name ='eGrid'
+        @cevt="handleEvt"
+        :config="gridConfigs"
+    ></eGrid>
   </span>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
+import eGrid from "../components/eGrid.vue"
 
 export default {
   name: "Page",
@@ -15,7 +20,7 @@ export default {
       required: true
     }
   },
-  components: {},
+  components: {eGrid},
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');
@@ -31,8 +36,13 @@ export default {
       leafComponent: false,
       gridRows:0,
       gridColumns:0,
-      gridParameters:{},
-      gridCss:''
+//      gridParameters:{},
+      pageConfigs:{},
+      gridCss:'',
+      gridConfigs:{},
+      mode:0,
+      PAGE_DISPLAY:1,
+      PAGE_EDIT:2
     }
   },
   methods:{
@@ -49,7 +59,7 @@ export default {
           },
           'setPageConfig':function(args, context){
             console.log('cmdHandler in Page - sewtPageConfig', args, context);
-            debugger;
+//            debugger;
             context.doSetPageConfig(args, context);
           }
         }
@@ -74,7 +84,19 @@ export default {
 // put do cmds here
     doSetPageConfig(args, context){
       console.log('in doSetPageConfig', args, context);
-      this.setupPageCss(args[1]);
+      context.pageConfigs=args[1];
+      context.createPage(context);
+
+      this.mode=this.PAGE_EDIT;
+ //     this.setupPageCss(args[1]);
+    },
+
+    createPage(context){
+      debugger;
+      context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
+      context.gridConfigs.pageCells = context.makeBlankPage(context.pageConfigs.pageHeight,
+          context.pageConfigs.pageWidth,
+          '#DBAA6E');
     },
 
     setupPageCss(configs){
@@ -90,18 +112,20 @@ export default {
         cellHeight = Math.round(this.$store.getters.getContentHeight / this.gridRows);
       }
       let cellWidth = Math.round((this.$store.getters.getContentWidth-gapTotal)/this.gridColumns);
-      this.gridParameters = this.layoutGridParameters(this.gridRows, this.gridColumns, cellHeight, cellWidth);
+      var gridParameters = this.layoutGridParameters(this.gridRows, this.gridColumns, cellHeight, cellWidth);
+      var gridCss;
       if(configs.pageBackground.backgroundType=='color'){
-        this.gridCss = 'display:grid; '+'grid-gap:'+ cellGap+'; background-color: '+configs.pageBackground.colorSelect+'; ';
-        this.gridCss = this.gridCss + this.gridParameters.rowGrid+this.gridParameters.columnGrid;
+        gridCss = 'display:grid; '+'grid-gap:'+ cellGap+'; background-color: '+configs.pageBackground.colorSelect+'; ';
+        gridCss = gridCss + gridParameters.rowGrid+gridParameters.columnGrid;
       }else{
-        this.gridCss = this.backgroundImageCss(configs.backgroundImageUrl,
+        gridCss = this.backgroundImageCss(configs.backgroundImageUrl,
             this.$store.getters.getContentWidth,
             this.$store.getters.getContentHeight,
-            this.gridParameters.rowGrid,
-            this.gridParameters.columnGrid,
+            gridParameters.rowGrid,
+            gridParameters.columnGrid,
             configs.backgroundDisplay);
       }
+      return gridCss;
     },
     backgroundImageCss(backgroundUrl, widthBackground, heightBackground, gridHeightCss, gridWidthCss, backgroundDisplay){
 //      debugger;
@@ -161,7 +185,7 @@ export default {
     },
     evtHandler(msg, self){
       console.log('evtHandler in menu-', msg, self);
-      debugger;
+//      debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
           context.doSetCmdHandler(msg, context);
@@ -169,6 +193,11 @@ export default {
         'removeCmdHandler': function(msg, context){
           context.doRemoveCmdHandler(msg, context);
         },
+  /*
+        'getGridConfiguration': function(msg, context){
+          context.doSetGridConfiguration(msg, context);
+        },
+  */
         'default': function(msg, context){
           console.log('evtHandler in Page  - something else', msg, context);
         }
@@ -182,7 +211,7 @@ export default {
       }
     },
     doSetCmdHandler(msg, context){
-      debugger;
+//      debugger;
       console.log('doSetCmdHandler-',msg, context);
       this.cmdHandlers[msg[2]]=msg[1];
     },
@@ -190,6 +219,14 @@ export default {
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     },
+ /*
+    doSetGridConfiguration(msg, context){
+      debugger;
+      context.setupPageCss(context.pageConfigs);
+      context.cmdHandlers['eGrid'](['setGridConfig', context.gridCss,'eGrid']);
+    },
+
+  */
     layoutGridParameters(height, width, cellHeight, cellWidth) {
 //      debugger;
       var gridHeightCss="grid-template-rows: "
@@ -206,7 +243,60 @@ export default {
       return gridCssObject;
 
     },
+    makeBlankPage(height, width, backgroundColor) {
+//                debugger;
+//      console.log('entering makeBlankPage-', height, width, backgroundColor);
+      this.layoutGrid = [];
+      var pageCells = [];
+      var newCellId = 1;
+      height++;
+      width++;
+      for (var h = 1; h < height; h++) {
+        var gridRow = [];
+        for (var w = 1; w < width; w++) {
+          var c = this.createBlankCellInstance(h, w, 1, 1, newCellId,backgroundColor);
+          pageCells.push(c);
+          newCellId++;
+        }
+      }
+      return pageCells;
+    },
+    createBlankCellInstance(row, col, height, width, id, background){
+//      console.log('createBlankCellInstance:'+row+' '+col+' '+height+' '+width+ ' '+id);
+      var thisGridCss = this.computeGridCss(row, col, height, width);
+      var thisCellStyle = thisGridCss+";"+"background-color:"+background+";color:#0000FF;";
+//      debugger;
+      var thisCellName = 'c'+id;
+      var thisCellParams = {
+        style: thisCellStyle,
+        backgroundColor: background,
+        gridCss: thisGridCss,
+        name: thisCellName,
+        color: '#0000FF'
+      }
 
+//      var thisCellParams = this.getCellParams(thisCellStyle, background, thisGridCss, '#0000FF');
+
+      var thisInstance = {component: 'Cell', cell_position: [row,col,height,width], id:id, toDelete: false, cell_parameters: thisCellParams};
+      return thisInstance;
+
+    },
+    computeGridCss(row, col, height, width){
+//        debugger;
+      var startRow = row;
+      var startColumn = col;
+      var endRow=0;
+      var endCol=0;
+      if(height==1){
+        endRow = row;
+      }else{
+        endRow = row+height;
+      }
+      endCol=startColumn+width;
+      var thisCss = "grid-area:"+startRow+"/"+startColumn+"/"+endRow+"/"+endCol;
+      return thisCss;
+
+    },
 
 
   }

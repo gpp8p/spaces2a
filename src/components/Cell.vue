@@ -1,20 +1,14 @@
 <template>
-  <span :style="config.gridCss">
-    <cell v-for="(thisCell, index) in config.pageCells"
-          :config="thisCell"
-          :is-draggable=false
-          :key="index"
-          @cevt="handleEvt"
-    ></cell>
+  <span :style="cellCss">
+    Cell Here
   </span>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
-import Cell from "../components/Cell.vue"
 
 export default {
-  name: "eGrid",
+  name: "Cell",
   props:{
     name:{
       type: String,
@@ -22,16 +16,16 @@ export default {
     },
     config:{
       type: Object,
-      required: true
+      required: false
     }
   },
-  components: {Cell},
+  components: {},
   mixins: [utils],
   mounted(){
     debugger;
     console.log(this.name,' is mounted');
+    this.cellCss = this.config.cell_parameters.style;
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
-//    this.$emit('cevt',['getGridConfiguration']);
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -39,7 +33,8 @@ export default {
   data(){
     return {
       cmdHandlers:{},
-      leafComponent: false
+      leafComponent: false,
+      cellCss:''
     }
   },
   methods:{
@@ -51,13 +46,8 @@ export default {
     cmdHandler(args, self){
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
-          'default': function(args, context){
+          'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
-          },
-          'setGridConfig':function(args, context){
-            console.log('cmdHandler in eGrid - setGridConfig', args, context);
-//            debugger;
-            context.doSetEGridConfig(args, context);
           }
         }
         if(typeof(cmdType)!='undefined'){
@@ -117,10 +107,8 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
-    },
-    doSetEGridConfig(msg, context){
-      console.log('doSetEGridConfig-',msg, context);
     }
+
 
 
   }
@@ -130,7 +118,8 @@ export default {
 <style scoped>
 .defaultClass {
   font-family: Monaco;
-  font-size: large;
+  font-size: small;
   color: blue;
 }
 </style>
+

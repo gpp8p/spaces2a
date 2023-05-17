@@ -50,7 +50,7 @@ export default {
     }
   },
   mounted(){
-    debugger;
+//    debugger;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.dialogFields = this.getDialogDefinition(this.config);
@@ -63,7 +63,7 @@ export default {
       this.leafComponent=this.dialogFields[this.config].leafComponent;
     }
     if(typeof(this.dialogDefaults)!='undefined'){
-      debugger;
+//      debugger;
       var d;
       for(d=0; d<this.dialogComponents.length;d++){
         if(typeof(this.dialogDefaults[this.dialogComponents[d].fieldIdentifier])!='undefined'){
@@ -101,7 +101,7 @@ export default {
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
-      debugger;
+//      debugger;
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
           'default': function(args, context){
@@ -116,14 +116,14 @@ export default {
           try {
             (cmdType[args[0]](args, self));
           } catch (e) {
-            debugger;
+//            debugger;
             console.log('unknown cmd -',args, this.name);
             var availableHandlers = Object.keys(this.cmdHandlers);
             console.log('available cmd handlers-',availableHandlers);
 
             if(availableHandlers.length>0){
               for(var a=0;a<availableHandlers.length;a++){
-                debugger;
+//                debugger;
                 this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
               }
             }
