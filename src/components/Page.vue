@@ -252,7 +252,7 @@ export default {
       height++;
       width++;
       for (var h = 1; h < height; h++) {
-        var gridRow = [];
+//        var gridRow = [];
         for (var w = 1; w < width; w++) {
           var c = this.createBlankCellInstance(h, w, 1, 1, newCellId,backgroundColor);
           pageCells.push(c);
