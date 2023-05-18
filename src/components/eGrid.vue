@@ -105,6 +105,7 @@ export default {
           context.doRemoveCmdHandler(msg, context);
         },
         'removePageCmdHandler': function(msg, context){
+          console.log('evtHandler - a eGrid event', msg, context);
           this.$emit('cevt', ['removeCmdHandler', msg[1], msg[2]]);
         },
         'default': function(msg, context){
