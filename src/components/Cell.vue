@@ -1,5 +1,5 @@
 <template>
-  <span :style="cellCss">
+  <span :style="cellCss" v-on:mousedown="mouseDown"  v-on:mouseover="mouseOver" v-on:mouseup="mouseUp">
     Cell Here
   </span>
 </template>
@@ -22,13 +22,13 @@ export default {
   components: {},
   mixins: [utils],
   mounted(){
-    debugger;
+//    debugger;
     console.log(this.name,' is mounted');
     this.cellCss = this.config.cell_parameters.style;
-    this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+    this.$emit('cevt', ['setPageCmdHandler', this.handleCmd, this.name]);
   },
   beforeDestroy() {
-    this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
+    this.$emit('cevt', ['removePageCmdHandler', this.handleCmd, this.name]);
   },
   data(){
     return {
@@ -61,7 +61,7 @@ export default {
 
             if(availableHandlers.length>0){
               for(var a=0;a<availableHandlers.length;a++){
-                debugger;
+//                debugger;
                 this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
               }
             }
@@ -69,17 +69,39 @@ export default {
         }
       }
     },
+    clickEvt(){
+      //     this.handleEvt(['cellClicked',this.cellId]);
+      //console.log('clickEvent:', this.cellId);
+    },
+    mouseDown(){
+      debugger;
+      console.log('mouseDown', 'mouseDown', this.config.cell_position, this.config.name);
+//      this.handleEvt(['mouseEvt',this.cellId, 'mouseDown', this.cellConfig.cell_position]);
+      this.$emit('cevt', ['mouseEvt', 'mouseDown', this.config.cell_position, this.config.name]);
+
+    },
+    mouseOver(){
+      //console.log('mouseOver', this.cellId, this.cellConfig.cell_position);
+      this.$emit('cevt', ['mouseEvt', 'mouseOver', this.config.cell_position, this.config.name]);
+    },
+    mouseUp(){
+      //console.log('mouseUp', this.cellId, this.cellConfig.cell_position);
+      this.$emit('cevt', ['mouseEvt', 'mouseUp', this.config.cell_position, this.config.name]);
+    },
 // put do cmds here
 
 //event handler
     evtOpt(msg){
-      console.log('evtOpt in menu', msg);
+      console.log('evtOpt in Cell', msg);
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in menu-', msg, self);
-      debugger;
+      console.log('evtHandler in Cell- ', msg, self);
+//      debugger;
       var evtType = {
+        'setPageCmdHandler':function(msg, context){
+          console.log('evtHandler - a Cell event eating the event', msg, context);
+        },
         'setCmdHandler': function(msg, context){
           //console.log('evtHandler - a menu event', msg);
           context.doSetCmdHandler(msg, context);
@@ -88,7 +110,7 @@ export default {
           context.doRemoveCmdHandler(msg, context);
         },
         'default': function(msg, context){
-          console.log('evtHandler in menu  - something else', msg, context);
+          console.log('evtHandler in Cell  - something else', msg, context);
         }
       }
       if(typeof(evtType)!='undefined'){
@@ -100,7 +122,7 @@ export default {
       }
     },
     doSetCmdHandler(msg, context){
-      debugger;
+//      debugger;
       console.log('doSetCmdHandler-',msg, context);
       this.cmdHandlers[msg[2]]=msg[1];
     },

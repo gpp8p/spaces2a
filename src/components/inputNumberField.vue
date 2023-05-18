@@ -101,7 +101,7 @@ name: "inputNumberField",
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in menu-', msg, self);
+      console.log('evtHandler in inputNumberField-', msg, self);
       debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){

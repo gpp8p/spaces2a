@@ -147,7 +147,7 @@ export default {
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in menu-', msg, self);
+      console.log('evtHandler in login-', msg, self);
       debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){

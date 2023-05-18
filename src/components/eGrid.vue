@@ -4,6 +4,7 @@
           :config="thisCell"
           :is-draggable=false
           :key="index"
+          :name="thisCell.cell_parameters.name"
           @cevt="handleEvt"
     ></cell>
   </span>
@@ -28,7 +29,7 @@ export default {
   components: {Cell},
   mixins: [utils],
   mounted(){
-    debugger;
+//    debugger;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getGridConfiguration']);
@@ -71,7 +72,7 @@ export default {
 
             if(availableHandlers.length>0){
               for(var a=0;a<availableHandlers.length;a++){
-                debugger;
+//                debugger;
                 this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
               }
             }
@@ -87,15 +88,24 @@ export default {
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in menu-', msg, self);
-      debugger;
+      console.log('evtHandler in eGrid-', msg, self);
+//      debugger;
       var evtType = {
+        'setPageCmdHandler': function(msg, context){
+          context.doSetPageCmdHandler(msg, context);
+        },
+        'mouseEvt': function(msg, context){
+          context.doMouseEvt(msg, context);
+        },
         'setCmdHandler': function(msg, context){
           //console.log('evtHandler - a menu event', msg);
           context.doSetCmdHandler(msg, context);
         },
         'removeCmdHandler': function(msg, context){
           context.doRemoveCmdHandler(msg, context);
+        },
+        'removePageCmdHandler': function(msg, context){
+          this.$emit('cevt', ['removeCmdHandler', msg[1], msg[2]]);
         },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
@@ -109,8 +119,12 @@ export default {
         }
       }
     },
+    doSetPageCmdHandler(msg, context){
+      console.log('eGrid - doSetPageCmdHandler-', msg, context);
+      this.$emit('cevt', ['setCmdHandler', msg[1], msg[2]]);
+    },
     doSetCmdHandler(msg, context){
-      debugger;
+//      debugger;
       console.log('doSetCmdHandler-',msg, context);
       this.cmdHandlers[msg[2]]=msg[1];
     },
@@ -120,6 +134,10 @@ export default {
     },
     doSetEGridConfig(msg, context){
       console.log('doSetEGridConfig-',msg, context);
+    },
+    doMouseEvt(msg, context){
+      console.log('egrid doMouseEvt-', msg, context);
+      this.$emit('cevt', ['mouseEvt', msg]);
     }
 
 

@@ -73,7 +73,7 @@ export default {
 
             if(availableHandlers.length>0){
               for(var a=0;a<availableHandlers.length;a++){
-                debugger;
+//                debugger;
                 this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
               }
             }
@@ -92,7 +92,7 @@ export default {
     },
 
     createPage(context){
-      debugger;
+//      debugger;
       context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
       context.gridConfigs.pageCells = context.makeBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,
@@ -184,7 +184,7 @@ export default {
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in menu-', msg, self);
+      console.log('evtHandler in Page-', msg, self);
 //      debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
@@ -192,6 +192,9 @@ export default {
         },
         'removeCmdHandler': function(msg, context){
           context.doRemoveCmdHandler(msg, context);
+        },
+        'mouseEvt':function(msg, context){
+          context.doMouseEvt(msg, context);
         },
   /*
         'getGridConfiguration': function(msg, context){
@@ -218,6 +221,9 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
+    },
+    doMouseEvt(msg, context){
+      console.log('in Page doMouseEvt-', msg, context );
     },
  /*
     doSetGridConfiguration(msg, context){
@@ -297,6 +303,7 @@ export default {
       return thisCss;
 
     },
+
 
 
   }

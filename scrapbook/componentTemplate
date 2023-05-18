@@ -54,7 +54,7 @@ export default {
 
                     if(availableHandlers.length>0){
                       for(var a=0;a<availableHandlers.length;a++){
-                        debugger;
+ //                       debugger;
                         this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
                       }
                     }
@@ -70,8 +70,8 @@ export default {
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in menu-', msg, self);
-      debugger;
+      console.log('evtHandler in- (set this)', msg, self);
+//      debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
           //console.log('evtHandler - a menu event', msg);
@@ -93,7 +93,7 @@ export default {
       }
     },
     doSetCmdHandler(msg, context){
-      debugger;
+//      debugger;
       console.log('doSetCmdHandler-',msg, context);
       this.cmdHandlers[msg[2]]=msg[1];
     },
