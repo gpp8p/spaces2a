@@ -138,7 +138,7 @@ export default {
     },
     doMouseEvt(msg, context){
       console.log('egrid doMouseEvt-', msg, context);
-      this.$emit('cevt', ['mouseEvt', msg]);
+      this.$emit('cevt', msg);
     }
 
 

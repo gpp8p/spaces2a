@@ -75,18 +75,18 @@ export default {
     },
     mouseDown(){
       debugger;
-      console.log('mouseDown', 'mouseDown', this.config.cell_position, this.config.name);
+      console.log('mouseDown', 'mouseDown', this.config.cell_position, this.name);
 //      this.handleEvt(['mouseEvt',this.cellId, 'mouseDown', this.cellConfig.cell_position]);
-      this.$emit('cevt', ['mouseEvt', 'mouseDown', this.config.cell_position, this.config.name]);
+      this.$emit('cevt', ['mouseEvt', 'mouseDown', this.config.cell_position, this.name]);
 
     },
     mouseOver(){
       //console.log('mouseOver', this.cellId, this.cellConfig.cell_position);
-      this.$emit('cevt', ['mouseEvt', 'mouseOver', this.config.cell_position, this.config.name]);
+      this.$emit('cevt', ['mouseEvt', 'mouseOver', this.config.cell_position, this.name]);
     },
     mouseUp(){
       //console.log('mouseUp', this.cellId, this.cellConfig.cell_position);
-      this.$emit('cevt', ['mouseEvt', 'mouseUp', this.config.cell_position, this.config.name]);
+      this.$emit('cevt', ['mouseEvt', 'mouseUp', this.config.cell_position, this.name]);
     },
 // put do cmds here
 
