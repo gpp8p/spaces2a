@@ -42,7 +42,17 @@ export default {
       gridConfigs:{},
       mode:0,
       PAGE_DISPLAY:1,
-      PAGE_EDIT:2
+      PAGE_EDIT:2,
+      mouseStatus:0,
+      MOUSE_NOT_CLICKED:0,
+      MOUSE_DOWN: 1,
+      MOUSE_UP:2,
+      MOUSE_CLICK_SELECT:3,
+      dragStartX:0,
+      dragStartY:0,
+      dragEndX:0,
+      dragEndY:0,
+
     }
   },
   methods:{
@@ -224,6 +234,29 @@ export default {
     },
     doMouseEvt(msg, context){
       console.log('in Page doMouseEvt-', msg, context );
+      switch(this.mouseStatus){
+        case this.MOUSE_NOT_CLICKED:{
+          if(msg[1]=='mouseDown'){
+           this.mouseStatus = this.MOUSE_DOWN;
+           this.dragStartX = msg[2][1];
+           this.dragStartY = msg[2][0];
+           console.log('dragStartX-',this. dragStartX);
+           console.log('dragStartY-',this. dragStartY);
+          }
+          break;
+        }
+        case this.MOUSE_CLICK_SELECT:{
+          break;
+        }
+        case this.MOUSE_DOWN:{
+          if(msg[1]=='mouseUp'){
+            this.dragEndX = msg[2][1];
+            this.dragEndY = msg[2][0];
+            this.mouseStatus=this.MOUSE_NOT_CLICKED;
+          }
+          break;
+        }
+      }
     },
  /*
     doSetGridConfiguration(msg, context){
