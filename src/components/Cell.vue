@@ -1,6 +1,6 @@
 <template>
   <span :style="cellCss" v-on:mousedown="mouseDown"  v-on:mouseover="mouseOver" v-on:mouseup="mouseUp">
-    Cell Here
+    {{ this.name}}
   </span>
 </template>
 
@@ -44,10 +44,15 @@ export default {
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
+      debugger;
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
+          },
+          'setCell':function(args, context){
+            console.log('setCell-', args, context);
+            context.doSetCell(context, args);
           }
         }
         if(typeof(cmdType)!='undefined'){
@@ -74,7 +79,7 @@ export default {
       //console.log('clickEvent:', this.cellId);
     },
     mouseDown(){
-      debugger;
+//      debugger;
       console.log('mouseDown', 'mouseDown', this.config.cell_position, this.name);
 //      this.handleEvt(['mouseEvt',this.cellId, 'mouseDown', this.cellConfig.cell_position]);
       this.$emit('cevt', ['mouseEvt', 'mouseDown', this.config.cell_position, this.name]);
@@ -89,7 +94,13 @@ export default {
       this.$emit('cevt', ['mouseEvt', 'mouseUp', this.config.cell_position, this.name]);
     },
 // put do cmds here
+    doSetCell(context, args){
+      console.log('in doSetCell', context, args);
+      debugger;
+      var thisCellStyle = this.config.cell_parameters.gridCss+";"+"background-color:"+args[1]+";color:"+args[2];
+      this.cellCss = thisCellStyle;
 
+    },
 //event handler
     evtOpt(msg){
       console.log('evtOpt in Cell', msg);

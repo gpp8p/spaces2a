@@ -52,6 +52,14 @@ export default {
       dragStartY:0,
       dragEndX:0,
       dragEndY:0,
+      straightLeft:1,
+      upLeft:2,
+      downLeft:3,
+      straightRight:4,
+      upRight:5,
+      downRight:6,
+      straightUp:7,
+      straightDown:8,
 
     }
   },
@@ -240,6 +248,7 @@ export default {
            this.mouseStatus = this.MOUSE_DOWN;
            this.dragStartX = msg[2][1];
            this.dragStartY = msg[2][0];
+ //          console.log('mouseOver-',msg[2][1],msg[2][0]);
            console.log('dragStartX-',this. dragStartX);
            console.log('dragStartY-',this. dragStartY);
           }
@@ -252,7 +261,18 @@ export default {
           if(msg[1]=='mouseUp'){
             this.dragEndX = msg[2][1];
             this.dragEndY = msg[2][0];
+            console.log('mouseUp-', this.dragEndX, this.dragEndY);
+            console.log('dragDirection-', this.dragDirection(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY));
+//            debugger;
+            var dragStartHandler = this.findHandler(this.dragStartX, this.dragStartY);
+            var dragEndHandler = this.findHandler(this.dragEndX, this.dragEndY);
+            dragStartHandler(['setCell', '#CCCCCC', 'blue']);
+            dragEndHandler(['setCell', '#CCCCCC', 'blue']);
+//            this.findHandler(this.dragStartX, this.dragStartY)(['setCell', '#DBAA6E','blue']);
+//            this.findHandler(this.dragEndX, this.dragEndY)(['setCell', '#DBAA6E','blue']);
             this.mouseStatus=this.MOUSE_NOT_CLICKED;
+          }else if(msg[1]=='mouseOver'){
+            console.log('mouseOver- (x-y)', msg[2][1], msg[2][0], 'to', this. dragStartX, this. dragStartY);
           }
           break;
         }
@@ -336,6 +356,41 @@ export default {
       return thisCss;
 
     },
+    dragDirection(dragX, dragY, topLeftX, topLeftY){
+      var dragDirection;
+      if(dragX < topLeftX){
+        if(dragY == topLeftY){
+          dragDirection = this.straightLeft;
+        }else if(dragY < topLeftY){
+          dragDirection = this.upLeft;
+        }else{
+          dragDirection = this.downLeft;
+        }
+      }else if(dragX>topLeftX){
+        if(dragY == topLeftY){
+          dragDirection = this.straightRight;
+        }else if(dragY < topLeftY){
+          dragDirection = this.upRight;
+        }else{
+          dragDirection = this.downRight;
+        }
+      }else if(dragX==topLeftX){
+        if(dragY < topLeftY){
+          dragDirection = this.straightUp;
+        }else{
+          dragDirection=this.straightDown;
+        }
+      }
+      return dragDirection;
+    },
+    findHandler(cellX, cellY){
+      var startY = (this.gridRows*(cellY-1));
+      var selectedCellAt = startY+(cellX-1);
+      var cell = this.gridConfigs.pageCells[selectedCellAt];
+      var cellName = cell.cell_parameters.name;
+      console.log('selectedCell-', cell, cellName);
+      return this.cmdHandlers[cellName];
+    }
 
 
 
