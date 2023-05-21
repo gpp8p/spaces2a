@@ -6,12 +6,19 @@
         :is-draggable=false
         :config="gridConfigs"
     ></eGrid>
+    <displayGrid v-if="this.mode==this.PAGE_DISPLAY"
+        name ='displayGrid'
+        @cevt="handleEvt"
+        :is-draggable=false
+        :config="gridConfigs"
+    ></displayGrid>
   </span>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
 import eGrid from "../components/eGrid.vue"
+import displayGrid from "../components/displayGrid"
 
 export default {
   name: "Page",
@@ -21,7 +28,7 @@ export default {
       required: true
     }
   },
-  components: {eGrid},
+  components: {eGrid, displayGrid},
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');
@@ -64,7 +71,8 @@ export default {
       selectedColor: '#CCCCCC',
       unselectedColor: '#DBAA6E',
       prevX:0,
-      prevY:0
+      prevY:0,
+      selectedArea:{}
 
     }
   },
@@ -245,6 +253,7 @@ export default {
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     },
+
     doMouseEvt(msg, context){
       console.log('in Page doMouseEvt-', msg, context );
       switch(this.mouseStatus){
@@ -276,8 +285,10 @@ export default {
             dragEndHandler(['setCell', this.selectedColor, 'blue']);
 //            this.findHandler(this.dragStartX, this.dragStartY)(['setCell', '#DBAA6E','blue']);
 //            this.findHandler(this.dragEndX, this.dragEndY)(['setCell', '#DBAA6E','blue']);
-            this.removeCellsInArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY)
+            this.selectedArea = this.normalizeSelectedArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY)
             this.mouseStatus=this.MOUSE_NOT_CLICKED;
+            debugger;
+            this.cardAreaSet();
           }else if(msg[1]=='mouseOver'){
             if(this.prevX!=0 && this.prevY!=0){
               this.fillCellsInArea(this.prevX, this.prevY, this.dragStartX, this.dragStartY, this.unselectedColor);
@@ -299,6 +310,11 @@ export default {
     },
 
   */
+    cardAreaSet(){
+      console.log('inCardAreaSet-');
+      var cardSelectParams = ['selectCardType'];
+      this.$emit('cevt', cardSelectParams);
+    },
     layoutGridParameters(height, width, cellHeight, cellWidth) {
 //      debugger;
       var gridHeightCss="grid-template-rows: "
@@ -396,8 +412,8 @@ export default {
       }
       return dragDirection;
     },
-    removeCellsInArea(dragX, dragY, topLeftX, topLeftY){
-      debugger;
+    normalizeSelectedArea(dragX, dragY, topLeftX, topLeftY){
+//      debugger;
       // eslint-disable-next-line no-unused-vars
       var thisDragDirection = this.dragDirection(dragX, dragY, topLeftX, topLeftY);
       // eslint-disable-next-line no-undef,no-unused-vars
@@ -469,6 +485,12 @@ export default {
         }
       }
       console.log('x1-',selTopLeftX, 'y1-', selTopLeftY, 'x2-', selBottomRightX, 'y2-', selBottomRightY);
+      return {
+        topLeftX:selTopLeftX,
+        topLeftY:selTopLeftY,
+        bottomRightX:selBottomRightX,
+        bottomRighytY:selBottomRightY
+      }
     },
     fillCellsInArea(dragX, dragY, topLeftX, topLeftY, fillColor){
       // eslint-disable-next-line no-unused-vars

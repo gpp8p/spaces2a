@@ -37,6 +37,10 @@ export default {
         'getPageConfiguration':function(msg, context){
           context.doSetPageConfig(msg, context);
         },
+        'selectCardType':function(msg, context){
+//          debugger;
+          context.doSelectCardType(msg, context);
+        },
 /*
         'default': function(msg, context){
           console.log('evtHandler - something else', msg, context);
@@ -86,6 +90,12 @@ export default {
     },
     doSetPageConfig(msg,context){
       context.cmdHandlers['mainPage'](['setPageConfig', context.pageConfiguration,'mainPage']);
+    },
+    doSelectCardType(msg,context){
+//      debugger;
+      console.log('in doSelectCardType', msg, context);
+      context.dialogConfiguration='newCardSelect';
+      context.showDialog=true;
     },
     doMenuSelection(msg, self){
       var evtType = {
@@ -145,6 +155,7 @@ export default {
       context.dialogConfiguration='login';
       context.showDialog=true;
     },
+
 
   }
 }
