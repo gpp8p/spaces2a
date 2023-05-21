@@ -17,8 +17,9 @@
       ></dialog2>
       <section class="content">
         <Page v-if="this.mode==this.SHOW_PAGE"
-            name ='mainPage'
-            @cevt="handleEvt"
+              name ='mainPage'
+              @cevt="handleEvt"
+              :is-draggable=false
         ></Page>
       </section>
 

@@ -3,6 +3,7 @@
     <eGrid v-if="this.mode==this.PAGE_EDIT"
         name ='eGrid'
         @cevt="handleEvt"
+        :is-draggable=false
         :config="gridConfigs"
     ></eGrid>
   </span>
@@ -263,6 +264,7 @@ export default {
             this.dragEndY = msg[2][0];
             console.log('mouseUp-', this.dragEndX, this.dragEndY);
             console.log('dragDirection-', this.dragDirection(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY));
+            this.fillCellsInArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY);
 //            debugger;
             var dragStartHandler = this.findHandler(this.dragStartX, this.dragStartY);
             var dragEndHandler = this.findHandler(this.dragEndX, this.dragEndY);
@@ -383,6 +385,91 @@ export default {
       }
       return dragDirection;
     },
+    fillCellsInArea(dragX, dragY, topLeftX, topLeftY){
+      var thisDragDirectiion = this.dragDirection(dragX, dragY, topLeftX, topLeftY);
+      var currentWidth;
+      var row;
+      var col;
+      var cellHandler;
+      switch(thisDragDirectiion){
+        case this.straightLeft:{
+          row = dragY-1;
+//          debugger;
+          for (col = (topLeftX - 1); col > dragX-1 ; col--){
+            cellHandler = this.findHandler(col+1, row+1);
+            cellHandler(['setCell', '#CCCCCC', 'blue']);
+          }
+          break;
+        }
+        case this.upLeft:{
+          currentWidth = topLeftX - dragX;
+          for (row = (topLeftY - 1); row >= (dragY-1); row--) {
+            //console.log('row=', row);
+            for (col = dragX-1; (col<(topLeftX));  col++) {
+              cellHandler = this.findHandler(col+1, row+1);
+              cellHandler(['setCell', '#CCCCCC', 'blue']);
+            }
+          }
+          break;
+        }
+        case this.downLeft:{
+          currentWidth = topLeftX - dragX;
+          for (row = (topLeftY - 1); row < dragY; row++) {
+            for (col = dragX-1; (col<(topLeftX));  col++) {
+              cellHandler = this.findHandler(col+1, row+1);
+              cellHandler(['setCell', '#CCCCCC', 'blue']);
+            }
+          }
+          break;
+        }
+        case this.straightRight:{
+          row = dragY-1;
+
+          for (col = (topLeftX - 1); col < dragX; col++) {
+            cellHandler = this.findHandler(col+1, row+1);
+            cellHandler(['setCell', '#CCCCCC', 'blue']);
+          }
+          break;
+        }
+        case this.upRight:{
+          for (row = (topLeftY - 1); row >= (dragY-1); row--) {
+            for (col = (topLeftX - 1); col < dragX; col++) {
+              cellHandler = this.findHandler(col+1, row+1);
+              cellHandler(['setCell', '#CCCCCC', 'blue']);
+            }
+          }
+          break;
+        }
+        case this.downRight:{
+          currentWidth = dragX-topLeftX;
+          for (row = (topLeftY - 1); row < dragY; row++) {
+            for (col = (topLeftX - 1); col < dragX; col++) {
+              cellHandler = this.findHandler(col+1, row+1);
+              cellHandler(['setCell', '#CCCCCC', 'blue']);
+            }
+          }
+          break;
+        }
+        case this.straightUp:{
+          col = dragX -1;
+          for (row = dragY-1; row< topLeftY; row++){
+            cellHandler = this.findHandler(col+1, row+1);
+            cellHandler(['setCell', '#CCCCCC', 'blue']);
+          }
+          break;
+        }
+        case this.straightDown:{
+          col = dragX -1;
+          for (row = (topLeftY -1); row< dragY-1; row++){
+            cellHandler = this.findHandler(col+1, row+1);
+            cellHandler(['setCell', '#CCCCCC', 'blue']);
+          }
+          break;
+        }
+      }
+    },
+
+
     findHandler(cellX, cellY){
       var startY = (this.gridRows*(cellY-1));
       var selectedCellAt = startY+(cellX-1);

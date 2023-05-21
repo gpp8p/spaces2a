@@ -1,6 +1,6 @@
 <template>
   <span :style="cellCss" v-on:mousedown="mouseDown"  v-on:mouseover="mouseOver" v-on:mouseup="mouseUp">
-    {{ this.name}}
+
   </span>
 </template>
 
