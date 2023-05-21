@@ -44,7 +44,7 @@ export default {
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
-      debugger;
+//      debugger;
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
           'default': function(context, args){
@@ -96,7 +96,7 @@ export default {
 // put do cmds here
     doSetCell(context, args){
       console.log('in doSetCell', context, args);
-      debugger;
+//      debugger;
       var thisCellStyle = this.config.cell_parameters.gridCss+";"+"background-color:"+args[1]+";color:"+args[2];
       this.cellCss = thisCellStyle;
 

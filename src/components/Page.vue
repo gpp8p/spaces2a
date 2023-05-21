@@ -61,6 +61,10 @@ export default {
       downRight:6,
       straightUp:7,
       straightDown:8,
+      selectedColor: '#CCCCCC',
+      unselectedColor: '#DBAA6E',
+      prevX:0,
+      prevY:0
 
     }
   },
@@ -268,13 +272,20 @@ export default {
 //            debugger;
             var dragStartHandler = this.findHandler(this.dragStartX, this.dragStartY);
             var dragEndHandler = this.findHandler(this.dragEndX, this.dragEndY);
-            dragStartHandler(['setCell', '#CCCCCC', 'blue']);
-            dragEndHandler(['setCell', '#CCCCCC', 'blue']);
+            dragStartHandler(['setCell', this.selectedColor, 'blue']);
+            dragEndHandler(['setCell', this.selectedColor, 'blue']);
 //            this.findHandler(this.dragStartX, this.dragStartY)(['setCell', '#DBAA6E','blue']);
 //            this.findHandler(this.dragEndX, this.dragEndY)(['setCell', '#DBAA6E','blue']);
+            this.removeCellsInArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY)
             this.mouseStatus=this.MOUSE_NOT_CLICKED;
           }else if(msg[1]=='mouseOver'){
+            if(this.prevX!=0 && this.prevY!=0){
+              this.fillCellsInArea(this.prevX, this.prevY, this.dragStartX, this.dragStartY, this.unselectedColor);
+            }
+            this.prevX = msg[2][1];
+            this.prevY = msg[2][0];
             console.log('mouseOver- (x-y)', msg[2][1], msg[2][0], 'to', this. dragStartX, this. dragStartY);
+            this.fillCellsInArea(msg[2][1], msg[2][0], this.dragStartX, this.dragStartY, this.selectedColor);
           }
           break;
         }
@@ -385,7 +396,81 @@ export default {
       }
       return dragDirection;
     },
-    fillCellsInArea(dragX, dragY, topLeftX, topLeftY){
+    removeCellsInArea(dragX, dragY, topLeftX, topLeftY){
+      debugger;
+      // eslint-disable-next-line no-unused-vars
+      var thisDragDirection = this.dragDirection(dragX, dragY, topLeftX, topLeftY);
+      // eslint-disable-next-line no-undef,no-unused-vars
+      var selTopLeftX;
+      // eslint-disable-next-line no-unused-vars
+      var selTopLeftY;
+      // eslint-disable-next-line no-unused-vars
+      var selBottomRightX;
+      // eslint-disable-next-line no-unused-vars
+      var selBottomRightY;
+      // eslint-disable-next-line no-undef
+      switch(thisDragDirection){
+        case this.straightLeft:{
+          selTopLeftX=dragX;
+          selTopLeftY=dragY;
+          selBottomRightX=topLeftX;
+          selBottomRightY=dragY;
+          break;
+        }
+        case this.upLeft:{
+          selTopLeftX=dragX;
+          selTopLeftY=dragY;
+          selBottomRightX=topLeftX;
+          selBottomRightY=topLeftY;
+          break;
+        }
+        case this.downLeft:{
+          selTopLeftX=dragX;
+          selTopLeftY=topLeftY;
+          selBottomRightX=topLeftX;
+          selBottomRightY=dragY;
+          break;
+        }
+        case this.straightRight:{
+          selTopLeftX=topLeftX;
+          selTopLeftY=dragY;
+          selBottomRightX=dragX;
+          selBottomRightY=dragY;
+          break;
+        }
+        case this.upRight:{
+          selTopLeftX=topLeftX;
+          selTopLeftY=dragY;
+          selBottomRightX=dragX;
+          selBottomRightY=topLeftY;
+          break;
+        }
+        case this.downRight:{
+          selTopLeftX=topLeftX;
+          selTopLeftY=topLeftY;
+          selBottomRightX=dragX;
+          selBottomRightY=dragY;
+          break;
+        }
+        case this.straightUp:{
+          selTopLeftX=dragX;
+          selTopLeftY=dragY;
+          selBottomRightX=dragX;
+          selBottomRightY=topLeftY;
+          break;
+        }
+        case this.straightDown:{
+          selTopLeftX=dragX;
+          selTopLeftY=topLeftY;
+          selBottomRightX=dragX;
+          selBottomRightY=dragY;
+
+          break;
+        }
+      }
+      console.log('x1-',selTopLeftX, 'y1-', selTopLeftY, 'x2-', selBottomRightX, 'y2-', selBottomRightY);
+    },
+    fillCellsInArea(dragX, dragY, topLeftX, topLeftY, fillColor){
       // eslint-disable-next-line no-unused-vars
       var widthNow;
       var thisDragDirectiion = this.dragDirection(dragX, dragY, topLeftX, topLeftY);
@@ -401,7 +486,7 @@ export default {
             //console.log('row=', row);
             for (col = dragX-1; (col<(topLeftX));  col++) {
               cellHandler = this.findHandler(col+1, row+1);
-              cellHandler(['setCell', '#CCCCCC', 'blue']);
+              cellHandler(['setCell', fillColor, 'blue']);
             }
           }
           break;
@@ -411,7 +496,7 @@ export default {
 //          debugger;
           for (col = (topLeftX - 1); col > dragX-1 ; col--){
             cellHandler = this.findHandler(col+1, row+1);
-            cellHandler(['setCell', '#CCCCCC', 'blue']);
+            cellHandler(['setCell', fillColor, 'blue']);
           }
           break;
         }
@@ -421,7 +506,7 @@ export default {
           for (row = (topLeftY - 1); row < dragY; row++) {
             for (col = dragX-1; (col<(topLeftX));  col++) {
               cellHandler = this.findHandler(col+1, row+1);
-              cellHandler(['setCell', '#CCCCCC', 'blue']);
+              cellHandler(['setCell', fillColor, 'blue']);
             }
           }
           break;
@@ -431,7 +516,7 @@ export default {
 
           for (col = (topLeftX - 1); col < dragX; col++) {
             cellHandler = this.findHandler(col+1, row+1);
-            cellHandler(['setCell', '#CCCCCC', 'blue']);
+            cellHandler(['setCell', fillColor, 'blue']);
           }
           break;
         }
@@ -439,7 +524,7 @@ export default {
           for (row = (topLeftY - 1); row >= (dragY-1); row--) {
             for (col = (topLeftX - 1); col < dragX; col++) {
               cellHandler = this.findHandler(col+1, row+1);
-              cellHandler(['setCell', '#CCCCCC', 'blue']);
+              cellHandler(['setCell', fillColor, 'blue']);
             }
           }
           break;
@@ -449,7 +534,7 @@ export default {
           for (row = (topLeftY - 1); row < dragY; row++) {
             for (col = (topLeftX - 1); col < dragX; col++) {
               cellHandler = this.findHandler(col+1, row+1);
-              cellHandler(['setCell', '#CCCCCC', 'blue']);
+              cellHandler(['setCell', fillColor, 'blue']);
             }
           }
           break;
@@ -458,7 +543,7 @@ export default {
           col = dragX -1;
           for (row = dragY-1; row< topLeftY; row++){
             cellHandler = this.findHandler(col+1, row+1);
-            cellHandler(['setCell', '#CCCCCC', 'blue']);
+            cellHandler(['setCell', fillColor, 'blue']);
           }
           break;
         }
@@ -466,7 +551,7 @@ export default {
           col = dragX -1;
           for (row = (topLeftY -1); row< dragY-1; row++){
             cellHandler = this.findHandler(col+1, row+1);
-            cellHandler(['setCell', '#CCCCCC', 'blue']);
+            cellHandler(['setCell', fillColor, 'blue']);
           }
           break;
         }
@@ -475,7 +560,7 @@ export default {
 
 
     findHandler(cellX, cellY){
-      var startY = (this.gridRows*(cellY-1));
+      var startY = (this.gridColumns*(cellY-1));
       var selectedCellAt = startY+(cellX-1);
       var cell = this.gridConfigs.pageCells[selectedCellAt];
       var cellName = cell.cell_parameters.name;
