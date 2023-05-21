@@ -386,23 +386,17 @@ export default {
       return dragDirection;
     },
     fillCellsInArea(dragX, dragY, topLeftX, topLeftY){
+      // eslint-disable-next-line no-unused-vars
+      var widthNow;
       var thisDragDirectiion = this.dragDirection(dragX, dragY, topLeftX, topLeftY);
-      var currentWidth;
+
       var row;
       var col;
       var cellHandler;
+
       switch(thisDragDirectiion){
-        case this.straightLeft:{
-          row = dragY-1;
-//          debugger;
-          for (col = (topLeftX - 1); col > dragX-1 ; col--){
-            cellHandler = this.findHandler(col+1, row+1);
-            cellHandler(['setCell', '#CCCCCC', 'blue']);
-          }
-          break;
-        }
         case this.upLeft:{
-          currentWidth = topLeftX - dragX;
+          widthNow = topLeftX - dragX;
           for (row = (topLeftY - 1); row >= (dragY-1); row--) {
             //console.log('row=', row);
             for (col = dragX-1; (col<(topLeftX));  col++) {
@@ -412,8 +406,18 @@ export default {
           }
           break;
         }
+        case this.straightLeft:{
+          row = dragY-1;
+//          debugger;
+          for (col = (topLeftX - 1); col > dragX-1 ; col--){
+            cellHandler = this.findHandler(col+1, row+1);
+            cellHandler(['setCell', '#CCCCCC', 'blue']);
+          }
+          break;
+        }
+
         case this.downLeft:{
-          currentWidth = topLeftX - dragX;
+          widthNow = topLeftX - dragX;
           for (row = (topLeftY - 1); row < dragY; row++) {
             for (col = dragX-1; (col<(topLeftX));  col++) {
               cellHandler = this.findHandler(col+1, row+1);
@@ -441,7 +445,7 @@ export default {
           break;
         }
         case this.downRight:{
-          currentWidth = dragX-topLeftX;
+          widthNow = dragX-topLeftX;
           for (row = (topLeftY - 1); row < dragY; row++) {
             for (col = (topLeftX - 1); col < dragX; col++) {
               cellHandler = this.findHandler(col+1, row+1);
