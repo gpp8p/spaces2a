@@ -92,6 +92,9 @@ export default {
             console.log('cmdHandler in Page - sewtPageConfig', args, context);
 //            debugger;
             context.doSetPageConfig(args, context);
+          },
+          'createNewCard':function(args, context){
+            console.log('createNewCard', args, context);
           }
         }
         if(typeof(cmdType)!='undefined'){

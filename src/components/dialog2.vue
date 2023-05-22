@@ -196,6 +196,9 @@ export default {
         'configurePage': function(msg, context){
           context.doConfigurePage(msg, context);
         },
+        'createCard': function(msg, context){
+          context.doCreateCard(msg, context);
+        },
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -216,6 +219,11 @@ export default {
       var configurePageParams = ['configurePage', this.dialogData, 'configurePage'];
       this.$emit('cevt', configurePageParams);
     },
+    doCreateCard(msg,context){
+      console.log('createCard in dialog-', msg, context);
+      var createCardParams = ['createCard', this.dialogData, 'createCard'];
+      this.$emit('cevt', createCardParams);
+    },
     setupDialog(dialogDef, target, action, existingData){
       //console.log('setupDialog-', dialogDef, target, existingData);
       let rData = this.getDialogDefinition(dialogDef);
@@ -224,6 +232,7 @@ export default {
       rData.existingData = existingData;
       return rData;
     },
+
 
 
 

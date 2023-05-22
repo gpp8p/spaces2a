@@ -428,6 +428,8 @@ name: "dialogDefinitions",
                 borderRadius: '10px',
                 boxShadow: '10px 10px 5px lightslategrey',
               },
+              leafComponent: false,
+              menuName:'specifyCardDialogMenu',
               fields:[
                 {
                   type: "vSelect",

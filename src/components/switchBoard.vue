@@ -41,6 +41,10 @@ export default {
 //          debugger;
           context.doSelectCardType(msg, context);
         },
+        'createCard':function(msg, context){
+          console.log('createCard-', msg, context);
+          context.doCreateCard(msg, context);
+        }
 /*
         'default': function(msg, context){
           console.log('evtHandler - something else', msg, context);
@@ -108,6 +112,9 @@ export default {
         'saveScreenEntry':function(msg, context){
           context.doSaveScreenEntry(msg, context);
         },
+//        'createCard':function(msg, context){
+//          context.doCreateCard(msg, context);
+//        },
 
       }
       try {
@@ -155,6 +162,15 @@ export default {
       context.dialogConfiguration='login';
       context.showDialog=true;
     },
+    doCreateCard(msg, context){
+      console.log('doCreateCard menu selection', msg, context);
+      if(typeof(msg[1].card_component)=='undefined'){
+        this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a card type','topLevelMenu']);
+      }else{
+        context.showDialog=false;
+        this.cmdHandlers['mainPage'](['createNewCard',msg[1].card_component]);
+      }
+    }
 
 
   }
