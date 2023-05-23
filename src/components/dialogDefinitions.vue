@@ -480,8 +480,8 @@ name: "dialogDefinitions",
         }
         case 'headlineCard':{
           return {
-//              headLineCard :{
-            newCardSpecifications:{
+              headlineCard :{
+//            newCardSpecifications:{
               dialogStyle: {
                 position: 'fixed',
                 top: '30%',
@@ -494,7 +494,7 @@ name: "dialogDefinitions",
                 boxShadow: '10px 10px 5px lightslategrey',
               },
               leafComponent: false,
-              menuName:'specifyCardDialogMenu',
+              menuName:'configureNewCardMenu',
               fields:[
                 {
                   type: "vSelect",
@@ -528,6 +528,7 @@ name: "dialogDefinitions",
                   hasLabel: true,
                   multiple: false,
                   name: "card_component",
+                  fieldIdentifier: 'card_component',
                   size: 0,
                   leafComponent: true,
                   labelStyle: {
@@ -726,6 +727,16 @@ name: "dialogDefinitions",
         }
         case 'emailPage':{
           break;
+        }
+        case 'headlineCard':{
+          return {
+            card_component: 'headlineCard',
+            cardName: '',
+            cardBackground: {
+              backgroundType:"color",
+              colorSelect:"#0a3aff",
+            }
+          }
         }
 
       }

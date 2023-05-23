@@ -142,7 +142,19 @@ export default {
         case 'specifyCardDialogMenu':{
           return {
             items: [
-              ['Create Card', 'createCard'],
+              ['Choose This Card Type', 'createCard'],
+              ['Cancel', 'dismissDialog'],
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+
+          }
+        }
+        case 'configureNewCardMenu':{
+          return {
+            items: [
+              ['Create This Card', 'createNewCard'],
               ['Cancel', 'dismissDialog'],
             ],
             currentSelectedMenuOption: 'Appearence',

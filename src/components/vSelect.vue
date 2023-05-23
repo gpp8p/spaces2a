@@ -67,13 +67,16 @@ export default {
 //    debugger;
     var o;
     this.selectOptions = this.cmdObject.options;
-    if(typeof(this.cmdObject.existingData)!='undefined'){
+
+    if(typeof(this.cmdObject.fieldValue)!='undefined'){
       for(o =0; o<this.selectOptions.length; o++){
-        this.selectOptions[o].existingData = this.cmdObject.existingData;
+        this.selectOptions[o].existingData = this.cmdObject.fieldValue;
       }
       console.log('select sets - ',this.cmdObject.existingData);
       console.log(this.selectOptions);
     }
+
+
     if(typeof(this.cmdObject.style)!='undefined'){
       for(o =0; o<this.selectOptions.length; o++){
         this.selectOptions[o].style = this.cmdObject.style;

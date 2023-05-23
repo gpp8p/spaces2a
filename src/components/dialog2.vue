@@ -50,7 +50,7 @@ export default {
     }
   },
   mounted(){
-//    debugger;
+    debugger;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.dialogFields = this.getDialogDefinition(this.config);
@@ -199,6 +199,9 @@ export default {
         'createCard': function(msg, context){
           context.doCreateCard(msg, context);
         },
+        'createNewCard': function(msg, context){
+          context.doCreateNewCard(msg, context);
+        },
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -222,6 +225,11 @@ export default {
     doCreateCard(msg,context){
       console.log('createCard in dialog-', msg, context);
       var createCardParams = ['createCard', this.dialogData, 'createCard'];
+      this.$emit('cevt', createCardParams);
+    },
+    doCreateNewCard(msg,context){
+      console.log('createCard in dialog-', msg, context);
+      var createCardParams = ['createNewCard', this.dialogData, 'createNewCard'];
       this.$emit('cevt', createCardParams);
     },
     setupDialog(dialogDef, target, action, existingData){

@@ -95,6 +95,7 @@ export default {
           },
           'createNewCard':function(args, context){
             console.log('createNewCard', args, context);
+            context.doCreateNewCard(args, context);
           }
         }
         if(typeof(cmdType)!='undefined'){
@@ -255,6 +256,9 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
+    },
+    doCreateNewCard(msg, context){
+      console.log('doCreateNewCard-',msg, context);
     },
 
     doMouseEvt(msg, context){
