@@ -1,5 +1,5 @@
 <template>
-  <span :style="cellCss" v-on:mousedown="mouseDown"  v-on:mouseover="mouseOver" v-on:mouseup="mouseUp">
+  <span :style="cellCss" v-on:mousedown="mouseDown"  v-on:mousemove="mouseOver" v-on:mouseup="mouseUp">
 
   </span>
 </template>
@@ -23,9 +23,10 @@ export default {
   mixins: [utils],
   mounted(){
 //    debugger;
-    console.log(this.name,' is mounted');
+//    console.log(this.name,' is mounted');
     this.cellCss = this.config.cell_parameters.style;
-    this.$emit('cevt', ['setPageCmdHandler', this.handleCmd, this.name]);
+    this.thisCellAddress = this.cellAddress(this.config.cell_position[1], this.config.cell_position[0]);
+    this.$emit('cevt', ['setPageCmdHandler', this.handleCmd, this.name, this.thisCellAddress]);
   },
   beforeDestroy() {
     this.$emit('cevt', ['removePageCmdHandler', this.handleCmd, this.name]);
@@ -34,13 +35,14 @@ export default {
     return {
       cmdHandlers:{},
       leafComponent: false,
-      cellCss:''
+      cellCss:'',
+      thisCellAddress:''
     }
   },
   methods:{
 //cmd handlers
     handleCmd(args){
-      console.log(this.name, ' handleCmd', args);
+//      console.log(this.name, ' handleCmd', args);
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
@@ -51,7 +53,7 @@ export default {
             console.log('cmdHandler in dummy - something else', args, context);
           },
           'setCell':function(args, context){
-            console.log('setCell-', args, context);
+//            console.log('setCell-', args, context);
             context.doSetCell(context, args);
           }
         }
@@ -86,7 +88,11 @@ export default {
 
     },
     mouseOver(){
-      //console.log('mouseOver', this.cellId, this.cellConfig.cell_position);
+      try {
+        console.log('mouseOver', this.config.id, this.config.cell_position, this.name);
+      } catch (e) {
+        console.log('error in Cell', e);
+      }
       this.$emit('cevt', ['mouseEvt', 'mouseOver', this.config.cell_position, this.name]);
     },
     mouseUp(){
@@ -95,7 +101,7 @@ export default {
     },
 // put do cmds here
     doSetCell(context, args){
-      console.log('in doSetCell', context, args);
+//      console.log('in doSetCell', context, args);
 //      debugger;
       var thisCellStyle = this.config.cell_parameters.gridCss+";"+"background-color:"+args[1]+";color:"+args[2];
       this.cellCss = thisCellStyle;
@@ -140,7 +146,17 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
-    }
+    },
+    cellAddress(x,y){
+//      debugger;
+      var zeros='000000';
+      var addrX = x.toString();
+      var addrY = y.toString();
+      addrX = zeros+addrX;
+      addrY = zeros+addrY;
+      var newAddr = addrX.slice(-4)+addrY.slice(-4);
+      return newAddr;
+    },
 
 
 

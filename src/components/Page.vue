@@ -5,6 +5,7 @@
         @cevt="handleEvt"
         :is-draggable=false
         :config="gridConfigs"
+        :key="updateGrid"
     ></eGrid>
     <displayGrid v-if="this.mode==this.PAGE_DISPLAY"
         name ='displayGrid'
@@ -31,7 +32,7 @@ export default {
   components: {eGrid, displayGrid},
   mixins: [utils],
   mounted(){
-    console.log(this.name,' is mounted');
+//    console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.$emit('cevt',['getPageConfiguration']);
   },
@@ -72,29 +73,34 @@ export default {
       unselectedColor: '#DBAA6E',
       prevX:0,
       prevY:0,
-      selectedArea:{}
+      selectedArea:{},
+      updateGrid:0,
+      cellIndex:{},
+      dummy:{},
+      debugOn:false,
+      widthNow:0
 
     }
   },
   methods:{
 //cmd handlers
     handleCmd(args){
-      console.log(this.name, ' handleCmd', args);
+//      console.log(this.name, ' handleCmd', args);
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
           'default': function(args, context){
-            console.log('cmdHandler in Page - something else', args, context);
+//            console.log('cmdHandler in Page - something else', args, context);
           },
           'setPageConfig':function(args, context){
-            console.log('cmdHandler in Page - sewtPageConfig', args, context);
+//            console.log('cmdHandler in Page - sewtPageConfig', args, context);
 //            debugger;
             context.doSetPageConfig(args, context);
           },
           'createNewCard':function(args, context){
-            console.log('createNewCard', args, context);
+//            console.log('createNewCard', args, context);
             context.doCreateNewCard(args, context);
           }
         }
@@ -102,9 +108,9 @@ export default {
           try {
             (cmdType[args[0]](args, self));
           } catch (e) {
-            console.log('unknown cmd -',args, this.name);
+//            console.log('unknown cmd -',args, this.name);
             var availableHandlers = Object.keys(this.cmdHandlers);
-            console.log('available cmd handlers-',availableHandlers);
+//            console.log('available cmd handlers-',availableHandlers);
 
             if(availableHandlers.length>0){
               for(var a=0;a<availableHandlers.length;a++){
@@ -118,7 +124,7 @@ export default {
     },
 // put do cmds here
     doSetPageConfig(args, context){
-      console.log('in doSetPageConfig', args, context);
+ //     console.log('in doSetPageConfig', args, context);
       context.pageConfigs=args[1];
       context.createPage(context);
 
@@ -215,11 +221,11 @@ export default {
     },
 //event handler
     evtOpt(msg){
-      console.log('evtOpt in Page', msg);
+//      console.log('evtOpt in Page', msg);
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in Page-', msg, self);
+//      console.log('evtHandler in Page-', msg, self);
 //      debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
@@ -237,7 +243,7 @@ export default {
         },
   */
         'default': function(msg, context){
-          console.log('evtHandler in Page  - something else', msg, context);
+//          console.log('evtHandler in Page  - something else', msg, context);
         }
       }
       if(typeof(evtType)!='undefined'){
@@ -249,20 +255,37 @@ export default {
       }
     },
     doSetCmdHandler(msg, context){
-//      debugger;
-      console.log('doSetCmdHandler-',msg, context);
-      this.cmdHandlers[msg[2]]=msg[1];
+      debugger;
+//      console.log('doSetCmdHandler-',msg, context);
+      context.cmdHandlers[msg[2]]=msg[1];
+      console.log('cellIndex entry-', msg[3],'-', msg[2]);
+      this.cellIndex[msg[3]]=msg[2];
     },
     doRemoveCmdHandler(msg, context){
-      console.log('doRemoveCmdHandler-',msg, context);
+//      console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     },
     doCreateNewCard(msg, context){
-      console.log('doCreateNewCard-',msg, context);
+//      console.log('doCreateNewCard-',msg, context);
+      debugger;
+      context.cmdHandlers={};
+      context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
+          context.pageConfigs.pageWidth,
+          '#DBAA6E',
+          context.selectedArea);
+
+      context.updateGrid+=1;
+      this.debugOn=true;
+//      console.log('after egrid reload-',context.cmdHandlers, context.cellIndex);
+      debugger;
     },
 
     doMouseEvt(msg, context){
-      console.log('in Page doMouseEvt-', msg, context );
+      if(this.debugOn==true&&this.mouseStatus==this.MOUSE_DOWN&&msg[1]=='mouseOver'){
+//        console.log('debugOn mouse event 1-', msg);
+      }
+//      console.log('in Page doMouseEvt-', msg, context );
+      this.dummy = context;
       switch(this.mouseStatus){
         case this.MOUSE_NOT_CLICKED:{
           if(msg[1]=='mouseDown'){
@@ -270,8 +293,8 @@ export default {
            this.dragStartX = msg[2][1];
            this.dragStartY = msg[2][0];
  //          console.log('mouseOver-',msg[2][1],msg[2][0]);
-           console.log('dragStartX-',this. dragStartX);
-           console.log('dragStartY-',this. dragStartY);
+//           console.log('dragStartX-',this. dragStartX);
+//           console.log('dragStartY-',this. dragStartY);
           }
           break;
         }
@@ -282,9 +305,15 @@ export default {
           if(msg[1]=='mouseUp'){
             this.dragEndX = msg[2][1];
             this.dragEndY = msg[2][0];
-            console.log('mouseUp-', this.dragEndX, this.dragEndY);
-            console.log('dragDirection-', this.dragDirection(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY));
-            this.fillCellsInArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY);
+//            console.log('mouseUp-', this.dragEndX, this.dragEndY);
+//            console.log('dragDirection-', this.dragDirection(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY));
+            try {
+              this.fillCellsInArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY);
+            } catch (e) {
+//              debugger;
+//              console.log('error 1', e);
+//              console.log('error in fillCells',this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY);
+            }
 //            debugger;
             var dragStartHandler = this.findHandler(this.dragStartX, this.dragStartY);
             var dragEndHandler = this.findHandler(this.dragEndX, this.dragEndY);
@@ -294,16 +323,39 @@ export default {
 //            this.findHandler(this.dragEndX, this.dragEndY)(['setCell', '#DBAA6E','blue']);
             this.selectedArea = this.normalizeSelectedArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY)
             this.mouseStatus=this.MOUSE_NOT_CLICKED;
-            debugger;
+//            debugger;
             this.cardAreaSet();
           }else if(msg[1]=='mouseOver'){
-            if(this.prevX!=0 && this.prevY!=0){
-              this.fillCellsInArea(this.prevX, this.prevY, this.dragStartX, this.dragStartY, this.unselectedColor);
+            if(this.debugOn==true){
+//              console.log('debugOn mouse event 2-', msg);
             }
-            this.prevX = msg[2][1];
-            this.prevY = msg[2][0];
-            console.log('mouseOver- (x-y)', msg[2][1], msg[2][0], 'to', this. dragStartX, this. dragStartY);
-            this.fillCellsInArea(msg[2][1], msg[2][0], this.dragStartX, this.dragStartY, this.selectedColor);
+            try {
+              var mouseOverCell = this.cellAddress(msg[2][1], msg[2][0]);
+              console.log('mouseOverCell a-', mouseOverCell, msg);
+              if (this.prevX != 0 && this.prevY != 0) {
+                try {
+                  this.fillCellsInArea(this.prevX, this.prevY, this.dragStartX, this.dragStartY, this.unselectedColor);
+                } catch (e) {
+                    console.log(e.stack);
+ //                 debugger;
+//                  console.log('error 2', e);
+//                  console.log('error in fillCells',this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY)
+                }
+              }
+              this.prevX = msg[2][1];
+              this.prevY = msg[2][0];
+//            console.log('mouseOver- (x-y)', msg[2][1], msg[2][0], 'to', this. dragStartX, this. dragStartY);
+//              console.log('mouseOverCell b-', mouseOverCell, msg);
+              try {
+                this.fillCellsInArea(msg[2][1], msg[2][0], this.dragStartX, this.dragStartY, this.selectedColor);
+              } catch (e) {
+//                console.log('error 3', e);
+//                console.log('error in fillCells',this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY)
+              }
+            } catch (e) {
+//              console.log('error in mopuseOver-', e, mouseOverCell);
+              debugger;
+            }
           }
           break;
         }
@@ -318,7 +370,7 @@ export default {
 
   */
     cardAreaSet(){
-      console.log('inCardAreaSet-');
+//      console.log('inCardAreaSet-');
       var cardSelectParams = ['selectCardType'];
       this.$emit('cevt', cardSelectParams);
     },
@@ -349,12 +401,60 @@ export default {
       for (var h = 1; h < height; h++) {
 //        var gridRow = [];
         for (var w = 1; w < width; w++) {
+//          debugger;
+//          console.log('newCellAddress-', this.cellAddress(w,h));
+//          var cellAddr= this.cellAddress(w,h);
           var c = this.createBlankCellInstance(h, w, 1, 1, newCellId,backgroundColor);
+//          this.cellIndex[cellAddr]=c.cell_parameters.name;
           pageCells.push(c);
           newCellId++;
         }
       }
       return pageCells;
+    },
+    cellAddress(x,y){
+//     debugger;
+      var zeros='000000';
+      var addrX = x.toString();
+      var addrY = y.toString();
+      addrX = zeros+addrX;
+      addrY = zeros+addrY;
+      var newAddr = addrX.slice(-4)+addrY.slice(-4);
+      return newAddr;
+    },
+
+    updateBlankPage(height, width, backgroundColor, selectedArea){
+      this.layoutGrid = [];
+      var pageCells = [];
+      var newCellId = 1;
+      this.cellIndex={};
+      height++;
+      width++;
+      debugger;
+      for (var y = 1; y < height; y++) {
+//        var gridRow = [];
+        for (var x = 1; x < width; x++) {
+          if(this.isCellInSelectedArea(x,y,selectedArea)==false){
+//            var cellAddr= this.cellAddress(x,y);
+            var c = this.createBlankCellInstance(y, x, 1, 1, newCellId,backgroundColor);
+//            this.cellIndex[cellAddr]=c.cell_parameters.name;
+            pageCells.push(c);
+            newCellId++;
+          }
+        }
+      }
+      return pageCells;
+    },
+    isCellInSelectedArea(x,y,selectedArea){
+      if(y>=selectedArea.topLeftY&&y<=selectedArea.bottomRightY){
+        if(x>=selectedArea.topLeftX&&x<=selectedArea.bottomRightX){
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        return false;
+      }
     },
     createBlankCellInstance(row, col, height, width, id, background){
 //      console.log('createBlankCellInstance:'+row+' '+col+' '+height+' '+width+ ' '+id);
@@ -491,18 +591,20 @@ export default {
           break;
         }
       }
-      console.log('x1-',selTopLeftX, 'y1-', selTopLeftY, 'x2-', selBottomRightX, 'y2-', selBottomRightY);
+//      console.log('x1-',selTopLeftX, 'y1-', selTopLeftY, 'x2-', selBottomRightX, 'y2-', selBottomRightY);
       return {
         topLeftX:selTopLeftX,
         topLeftY:selTopLeftY,
         bottomRightX:selBottomRightX,
-        bottomRighytY:selBottomRightY
+        bottomRightY:selBottomRightY
       }
     },
     fillCellsInArea(dragX, dragY, topLeftX, topLeftY, fillColor){
       // eslint-disable-next-line no-unused-vars
-      var widthNow;
+      console.log('in fillCellsInArea',dragX, dragY, topLeftX, topLeftY, fillColor);
+//      var widthNow;
       var thisDragDirectiion = this.dragDirection(dragX, dragY, topLeftX, topLeftY);
+      console.log('dragDirection-',thisDragDirectiion);
 
       var row;
       var col;
@@ -510,7 +612,7 @@ export default {
 
       switch(thisDragDirectiion){
         case this.upLeft:{
-          widthNow = topLeftX - dragX;
+          this.widthNow = topLeftX - dragX;
           for (row = (topLeftY - 1); row >= (dragY-1); row--) {
             //console.log('row=', row);
             for (col = dragX-1; (col<(topLeftX));  col++) {
@@ -531,7 +633,7 @@ export default {
         }
 
         case this.downLeft:{
-          widthNow = topLeftX - dragX;
+          this.widthNow = topLeftX - dragX;
           for (row = (topLeftY - 1); row < dragY; row++) {
             for (col = dragX-1; (col<(topLeftX));  col++) {
               cellHandler = this.findHandler(col+1, row+1);
@@ -559,7 +661,7 @@ export default {
           break;
         }
         case this.downRight:{
-          widthNow = dragX-topLeftX;
+          this.widthNow = dragX-topLeftX;
           for (row = (topLeftY - 1); row < dragY; row++) {
             for (col = (topLeftX - 1); col < dragX; col++) {
               cellHandler = this.findHandler(col+1, row+1);
@@ -587,7 +689,7 @@ export default {
       }
     },
 
-
+/*
     findHandler(cellX, cellY){
       var startY = (this.gridColumns*(cellY-1));
       var selectedCellAt = startY+(cellX-1);
@@ -596,7 +698,13 @@ export default {
       console.log('selectedCell-', cell, cellName);
       return this.cmdHandlers[cellName];
     }
-
+*/
+    findHandler(cellX, cellY){
+      var thisCellAddress = this.cellAddress(cellX, cellY);
+      var cellName = this.cellIndex[thisCellAddress];
+//      console.log('in Page - findHandler-',cellX, cellY, thisCellAddress, cellName);
+      return this.cmdHandlers[cellName];
+    }
 
 
   }

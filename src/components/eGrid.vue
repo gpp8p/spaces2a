@@ -30,7 +30,7 @@ export default {
   mixins: [utils],
   mounted(){
 //    debugger;
-    console.log(this.name,' is mounted');
+//    console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getGridConfiguration']);
   },
@@ -46,7 +46,7 @@ export default {
   methods:{
 //cmd handlers
     handleCmd(args){
-      console.log(this.name, ' handleCmd', args);
+//      console.log(this.name, ' handleCmd', args);
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
@@ -84,11 +84,11 @@ export default {
 
 //event handler
     evtOpt(msg){
-      console.log('evtOpt in menu', msg);
+//      console.log('evtOpt in menu', msg);
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in eGrid-', msg, self);
+//      console.log('evtHandler in eGrid-', msg, self);
 //      debugger;
       var evtType = {
         'setPageCmdHandler': function(msg, context){
@@ -121,8 +121,8 @@ export default {
       }
     },
     doSetPageCmdHandler(msg, context){
-      console.log('eGrid - doSetPageCmdHandler-', msg, context);
-      this.$emit('cevt', ['setCmdHandler', msg[1], msg[2]]);
+//      console.log('eGrid - doSetPageCmdHandler-', msg, context);
+      this.$emit('cevt', ['setCmdHandler', msg[1], msg[2], msg[3]]);
     },
     doSetCmdHandler(msg, context){
 //      debugger;
@@ -137,7 +137,7 @@ export default {
       console.log('doSetEGridConfig-',msg, context);
     },
     doMouseEvt(msg, context){
-      console.log('egrid doMouseEvt-', msg, context);
+//      console.log('egrid doMouseEvt-', msg, context);
       this.$emit('cevt', msg);
     },
 

@@ -9,11 +9,11 @@ export default {
 
 
     evtHandler(msg, self){
-      console.log('evtHandler-', msg, self);
+//      console.log('evtHandler-', msg, self);
 //     debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
-          console.log('evtHandler - a menu event', msg);
+//          console.log('evtHandler - a menu event', msg);
           context.doSetCmdHandler(msg, context);
         },
         'removeCmdHandler': function(msg, context){
@@ -48,6 +48,9 @@ export default {
         'createNewCard':function(msg, context){
           console.log('createNewCard-', msg, context);
           context.doCreateNewCard(msg, context);
+        },
+        'dismissDialog':function(msg, context){
+          context.doDismissDialog(msg, context);
         }
 /*
         'default': function(msg, context){
@@ -63,12 +66,16 @@ export default {
     },
     doSetCmdHandler(msg, context){
 //      debugger;
-      console.log('doSetCmdHandler-',msg, context);
+//      console.log('doSetCmdHandler-',msg, context);
       context._data.cmdHandlers[msg[2]]=msg[1];
     },
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(context._data.cmdHandlers[msg[2]]);
+    },
+    doDismissDialog(msg, context){
+      console.log('doDismissDialog-',msg, context);
+      this.showDialog=false;
     },
     doLoginVerify(msg, context){
       console.log('switchBoard doLoginVerify-',msg, context);

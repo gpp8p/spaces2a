@@ -202,6 +202,9 @@ export default {
         'createNewCard': function(msg, context){
           context.doCreateNewCard(msg, context);
         },
+        'dismissDialog': function(msg, context){
+          context.doDismissDialog(msg, context);
+        },
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -240,6 +243,10 @@ export default {
       rData.existingData = existingData;
       return rData;
     },
+    doDismissDialog(msg, context){
+      console.log('doDismissDialog', msg, context);
+      this.$emit('cevt', ['dismissDialog']);
+    }
 
 
 
