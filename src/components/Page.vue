@@ -78,7 +78,8 @@ export default {
       cellIndex:{},
       dummy:{},
       debugOn:false,
-      widthNow:0
+      widthNow:0,
+      allCards:[]
 
     }
   },
@@ -473,6 +474,23 @@ export default {
 //      var thisCellParams = this.getCellParams(thisCellStyle, background, thisGridCss, '#0000FF');
 
       var thisInstance = {component: 'Cell', cell_position: [row,col,height,width], id:id, toDelete: false, cell_parameters: thisCellParams};
+      return thisInstance;
+
+    },
+    createBlankCardInstance(row, col, height, width, id, background, type){
+      var thisGridCss = this.computeGridCss(row, col, height, width);
+      var thisCardStyle = thisGridCss+";"+"background-color:"+background+";color:#0000FF;";
+//      debugger;
+      var thisCardName = 'card'+id;
+      var thisCardParams = {
+        style: thisCardStyle,
+        backgroundColor: background,
+        gridCss: thisGridCss,
+        name: thisCardName,
+        color: '#0000FF',
+        type: type
+      }
+      var thisInstance = {component: type, cell_position: [row,col,height,width], id:id, toDelete: false, cell_parameters: thisCardParams};
       return thisInstance;
 
     },
