@@ -259,7 +259,7 @@ export default {
       debugger;
 //      console.log('doSetCmdHandler-',msg, context);
       context.cmdHandlers[msg[2]]=msg[1];
-      console.log('cellIndex entry-', msg[3],'-', msg[2]);
+//      console.log('cellIndex entry-', msg[3],'-', msg[2]);
       this.cellIndex[msg[3]]=msg[2];
     },
     doRemoveCmdHandler(msg, context){
@@ -273,7 +273,9 @@ export default {
       context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,
           '#DBAA6E',
-          context.selectedArea);
+          context.selectedArea,
+          context.gridConfigs.pageCells
+      );
 
       context.updateGrid+=1;
       this.debugOn=true;
@@ -423,12 +425,31 @@ export default {
       var newAddr = addrX.slice(-4)+addrY.slice(-4);
       return newAddr;
     },
-
-    updateBlankPage(height, width, backgroundColor, selectedArea){
+    updateBlankPage(height, width, backgroundColor, selectedArea, existingPageCells){
+      var pageCells = [];
+      console.log('inUpdateBlankPage-', existingPageCells);
+      height++;
+      width++;
+      debugger;
+      for ( var c = 0; c< existingPageCells.length; c++){
+        var cellPositionY =  existingPageCells[c].cell_position[0];
+        var cellPositionX =  existingPageCells[c].cell_position[1];
+        var thisCell= existingPageCells[c];
+        console.log('cell in selected area-', this.isCellInSelectedArea(cellPositionX, cellPositionY, selectedArea));
+        console.log('cell position-', cellPositionX, cellPositionY);
+        if(this.isCellInSelectedArea(cellPositionX, cellPositionY, selectedArea)==false){
+          pageCells.push(thisCell);
+        }
+      }
+      return pageCells;
+    },
+/*
+    updateBlankPage(height, width, backgroundColor, selectedArea, existingPageCells){
       this.layoutGrid = [];
       var pageCells = [];
       var newCellId = 1;
       this.cellIndex={};
+      console.log('inUpdateBlankPage-', existingPageCells);
       height++;
       width++;
       debugger;
@@ -446,6 +467,7 @@ export default {
       }
       return pageCells;
     },
+    */
     isCellInSelectedArea(x,y,selectedArea){
       if(y>=selectedArea.topLeftY&&y<=selectedArea.bottomRightY){
         if(x>=selectedArea.topLeftX&&x<=selectedArea.bottomRightX){

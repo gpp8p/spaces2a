@@ -88,11 +88,13 @@ export default {
 
     },
     mouseOver(){
+/*
       try {
         console.log('mouseOver', this.config.id, this.config.cell_position, this.name);
       } catch (e) {
         console.log('error in Cell', e);
       }
+ */
       this.$emit('cevt', ['mouseEvt', 'mouseOver', this.config.cell_position, this.name]);
     },
     mouseUp(){

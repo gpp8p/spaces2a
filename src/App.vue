@@ -115,7 +115,7 @@ export default{
       console.log('sApp created creenWidth-',screenWidth);
     },
     evtOpt(msg){
-      console.log('evtOpt in App', msg);
+//      console.log('evtOpt in App', msg);
       this.evtHandler(msg, this);
     },
 /*
