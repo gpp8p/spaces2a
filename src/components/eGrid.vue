@@ -7,12 +7,21 @@
           :name="thisCell.cell_parameters.name"
           @cevt="handleEvt"
     ></cell>
+    <component v-for="(thisCard, index) in config.allCards"
+               :is="thisCard.component"
+               :config="thisCard"
+               :is-draggable=false
+               :key="index"
+               :name="thisCard.cell_parameters.name"
+               @cevt="handleEvt"
+    ></component>
   </span>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
-import Cell from "../components/Cell.vue"
+import Cell from "../components/Cell.vue";
+import headlineCard from "../components/headlineCard.vue";
 
 export default {
   name: "eGrid",
@@ -26,7 +35,7 @@ export default {
       required: true
     }
   },
-  components: {Cell},
+  components: {Cell, headlineCard},
   mixins: [utils],
   mounted(){
 //    debugger;

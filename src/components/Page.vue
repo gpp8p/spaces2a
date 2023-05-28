@@ -267,7 +267,7 @@ export default {
       delete(this.cmdHandlers[msg[2]]);
     },
     doCreateNewCard(msg, context){
-//      console.log('doCreateNewCard-',msg, context);
+      console.log('doCreateNewCard-',context.selectedArea, msg);
       debugger;
       context.cmdHandlers={};
       context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
@@ -276,6 +276,14 @@ export default {
           context.selectedArea,
           context.gridConfigs.pageCells
       );
+      var thisCard = this.createBlankCardInstance(context.selectedArea.topLeftY,
+          context.selectedArea.topLeftX,
+          (context.selectedArea.bottomRightY),
+          (context.selectedArea.bottomRightX),
+          msg[1].cardName,
+          msg[1].cardBackground, 'headlineCard');
+      this.allCards.push(thisCard);
+      context.gridConfigs.allCards=this.allCards;
 
       context.updateGrid+=1;
       this.debugOn=true;
@@ -435,12 +443,13 @@ export default {
         var cellPositionY =  existingPageCells[c].cell_position[0];
         var cellPositionX =  existingPageCells[c].cell_position[1];
         var thisCell= existingPageCells[c];
-        console.log('cell in selected area-', this.isCellInSelectedArea(cellPositionX, cellPositionY, selectedArea));
-        console.log('cell position-', cellPositionX, cellPositionY);
+//        console.log('cell in selected area-', this.isCellInSelectedArea(cellPositionX, cellPositionY, selectedArea));
+//        console.log('cell position-', cellPositionX, cellPositionY);
         if(this.isCellInSelectedArea(cellPositionX, cellPositionY, selectedArea)==false){
           pageCells.push(thisCell);
         }
       }
+
       return pageCells;
     },
 /*
@@ -513,6 +522,7 @@ export default {
         type: type
       }
       var thisInstance = {component: type, cell_position: [row,col,height,width], id:id, toDelete: false, cell_parameters: thisCardParams};
+      console.log('new card details-', thisInstance);
       return thisInstance;
 
     },

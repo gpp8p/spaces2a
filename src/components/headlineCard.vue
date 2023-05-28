@@ -32,7 +32,7 @@ export default {
     return {
       cmdHandlers:{},
       leafComponent: false,
-      cardCss:''
+      cardCss:'',
     }
   },
   methods:{
