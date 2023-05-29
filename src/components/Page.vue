@@ -527,7 +527,7 @@ export default {
 
     },
     computeGridCss(row, col, height, width){
-//        debugger;
+        debugger;
       var startRow = row;
       var startColumn = col;
       var endRow=0;
@@ -535,9 +535,13 @@ export default {
       if(height==1){
         endRow = row;
       }else{
-        endRow = row+height;
+        endRow = height+1;
       }
-      endCol=startColumn+width;
+      if(width==1){
+        endCol=startColumn+width;
+      }else{
+        endCol = width+1;
+      }
       var thisCss = "grid-area:"+startRow+"/"+startColumn+"/"+endRow+"/"+endCol;
       return thisCss;
 
