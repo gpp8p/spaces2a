@@ -27,6 +27,10 @@
   </body>
 </template>
 <script>
+import Vue from 'vue';
+import Oruga from '@oruga-ui/oruga';
+import '@oruga-ui/oruga/dist/oruga.css';
+Vue.use(Oruga);
 import store from './store';
 import utils from './components/utils.vue';
 //import eGrid from './components/eGrid.vue';
@@ -36,6 +40,9 @@ import Page from "./components/Page.vue";
 import dialog2 from './components/dialog2';
 import mainNavigationArea from "./components/mainNavigationArea.vue";
 //import dummy from "./components/dummy.vue";
+import '@oruga-ui/oruga-next/dist/oruga.css';
+import '@oruga-ui/oruga-next/dist/oruga-full-vars.css'
+
 export default{
   name: "App",
   mixins: [utils, switchBoard],
@@ -147,6 +154,22 @@ export default{
 }
 </script>
 <style>
+:root {
+  --contentHeight:0px;
+  --contentWidth:0px;
+  --navBarHeight:0px;
+
+  --oruga-table-color: blue;
+  --oruga-table-background-color: lavendar;
+  --oruga-color-primary: green;
+  --oruga-color-danger: red;
+  --oruga-table-row-active-background-color:green;
+  --oruga-table-hoverable-background-color:red;
+  --oruga-table-row-active-color:red;
+  --oruga-button-height:18px;
+
+}
+
 .noScroll {
 
 }

@@ -33,11 +33,12 @@ import vRadioGroup from "../components/vRadioGroup.vue";
 import vBackgroundPicker from "../components/vBackgroundPicker.vue";
 import textLiteral from "../components/textLiteral.vue";
 import vButton from "@/components/vbutton";
+import mySpaces from "../components/mySpaces.vue";
 
 
 export default {
   name: "dialog2",
-  components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, textLiteral, Menu},
+  components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, textLiteral, Menu, mySpaces},
   mixins: [utils, menuDefinitions, dialogDefinitions],
   props:{
     name:{

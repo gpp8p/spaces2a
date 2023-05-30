@@ -50,8 +50,11 @@ export default {
           context.doCreateNewCard(msg, context);
         },
         'dismissDialog':function(msg, context){
+          console.log('dismissDialog-', msg, context);
           context.doDismissDialog(msg, context);
-        }
+        },
+
+
 /*
         'default': function(msg, context){
           console.log('evtHandler - something else', msg, context);
@@ -76,6 +79,11 @@ export default {
     doDismissDialog(msg, context){
       console.log('doDismissDialog-',msg, context);
       this.showDialog=false;
+    },
+    doMySpaces(msg, context){
+      console.log('doMySpaces-',msg, context);
+      context.dialogConfiguration='mySpaces';
+      context.showDialog=true;
     },
     doLoginVerify(msg, context){
       console.log('switchBoard doLoginVerify-',msg, context);
@@ -123,6 +131,9 @@ export default {
         'saveScreenEntry':function(msg, context){
           context.doSaveScreenEntry(msg, context);
         },
+        'mySpaces':function(msg, context){
+          context.doMySpaces(msg, context);
+        }
 //        'createCard':function(msg, context){
 //          context.doCreateCard(msg, context);
 //        },

@@ -301,13 +301,13 @@ name: "dialogDefinitions",
         }
         case 'mySpaces':{
           return {
-            mySpacesSpecification:{
+            mySpaces:{
               dialogStyle: {
                 position: 'fixed',
                 top: '20%',
                 left: '20%',
                 height: '60vh',
-                width: '60vw',
+                width: '65vw',
                 backgroundColor: 'lavender',
                 color: 'blue',
                 borderRadius: '10px',
@@ -318,6 +318,8 @@ name: "dialogDefinitions",
               fields:[
                 {
                   type: 'mySpaces',
+                  perPage: 8,
+
                   columns: [
                     {
                       field: 'id',
@@ -349,7 +351,6 @@ name: "dialogDefinitions",
             }
 
           }
-
         }
         case 'pageDefaultSelect':{
           return {
