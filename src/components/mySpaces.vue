@@ -98,6 +98,9 @@ export default {
         'removeCmdHandler': function(msg, context){
           context.doRemoveCmdHandler(msg, context);
         },
+        'pageSelected': function(msg, context){
+          context.doPageSelected(msg, context);
+        },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
         }
@@ -118,6 +121,10 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
+    },
+    doPageSelected(msg, context){
+      console.log('doPageSelected-',msg, context);
+      this.$emit('cevt',['pageSelected', msg[1]]);
     },
     getMySpaces(){
       var apiPath = this.$store.getters.getApiBase;

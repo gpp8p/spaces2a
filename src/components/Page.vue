@@ -20,6 +20,7 @@
 import utils from '../components/utils.vue';
 import eGrid from "../components/eGrid.vue"
 import displayGrid from "../components/displayGrid"
+import pageLoader from "../components/pageLoader.vue"
 
 export default {
   name: "Page",
@@ -27,14 +28,32 @@ export default {
     name:{
       type: String,
       required: true
+    },
+    config:{
+      type: Object,
+      required: false
     }
   },
   components: {eGrid, displayGrid},
-  mixins: [utils],
+  mixins: [utils, pageLoader],
   mounted(){
 //    console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
-    this.$emit('cevt',['getPageConfiguration']);
+//    this.$emit('cevt',['getPageConfiguration']);
+    debugger;
+    switch(this.config.action){
+      case this.PAGE_EDIT:{
+        this.pageConfigs=this.config;
+        this.createPage(this);
+        this.mode=this.PAGE_EDIT;
+        break;
+      }
+      case this.PAGE_DISPLAY:{
+        console.log('Page is mounted - PAGE_DISPLAY', this.config);
+        break;
+      }
+    }
+
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -103,6 +122,9 @@ export default {
           'createNewCard':function(args, context){
 //            console.log('createNewCard', args, context);
             context.doCreateNewCard(args, context);
+          },
+          'pageSelected': function(args, context){
+            console.log('Page doPageSelected-', args, context);
           }
         }
         if(typeof(cmdType)!='undefined'){

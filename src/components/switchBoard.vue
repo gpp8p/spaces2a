@@ -31,12 +31,12 @@ export default {
         'configurePage':function(msg, context){
           context.doConfigurePage(msg, context);
         },
-        'pageConfig':function(msg, context){
-          context.doPageConfig(msg, context);
-        },
-        'getPageConfiguration':function(msg, context){
-          context.doSetPageConfig(msg, context);
-        },
+//        'pageConfig':function(msg, context){
+//          context.doPageConfig(msg, context);
+//        },
+//        'getPageConfiguration':function(msg, context){
+//          context.doSetPageConfig(msg, context);
+//        },
         'selectCardType':function(msg, context){
 //          debugger;
           context.doSelectCardType(msg, context);
@@ -52,6 +52,13 @@ export default {
         'dismissDialog':function(msg, context){
           console.log('dismissDialog-', msg, context);
           context.doDismissDialog(msg, context);
+        },
+        'pageSelected':function(msg, context){
+          console.log('pageSelected in App-', msg, context);
+          context.doPageSelected(msg, context);
+        },
+        'saveScreenEntry':function(msg, context){
+          context.doSaveScreenEntry(msg, context);
         },
 
 
@@ -85,6 +92,15 @@ export default {
       context.dialogConfiguration='mySpaces';
       context.showDialog=true;
     },
+    doPageSelected(msg, context){
+      console.log('doPageSelected-',msg, context);
+      context.showDialog=false;
+      this.pageConfiguration={}
+      this.pageConfiguration.action=this.SHOW_PAGE;
+      this.pageConfiguration.pageId = msg[1];
+      this.mode=this.SHOW_PAGE;
+//      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);
+    },
     doLoginVerify(msg, context){
       console.log('switchBoard doLoginVerify-',msg, context);
       context._data.cmdHandlers['mainNavArea'](msg);
@@ -105,15 +121,17 @@ export default {
 
       }
     },
+/*
     doPageConfig(msg, context){
       console.log('in doPageConfig-', msg, context);
       context.showDialog=false;
       context.mode=context.SHOW_PAGE;
       context.pageConfiguration=msg[1];
     },
-    doSetPageConfig(msg,context){
-      context.cmdHandlers['mainPage'](['setPageConfig', context.pageConfiguration,'mainPage']);
-    },
+ */
+//    doSetPageConfig(msg,context){
+//      context.cmdHandlers['mainPage'](['setPageConfig', context.pageConfiguration,'mainPage']);
+//    },
     doSelectCardType(msg,context){
 //      debugger;
       console.log('in doSelectCardType', msg, context);
@@ -128,9 +146,9 @@ export default {
         'pageSetup': function(msg, context){
           context.doPageSetup(msg, context);
         },
-        'saveScreenEntry':function(msg, context){
-          context.doSaveScreenEntry(msg, context);
-        },
+//        'saveScreenEntry':function(msg, context){
+//          context.doSaveScreenEntry(msg, context);
+//        },
         'mySpaces':function(msg, context){
           context.doMySpaces(msg, context);
         }
@@ -176,8 +194,12 @@ export default {
       }
     },
     doSaveScreenEntry(msg, context){
+      debugger;
       console.log('switchboard doSaveScreenEntry', msg, context);
-      this.cmdHandlers['mainDialog'](['getScreenConfig', 'getScreenConfig', 'getScreenConfig'])
+      this.pageConfiguration = msg[1];
+      this.pageConfiguration.action=this.PAGE_EDIT;
+      this.showDialog = false;
+      this.mode=this.mode=this.SHOW_PAGE
     },
     doShowLogin(context){
 //      debugger;

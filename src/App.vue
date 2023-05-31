@@ -4,7 +4,6 @@
       <section class="navbar">
         <mainNavigationArea
           name="mainNavArea"
-          :config="pageConfiguration"
           @cevt="handleEvt"
         ></mainNavigationArea>
       </section>
@@ -18,6 +17,7 @@
       <section class="content">
         <Page v-if="this.mode==this.SHOW_PAGE"
               name ='mainPage'
+              :config="pageConfiguration"
               @cevt="handleEvt"
               :is-draggable=false
         ></Page>
@@ -147,7 +147,9 @@ export default{
       mode:0,
       SHOW_PAGE:1,
       dialogReload:0,
-      pageConfiguration:{}
+      pageConfiguration:{},
+      PAGE_DISPLAY:1,
+      PAGE_EDIT:2,
 
     }
   }

@@ -206,6 +206,9 @@ export default {
         'dismissDialog': function(msg, context){
           context.doDismissDialog(msg, context);
         },
+        'saveScreenEntry': function(msg, context){
+          context.doSaveScreenEntry(msg, context);
+        },
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -247,6 +250,10 @@ export default {
     doDismissDialog(msg, context){
       console.log('doDismissDialog', msg, context);
       this.$emit('cevt', ['dismissDialog']);
+    },
+    doSaveScreenEntry(msg, context){
+      console.log('in dialog doSaveScreenEntry', msg, context);
+      this.$emit('cevt', ['saveScreenEntry', this.dialogData]);
     }
 
 
