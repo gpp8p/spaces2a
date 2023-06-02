@@ -1,13 +1,13 @@
 <template>
   <span class="defaultClass">
-    <eGrid v-if="this.mode==this.PAGE_EDIT"
+    <eGrid v-if="this.mode==this.MODE_EDIT"
         name ='eGrid'
         @cevt="handleEvt"
         :is-draggable=false
         :config="gridConfigs"
         :key="updateGrid"
     ></eGrid>
-    <displayGrid v-if="this.mode==this.PAGE_DISPLAY"
+    <displayGrid v-if="this.mode==this.MODE_DISPLAY"
         name ='displayGrid'
         @cevt="handleEvt"
         :is-draggable=false
@@ -46,12 +46,36 @@ export default {
       case this.PAGE_EDIT:{
         this.pageConfigs=this.config;
         this.createPage(this);
-        this.mode=this.PAGE_EDIT;
+        this.mode=this.MODE_EDIT;
         break;
       }
-      case this.PAGE_DISPLAY:{
+      case this.PAGE_LOAD_EDIT:{
+/*
         console.log('Page is mounted - PAGE_DISPLAY', this.config);
         this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT);
+        this.mode=this.MODE_EDIT;
+        this.updateGrid+=1;
+*/
+        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this);
+/*
+        var mockConfig = {
+          pageDescription: "page description",
+          pageHeight: this.lpHeight,
+          pageName: "page name",
+          pageWidth: "15",
+          permissions: "open",
+          rowHeight: "60",
+          screenWidth: "100",
+          pageBackground: {
+            backgroundType: "color",
+            colorSelect: "#0a3aff"
+          }
+        }
+        this.pageConfigs=mockConfig;
+        this.createPage(this);
+        this.mode=this.MODE_EDIT;
+          console.log(mockConfig);
+*/
         break;
       }
     }
@@ -73,11 +97,19 @@ export default {
       mode:0,
       PAGE_DISPLAY:1,
       PAGE_EDIT:2,
+      PAGE_LOAD_EDIT:3,
+      PAGE_LOAD_DISPLAY:4,
+      MODE_EDIT:1,
+      MODE_DISPLAY:2,
       mouseStatus:0,
       MOUSE_NOT_CLICKED:0,
       MOUSE_DOWN: 1,
       MOUSE_UP:2,
       MOUSE_CLICK_SELECT:3,
+      CARD_TOP:0,
+      CARD_LEFT:1,
+      CARD_BOTTOM:2,
+      CARD_RIGHT:3,
       dragStartX:0,
       dragStartY:0,
       dragEndX:0,
@@ -100,7 +132,11 @@ export default {
       dummy:{},
       debugOn:false,
       widthNow:0,
-      allCards:[]
+      allCards:[],
+      lpHeight:0,
+      lpWidth:0,
+      lpRowHeight:0
+
 
     }
   },
@@ -158,11 +194,52 @@ export default {
     },
 
     createPage(context){
-//      debugger;
+      debugger;
+      console.log('createPage-',context.pageConfigs);
       context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
       context.gridConfigs.pageCells = context.makeBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,
           '#DBAA6E');
+    },
+
+    loadPage: function(layoutId, userId, orgId, mode, context) {
+
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.get(apiPath+'api/shan/getLayout?XDEBUG_SESSION_START=19884', {
+        params:{
+          orgId:orgId,
+          userId:userId,
+          layoutId:layoutId
+        }
+      }).then(response => {
+        console.log('getLayout-',response);
+        console.log('getLayout content', response.data.cards);
+        console.log('loaded layout-', layoutId);
+        context.lpHeight = response.data.layout.height;
+        context.lpWidth = response.data.layout.width;
+        let vgapTotal = Number(response.data.layout.height*3)+3;
+        context.lpRowHeight = Math.round((this.$store.getters.getContentHeight-vgapTotal)/response.data.layout.height);
+        var mockConfig = {
+          pageDescription: "page description",
+          pageHeight: context.lpHeight,
+          pageName: "page name",
+          pageWidth: context.lpWidth,
+          permissions: "open",
+          rowHeight: context.lpRowHeight,
+          screenWidth: "100",
+          pageBackground: {
+            backgroundType: "color",
+            colorSelect: "#0a3aff"
+          }
+        }
+        context.pageConfigs=mockConfig;
+        context.createPage(context);
+        context.mode=this.MODE_EDIT;
+      }).catch(e => {
+        console.log(e);
+        this.errors.push(e);
+      });
     },
 
     setupPageCss(configs){
@@ -244,139 +321,7 @@ export default {
       }
 
     },
-    loadPage: function(layoutId, userId, orgId, mode) {
-//      this.cardInstances = [];
-//      this.displayGrid=true;
-//      this.layoutId = layoutId;
-//      this.cancelLayoutEdit();
-//      console.log("reloading" + msg);
-     debugger;
-      var apiPath = this.$store.getters.getApiBase;
-      console.log('apiPath - ',apiPath);
-      axios.get(apiPath+'api/shan/getLayout?XDEBUG_SESSION_START=19884', {
-//      axios.get('http://localhost:8000/api/shan/getLayout?XDEBUG_SESSION_START=19884', {
-        params:{
-          orgId:orgId,
-          userId:userId,
-          layoutId:layoutId
-        }
-      }).then(response => {
-        // JSON responses are automatically parsed.
-                           debugger;
-        console.log('getLayout-',response);
-        console.log('getLayout content', response.data.cards);
-        console.log('loaded layout-', layoutId);
-        store.commit('setCurrentLayoutId', layoutId);
-        console.log("stored layoutId-",this.$store.getters.getCurrentLayoutId);
-//        store.commit('setCurrentLayoutDescription', response.data.layout.description);
-//        store.commit('setCurrentLayoutLabel', response.data.layout.menu_label);
-        /*
-                this.gridParamDefinition = this.layoutGridParameters(
-                    response.data.layout.height,
-                    response.data.layout.width,
-                    response.data.layout.backgroundColor,
-                    response.data.layout.backgroundImageUrl,
-                    response.data.layout.backgroundType,
-                    response.data.layout.backgroundDisplay,
-                );
 
-         */
-//        debugger;
-//        this.gridCss = 'display:grid; '+'grid-gap:'+ this.cmdObject[this.name].cellGap+'; background-color: '+this.cmdObject[this.name].backgroundColor+'; ';
-//        this.gridCss = this.gridCss + this.gridParameters.rowGrid+this.gridParameters.columnGrid;
-        this.gridConfigs.allCards = response.data.cards;
-        debugger;
-        if(typeof(response.data.rowHeight)!='undefined'){
-//        rowHeight already set from loaded page, so contentHeight is also pre-determined
-          var pageContentHeight = response.data.rowHeight*response.data.layout.height
-          this.gridParamDefinition = this.layoutGridParameters(response.data.layout.height, response.data.layout.width, pageContentHeight);
-          console.log('gridParamDefinition-', this.gridParamDefinition);
-          this.gridCss = this.backgroundImageCss(response.data.layout.backgroundImageUrl,
-              this.$store.getters.getContentWidth,
-              pageContentHeight,
-              this.gridParamDefinition.rowGrid,
-              this.gridParamDefinition.columnGrid,
-              response.data.layout.backgroundDisplay);
-          var cardDisplayParams = {
-            rowHeight: (response.data.rowHeight),
-            viewMode: mode
-          }
-          this.subCmdObject.allCards = this.updateCardDisplayParams(this.subCmdObject.allCards,cardDisplayParams);
-        }else{
-//          this.gridParamDefinition = this.layoutGridParameters(response.data.layout.height, response.data.layout.width, this.$store.getters.getContentHeight);
-//         debugger;
-          let gapTotal = Number(response.data.layout.width*3)+3;
-          let vgapTotal = Number(response.data.layout.height*3)+3;
-          let rawScreenWidth = this.$store.getters.getContentWidth-gapTotal;
-          let cellHeight = Math.round((this.$store.getters.getContentHeight-vgapTotal)/response.data.layout.height);
-//          let cellHeight_a = Math.round(context.cmdObject.height/response.data.layout.height);
-          let cellWidth = Math.round((this.$store.getters.getContentWidth-gapTotal)/response.data.layout.width);
-//          let cellWidth_a = Math.round((context.cmdObject.width-gapTotal)/response.data.layout.width)
-
-//          console.log("cellWidth-", cellWidth, cellWidth_a);
-//          console.log("celllHeight-", cellHeight, cellHeight_a);
-          this.gridCols=response.data.layout.width;
-          this.gridRows=response.data.layout.height;
-          this.gridParamDefinition=this.layoutGridParameters(response.data.layout.height, response.data.layout.width, cellHeight, cellWidth);
-          if(response.data.layout.backgroundType=='C'){
-            this.gridCss = this.colorBackgroundCss(this.gridParamDefinition.rowGrid, this.gridParamDefinition.columnGrid, response.data.layout.backgroundColor, this.$store.getters.getContentHeight)
-          }else{
-            this.gridCss = this.backgroundImageCss(response.data.layout.backgroundImageUrl,
-                this.$store.getters.getContentWidth,
-                this.$store.getters.getContentHeight,
-                this.gridParamDefinition.rowGrid,
-                this.gridParamDefinition.columnGrid,
-                response.data.layout.backgroundDisplay);
-          }
-
-
-          var cardDisplayParams = {
-            rowHeight: (Math.round(this.$store.getters.getContentHeight/response.data.layout.height)),
-            viewMode: mode
-          }
-          this.gridConfigs.allCards.allCards = this.updateCardDisplayParams(this.subCmdObject.allCards,cardDisplayParams);
-          this.gridConfigs.allCards.gridCss=this.gridCss;
-          if(mode==this.EDIT_VIEW){
-            this.allCards = this.gridConfigs.allCards;
-            this.blankPageCells = this.makeBlankPage(response.data.layout.height,  response.data.layout.width, '#DBAA6E');
-            for(var c = 0; c<this.allCards.length; c++){
-              var thisCard = this.allCards[c];
-              console.log('card_position-',thisCard.card_position);
-              debugger;
-              var dimensions = {
-                top: thisCard.card_position[this.CARD_TOP],
-                left: thisCard.card_position[this.CARD_LEFT],
-                bottom: (thisCard.card_position[this.CARD_BOTTOM]+thisCard.card_position[this.CARD_TOP]-1),
-                right: (thisCard.card_position[this.CARD_RIGHT]+thisCard.card_position[this.CARD_LEFT]-1)
-              }
-              var cardSelectedArea = this.getSelectedArea(dimensions);
-              var cardEditedCells =   this.splicePageCells(cardSelectedArea);
-              this.blankPageCells=cardEditedCells;
-            }
-
-          }
-
-
-        }
-        this.LayoutPermissions = response.data.perms;
-        if(this.canView(this.LayoutPermissions)){
-          console.log('permissions Ok');
-        }else{
-          this.$router.push({
-            name: 'errorPage',
-            params: { errorMessage: 'You do not have permission to access that page' }
-          });
-        }
-        store.commit('setPerms', response.data.perms);
-        this.$emit('layoutChanged',[this.layoutId]);
-        store.commit('setCurrentLayoutId', this.layoutId);
-//                    this.$eventHub.$emit('layoutChanged');
-        this.reloadCards+=1;
-      }).catch(e => {
-        console.log(e);
-        this.errors.push(e);
-      });
-    },
     colorBackgroundCss(rowCss, columnCss, backgroundColor, heightInPixels){
 //      debugger;
       let gridCss =
@@ -442,7 +387,7 @@ export default {
       }
     },
     doSetCmdHandler(msg, context){
-      debugger;
+//      debugger;
 //      console.log('doSetCmdHandler-',msg, context);
       context.cmdHandlers[msg[2]]=msg[1];
 //      console.log('cellIndex entry-', msg[3],'-', msg[2]);
@@ -454,7 +399,7 @@ export default {
     },
     doCreateNewCard(msg, context){
       console.log('doCreateNewCard-',context.selectedArea, msg);
-      debugger;
+//      debugger;
       context.cmdHandlers={};
       context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,
@@ -474,7 +419,7 @@ export default {
       context.updateGrid+=1;
       this.debugOn=true;
 //      console.log('after egrid reload-',context.cmdHandlers, context.cellIndex);
-      debugger;
+//      debugger;
     },
 
     doMouseEvt(msg, context){
@@ -713,7 +658,7 @@ export default {
 
     },
     computeGridCss(row, col, height, width){
-        debugger;
+//        debugger;
       var startRow = row;
       var startColumn = col;
       var endRow=0;

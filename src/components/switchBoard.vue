@@ -96,7 +96,7 @@ export default {
       console.log('doPageSelected-',msg, context);
       context.showDialog=false;
       this.pageConfiguration={}
-      this.pageConfiguration.action=this.SHOW_PAGE;
+      this.pageConfiguration.action=this.PAGE_LOAD_EDIT;
       this.pageConfiguration.pageId = msg[1];
       this.mode=this.SHOW_PAGE;
 //      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);

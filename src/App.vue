@@ -150,6 +150,8 @@ export default{
       pageConfiguration:{},
       PAGE_DISPLAY:1,
       PAGE_EDIT:2,
+      PAGE_LOAD_EDIT:3,
+      PAGE_LOAD_DISPLAY:4
 
     }
   }

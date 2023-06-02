@@ -38,8 +38,8 @@ export default {
   components: {Cell, headlineCard},
   mixins: [utils],
   mounted(){
-//    debugger;
-//    console.log(this.name,' is mounted');
+    debugger;
+    console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getGridConfiguration']);
   },
