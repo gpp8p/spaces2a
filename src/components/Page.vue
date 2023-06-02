@@ -241,8 +241,8 @@ export default {
           var thisCardDimensions = response.data.cards[c].card_position;
           console.log('cardDimensions-', thisCardDimensions);
           var cardSelectedArea = {
-            bottomRightX: response.data.cards[c].card_position[3],
-            bottomRightY: response.data.cards[c].card_position[2],
+            bottomRightX: (response.data.cards[c].card_position[3]+response.data.cards[c].card_position[1])-1,
+            bottomRightY: (response.data.cards[c].card_position[2]+response.data.cards[c].card_position[0])-1,
             topLeftX: response.data.cards[c].card_position[1],
             topLeftY: response.data.cards[c].card_position[0],
           }
