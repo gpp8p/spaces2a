@@ -220,12 +220,11 @@ export default {
         context.lpWidth = response.data.layout.width;
         let vgapTotal = Number(response.data.layout.height*3)+3;
         context.lpRowHeight = Math.round((this.$store.getters.getContentHeight-vgapTotal)/response.data.layout.height);
-        var mockConfig = {
+        var loadedPageConfig = {
           pageDescription: "page description",
           pageHeight: context.lpHeight,
           pageName: "page name",
           pageWidth: context.lpWidth,
-          permissions: "open",
           rowHeight: context.lpRowHeight,
           screenWidth: "100",
           pageBackground: {
@@ -233,9 +232,28 @@ export default {
             colorSelect: "#0a3aff"
           }
         }
-        context.pageConfigs=mockConfig;
+        context.pageConfigs=loadedPageConfig;
         context.createPage(context);
-        context.mode=this.MODE_EDIT;
+
+        console.log('new page cells-', context.gridConfigs.pageCells);
+        console.log('new page cards-', response.data.cards);
+        for(var c = 0;c<response.data.cards.length;c++){
+          var thisCardDimensions = response.data.cards[c].card_position;
+          console.log('cardDimensions-', thisCardDimensions);
+          var cardSelectedArea = {
+            bottomRightX: response.data.cards[c].card_position[3],
+            bottomRightY: response.data.cards[c].card_position[2],
+            topLeftX: response.data.cards[c].card_position[1],
+            topLeftY: response.data.cards[c].card_position[0],
+          }
+          console.log('cardSelectedArea-',cardSelectedArea);
+          context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
+              context.pageConfigs.pageWidth,
+              '#DBAA6E',
+              cardSelectedArea,
+              context.gridConfigs.pageCells );
+          context.mode=this.MODE_EDIT;
+        }
       }).catch(e => {
         console.log(e);
         this.errors.push(e);
