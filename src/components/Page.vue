@@ -41,7 +41,7 @@ export default {
 //    console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getPageConfiguration']);
-    debugger;
+//    debugger;
     switch(this.config.action){
       case this.PAGE_EDIT:{
         this.pageConfigs=this.config;
@@ -194,7 +194,7 @@ export default {
     },
 
     createPage(context){
-      debugger;
+//      debugger;
       console.log('createPage-',context.pageConfigs);
       context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
       context.gridConfigs.pageCells = context.makeBlankPage(context.pageConfigs.pageHeight,
@@ -237,6 +237,8 @@ export default {
 
         console.log('new page cells-', context.gridConfigs.pageCells);
         console.log('new page cards-', response.data.cards);
+//        debugger;
+        context.gridConfigs.allCards=[];
         for(var c = 0;c<response.data.cards.length;c++){
           var thisCardDimensions = response.data.cards[c].card_position;
           console.log('cardDimensions-', thisCardDimensions);
@@ -251,9 +253,12 @@ export default {
               context.pageConfigs.pageWidth,
               '#DBAA6E',
               cardSelectedArea,
-              context.gridConfigs.pageCells );
-          context.mode=this.MODE_EDIT;
+              context.gridConfigs.pageCells);
+          console.log('thisCard-', response.data.cards[c]);
+          context.gridConfigs.allCards.push(response.data.cards[c]);
         }
+        this.allCards=context.gridConfigs.allCards;
+        context.mode=this.MODE_EDIT;
       }).catch(e => {
         console.log(e);
         this.errors.push(e);
@@ -417,7 +422,8 @@ export default {
     },
     doCreateNewCard(msg, context){
       console.log('doCreateNewCard-',context.selectedArea, msg);
-//      debugger;
+      console.log('-createBlankCardInstance',this.allCards);
+      debugger;
       context.cmdHandlers={};
       context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,
@@ -425,12 +431,13 @@ export default {
           context.selectedArea,
           context.gridConfigs.pageCells
       );
+      console.log('-createBlankCardInstance',this.allCards);
       var thisCard = this.createBlankCardInstance(context.selectedArea.topLeftY,
           context.selectedArea.topLeftX,
           (context.selectedArea.bottomRightY),
           (context.selectedArea.bottomRightX),
           msg[1].cardName,
-          msg[1].cardBackground, 'headlineCard');
+          msg[1].cardBackground, 'Headline');
       this.allCards.push(thisCard);
       context.gridConfigs.allCards=this.allCards;
 
@@ -587,7 +594,7 @@ export default {
       console.log('inUpdateBlankPage-', existingPageCells);
       height++;
       width++;
-      debugger;
+//      debugger;
       for ( var c = 0; c< existingPageCells.length; c++){
         var cellPositionY =  existingPageCells[c].cell_position[0];
         var cellPositionX =  existingPageCells[c].cell_position[1];
@@ -659,7 +666,7 @@ export default {
     },
     createBlankCardInstance(row, col, height, width, id, background, type){
       var thisGridCss = this.computeGridCss(row, col, height, width);
-      var thisCardStyle = thisGridCss+";"+"background-color:"+background+";color:#0000FF;";
+      var thisCardStyle = thisGridCss+";"+"background-color:"+background.colorSelect+";color:#0000FF;";
 //      debugger;
       var thisCardName = 'card'+id;
       var thisCardParams = {
@@ -670,7 +677,7 @@ export default {
         color: '#0000FF',
         type: type
       }
-      var thisInstance = {component: type, cell_position: [row,col,height,width], id:id, toDelete: false, cell_parameters: thisCardParams};
+      var thisInstance = {card_component: type, cell_position: [row,col,height,width], id:id, toDelete: false, card_parameters: thisCardParams};
       console.log('new card details-', thisInstance);
       return thisInstance;
 

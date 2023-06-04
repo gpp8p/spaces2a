@@ -24,7 +24,8 @@ export default {
   mounted(){
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
-    this.cardCss = this.config.cell_parameters.gridCss +'; background-color:'+this.config.cell_parameters.backgroundColor.colorSelect+';color:'+this.config.cell_parameters.color+';';
+//    this.cardCss = this.config.card_parameters.gridCss +'; background-color:'+this.config.card_parameters.backgroundColor.colorSelect+';color:'+this.config.card_parameters.color+';';
+      this.cardCss= this.config.card_parameters.style;
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
