@@ -19,6 +19,7 @@
               name ='mainPage'
               :config="pageConfiguration"
               @cevt="handleEvt"
+              :key="pageReload"
               :is-draggable=false
         ></Page>
       </section>
@@ -147,6 +148,7 @@ export default{
       mode:0,
       SHOW_PAGE:1,
       dialogReload:0,
+      pageReload:0,
       pageConfiguration:{},
       PAGE_DISPLAY:1,
       PAGE_EDIT:2,

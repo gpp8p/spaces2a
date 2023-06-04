@@ -41,41 +41,20 @@ export default {
 //    console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getPageConfiguration']);
-//    debugger;
+    debugger;
     switch(this.config.action){
       case this.PAGE_EDIT:{
         this.pageConfigs=this.config;
-        this.createPage(this);
         this.mode=this.MODE_EDIT;
+        this.createPage(this);
         break;
       }
       case this.PAGE_LOAD_EDIT:{
-/*
-        console.log('Page is mounted - PAGE_DISPLAY', this.config);
-        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT);
-        this.mode=this.MODE_EDIT;
-        this.updateGrid+=1;
-*/
         this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this);
-/*
-        var mockConfig = {
-          pageDescription: "page description",
-          pageHeight: this.lpHeight,
-          pageName: "page name",
-          pageWidth: "15",
-          permissions: "open",
-          rowHeight: "60",
-          screenWidth: "100",
-          pageBackground: {
-            backgroundType: "color",
-            colorSelect: "#0a3aff"
-          }
-        }
-        this.pageConfigs=mockConfig;
-        this.createPage(this);
-        this.mode=this.MODE_EDIT;
-          console.log(mockConfig);
-*/
+        break;
+      }
+      case this.PAGE_LOAD_DISPLAY:{
+        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this);
         break;
       }
     }
@@ -192,20 +171,26 @@ export default {
       this.mode=this.PAGE_EDIT;
  //     this.setupPageCss(args[1]);
     },
-
-    createPage(context){
+    createPageForDisplay(context){
 //      debugger;
       console.log('createPage-',context.pageConfigs);
       context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
+      context.gridConfigs.pageCells = [];
+    },
+    createPage(context){
+      debugger;
+      console.log('createPage-',context.pageConfigs);
+      context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
+
       context.gridConfigs.pageCells = context.makeBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,
           '#DBAA6E');
     },
 
     loadPage: function(layoutId, userId, orgId, mode, context) {
-
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
+      store.commit('setCurrentLayoutId', layoutId);
       axios.get(apiPath+'api/shan/getLayout?XDEBUG_SESSION_START=19884', {
         params:{
           orgId:orgId,
@@ -213,6 +198,7 @@ export default {
           layoutId:layoutId
         }
       }).then(response => {
+        debugger;
         console.log('getLayout-',response);
         console.log('getLayout content', response.data.cards);
         console.log('loaded layout-', layoutId);
@@ -232,9 +218,27 @@ export default {
             colorSelect: "#0a3aff"
           }
         }
-        context.pageConfigs=loadedPageConfig;
-        context.createPage(context);
+        if(response.data.layout.backgroundType=='C'){
+          loadedPageConfig.pageBackground.backgroundType='color';
+          loadedPageConfig.pageBackground.colorSelect = response.data.layout.backgroundColor;
+        }else{
+          loadedPageConfig.pageBackground.backgroundType='image';
+          loadedPageConfig.backgroundImageUrl=response.data.layout.backgroundImageUrl;
 
+        }
+        debugger;
+        context.pageConfigs=loadedPageConfig;
+        console.log('calling createPage with-',context.pageConfigs);
+        switch(context.config.action){
+          case context.PAGE_LOAD_EDIT:{
+            context.createPage(context);
+            break;
+          }
+          case context.PAGE_LOAD_DISPLAY:{
+            context.createPageForDisplay(context);
+            break;
+          }
+        }
         console.log('new page cells-', context.gridConfigs.pageCells);
         console.log('new page cards-', response.data.cards);
 //        debugger;
@@ -266,6 +270,8 @@ export default {
     },
 
     setupPageCss(configs){
+      console.log('setupPageCss-', configs);
+      debugger;
       this.gridRows = configs.pageHeight;
       this.gridColumns = configs.pageWidth;
       var cellGapAmt=3;
@@ -423,7 +429,7 @@ export default {
     doCreateNewCard(msg, context){
       console.log('doCreateNewCard-',context.selectedArea, msg);
       console.log('-createBlankCardInstance',this.allCards);
-      debugger;
+//      debugger;
       context.cmdHandlers={};
       context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,

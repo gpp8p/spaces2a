@@ -38,7 +38,7 @@ export default {
   components: {Cell, Headline},
   mixins: [utils],
   mounted(){
-    debugger;
+//    debugger;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getGridConfiguration']);

@@ -62,6 +62,7 @@ export default {
         },
 
 
+
 /*
         'default': function(msg, context){
           console.log('evtHandler - something else', msg, context);
@@ -94,13 +95,24 @@ export default {
     },
     doPageSelected(msg, context){
       console.log('doPageSelected-',msg, context);
+      debugger;
       context.showDialog=false;
       this.pageConfiguration={}
-      this.pageConfiguration.action=this.PAGE_LOAD_EDIT;
+      this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
       this.pageConfiguration.pageId = msg[1];
       this.mode=this.SHOW_PAGE;
 //      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);
     },
+/*
+    doPageEdit(msg, context){
+      console.log('at doPageEdit-', msg, context);
+      this.pageConfiguration={}
+      this.pageConfiguration.action=this.PAGE_EDIT;
+      this.pageConfiguration.pageId = msg[1];
+      this.mode=this.SHOW_PAGE;
+      this.pageReload+=1;
+    },
+*/
     doLoginVerify(msg, context){
       console.log('switchBoard doLoginVerify-',msg, context);
       context._data.cmdHandlers['mainNavArea'](msg);
@@ -177,6 +189,10 @@ export default {
     },
     doEditPage(msg, context){
       console.log('doEditPage selected', msg, context);
+      this.pageConfiguration.action=this.PAGE_LOAD_EDIT;
+      this.showDialog = false;
+      this.mode=this.SHOW_PAGE;
+      this.pageReload+=1;
     },
     doPageSetup(msg, context){
       console.log('pageSetup selected', msg, context);
