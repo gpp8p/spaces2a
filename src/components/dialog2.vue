@@ -34,11 +34,12 @@ import vBackgroundPicker from "../components/vBackgroundPicker.vue";
 import textLiteral from "../components/textLiteral.vue";
 import vButton from "@/components/vbutton";
 import mySpaces from "../components/mySpaces.vue";
+import Chooser from "../components/chooser.vue"
 
 
 export default {
   name: "dialog2",
-  components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, textLiteral, Menu, mySpaces},
+  components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, textLiteral, Menu, mySpaces, Chooser},
   mixins: [utils, menuDefinitions, dialogDefinitions],
   props:{
     name:{
@@ -269,7 +270,8 @@ export default {
   grid-template-rows: 85% 15%;
 }
 .dialogWrapperStyle {
-  margin-left: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
   margin-top: 5%;
   display: flex;
   flex-direction: column;

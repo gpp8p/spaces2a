@@ -352,6 +352,66 @@ name: "dialogDefinitions",
 
           }
         }
+        case 'pageDefaultSelect_new':{
+          return {
+            pageDefaultSelect:{
+              dialogStyle: {
+                position: 'fixed',
+                top: '30%',
+                left: '30%',
+                height: '40vh',
+                width: '50vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName:'dialogSubMenu1',
+              name: "pageType",
+              fields: [
+                {
+                  type: "Chooser",
+                  options: [
+                    {
+                      val: 'oneWindow',
+                      label: 'One Window Page',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                    {
+                      val: 'extPage',
+                      label: 'Long Page',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                    {
+                      val: 'dialogPage',
+                      label: 'Dialog',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                    {
+                      val: 'emailPage',
+                      label: 'Bulk Mail Draft',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                  ],
+                  wrapperStyle: 'height: 70%; ' +
+                      'width: 50%; ' +
+                      'background-color: powderblue; ' +
+                      'margin-left: auto; ' +
+                      'margin-right: auto; ' +
+                      'border-style: solid; ' +
+                      'border-width: 2px; ' +
+                      'border-color: red; ' +
+                      'display: block;'
+                }
+              ]
+            }
+          }
+        }
         case 'pageDefaultSelect':{
           return {
             pageDefaultSelect: {

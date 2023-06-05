@@ -1,8 +1,8 @@
 <template>
-  <span>
-    <option :value = "this.val" v-if="this.pOptions==this.NOT_SELECTED">{{this.label}}</option>
-    <option :value = "this.val" v-if="this.pOptions==SELECTED_NOT_DISABLED" selected>{{this.label}}</option>
-    <option :value = "this.val" v-if="this.pOptions==NOT_SELECTED_DISABLED" disabled>{{this.label}}</option>
+  <span class="optionText">
+    <option :value = "this.val"  v-if="this.pOptions==this.NOT_SELECTED">{{this.label}}</option>
+    <option :value = "this.val"  v-if="this.pOptions==SELECTED_NOT_DISABLED" selected>{{this.label}}</option>
+    <option :value = "this.val"  v-if="this.pOptions==NOT_SELECTED_DISABLED" disabled>{{this.label}}</option>
   </span>
 
 </template>
@@ -101,5 +101,6 @@ export default {
 </script>
 
 <style scoped>
+
 
 </style>
