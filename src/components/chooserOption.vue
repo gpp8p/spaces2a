@@ -1,6 +1,9 @@
 <template>
-  <div :style="cmdObject.style" class="opt">
-    {{cmdObject.label}}
+  <div :style="cmdObject.style" class="wrap">
+    <div class="opt">
+      {{cmdObject.label}}
+    </div>
+
   </div>
 </template>
 
@@ -114,15 +117,23 @@ export default {
 
 <style scoped>
 .opt {
-  background-color: darkslategrey;
+  background-color: #778899;
   color: white;
-  font-size: medium;
-  font-family: Monaco;
+  font-size: large;
+  font-family: Helvetica;
   margin-right: auto;
-
+  height:98.5%;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-left : 20%;
+  padding-top: 8%;
 }
 .opt:hover {
   background-color: red;
+}
+.wrap {
+  background-color: #ffcd90;
+
 }
 
 </style>

@@ -17,13 +17,14 @@
       </select>
     </span>
     <span v-if="this.hasLabel==false">
-      <select :size="this.selectSize" :multiple="multiple">
-        <option v-if="this.selectSize==0" >Please Select</option>
+      <select :size="this.selectSize" :multiple="multiple" class="selectStyle">
+        <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
         <v-option v-for="(thisOption, index) in this.selectOptions"
                   :key="index"
                   :cmdObject = thisOption
                   :cmdObjectVersion = thisCmdObjectVersion
                   :name = thisOption.val
+                  class="optionStyle"
         ></v-option>
       </select>
     </span>
@@ -141,5 +142,18 @@ export default {
   font-family: Arial;
   font-size: medium;
   color: #0a3aff;
+}
+
+.selectStyle {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-width: 2px;
+  border-color: red;
+}
+
+.optionStyle{
+  font-size: xx-large;
+
 }
 </style>

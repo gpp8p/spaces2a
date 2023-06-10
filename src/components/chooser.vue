@@ -1,5 +1,5 @@
 <template>
-  <span :style="wrapperStyle">
+  <span :style="wrapperStyle" >
     <chooserOption v-for="(thisOption, index) in this.selectOptions"
                    :key="index"
                    :cmdObject = thisOption
@@ -133,6 +133,10 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
+    },
+    kevt(){
+      debugger;
+      console.log('keyPressed');
     }
 
 

@@ -1,6 +1,8 @@
 <template>
   <span class="menuArea">
-    <span>Go Back Area</span>
+    <span>
+      <pdTest></pdTest>
+    </span>
     <span>
         <Menu
             name="topLevelMenu"
@@ -18,8 +20,9 @@
 
 <script>
 import utils from '../components/utils.vue';
-import Menu from '../components/menu.vue';
+import Menu from '../components/menuNew.vue';
 import login from '../components/login.vue';
+import pdTest from "@/components/pdTest";
 export default {
   name: "mainNavigationArera",
   props:{
@@ -28,7 +31,7 @@ export default {
       required: true
     }
   },
-  components: {Menu, login},
+  components: {Menu, login, pdTest},
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');

@@ -1,5 +1,5 @@
 <template>
-    <option :class="this.optionStyle" :value="this.val" :selected="this.isSelected==true" :disabled="this.isDisabled==true">{{this.label}}</option>
+    <option class="optStyle" :value="this.val" :selected="this.isSelected==true" :disabled="this.isDisabled==true">{{this.label}}</option>
 </template>
 
 <script>
@@ -97,6 +97,14 @@ name: "vOption",
 </script>
 
 <style scoped>
+
+.optStyle {
+  background-color: bisque;
+}
+.optStyle:hover {
+  background-color: red;
+}
+
 .small {
   font-size: 10px;
 }

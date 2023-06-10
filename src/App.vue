@@ -174,6 +174,7 @@ export default{
   --oruga-table-row-active-color:red;
   --oruga-button-height:18px;
 
+
 }
 
 .noScroll {
