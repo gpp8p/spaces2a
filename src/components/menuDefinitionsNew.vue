@@ -42,15 +42,15 @@ name: "menuDefinitionsNew",
                   items:[
                     {
                       label: 'it is a',
-                      action: 'a'
+                      action: 'doA'
                     },
                     {
                       label: 'almost b',
-                      action: 'b'
+                      action: 'doB'
                     },
                     {
                       label: 'really c',
-                      action: 'c'
+                      action: 'doC'
                     }
                   ]
                 }
