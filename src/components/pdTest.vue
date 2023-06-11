@@ -1,5 +1,5 @@
 <template>
-  <o-dropdown aria-role="list" @change="ddChanged">
+  <o-dropdown aria-role="list" @change="ddChanged" >
     <template #trigger="{ active }">
       <div class="ddClass">
         {{thisItem.label}}
@@ -13,12 +13,14 @@
       </div>
     </template>
 
-    <o-dropdown-item v-for="(item, index) in thisItem.submenu.items"
-                     :key="index"
-                     @click="ddClicked(item.action)" class="ddClass">
-                      <span>{{item.label}}</span>
+      <o-dropdown-item v-for="(item, index) in thisItem.submenu.items"
+                       :key="index"
+                       @click="ddClicked(item.action)" class="ddClass">
+        <span>{{item.label}}</span>
 
-    </o-dropdown-item>
+      </o-dropdown-item>
+
+
   </o-dropdown>
 </template>
 
@@ -74,6 +76,10 @@ name: "pdTest",
 </script>
 
 <style scoped>
+
+.dd1 {
+  background-color: #0a3aff;
+}
 
 .ddClass {
   font-family: Helvetica;

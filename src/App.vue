@@ -175,6 +175,10 @@ export default{
   --oruga-button-height:18px;
 
 
+  --oruga-dropdown-menu-background: #ffcd90;
+  --oruga-dropdown-item-hover-background-color:red;
+
+
 }
 
 .noScroll {
