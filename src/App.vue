@@ -177,6 +177,8 @@ export default{
 
   --oruga-dropdown-menu-background: #ffcd90;
   --oruga-dropdown-item-hover-background-color:red;
+  --oruga-dropdown-menu-box-shadow:10px 5px 5px grey;
+  --oruga-dropdown-menu-border-radius:3px;
 
 
 }

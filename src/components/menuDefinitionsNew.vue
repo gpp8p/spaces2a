@@ -35,27 +35,6 @@ name: "menuDefinitionsNew",
                 type: 'mItem'
               },
               {
-                label: 'Test',
-                action: 'doTest',
-                type: 'pdTest',
-                submenu: {
-                  items:[
-                    {
-                      label: 'it is a',
-                      action: 'doA'
-                    },
-                    {
-                      label: 'almost b',
-                      action: 'doB'
-                    },
-                    {
-                      label: 'really c',
-                      action: 'doC'
-                    }
-                  ]
-                }
-              },
-              {
                 label:'Delete',
                 action: 'deletePage',
                 type: 'mItem'
@@ -66,10 +45,35 @@ name: "menuDefinitionsNew",
                 type: 'mItem'
               },
               {
+                label: 'Create',
+                action: 'pageSetup',
+                type: 'dropDownMenuItem',
+                submenu: {
+                  items:[
+                    {
+                      label: 'One Window Page',
+                      action: 'oneWindow'
+                    },
+                    {
+                      label: 'Long Page',
+                      action: 'extPage'
+                    },
+                    {
+                      label: 'Bulk Email Draft',
+                      action: 'emailPage'
+                    }
+                  ]
+                }
+              },
+
+/*
+              {
                 label:'Create',
                 action: 'pageSetup',
                 type: 'mItem'
               },
+
+ */
               {
                 label:'Access',
                 action: 'pageAccess',

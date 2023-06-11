@@ -15,11 +15,11 @@
 <script>
 import utils from '../components/utils.vue';
 import mItem from "@/components/mItem";
-import pdTest from "@/components/pdTest";
+import dropDownMenuItem from "@/components/dropDownMenuItem";
 export default {
   name: "menuItemsNew",
   mixins: [utils],
-  components :{mItem, pdTest},
+  components :{mItem, dropDownMenuItem},
   props:{
     name:{
       type: String,
