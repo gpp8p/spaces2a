@@ -5,7 +5,7 @@
                   :thisItem="item"
                   :itemConfig="currentItems"
                   :key="index"
-                  :name="item[1]"
+                  :name="item.action"
                   @cevt="handleEvt"
        >
       </component>

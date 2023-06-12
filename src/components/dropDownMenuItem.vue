@@ -140,6 +140,7 @@ export default {
     },
     ddClicked(m){
       console.log('dd was clicked!', m);
+      this.$emit('cevt',['menuItemSelected',m, this.name]);
     },
     ddChanged(m){
       console.log('dd changed-', m);

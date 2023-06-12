@@ -46,6 +46,7 @@ export default {
       case this.PAGE_EDIT:{
         this.pageConfigs=this.config;
         this.mode=this.MODE_EDIT;
+        this.$emit('cevt', ['setMenu', 'editPage']);
         this.createPage(this);
         break;
       }
@@ -55,6 +56,13 @@ export default {
       }
       case this.PAGE_LOAD_DISPLAY:{
         this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this);
+        if(this.$store.getters.getPerms.admin==true){
+          this.$emit('cevt', ['setMenu', 'adminLogged', this.name]);
+        }else if(this.$store.getters.getPerms.author==true){
+          this.$emit('cevt', ['setMenu', 'authorLogged', this.name]);
+        }else{
+          this.$emit('cevt', ['setMenu', 'userLogged', this.name]);
+        }
         break;
       }
     }

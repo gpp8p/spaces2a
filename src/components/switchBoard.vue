@@ -9,7 +9,7 @@ export default {
 
 
     evtHandler(msg, self){
-//      console.log('evtHandler-', msg, self);
+      console.log('App evtHandler-', msg, self);
 //     debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
@@ -30,6 +30,9 @@ export default {
         },
         'configurePage':function(msg, context){
           context.doConfigurePage(msg, context);
+        },
+        'setMenu':function(msg, context){
+          context.doSetMenu(msg, context);
         },
 //        'pageConfig':function(msg, context){
 //          context.doPageConfig(msg, context);
@@ -103,6 +106,11 @@ export default {
       this.mode=this.SHOW_PAGE;
 //      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);
     },
+    doSetMenu(msg, context){
+      console.log('Page in doSetMenu-', msg, context);
+      this.cmdHandlers['mainNavArea'](['setMenu', msg[1],'topLevelMenu']);
+
+    },
 /*
     doPageEdit(msg, context){
       console.log('at doPageEdit-', msg, context);
@@ -158,6 +166,14 @@ export default {
         'pageSetup': function(msg, context){
           context.doPageSetup(msg, context);
         },
+        'oneWindow':function(msg, context){
+          var m = msg;
+          m.pageType='oneWindow';
+          context.doConfigurePage(msg, context);
+        },
+        'cancelCardInsert': function(msg, context){
+          context.doCancelCardInsert(msg, context);
+        },
 //        'saveScreenEntry':function(msg, context){
 //          context.doSaveScreenEntry(msg, context);
 //        },
@@ -194,28 +210,34 @@ export default {
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
     },
+/*
     doPageSetup(msg, context){
       console.log('pageSetup selected', msg, context);
       context.dialogConfiguration='pageDefaultSelect';
       context.showDialog=true;
     },
+ */
     doConfigurePage(msg, context){
       console.log('switchboard doConfigurePage-', msg, context);
       debugger;
-      if(typeof(msg[1].pageType)=='undefined'){
+      if(typeof(msg[1])=='undefined'){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a page type','topLevelMenu']);
       }else{
-        context.dialogConfiguration=msg[1].pageType;
+        context.dialogConfiguration=msg[1];
+        this.showDialog = true;
         context.dialogReload+=1;
       }
     },
+
     doSaveScreenEntry(msg, context){
       debugger;
       console.log('switchboard doSaveScreenEntry', msg, context);
       this.pageConfiguration = msg[1];
       this.pageConfiguration.action=this.PAGE_EDIT;
       this.showDialog = false;
-      this.mode=this.mode=this.SHOW_PAGE
+      this.cmdHandlers['mainNavArea'](['setMessage', 'Please select an area by dragging your mouse']);
+      this.mode=this.SHOW_PAGE;
+      this.pageReload+=1;
     },
     doShowLogin(context){
 //      debugger;
@@ -243,6 +265,16 @@ export default {
         context.showDialog=false;
         this.cmdHandlers['mainPage'](['createNewCard', msg[1], 'mainPage']);
       }
+    },
+    doCancelCardInsert(msg, context){
+      console.log('switchboard doCancelCardInsert', msg, context);
+      context.showDialog=false;
+      this.pageConfiguration={}
+      this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
+      this.pageConfiguration.pageId = this.$store.getters.getOrgHome;
+      this.mode=this.SHOW_PAGE;
+      this.pageReload+=1;
+
     }
 
 

@@ -1,7 +1,7 @@
 <template>
   <span>
     <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass">
-      {{this.itemLabel}}
+      {{this.thisItem.label}}
     </span>
   </span>
 
@@ -32,6 +32,7 @@ export default {
     this.itemLabel = this.thisItem.label;
     this.itemValue = this.thisItem.action;
     console.log('itemStyle =',this.itemStyle);
+    console.log('itemLabel - ',this.thisItem.label)
   },
   data(){
     return {

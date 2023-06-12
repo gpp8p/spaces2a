@@ -75,6 +75,23 @@ export default {
             menuType: 'dialog'
           }
         }
+/*
+        case 'editPage': {
+          console.log('insertCard menu');
+          return {
+            items: [
+              ['Cancel', 'cancelCardInsert'],
+              ['Add Card To Page']
+            ],
+            currentSelectedMenuOption: 'pageSetup',
+            style: 'color:blue; font-family: Geneva; font-size: 14px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 14px;',
+            messageStyle: 'margin-left: 40%; color:blue; font-family: Geneva; font-size: 14px;',
+            menuType: 'main'
+          }
+        }
+
+ */
         case 'insertCard': {
           console.log('insertCard menu');
           return {

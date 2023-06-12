@@ -192,6 +192,62 @@ name: "menuDefinitionsNew",
 
           }
         }
+        case 'editPage': {
+          console.log('editPage menu');
+          return {
+            items: [
+              {
+                label:'Cancel',
+                action: 'cancelCardInsert',
+                type: 'mItem'
+              },
+/*
+              {
+                label: 'Add Card To Page',
+                action: 'addCard',
+                type: 'dropDownMenuItem',
+                submenu: {
+                  items:[
+                    {
+                      label: 'Headline Card',
+                      action: 'headlineCard'
+                    },
+                    {
+                      label: 'Navigation Menu',
+                      action: 'navMenu'
+                    },
+                    {
+                      label: 'Rich Text Card',
+                      action: 'richText'
+                    },
+                    {
+                      label: 'Image Card',
+                      action: 'imageCard'
+                    },
+                    {
+                      label: 'PDF',
+                      action: 'pdfCard'
+                    },
+                    {
+                      label: 'Your Tube Video',
+                      action: 'youTube'
+                    }
+                  ]
+                }
+              },
+
+ */
+            ],
+            message: 'Drag your mouse to identify card area',
+            showMessage: true,
+            currentSelectedMenuOption: 'pageSetup',
+            style: 'color:blue; font-family: Geneva; font-size: 14px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 14px;',
+            messageStyle: 'margin-left: 40%; color:blue; font-family: Geneva; font-size: 14px;',
+            menuType: 'main'
+
+          }
+        }
         case 'insertCardCancel': {
           console.log('insertCard menu');
           return {

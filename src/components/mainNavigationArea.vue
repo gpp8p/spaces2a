@@ -1,7 +1,7 @@
 <template>
   <span class="menuArea">
     <span>
-      <pdTest></pdTest>
+
     </span>
     <span>
         <Menu
@@ -22,16 +22,16 @@
 import utils from '../components/utils.vue';
 import Menu from '../components/menuNew.vue';
 import login from '../components/login.vue';
-import pdTest from "@/components/pdTest";
+
 export default {
-  name: "mainNavigationArera",
+  name: "mainNavigationArea",
   props:{
     name:{
       type: String,
       required: true
     }
   },
-  components: {Menu, login, pdTest},
+  components: {Menu, login},
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');
@@ -98,7 +98,7 @@ export default {
 // put do cmds here
     doSetMenu(args, self){
       console.log('doSetMenu called in mainNav-', args, self);
-      this.cmdHandlers['topLevelMenu'](['setMenu', 'adminLogged','topLevelMenu']);
+      this.cmdHandlers['topLevelMenu'](['setMenu', args[1],'topLevelMenu']);
     },
     doLoginVerify(args, self){
       console.log('in doLoginVerify of mainNavigationArea', args, self);

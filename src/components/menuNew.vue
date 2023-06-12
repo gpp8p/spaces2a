@@ -40,7 +40,7 @@ export default {
       currentItems:[],
       cmdHandlers:{},
       currentMessage:'',
-      showMessage:false
+      showMessage:false,
     }
   },
   methods:{
@@ -72,7 +72,7 @@ export default {
     },
     doSetMenu(msg, context){
 //      debugger;
-      console.log('doSetMenu-', msg);
+      console.log('menuNew doSetMenu-', msg);
       context.currentItems=this.getMenuOpts(msg[1]);
       this.cmdHandlers['menuItems'](['setCurrentItems', this.currentItems, 'menuItems']);
 //      this.menuVersion+=1;
