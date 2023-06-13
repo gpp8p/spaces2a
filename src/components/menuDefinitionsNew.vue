@@ -187,7 +187,7 @@ name: "menuDefinitionsNew",
             currentSelectedMenuOption: 'pageSetup',
             style: 'color:blue; font-family: Geneva; font-size: 14px;',
             hoverStyle: 'color:red; font-family: Geneva; font-size: 14px;',
-            messageStyle: 'margin-left: 40%; color:blue; font-family: Geneva; font-size: 14px;',
+            messageStyle: 'color:blue; font-family: Geneva; font-size: 10px;',
             menuType: 'main'
 
           }

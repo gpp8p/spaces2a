@@ -140,6 +140,11 @@ export default {
         }
 
       }
+      this.pageConfiguration={}
+      this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
+      this.pageConfiguration.pageId = this.$store.getters.getOrgHome;
+      this.mode=this.SHOW_PAGE;
+
     },
 /*
     doPageConfig(msg, context){
@@ -206,6 +211,7 @@ export default {
     doEditPage(msg, context){
       console.log('doEditPage selected', msg, context);
       this.pageConfiguration.action=this.PAGE_LOAD_EDIT;
+      this.cmdHandlers['mainNavArea'](['setMenu', 'editPage','topLevelMenu']);
       this.showDialog = false;
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;

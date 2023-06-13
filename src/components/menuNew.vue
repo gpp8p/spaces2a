@@ -1,6 +1,8 @@
 <template>
   <span class="layoutMenu">
-      <span v-if="this.showMessage==true">
+      <span v-if="this.showMessage==true || this.showMessageAnyway==true"
+          class="messageLayout"
+        >
         {{this.currentMessage}}
       </span>
       <menuItemsNew v-if="this.showMessage==false"
@@ -30,6 +32,7 @@ export default {
   mounted(){
     console.log('menu is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -41,6 +44,7 @@ export default {
       cmdHandlers:{},
       currentMessage:'',
       showMessage:false,
+      showMessageAnyway:false,
     }
   },
   methods:{
@@ -73,7 +77,14 @@ export default {
     doSetMenu(msg, context){
 //      debugger;
       console.log('menuNew doSetMenu-', msg);
+      this.currentMessage='';
+      this.showMessageAnyway=false;
       context.currentItems=this.getMenuOpts(msg[1]);
+      debugger;
+      if(typeof(context.currentItems.message)!='undefined'){
+        this.showMessageAnyway=true;
+        this.currentMessage=context.currentItems.message;
+      }
       this.cmdHandlers['menuItems'](['setCurrentItems', this.currentItems, 'menuItems']);
 //      this.menuVersion+=1;
     },
@@ -141,6 +152,15 @@ export default {
 </script>
 
 <style scoped>
+
+.messageLayout {
+  display: flex;
+  justify-content: space-evenly;
+  width:100%;
+  font-size: small;
+  color: blue;
+  font-family: Helvetica;
+}
 
 </style>
 
