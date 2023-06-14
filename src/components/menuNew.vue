@@ -32,6 +32,7 @@ export default {
   mounted(){
     console.log('menu is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+    this.$emit('cevt', ['menuMounted', this.name]);
 
   },
   beforeDestroy() {
@@ -49,11 +50,12 @@ export default {
   },
   methods:{
     handleCmd(args){
+      debugger;
       console.log('menu handleCmd', args);
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
-      debugger;
+//      debugger;
 //      console.log('cmdHandler-',args[2], this.name);
       if(args[2]==this.name){
         var cmdType ={
@@ -80,7 +82,7 @@ export default {
       this.currentMessage='';
       this.showMessageAnyway=false;
       context.currentItems=this.getMenuOpts(msg[1]);
-      debugger;
+//      debugger;
       if(typeof(context.currentItems.message)!='undefined'){
         this.showMessageAnyway=true;
         this.currentMessage=context.currentItems.message;

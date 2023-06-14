@@ -22,7 +22,7 @@
 
 import menuDefinitions from "../components/menuDefinitions.vue";
 import dialogDefinitions from "../components/dialogDefinitions.vue";
-import Menu from "../components/menu.vue";
+import Menu from "../components/menuNew.vue";
 import InputField from "../components/inputField.vue";
 import inputNumberField from "../components/inputNumberField";
 import utils from '../components/utils.vue';

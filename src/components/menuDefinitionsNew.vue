@@ -3,7 +3,7 @@ export default {
 name: "menuDefinitionsNew",
   methods: {
     getMenuOpts(menuContext) {
-      debugger;
+//      debugger;
       switch (menuContext) {
         case 'testMenu1': {
           return {
@@ -339,6 +339,41 @@ name: "menuDefinitionsNew",
             style: 'color:blue; font-family: Geneva; font-size: 10px;',
             hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
             menuType: 'dialog'
+
+          }
+        }
+        case 'headlineCardMenu':{
+          return {
+            items: [
+              {
+                label:'Configure',
+                action: 'configureHeadlineCard',
+                type: 'mItem'
+              },
+              {
+                label:'Resize/Move',
+                action: 'resizeHeadlineCard',
+                type: 'mItem'
+              },
+              {
+                label:'Delete',
+                action: 'deleteHeadlineCard',
+                type: 'mItem'
+              },
+              {
+                label:'Edit',
+                action: 'editHeadlineCard',
+                type: 'mItem'
+              },
+              {
+                label:'Exit',
+                action: 'exitEdit',
+                type: 'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
 
           }
         }

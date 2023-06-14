@@ -104,6 +104,7 @@ export default {
       this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
       this.pageConfiguration.pageId = msg[1];
       this.mode=this.SHOW_PAGE;
+      this.pageReload+=1;
 //      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);
     },
     doSetMenu(msg, context){

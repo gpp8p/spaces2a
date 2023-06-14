@@ -35,7 +35,7 @@ export default {
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');
-    debugger;
+//    debugger;
 //    this.cmdHandlers['topLevelMenu'](['setMenu', 'adminLogged','topLevelMenu']);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
@@ -67,7 +67,7 @@ export default {
           },
           'setMenu':function(args, self){
             console.log('setMenu called in mainNav-', args, self);
-            debugger;
+//            debugger;
             self.doSetMenu(args,self);
           }
         }
@@ -82,7 +82,7 @@ export default {
 
             if(availableHandlers.length>0){
               for(var a=0;a<availableHandlers.length;a++){
-                debugger;
+//                debugger;
                 this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
               }
             }
@@ -111,7 +111,7 @@ export default {
     },
     evtHandler(msg, self){
       console.log('evtHandler in manNavigationArea-', msg, self);
-      debugger;
+//      debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
           //console.log('evtHandler - a menu event', msg);
@@ -133,7 +133,7 @@ export default {
       }
     },
     doSetCmdHandler(msg, context){
-      debugger;
+//      debugger;
       console.log('doSetCmdHandler-',msg, context);
       this.cmdHandlers[msg[2]]=msg[1];
     },

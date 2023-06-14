@@ -42,6 +42,11 @@ export default {
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
           }
+/*  example
+          'setCardMode':function(args, context){
+            self.doSetCardMode(args, context);
+          }
+*/
         }
         if(typeof(cmdType)!='undefined'){
               try {

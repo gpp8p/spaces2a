@@ -41,7 +41,7 @@ export default {
 //    console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getPageConfiguration']);
-    debugger;
+//    debugger;
     switch(this.config.action){
       case this.PAGE_EDIT:{
         this.pageConfigs=this.config;
@@ -52,6 +52,8 @@ export default {
       }
       case this.PAGE_LOAD_EDIT:{
         this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this);
+//        debugger;
+        console.log('Page load cmdHandlers - ', this.cmdHandlers);
         break;
       }
       case this.PAGE_LOAD_DISPLAY:{
@@ -134,6 +136,7 @@ export default {
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
+//      debugger;
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
           'default': function(args, context){
@@ -186,7 +189,7 @@ export default {
       context.gridConfigs.pageCells = [];
     },
     createPage(context){
-      debugger;
+//      debugger;
       console.log('createPage-',context.pageConfigs);
       context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
 
@@ -206,7 +209,7 @@ export default {
           layoutId:layoutId
         }
       }).then(response => {
-        debugger;
+//        debugger;
         console.log('getLayout-',response);
         console.log('getLayout content', response.data.cards);
         console.log('loaded layout-', layoutId);
@@ -234,7 +237,7 @@ export default {
           loadedPageConfig.backgroundImageUrl=response.data.layout.backgroundImageUrl;
 
         }
-        debugger;
+//        debugger;
         context.pageConfigs=loadedPageConfig;
         console.log('calling createPage with-',context.pageConfigs);
         switch(context.config.action){
@@ -279,7 +282,7 @@ export default {
 
     setupPageCss(configs){
       console.log('setupPageCss-', configs);
-      debugger;
+//      debugger;
       this.gridRows = configs.pageHeight;
       this.gridColumns = configs.pageWidth;
       var cellGapAmt=3;
@@ -535,7 +538,7 @@ export default {
               }
             } catch (e) {
 //              console.log('error in mopuseOver-', e, mouseOverCell);
-              debugger;
+ //             debugger;
             }
           }
           break;
@@ -687,7 +690,9 @@ export default {
         style: thisCardStyle,
         backgroundColor: background,
         gridCss: thisGridCss,
-        name: thisCardName,
+        content:{
+          name: thisCardName,
+        },
         color: '#0000FF',
         type: type
       }

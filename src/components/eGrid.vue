@@ -12,7 +12,7 @@
                :config="thisCard"
                :is-draggable=false
                :key="index"
-               :name="thisCard.card_parameters.name"
+               :name="thisCard.card_parameters.content.card_name"
                @cevt="handleEvt"
     ></component>
   </span>
@@ -42,6 +42,7 @@ export default {
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getGridConfiguration']);
+    console.log('headline1 cmd-', this.cmdHandlers.headline1);
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -107,7 +108,7 @@ export default {
           context.doMouseEvt(msg, context);
         },
         'setCmdHandler': function(msg, context){
-          //console.log('evtHandler - a menu event', msg);
+//          console.log('setCmdHandler in egrid-', msg);
           context.doSetCmdHandler(msg, context);
         },
         'removeCmdHandler': function(msg, context){
@@ -116,6 +117,9 @@ export default {
         'removePageCmdHandler': function(msg, context){
 //          console.log('evtHandler - a eGrid event', msg, context);
           this.$emit('cevt', ['removeCmdHandler', msg[1], msg[2]]);
+        },
+        'cardMounted':function(msg, context){
+          context.doCardMounted(msg, context);
         },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
@@ -144,6 +148,13 @@ export default {
     },
     doSetEGridConfig(msg, context){
       console.log('doSetEGridConfig-',msg, context);
+    },
+    doCardMounted(msg, context){
+      console.log('doCardMounted-', msg, context, this.cmdHandlers[msg[2]]);
+      if(this.config.pageCells.length>0){
+        this.cmdHandlers[msg[2]](['setCardMode', 'editPage',msg[2]]);
+      }
+
     },
     doMouseEvt(msg, context){
 //      console.log('egrid doMouseEvt-', msg, context);
