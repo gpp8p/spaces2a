@@ -1,7 +1,10 @@
 <template>
   <span>
-    <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass">
+    <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_INTERNAL">
       {{this.thisItem.label}}
+    </span>
+    <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_EXTERNAL">
+      <a v-bind:href="this.thisItem.linkUrl" target="_blank" >{{this.thisItem.label}}</a>
     </span>
   </span>
 
@@ -31,12 +34,21 @@ export default {
     this.itemStyle =  this.itemConfig.style;
     this.itemLabel = this.thisItem.label;
     this.itemValue = this.thisItem.action;
+    if(typeof(this.thisItem.linkType)=='undefined'){
+      this.linkType = this.LINK_INTERNAL;
+    }else{
+      this.linkType = this.thisItem.linkType;
+      this.linkUrl = this.thisItem.linkUrl;
+    }
     console.log('itemStyle =',this.itemStyle);
     console.log('itemLabel - ',this.thisItem.label)
   },
   data(){
     return {
-      itemType:0,
+      linkType:0,
+      LINK_INTERNAL:0,
+      LINK_EXTERNAL:1,
+      linkUrl:'',
       itemStyle:'',
       itemLabel:'',
       itemValue:''
@@ -61,6 +73,8 @@ export default {
 </script>
 
 <style scoped>
-
+a {
+  text-decoration: none;
+}
 </style>
 

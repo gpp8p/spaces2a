@@ -39,6 +39,10 @@ export default {
         })
     */
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+    console.log('menuItemsNew attrs',this.$attrs.currentItems);
+    if(typeof(this.$attrs.currentItems)!='undefined'){
+      this.currentItems = this.$attrs.currentItems;
+    }
     console.log('menuItems is mounted');
   },
   beforeDestroy() {

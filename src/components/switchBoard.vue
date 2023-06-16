@@ -180,6 +180,9 @@ export default {
         'cancelCardInsert': function(msg, context){
           context.doCancelCardInsert(msg, context);
         },
+        'cardExitEdit': function(msg, context){
+          context.doCardExitEdit(msg, context);
+        },
 //        'saveScreenEntry':function(msg, context){
 //          context.doSaveScreenEntry(msg, context);
 //        },
@@ -195,7 +198,7 @@ export default {
         (evtType[msg[1]](msg, self));
       } catch (e) {
         console.log('unknown menu Selection-',msg);
-
+/*
         var availableHandlers = Object.keys(self._data.cmdHandlers);
         console.log('available cmd handlers-',availableHandlers);
 
@@ -205,7 +208,7 @@ export default {
             self._data.cmdHandlers[availableHandlers[a]]([msg[2], msg[1], msg[2]]);
           }
         }
-
+*/
 
       }
     },
@@ -282,6 +285,14 @@ export default {
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
 
+    },
+    doCardExitEdit(msg, context){
+      console.log('in switchboard doCardExitEdit', msg, context);
+      this.pageConfiguration={}
+      this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
+      this.pageConfiguration.pageId = this.$store.getters.getCurrentLayoutId;
+      this.mode=this.SHOW_PAGE;
+      this.pageReload+=1;
     }
 
 

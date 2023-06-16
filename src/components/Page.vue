@@ -409,6 +409,10 @@ export default {
         'mouseEvt':function(msg, context){
           context.doMouseEvt(msg, context);
         },
+        'menuItemSelected': function(msg, context){
+          context.doMenuSelection(msg, context);
+        },
+
   /*
         'getGridConfiguration': function(msg, context){
           context.doSetGridConfiguration(msg, context);
@@ -462,6 +466,19 @@ export default {
       this.debugOn=true;
 //      console.log('after egrid reload-',context.cmdHandlers, context.cellIndex);
 //      debugger;
+    },
+    doMenuSelection(msg, self){
+      var evtType = {
+        'default': function(msg, context){
+          console.log('hit default in Page menuSelection', msg, context);
+        },
+      }
+      try {
+        (evtType[msg[1]](msg, self));
+      } catch (e) {
+        console.log('unknown menu Selection-',msg);
+        this.$emit('cevt', msg);
+      }
     },
 
     doMouseEvt(msg, context){

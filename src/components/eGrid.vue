@@ -126,6 +126,7 @@ export default {
         }
       }
       if(typeof(evtType)!='undefined'){
+//        debugger;
         try {
           (evtType[msg[0]](msg, self));
         } catch (e) {
@@ -159,8 +160,7 @@ export default {
     doMouseEvt(msg, context){
 //      console.log('egrid doMouseEvt-', msg, context);
       this.$emit('cevt', msg);
-    },
-
+    }
   }
 }
 </script>

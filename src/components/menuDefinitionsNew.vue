@@ -367,7 +367,7 @@ name: "menuDefinitionsNew",
               },
               {
                 label:'Exit',
-                action: 'exitEdit',
+                action: 'cardExitEdit',
                 type: 'mItem'
               }
             ],
