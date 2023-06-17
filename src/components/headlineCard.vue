@@ -120,9 +120,6 @@ export default {
       }
 
     }
-
-
-
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
