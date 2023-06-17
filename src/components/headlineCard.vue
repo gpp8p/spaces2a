@@ -186,7 +186,7 @@ export default {
 
 //event handler
     evtOpt(msg){
-      console.log('evtOpt in menu', msg);
+      console.log('evtOpt in headlineCard', msg);
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
@@ -200,6 +200,10 @@ export default {
         'menuMounted': function(msg, context){
           //console.log('evtHandler - a menu event', msg);
           context.doMenuMounted(msg, context);
+        },
+        'menuItemSelected': function(msg, context){
+          //console.log('evtHandler - a menu event', msg);
+          context.doMenuItemSelected(msg, context);
         },
         'removeCmdHandler': function(msg, context){
           context.doRemoveCmdHandler(msg, context);
@@ -233,6 +237,26 @@ export default {
     doMenuMounted(msg, context){
       console.log('in doMenuMounted', msg, context);
       this.cmdHandlers['headlineCardMenu'](['setMenu', 'headlineCardMenu','headlineCardMenu']);
+    },
+    doMenuItemSelected(msg, context){
+      console.log('headlineCard doMenuItemSelected-', msg, context);
+      switch(msg[2]){
+        case 'internal_link':{
+          this.$emit('cevt',['pageSelected', msg[1]]);
+          break;
+        }
+        case 'external_link':{
+          break
+        }
+        case 'configureHeadlineCard':{
+          this.$emit('cevt', ['menuItemSelected', 'configureHeadlineCard', context.name ])
+          break;
+        }
+        default:{
+          this.$emit('cevt', msg);
+        }
+      }
+
     }
 
 

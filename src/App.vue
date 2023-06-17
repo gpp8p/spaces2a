@@ -143,7 +143,7 @@ export default{
       contentHeightFraction: 0.75,
       navbarHeightFraction:0.06,
       cmdHandlers:{},
-      dialogConfiguration:'',
+      dialogConfiguration:{},
       showDialog:false,
       mode:0,
       SHOW_PAGE:1,

@@ -34,7 +34,8 @@ export default {
     this.itemStyle =  this.itemConfig.style;
     this.itemLabel = this.thisItem.label;
     this.itemValue = this.thisItem.action;
-    if(typeof(this.thisItem.linkType)=='undefined'){
+//    console.log('linkType-',this.thisItem.linkType, this.itemLabel );
+    if(typeof(this.thisItem.linkType)=='undefined'|| this.thisItem.linkType==0){
       this.linkType = this.LINK_INTERNAL;
     }else{
       this.linkType = this.thisItem.linkType;
@@ -58,7 +59,14 @@ export default {
     processClick(){
 //      debugger;
 //      this.$emit('cevt',['menuItemSelected', this.cmdObject.value]);
-      this.$emit('cevt',['menuItemSelected',this.thisItem.action, this.name]);
+      if(typeof(this.thisItem.linkType)=='undefined'){
+        this.$emit('cevt',['menuItemSelected',this.thisItem.action, this.name]);
+      }else if(this.thisItem.linkType==this.LINK_INTERNAL){
+        this.$emit('cevt',['menuItemSelected',this.thisItem.action, 'internal_link']);
+      }else{
+        this.$emit('cevt',['menuItemSelected',this.linkUrl, 'external_link']);
+      }
+
     },
     hoverStyle(){
       this.itemStyle =  this.itemConfig.hoverStyle;

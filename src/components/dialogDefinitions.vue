@@ -744,6 +744,147 @@ name: "dialogDefinitions",
             }
           }
         }
+        case 'configureHeadlineCard':{
+          return {
+            configureHeadlineCard :{
+//            newCardSpecifications:{
+              dialogStyle: {
+                position: 'fixed',
+                top: '30%',
+                left: '30%',
+                height: '40vh',
+                width: '50vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName:'configureNewCardMenu',
+              fields:[
+                {
+                  type: "vSelect",
+                  options: [
+                    {
+                      val: 'headlineCard',
+                      label: 'Headline Card',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                    {
+                      val: 'navMenuCard',
+                      label: 'Navigation Menu',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                    {
+                      val: 'imageCard',
+                      label: 'Image Card',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                    {
+                      val: 'richTextCard',
+                      label: 'Rich Text Card',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                  ],
+                  fieldLabel: 'Card Type:',
+                  hasLabel: true,
+                  multiple: false,
+                  name: "card_component",
+                  fieldIdentifier: 'card_component',
+                  size: 0,
+                  leafComponent: true,
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  class: "labelPlusInput"
+
+                },
+                {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Card Name:',
+                  fieldSize: 40,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'cardName',
+                  name: 'cardName',
+                  autoFocus:true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "vBackgroundPicker",
+                  fieldLabel: "Background:",
+                  hasLabel: "true",
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'cardBackground',
+                  name: "cardBackground",
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                    backGroundRadioGroupStyle:{
+                      type: "vRadioGroup",
+                      hasLabel: "false",
+                      orient: "horozontal",
+                      groupName: "backgroundType",
+                      labelStyle:{
+                        color:"blue",
+                        fontFamily: "Candara",
+                        fontSize: "12px",
+                      },
+                      buttonLabelStyle:{
+                        color:"blue",
+                        fontFamily: "Candara",
+                        fontSize: "12px",
+                      },
+                      radioButtons: [
+                        {
+                          fieldLabel:"Color",
+                          val: "color",
+                        },
+                        {
+                          fieldLabel: "Transparent",
+                          val: "transparent",
+                        },
+                      ]
+                    }
+                  }
+                },
+              ]
+            }
+          }
+        }
         case 'login':{
           return {
             login:{

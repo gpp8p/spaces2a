@@ -93,7 +93,7 @@ export default {
     },
     doMySpaces(msg, context){
       console.log('doMySpaces-',msg, context);
-      context.dialogConfiguration='mySpaces';
+      context.dialogConfiguration.definition='mySpaces';
       context.showDialog=true;
     },
     doPageSelected(msg, context){
@@ -161,7 +161,7 @@ export default {
     doSelectCardType(msg,context){
 //      debugger;
       console.log('in doSelectCardType', msg, context);
-      context.dialogConfiguration='newCardSelect';
+      context.dialogConfiguration.definition='newCardSelect';
       context.showDialog=true;
     },
     doMenuSelection(msg, self){
@@ -182,6 +182,9 @@ export default {
         },
         'cardExitEdit': function(msg, context){
           context.doCardExitEdit(msg, context);
+        },
+        'configureHeadlineCard': function(msg, context){
+          context.doConfigureHeadlineCard(msg, context);
         },
 //        'saveScreenEntry':function(msg, context){
 //          context.doSaveScreenEntry(msg, context);
@@ -223,7 +226,7 @@ export default {
 /*
     doPageSetup(msg, context){
       console.log('pageSetup selected', msg, context);
-      context.dialogConfiguration='pageDefaultSelect';
+      context.dialogConfiguration.definition='pageDefaultSelect';
       context.showDialog=true;
     },
  */
@@ -233,7 +236,7 @@ export default {
       if(typeof(msg[1])=='undefined'){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a page type','topLevelMenu']);
       }else{
-        context.dialogConfiguration=msg[1];
+        context.dialogConfiguration.definition=msg[1];
         this.showDialog = true;
         context.dialogReload+=1;
       }
@@ -251,7 +254,7 @@ export default {
     },
     doShowLogin(context){
 //      debugger;
-      context.dialogConfiguration='login';
+      context.dialogConfiguration.definition='login';
       context.showDialog=true;
     },
     doCreateCard(msg, context){
@@ -262,7 +265,7 @@ export default {
       }else{
 //        context.showDialog=false;
 //        this.cmdHandlers['mainPage'](['createNewCard',msg[1].card_component]);
-        context.dialogConfiguration=msg[1].card_component;
+        context.dialogConfiguration.definition=msg[1].card_component;
         context.dialogReload+=1;
       }
     },
@@ -293,6 +296,14 @@ export default {
       this.pageConfiguration.pageId = this.$store.getters.getCurrentLayoutId;
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
+    },
+    doConfigureHeadlineCard(msg, context){
+      console.log('in sb - doConfigureHeadlineCard', msg, context);
+      context.dialogConfiguration.definition='configureHeadlineCard';
+      context.dialogConfiguration.existingData={cardName: msg[2]};
+      context.showDialog=true
+      context.dialogReload+=1;
+
     }
 
 

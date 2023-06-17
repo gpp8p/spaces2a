@@ -55,14 +55,14 @@ export default {
     debugger;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
-    this.dialogFields = this.getDialogDefinition(this.config);
+    this.dialogFields = this.getDialogDefinition(this.config.definition);
     console.log('dialogFields-', this.dialogFields);
-    this.dialogStyle = this.dialogFields[this.config].dialogStyle;
-    this.dialogComponents = this.dialogFields[this.config].fields;
-    this.dialogDefaults = this.getDialogDefaults(this.config);
+    this.dialogStyle = this.dialogFields[this.config.definition].dialogStyle;
+    this.dialogComponents = this.dialogFields[this.config.definition].fields;
+    this.dialogDefaults = this.getDialogDefaults(this.config.definition);
     console.log('dialogDefaults-', this.dialogDefaults);
-    if(typeof( this.dialogFields[this.config].leafComponent)!= 'undefined'){
-      this.leafComponent=this.dialogFields[this.config].leafComponent;
+    if(typeof( this.dialogFields[this.config.definition].leafComponent)!= 'undefined'){
+      this.leafComponent=this.dialogFields[this.config.definition].leafComponent;
     }
     if(typeof(this.dialogDefaults)!='undefined'){
 //      debugger;
@@ -73,7 +73,10 @@ export default {
         }
       }
     }
-    this.cmdHandlers['dialogMenu'](['setMenu', this.dialogFields[this.config].menuName,'dialogMenu']);
+    if(typeof(this.config.existingData)!='undefined'){
+      this.existingData=this.config.existingData;
+    }
+    this.cmdHandlers['dialogMenu'](['setMenu', this.dialogFields[this.config.definition].menuName,'dialogMenu']);
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -112,6 +115,7 @@ export default {
           'getScreenConfig': function(args, context){
             context.doGetScreenConfig(args, context);
           }
+
 
         }
         if(typeof(cmdType)!='undefined'){
