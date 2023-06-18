@@ -327,7 +327,7 @@ export default {
   display:grid;
   width:100%;
   margin-top: 3px;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 30% 70%;
   font-family: Arial;
   font-size: medium;
   color: #0a3aff;

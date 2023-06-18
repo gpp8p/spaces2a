@@ -34,12 +34,12 @@ import vBackgroundPicker from "../components/vBackgroundPicker.vue";
 import textLiteral from "../components/textLiteral.vue";
 import vButton from "@/components/vbutton";
 import mySpaces from "../components/mySpaces.vue";
-import Chooser from "../components/chooser.vue"
-
+import checkbox from "../components/checkbox.vue"
+import cbxSelectColor from "@/components/cbxSelectColor";
 
 export default {
   name: "dialog2",
-  components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, textLiteral, Menu, mySpaces, Chooser},
+  components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, textLiteral, Menu, mySpaces, checkbox, cbxSelectColor},
   mixins: [utils, menuDefinitions, dialogDefinitions],
   props:{
     name:{

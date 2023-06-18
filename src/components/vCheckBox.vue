@@ -95,5 +95,14 @@ name: "vCheckBox",
   font-size: medium;
   color: #0a3aff;
 }
+.labelPlusInput {
+  display:grid;
+  width:100%;
+  margin-top: 3px;
+  grid-template-columns: 20% 80%;
+  font-family: Arial;
+  font-size: medium;
+  color: #0a3aff;
+}
 
 </style>
