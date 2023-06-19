@@ -272,6 +272,9 @@ export default {
 .dialogLayout {
   display:grid;
   grid-template-rows: 85% 15%;
+  border-style: solid;
+  border-color: red;
+  border-width: 2px;
 }
 .dialogWrapperStyle {
   margin-left: 5%;

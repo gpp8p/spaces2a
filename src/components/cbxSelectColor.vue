@@ -4,7 +4,7 @@
          <label :for="name" :style="cmdObject.labelStyle" class="labelPlusInput">
             {{this.fieldLabel}}
          </label>
-       <span>
+       <span class="vAlign">
             <input v-model="fieldValue"
                    true-value="yes"
                    false-value="no"
@@ -190,15 +190,19 @@ export default {
   color: #0a3aff;
 }
 .selectStyle {
+  background: powderblue;
+  color:blue;
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 3px;
+  width: 20%;
   margin-left: 15%;
   margin-right: 15%;
 }
-.cbxCss {
-  display: grid;
-  grid-template-columns: 10% 20% 20%;
-  font-family: Arial;
-  font-size: medium;
-  height: 15px;
+.vAlign {
+  display:block;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 </style>

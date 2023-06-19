@@ -271,7 +271,7 @@ export default {
 }
 .editCardClass {
   display: grid;
-  grid-template-rows: 15% 85%;
+  grid-template-rows: 30px 80%;
 }
 
 .center {

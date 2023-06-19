@@ -3,7 +3,7 @@
     <div :style="cmdObject.labelStyle">
             {{cmdObject.fieldLabel}}
     </div>
-    <div>
+    <div class="vAlign">
       <v-radio-group :cmdObject="cmdObject.styles.backGroundRadioGroupStyle"
                      name="backgroundType"
                      :cmdObjectVersion="cmdVersion"
@@ -104,6 +104,7 @@ export default {
       this.$emit('cevt',['fieldInput', this.name, backgroundPickerValue]);
     },
     setBackgroundType(backgroundType){
+      debugger;
       switch(backgroundType){
         case 'color':{
           this.backgroundType=this.BACKGROUND_COLOR;
@@ -332,5 +333,11 @@ export default {
   font-size: medium;
   color: #0a3aff;
 }
+.vAlign {
+  display:block;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 
 </style>

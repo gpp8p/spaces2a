@@ -914,6 +914,7 @@ name: "dialogDefinitions",
                 color:'blue',
                 borderRadius:'10px',
                 boxShadow:'10px 10px 5px lightslategrey',
+
               },
               leafComponent: false,
               menuName: 'loginMenu',
