@@ -744,10 +744,9 @@ name: "dialogDefinitions",
             }
           }
         }
-        case 'configureHeadlineCard':{
+        case 'configureHeadlineCard': {
           return {
-            configureHeadlineCard :{
-//            newCardSpecifications:{
+            configureHeadlineCard: {
               dialogStyle: {
                 position: 'fixed',
                 top: '30%',
@@ -760,55 +759,56 @@ name: "dialogDefinitions",
                 boxShadow: '10px 10px 5px lightslategrey',
               },
               leafComponent: false,
-              menuName:'configureNewCardMenu',
-              fields:[
+              menuName: 'dialogSubMenu2',
+              fields: [
                 {
                   type: "vBackgroundPicker",
                   fieldLabel: "Background:",
                   hasLabel: "true",
                   leafComponent: true,
-                  labelStyle:{
-                    color:"blue",
+                  labelStyle: {
+                    color: "blue",
                     fontFamily: "Candara",
                     fontSize: "12px",
                     marginTop: "7px"
                   },
-                  fieldIdentifier: 'cardBackground',
-                  name: "cardBackground",
-                  styles:{
-                    componentStyle:{
+                  fieldIdentifier: 'pageBackground',
+                  name: "pageBackground",
+                  styles: {
+                    componentStyle: {
                       display: "grid",
                       gridTemplateColumns: "20% 80%",
                       marginTop: "7px"
                     },
-                    backGroundRadioGroupStyle:{
+                    backGroundRadioGroupStyle: {
                       type: "vRadioGroup",
                       hasLabel: "false",
                       orient: "horozontal",
                       groupName: "backgroundType",
-                      labelStyle:{
-                        color:"blue",
+                      leafComponent: true,
+                      labelStyle: {
+                        color: "blue",
                         fontFamily: "Candara",
                         fontSize: "12px",
                       },
-                      buttonLabelStyle:{
-                        color:"blue",
+                      buttonLabelStyle: {
+                        color: "blue",
                         fontFamily: "Candara",
                         fontSize: "12px",
                       },
                       radioButtons: [
                         {
-                          fieldLabel:"Color",
+                          fieldLabel: "Color",
                           val: "color",
                         },
                         {
-                          fieldLabel:"Image",
+                          fieldLabel: "Image",
                           val: "image",
                         },
                         {
                           fieldLabel: "Transparent",
                           val: "transparent",
-                        },
+                        }
                       ]
                     }
                   }
@@ -900,6 +900,7 @@ name: "dialogDefinitions",
               ]
             }
           }
+
         }
         case 'login':{
           return {
@@ -1010,6 +1011,14 @@ name: "dialogDefinitions",
         }
         case 'emailPage':{
           break;
+        }
+        case 'configureHeadlineCard':{
+          return {
+            cardBackground:{
+              backgroundType:"color",
+              colorSelect:"#0a3aff",
+            },
+          }
         }
         case 'headlineCard':{
           return {

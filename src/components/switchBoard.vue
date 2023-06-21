@@ -300,10 +300,27 @@ export default {
     doConfigureHeadlineCard(msg, context){
       console.log('in sb - doConfigureHeadlineCard', msg, context);
       context.dialogConfiguration.definition='configureHeadlineCard';
-      context.dialogConfiguration.existingData={cardName: msg[2]};
+      debugger;
+      var mainStylingCss = msg[3].card_parameters.style;
+      console.log('mainStylingCss',mainStylingCss);
+      var subElementStylingCss = msg[3].elementStyles.sub[0];
+      var thisCardStyling = this.getCardStyling(mainStylingCss, subElementStylingCss);
+      console.log('thisCardStyline-', thisCardStyling);
+      context.dialogConfiguration.existingData={cardName: msg[2],
+                                                cardConfig: msg[3]};
       context.showDialog=true
       context.dialogReload+=1;
 
+    },
+    getCardStyling(mCss, subElementCss){
+        console.log('getCardStyling-',mCss, subElementCss);
+        var mainStyleArray = mCss.split(';');
+        console.log('mainStyleArray-', mainStyleArray);
+        for(var s = 1;s<mainStyleArray.length;s++){
+          var thisStyleElement = mainStyleArray[s].split(':');
+          console.log('thisStyleElement-', thisStyleElement);
+        }
+        return {};
     }
 
 

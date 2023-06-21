@@ -13,7 +13,8 @@
                    :style="fieldStyle"
                    ref="input"
                    @change="fieldChanged" />
-                <select :size="this.selectSize" :multiple="multiple" class="selectStyle">
+         <span v-if="this.fieldValue=='yes'">
+         <select :size="this.selectSize" :multiple="multiple" class="selectStyle">
                   <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
                   <v-option v-for="(thisOption, index) in cmdObject.selectOptions"
                             :key="index"
@@ -23,8 +24,9 @@
                             class="optionStyle"
                   ></v-option>
 
-                 </select>
-                 <input type="color"  :value = "colorValue"  @change="colorSelect"/>
+            </select>
+            <input type="color" id="head" name="head" value="#e66465">
+         </span>
 
          </span>
      </span>
@@ -204,6 +206,8 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
 }
-
+input[type='color'] {
+  vertical-align: middle;
+}
 </style>
 

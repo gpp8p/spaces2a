@@ -246,7 +246,7 @@ export default {
           break
         }
         case 'configureHeadlineCard':{
-          this.$emit('cevt', ['menuItemSelected', 'configureHeadlineCard', context.name ])
+          this.$emit('cevt', ['menuItemSelected', 'configureHeadlineCard', context.name, context.config ])
           break;
         }
         default:{

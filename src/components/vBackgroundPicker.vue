@@ -9,8 +9,14 @@
                      :cmdObjectVersion="cmdVersion"
                      @cevt="handleEvt"
       ></v-radio-group>
-      <input type="color"  :value = "colorValue" v-if="this.backgroundType==this.BACKGROUND_COLOR" @change="colorSelect"/>
-      <input type="file" id="file" ref="file" v-if="this.backgroundType==this.BACKGROUND_IMAGE" v-on:change="handleFileUpload()"/>
+
+      <span>
+        <input type="file" id="file" ref="file" v-if="this.backgroundType==this.BACKGROUND_IMAGE" v-on:change="handleFileUpload()"/>
+      </span>
+      <span v-if="this.backgroundType==this.BACKGROUND_COLOR">
+        <input type="color"  :value = "colorValue"  @change="colorSelect"/>
+      </span>
+
     </div>
   </div>
 </template>
@@ -33,7 +39,7 @@ export default {
     }
   },
   mounted(){
-//    debugger;
+    debugger;
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.backgroundCmdObject = this.cmdObject;
     if(typeof(this.cmdObject.hasLabel)!='undefined'){
@@ -185,6 +191,8 @@ export default {
     },
     doFieldInput(msg, context){
       console.log('at doFieldInput-', msg, context);
+      console.log('this.backgroundType-', this.backgroundType);
+      debugger;
       switch(msg[1]){
         case 'backgroundType':{
           switch(msg[2]){
@@ -207,6 +215,7 @@ export default {
           break;
         }
       }
+      console.log('this.backgroundType (2)-', this.backgroundType);
     },
     doSetCmdHandler(msg, context){
       debugger;
@@ -217,6 +226,7 @@ export default {
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     },
+
 
 
 /*
@@ -337,6 +347,12 @@ export default {
   display:block;
   margin-top: auto;
   margin-bottom: auto;
+}
+input[type='color'] {
+  vertical-align: middle;
+}
+input[type='file'] {
+  vertical-align: middle;
 }
 
 
