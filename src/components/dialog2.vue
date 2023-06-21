@@ -59,22 +59,23 @@ export default {
     console.log('dialogFields-', this.dialogFields);
     this.dialogStyle = this.dialogFields[this.config.definition].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config.definition].fields;
-    this.dialogDefaults = this.getDialogDefaults(this.config.definition);
-    console.log('dialogDefaults-', this.dialogDefaults);
-    if(typeof( this.dialogFields[this.config.definition].leafComponent)!= 'undefined'){
-      this.leafComponent=this.dialogFields[this.config.definition].leafComponent;
-    }
-    if(typeof(this.dialogDefaults)!='undefined'){
+    if(typeof(this.config.existingData)!='undefined'){
+      this.existingData =  this.config.existingData;
+    }else{
+      this.dialogDefaults = this.getDialogDefaults(this.config.definition);
+      console.log('dialogDefaults-', this.dialogDefaults);
+      if(typeof( this.dialogFields[this.config.definition].leafComponent)!= 'undefined'){
+        this.leafComponent=this.dialogFields[this.config.definition].leafComponent;
+      }
+      if(typeof(this.dialogDefaults)!='undefined'){
 //      debugger;
-      var d;
-      for(d=0; d<this.dialogComponents.length;d++){
-        if(typeof(this.dialogDefaults[this.dialogComponents[d].fieldIdentifier])!='undefined'){
-          this.dialogComponents[d].fieldValue = this.dialogDefaults[this.dialogComponents[d].fieldIdentifier];
+        var d;
+        for(d=0; d<this.dialogComponents.length;d++){
+          if(typeof(this.dialogDefaults[this.dialogComponents[d].fieldIdentifier])!='undefined'){
+            this.dialogComponents[d].fieldValue = this.dialogDefaults[this.dialogComponents[d].fieldIdentifier];
+          }
         }
       }
-    }
-    if(typeof(this.config.existingData)!='undefined'){
-      this.existingData=this.config.existingData;
     }
     this.cmdHandlers['dialogMenu'](['setMenu', this.dialogFields[this.config.definition].menuName,'dialogMenu']);
   },
@@ -96,7 +97,8 @@ export default {
       dialogDefaults:{},
       dialogComponents:[],
       menuVisible: false,
-      leafComponent:false
+      leafComponent:false,
+      existingData:{}
     }
   },
   methods:{
@@ -257,7 +259,7 @@ export default {
       this.$emit('cevt', ['dismissDialog']);
     },
     doSaveScreenEntry(msg, context){
-      console.log('in dialog doSaveScreenEntry', msg, context);
+      console.log('in dialog doSaveScreenEntry', msg, context, this.dialogData);
       this.$emit('cevt', ['saveScreenEntry', this.dialogData]);
     }
 

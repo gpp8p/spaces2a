@@ -307,7 +307,8 @@ export default {
       var thisCardStyling = this.getCardStyling(mainStylingCss, subElementStylingCss);
       console.log('thisCardStyline-', thisCardStyling);
       context.dialogConfiguration.existingData={cardName: msg[2],
-                                                cardConfig: msg[3]};
+                                                cardConfig: msg[3],
+                                                cardStyles:thisCardStyling};
       context.showDialog=true
       context.dialogReload+=1;
 
@@ -316,11 +317,14 @@ export default {
         console.log('getCardStyling-',mCss, subElementCss);
         var mainStyleArray = mCss.split(';');
         console.log('mainStyleArray-', mainStyleArray);
+        var mainStyleValues= {}
         for(var s = 1;s<mainStyleArray.length;s++){
           var thisStyleElement = mainStyleArray[s].split(':');
-          console.log('thisStyleElement-', thisStyleElement);
+//          console.log('thisStyleElement-', thisStyleElement);
+          mainStyleValues[thisStyleElement[0]]=thisStyleElement[1];
         }
-        return {};
+        console.log('mainStyleValues-', mainStyleValues);
+        return mainStyleValues;
     }
 
 
