@@ -766,14 +766,32 @@ name: "dialogDefinitions",
                   fieldLabel: "Background:",
                   hasLabel: "true",
                   leafComponent: true,
+                  loader: function(styleElements){
+                    var bgType='';
+                    var clrSel=styleElements['background-color'];
+                    var urlSpec='';
+                    if(typeof(styleElements['backgroundTypeColor'])!='undefined'){
+                      bgType = 'color';
+                    }else if(typeof(styleElements['backgroundTypeImage'])!='undefined'){
+                      bgType='image';
+
+                    }else{
+                      bgType='transparent';
+                    }
+                      return {
+                        colorSelect: clrSel,
+                        backgroundType:bgType,
+                        url: urlSpec
+                      }
+                  },
                   labelStyle: {
                     color: "blue",
                     fontFamily: "Candara",
                     fontSize: "12px",
                     marginTop: "7px"
                   },
-                  fieldIdentifier: 'pageBackground',
-                  name: "pageBackground",
+                  fieldIdentifier: 'background',
+                  name: "cardBackground",
                   styles: {
                     componentStyle: {
                       display: "grid",
@@ -824,8 +842,20 @@ name: "dialogDefinitions",
                     fontSize: "12px",
                     marginTop: "7px"
                   },
-                  fieldIdentifier: 'hasShadow',
-                  name: "hasShadow",
+                  fieldIdentifier: 'shadow',
+                  name: "shadow",
+                  loader: function(styleElements){
+ //                   debugger;
+                    if(typeof(styleElements['shadow'])!='undefined'){
+                      if(styleElements['shadow']=='checked'){
+                        return 'yes';
+                      }else{
+                        return 'no';
+                      }
+                    }else{
+                      return 'no';
+                    }
+                  },
                   styles:{
                     componentStyle:{
                       display: "grid",
@@ -845,8 +875,20 @@ name: "dialogDefinitions",
                     fontSize: "12px",
                     marginTop: "7px"
                   },
-                  fieldIdentifier: 'rCorners',
-                  name: "rCorners",
+                  fieldIdentifier: 'roundIncluded',
+                  loader: function(styleElements){
+//                    debugger;
+                    if(typeof(styleElements['roundIncluded'])!='undefined'){
+                      if(styleElements['roundIncluded']=='checked'){
+                        return 'yes';
+                      }else{
+                        return 'no';
+                      }
+                    }else{
+                      return 'no';
+                    }
+                  },
+                  name: "roundIncluded",
                   styles:{
                     componentStyle:{
                       display: "grid",

@@ -77,6 +77,27 @@ export default {
         }
       }
     }
+    debugger;
+    try {
+      console.log('this.config.existingData.cardStyles-', this.config.existingData.cardStyles);
+    } catch (e) {
+      console.log('error');
+    }
+    for(var d = 0; d<this.dialogComponents.length; d++){
+      if(typeof(this.dialogComponents[d].loader)!='undefined'){
+        var loadedVal = this.dialogComponents[d].loader(this.config.existingData.cardStyles);
+        this.dialogComponents[d].fieldValue = loadedVal
+        console.log('existingValue is', loadedVal);
+      }
+    }
+/*
+    try {
+      var loadedBgVal = this.dialogComponents[0].loader(this.config.existingData.cardStyles);
+      console.log('loadedBgVal-', loadedBgVal);
+    } catch (e) {
+      console.log('error-', e);
+    }
+ */
     this.cmdHandlers['dialogMenu'](['setMenu', this.dialogFields[this.config.definition].menuName,'dialogMenu']);
   },
   beforeDestroy() {

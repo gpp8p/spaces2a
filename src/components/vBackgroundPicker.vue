@@ -135,7 +135,10 @@ export default {
         var cmdType ={
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
-          }
+          },
+          'setValue':function(args, context){
+            context.doSetValue(args, context);
+          },
         }
         if(typeof(cmdType)!='undefined'){
           try {
@@ -226,6 +229,9 @@ export default {
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     },
+    doSetValue(msg, context){
+      console.log('vBackgroundPicker setValue - ', msg, context);
+    }
 
 
 
