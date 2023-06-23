@@ -5,7 +5,7 @@
             {{this.fieldLabel}}
          </label>
        <span class="vAlign">
-            <input v-model="fieldValue"
+            <input v-model="fieldValue.includeBorder"
                    true-value="yes"
                    false-value="no"
                    type="checkbox"
@@ -13,8 +13,8 @@
                    :style="fieldStyle"
                    ref="input"
                    @change="fieldChanged" />
-         <span v-if="this.fieldValue=='yes'">
-         <select :size="this.selectSize" :multiple="multiple" class="selectStyle">
+         <span v-if="this.fieldValue.includeBorder=='yes'">
+         <select :size="this.selectSize" :multiple="multiple" class="selectStyle" v-model="fieldValue.borderSize">
                   <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
                   <v-option v-for="(thisOption, index) in cmdObject.selectOptions"
                             :key="index"
@@ -25,7 +25,7 @@
                   ></v-option>
 
             </select>
-            <input type="color" id="head" name="head" value="#e66465">
+            <input type="color" id="head" name="head" :value="fieldValue.borderColor">
          </span>
 
          </span>
@@ -92,7 +92,7 @@ export default {
     return {
       cmdHandlers:{},
       leafComponent: false,
-      fieldValue: '',
+      fieldValue: {},
       hasLabel:false,
       fieldStyle:'',
       labelStyle:'',

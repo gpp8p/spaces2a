@@ -83,7 +83,7 @@ export default {
     } catch (e) {
       console.log('error');
     }
-    for(var d = 0; d<this.dialogComponents.length; d++){
+    for(d = 0; d<this.dialogComponents.length; d++){
       if(typeof(this.dialogComponents[d].loader)!='undefined'){
         var loadedVal = this.dialogComponents[d].loader(this.config.existingData.cardStyles);
         this.dialogComponents[d].fieldValue = loadedVal

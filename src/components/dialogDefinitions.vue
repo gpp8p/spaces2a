@@ -910,25 +910,42 @@ name: "dialogDefinitions",
                   },
                   selectOptions:[
                     {
-                      val: 'smallBorder',
+                      val: 'thin',
                       label: 'Small',
                       isDisabled: false,
                       isSelected: false
                     },
                     {
-                      val: 'mediumBorder',
-                      label: 'mediumBorder',
+                      val: 'medium',
+                      label: 'Medium',
                       isDisabled: false,
                       isSelected: false
                     },
                     {
-                      val: 'thickBorder',
-                      label: 'Thick',
+                      val: 'thick',
+                      label: 'Large',
                       isDisabled: false,
                       isSelected: false
                     },
                   ],
-
+                  loader: function(styleElements){
+                    var includeBdr='';
+                    if(typeof(styleElements['borderInclude'])!='undefined'){
+                      if(styleElements['borderInclude']=='checked'){
+                        includeBdr='yes';
+                      }else{
+                        includeBdr='no';
+                      }
+                      var borderSpec = styleElements['border'].split(' ');
+                      var borderColor = borderSpec[2];
+//                        var borderColor="#ffccbb"
+                    }
+                    return {
+                      includeBorder: includeBdr,
+                      borderSize: borderSpec[0],
+                      borderColor: borderColor
+                    }
+                  },
                   fieldIdentifier: 'borders',
                   name: "borders",
                   styles:{
