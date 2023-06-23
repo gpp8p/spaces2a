@@ -301,30 +301,40 @@ export default {
       console.log('in sb - doConfigureHeadlineCard', msg, context);
       context.dialogConfiguration.definition='configureHeadlineCard';
       debugger;
-      var mainStylingCss = msg[3].card_parameters.style;
+      var mainStylingCss;
+      var subElementStylingCss;
+      var thisCardSubStyling;
+      mainStylingCss = msg[3].card_parameters.style;
       console.log('mainStylingCss',mainStylingCss);
-      var subElementStylingCss = msg[3].elementStyles.sub[0];
-      var thisCardStyling = this.getCardStyling(mainStylingCss, subElementStylingCss);
+      var thisCardStyling = this.getCardStyling(mainStylingCss);
+      try {
+        subElementStylingCss = msg[3].elementStyles.sub[0];
+        thisCardSubStyling = this.getCardStyling(subElementStylingCss);
+      } catch (e) {
+        console.log('no substyling information - ', e);
+        thisCardSubStyling={};
+      }
       console.log('thisCardStyline-', thisCardStyling);
       context.dialogConfiguration.existingData={cardName: msg[2],
                                                 cardConfig: msg[3],
-                                                cardStyles:thisCardStyling};
+                                                cardStyles:thisCardStyling,
+                                                cardSubStyles: thisCardSubStyling};
       context.showDialog=true
       context.dialogReload+=1;
 
     },
-    getCardStyling(mCss, subElementCss){
-        console.log('getCardStyling-',mCss, subElementCss);
-        var mainStyleArray = mCss.split(';');
-        console.log('mainStyleArray-', mainStyleArray);
-        var mainStyleValues= {}
-        for(var s = 1;s<mainStyleArray.length;s++){
-          var thisStyleElement = mainStyleArray[s].split(':');
+    getCardStyling(mCss){
+        console.log('getCardStyling-',mCss);
+        var styleArray = mCss.split(';');
+        console.log('styleArray-', styleArray);
+        var styleValues= {}
+        for(var s = 1;s<styleArray.length;s++){
+          var thisStyleElement = styleArray[s].split(':');
 //          console.log('thisStyleElement-', thisStyleElement);
-          mainStyleValues[thisStyleElement[0]]=thisStyleElement[1];
+          styleValues[thisStyleElement[0]]=thisStyleElement[1];
         }
-        console.log('mainStyleValues-', mainStyleValues);
-        return mainStyleValues;
+        console.log('styleValues-', styleValues);
+        return styleValues;
     }
 
 
