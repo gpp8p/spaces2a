@@ -79,7 +79,7 @@ export default {
     }
     debugger;
     try {
-      console.log('this.config.existingData.cardStyles-', this.config.existingData.cardStyles);
+      console.log('this.config.existingData.cardStyles-', this.config.existingData);
     } catch (e) {
       console.log('error');
     }

@@ -767,8 +767,16 @@ name: "dialogDefinitions",
                   hasLabel: "true",
                   leafComponent: true,
                   loader: function(styleElements){
+                    debugger;
                     var bgType='';
                     var clrSel=styleElements['background-color'];
+                    if(clrSel=='transparent'){
+                      return {
+                        colorSelect: 'transparent',
+                        backgroundType:'transparent',
+                        url: ''
+                      }
+                    }
                     var urlSpec='';
                     if(typeof(styleElements['backgroundTypeColor'])!='undefined'){
                       bgType = 'color';
@@ -777,6 +785,7 @@ name: "dialogDefinitions",
 
                     }else{
                       bgType='transparent';
+                      clrSel='transparent'
                     }
                       return {
                         colorSelect: clrSel,
@@ -929,6 +938,7 @@ name: "dialogDefinitions",
                     },
                   ],
                   loader: function(styleElements){
+                    debugger;
                     var includeBdr='';
                     if(typeof(styleElements['borderInclude'])!='undefined'){
                       if(styleElements['borderInclude']=='checked'){
@@ -939,12 +949,19 @@ name: "dialogDefinitions",
                       var borderSpec = styleElements['border'].split(' ');
                       var borderColor = borderSpec[2];
 //                        var borderColor="#ffccbb"
+                      return {
+                        includeBorder: includeBdr,
+                        borderSize: borderSpec[0],
+                        borderColor: borderColor
+                      }
+                    }else{
+                      return {
+                        includeBorder: 'no',
+                        borderSize: '',
+                        borderColor: ''
+                      }
                     }
-                    return {
-                      includeBorder: includeBdr,
-                      borderSize: borderSpec[0],
-                      borderColor: borderColor
-                    }
+
                   },
                   fieldIdentifier: 'borders',
                   name: "borders",
@@ -956,6 +973,119 @@ name: "dialogDefinitions",
                     },
                   }
                 },
+                {
+                  type: "fontPicker",
+                  fieldLabel: "Title Font:",
+                  hasLabel: true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  pickers:{
+                    fontFamily:{
+                      options:[
+                        {
+                          val: 'Arial',
+                          label: 'Arial',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: 'Times New Roman',
+                          label: 'Times New Roman',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: 'Helvetica',
+                          label: 'Helvetica',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                      ]
+                    },
+                    size:{
+                      options:[
+                        {
+                          val: '10pt',
+                          label: '10pt',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: '12pt',
+                          label: '12pt',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: '18pt',
+                          label: '18pt',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: '36pt',
+                          label: '36pt',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: '48pt',
+                          label: '48pt',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: '72pt',
+                          label: '72pt',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                      ]
+                    },
+                    style:{
+                      options:[
+                        {
+                          val: 'normal',
+                          label: 'normal',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: 'bold',
+                          label: 'bold',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                      ]
+                    },
+                  alignment:{
+                      options:[
+                        {
+                          val: 'left',
+                          label: 'left',
+                          isDisabled: false,
+                          isSelected: false
+                        },                        {
+                          val: 'center',
+                          label: 'center',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: 'right',
+                          label: 'right',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                      ]
+                    }
+                  }
+                }
               ]
             }
           }
