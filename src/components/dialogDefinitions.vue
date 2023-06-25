@@ -986,6 +986,7 @@ name: "dialogDefinitions",
                   },
                   pickers:{
                     fontFamily:{
+                      hasLabel: false,
                       options:[
                         {
                           val: 'Arial',
@@ -1008,6 +1009,7 @@ name: "dialogDefinitions",
                       ]
                     },
                     size:{
+                      hasLabel: false,
                       options:[
                         {
                           val: '10pt',
@@ -1048,6 +1050,24 @@ name: "dialogDefinitions",
                       ]
                     },
                     style:{
+                      hasLabel: false,
+                      options:[
+                        {
+                          val: 'normal',
+                          label: 'normal',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: 'italic',
+                          label: 'italic',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                      ]
+                    },
+                  weight: {
+                      hasLabel: false,
                       options:[
                         {
                           val: 'normal',
@@ -1062,8 +1082,9 @@ name: "dialogDefinitions",
                           isSelected: false
                         },
                       ]
-                    },
+                  },
                   alignment:{
+                      hasLabel: false,
                       options:[
                         {
                           val: 'left',
@@ -1083,6 +1104,10 @@ name: "dialogDefinitions",
                           isSelected: false
                         },
                       ]
+                    },
+                    color:{
+                      hasLabel: false,
+                      colorSelect:'#ffccbb'
                     }
                   }
                 }

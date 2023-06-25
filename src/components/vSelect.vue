@@ -150,6 +150,8 @@ export default {
   margin-right: auto;
   border-width: 2px;
   border-color: red;
+  width: 98%;
+  font-size: 10px;
 }
 
 .optionStyle{

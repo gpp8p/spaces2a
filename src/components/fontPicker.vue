@@ -1,12 +1,15 @@
 <template>
-  <span>
+  <span class="labelPlusInput">
+    <span>
+       {{cmdObject.fieldLabel}}
+    </span>
     <span class="fpick">
       <span class="fselect">
         <span>
           Font
         </span>
         <span>
-          <vSelect></vSelect>
+          <vSelect :cmdObject="this.cmdObject.pickers.fontFamily" name="fontSelect"></vSelect>
         </span>
       </span>
       <span class="fselect">
@@ -14,7 +17,7 @@
           Size
         </span>
         <span>
-          <vSelect></vSelect>
+          <vSelect :cmdObject="this.cmdObject.pickers.size" name="sizeSelect"></vSelect>
         </span>
       </span>
       <span class="fselect">
@@ -22,7 +25,7 @@
           Style
         </span>
         <span>
-          <vSelect></vSelect>
+          <vSelect :cmdObject="this.cmdObject.pickers.style" name="styleSelect"></vSelect>
         </span>
       </span>
       <span class="fselect">
@@ -30,7 +33,7 @@
           Weight
         </span>
         <span>
-          <vSelect></vSelect>
+          <vSelect :cmdObject="this.cmdObject.pickers.weight" name="weightSelect"></vSelect>
         </span>
       </span>
       <span class="fselect">
@@ -38,7 +41,7 @@
           Alignment
         </span>
         <span>
-          <vSelect></vSelect>
+          <vSelect :cmdObject="this.cmdObject.pickers.alignment" name="alignmentSelect"></vSelect>
         </span>
       </span>
       <span class="fselect">
@@ -46,9 +49,9 @@
           Color
         </span>
         <span>
-          <input type="color"  :value = "colorValue"  @change="colorSelect"/>
+          <input type="color"  :value = "this.cmdObject.pickers.color.colorSelect"  @change="colorSelect"/>
         </span>
-      </span>            
+      </span>
     </span>
   </span>
 </template>
@@ -167,8 +170,22 @@ export default {
 
 <style scoped>
 .fpick {
-  display: block;
-  grid-template-columns: 20% 20% 20% 20%;
+  display: grid;
+  font-size: 12px;
+  grid-template-columns: 15% 15% 15% 15% 15% 15%;
+}
+.fselect {
+  display: grid;
+  grid-template-rows: 50% 50%;
+}
+.labelPlusInput {
+  display:grid;
+  width:100%;
+  margin-top: 3px;
+  grid-template-columns: 20% 80%;
+  font-family: Arial;
+  font-size: small;
+  color: #0a3aff;
 }
 </style>
 
