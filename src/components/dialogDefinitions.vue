@@ -938,7 +938,7 @@ name: "dialogDefinitions",
                     },
                   ],
                   loader: function(styleElements){
-                    debugger;
+//                    debugger;
                     var includeBdr='';
                     if(typeof(styleElements['borderInclude'])!='undefined'){
                       if(styleElements['borderInclude']=='checked'){
@@ -983,6 +983,31 @@ name: "dialogDefinitions",
                     fontFamily: "Candara",
                     fontSize: "12px",
                     marginTop: "7px"
+                  },
+                  loader: function(styleElements){
+                    debugger;
+                    var fontFamily='';
+                    var fontSize='';
+                    var fontWeight='';
+                    var fontStyle=''
+                    if(typeof(styleElements['font-family'])!='undefined'){
+                      fontFamily=styleElements['font-family'];
+                    }
+                    if(typeof(styleElements['font-size'])!='undefined'){
+                      fontSize=styleElements['font-size'];
+                    }
+                    if(typeof(styleElements['font-style'])!='undefined'){
+                      fontStyle=styleElements['font-style'];
+                    }
+                    if(typeof(styleElements['font-weight'])!='undefined'){
+                      fontWeight=styleElements['font-weight'];
+                    }
+                    return {
+                      fontFamily: fontFamily,
+                      fontSize: fontSize,
+                      fontWeight: fontWeight,
+                      fontStyle: fontStyle
+                    }
                   },
                   pickers:{
                     fontFamily:{

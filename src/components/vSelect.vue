@@ -155,7 +155,7 @@ export default {
 }
 
 .optionStyle{
-  font-size: xx-large;
+  font-size: 12px;
 
 }
 </style>

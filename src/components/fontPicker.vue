@@ -75,6 +75,24 @@ export default {
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');
+
+    this.family =  this.cmdObject.pickers.fontFamily;
+    if(typeof(this.cmdObject.fieldValue.fontFamily)!='undefined'){
+      this.family.fontFamily=this.cmdObject.fieldValue.fontFamily;
+    }
+    this.size =  this.cmdObject.pickers.size;
+    if(typeof(this.cmdObject.fieldValue.fontSize)!='undefined'){
+      this.size.fontSize=this.cmdObject.fieldValue.fontSize;
+    }
+    this.weight =  this.cmdObject.pickers.weight;
+    if(typeof(this.cmdObject.fieldValue.fontWeight)!='undefined'){
+      this.weight.fontWeight=this.cmdObject.fieldValue.fontWeight;
+    }
+    this.style =  this.cmdObject.pickers.style;
+    if(typeof(this.cmdObject.fieldValue.fontStyle)!='undefined'){
+      this.style.fontStyle=this.cmdObject.fieldValue.fontStyle;
+    }
+
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   beforeDestroy() {
@@ -83,7 +101,11 @@ export default {
   data(){
     return {
       cmdHandlers:{},
-      leafComponent: false
+      leafComponent: false,
+      family:{},
+      size:{},
+      weight:{},
+      style:{}
     }
   },
   methods:{
@@ -186,6 +208,14 @@ export default {
   font-family: Arial;
   font-size: small;
   color: #0a3aff;
+}
+.vAlign {
+  display:block;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+input[type='color'] {
+  vertical-align: middle;
 }
 </style>
 
