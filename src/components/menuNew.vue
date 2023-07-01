@@ -50,7 +50,7 @@ export default {
   },
   methods:{
     handleCmd(args){
-      debugger;
+//      debugger;
       console.log('menu handleCmd', args);
       this.cmdHandler(args, this);
     },

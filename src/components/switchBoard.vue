@@ -98,7 +98,7 @@ export default {
     },
     doPageSelected(msg, context){
       console.log('doPageSelected-',msg, context);
-      debugger;
+//      debugger;
       context.showDialog=false;
       this.pageConfiguration={}
       this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
@@ -232,7 +232,7 @@ export default {
  */
     doConfigurePage(msg, context){
       console.log('switchboard doConfigurePage-', msg, context);
-      debugger;
+//      debugger;
       if(typeof(msg[1])=='undefined'){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a page type','topLevelMenu']);
       }else{
@@ -243,7 +243,7 @@ export default {
     },
 
     doSaveScreenEntry(msg, context){
-      debugger;
+//      debugger;
       console.log('switchboard doSaveScreenEntry', msg, context);
       this.pageConfiguration = msg[1];
       this.pageConfiguration.action=this.PAGE_EDIT;
@@ -258,7 +258,7 @@ export default {
       context.showDialog=true;
     },
     doCreateCard(msg, context){
-      debugger;
+//      debugger;
       console.log('doCreateCard menu selection', msg, context);
       if(typeof(msg[1].card_component)=='undefined'){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a card type','topLevelMenu']);
@@ -270,7 +270,7 @@ export default {
       }
     },
     doCreateNewCard(msg, context){
-      debugger;
+//      debugger;
       console.log('doCreateNewCard menu selection', msg, context);
       if(msg[1].cardName.length==0){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must enter a card name','topLevelMenu']);
@@ -300,7 +300,7 @@ export default {
     doConfigureHeadlineCard(msg, context){
       console.log('in sb - doConfigureHeadlineCard', msg, context);
       context.dialogConfiguration.definition='configureHeadlineCard';
-      debugger;
+//      debugger;
       var mainStylingCss;
       var subElementStylingCss;
       var thisCardSubStyling;

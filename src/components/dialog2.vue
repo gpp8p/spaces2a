@@ -53,7 +53,7 @@ export default {
     }
   },
   mounted(){
-    debugger;
+//    debugger;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.dialogFields = this.getDialogDefinition(this.config.definition);
@@ -78,7 +78,7 @@ export default {
         }
       }
     }
-    debugger;
+//    debugger;
     try {
       console.log('this.config.existingData.cardStyles-', this.config.existingData);
     } catch (e) {

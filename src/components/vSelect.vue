@@ -68,6 +68,9 @@ export default {
 //    debugger;
     var o;
     this.selectOptions = this.cmdObject.options;
+    console.log('vSelect cmdObject-', this.cmdObject);
+    console.log('options coming in vSelect-', this.name, this.cmdObject.options);
+    console.log('options for vSewlect-', this.selectOptions);
 
     if(typeof(this.cmdObject.fieldValue)!='undefined'){
       for(o =0; o<this.selectOptions.length; o++){

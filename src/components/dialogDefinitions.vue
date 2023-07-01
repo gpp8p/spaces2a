@@ -767,7 +767,7 @@ name: "dialogDefinitions",
                   hasLabel: "true",
                   leafComponent: true,
                   loader: function(styleElements){
-                    debugger;
+//                    debugger;
                     var bgType='';
                     var clrSel=styleElements['background-color'];
                     if(clrSel=='transparent'){
@@ -985,11 +985,13 @@ name: "dialogDefinitions",
                     marginTop: "7px"
                   },
                   loader: function(styleElements){
-                    debugger;
+//                    debugger;
                     var fontFamily='';
                     var fontSize='';
                     var fontWeight='';
-                    var fontStyle=''
+                    var fontStyle='';
+                    var textAlign='';
+                    var textColor='';
                     if(typeof(styleElements['font-family'])!='undefined'){
                       fontFamily=styleElements['font-family'];
                     }
@@ -1002,11 +1004,19 @@ name: "dialogDefinitions",
                     if(typeof(styleElements['font-weight'])!='undefined'){
                       fontWeight=styleElements['font-weight'];
                     }
+                    if(typeof(styleElements['text-align'])!='undefined'){
+                      textAlign = styleElements['text-align'];
+                    }
+                    if(typeof(styleElements['color'])!='undefined'){
+                      textColor = styleElements['color'];
+                    }
                     return {
                       fontFamily: fontFamily,
                       fontSize: fontSize,
                       fontWeight: fontWeight,
-                      fontStyle: fontStyle
+                      fontStyle: fontStyle,
+                      alignment: textAlign,
+                      color: textColor
                     }
                   },
                   pickers:{
@@ -1022,6 +1032,12 @@ name: "dialogDefinitions",
                         {
                           val: 'Times New Roman',
                           label: 'Times New Roman',
+                          isDisabled: false,
+                          isSelected: false
+                        },
+                        {
+                          val: 'Candara',
+                          label: 'Candara',
                           isDisabled: false,
                           isSelected: false
                         },

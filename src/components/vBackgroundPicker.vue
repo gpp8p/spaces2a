@@ -39,7 +39,7 @@ export default {
     }
   },
   mounted(){
-    debugger;
+//    debugger;
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.backgroundCmdObject = this.cmdObject;
     if(typeof(this.cmdObject.hasLabel)!='undefined'){
@@ -67,7 +67,7 @@ export default {
     }
     let r;
     if(typeof(this.cmdObject.styles.backGroundRadioGroupStyle)!='undefined'){
-      debugger;
+//      debugger;
       this.backGroundRadioGroupStyle = this.cmdObject.styles.backGroundRadioGroupStyle;
       if(typeof(this.cmdObject.fieldValue)!='undefined'){
         for (r=0; r<this.backGroundRadioGroupStyle.radioButtons.length; r++){
@@ -79,7 +79,7 @@ export default {
         }else{
           this.colorValue = "#ffffff";
         }
-        debugger;
+//        debugger;
 //        this.backGroundRadioGroupStyle.existingData=this.cmdObject.existingData.backgroundType;
         this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.cmdObject.fieldValue]);
       }else{
@@ -110,7 +110,7 @@ export default {
       this.$emit('cevt',['fieldInput', this.name, backgroundPickerValue]);
     },
     setBackgroundType(backgroundType){
-      debugger;
+//      debugger;
       switch(backgroundType){
         case 'color':{
           this.backgroundType=this.BACKGROUND_COLOR;
@@ -151,7 +151,7 @@ export default {
 
             if(availableHandlers.length>0){
               for(var a=0;a<availableHandlers.length;a++){
-                debugger;
+//                debugger;
                 this.cmdHandlers[availableHandlers[a]]([args[0], args[1], args[2]]);
               }
             }
@@ -195,7 +195,7 @@ export default {
     doFieldInput(msg, context){
       console.log('at doFieldInput-', msg, context);
       console.log('this.backgroundType-', this.backgroundType);
-      debugger;
+//      debugger;
       switch(msg[1]){
         case 'backgroundType':{
           switch(msg[2]){
@@ -221,7 +221,7 @@ export default {
       console.log('this.backgroundType (2)-', this.backgroundType);
     },
     doSetCmdHandler(msg, context){
-      debugger;
+ //     debugger;
       console.log('doSetCmdHandler-',msg, context);
       this.cmdHandlers[msg[2]]=msg[1];
     },

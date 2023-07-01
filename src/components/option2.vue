@@ -24,7 +24,8 @@ name: "vOption",
   },
   methods: {
     setupOption() {
-//      debugger;
+  //    debugger;
+      console.log('options setup-', this.cmdObject);
       if (typeof (this.cmdObject.style) != 'undefined') {
         this.optionStyle=this.cmdObject.style;
       }else{
