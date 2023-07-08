@@ -9,17 +9,10 @@
           Font
         </span>
         <span>
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, 'family')" v-model="familyVal" class="selectStyle" >
-                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in this.family.options"
-                            :key="index"
-                            :cmdObject = thisOption
-                            :cmdObjectVersion = thisCmdObjectVersion
-                            :name = thisOption.val
-                            class="optionStyle"
-                  ></v-option>
-
-            </select>
+          <selectv2
+            :cmdObject="cmdObject"
+            name="fontSelect"
+          ></selectv2>
         </span>
       </span>
       <span class="fselect">
@@ -108,8 +101,8 @@
 
 <script>
 import utils from '../components/utils.vue';
-import vSelect from "@/components/vSelect";
 import vOption from "../components/option2.vue";
+import selectv2 from "@/components/selectv2";
 export default {
   name: "fontPicker",
   props:{
@@ -122,7 +115,7 @@ export default {
       required: false
     }
   },
-  components: {vSelect, vOption},
+  components: {vOption, selectv2},
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');
@@ -167,7 +160,8 @@ export default {
 
     console.log('fontpicker this.family-', this.family);
     this.reload+=1;
-
+    this.c1+=1;
+    console.log('fontPicker mounted is finished');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   beforeDestroy() {
@@ -191,7 +185,8 @@ export default {
       styleVal:'',
       alignmentVal:'',
       colorVal:'',
-      reload:0
+      reload:0,
+      c1:0
     }
   },
   methods:{
@@ -251,7 +246,6 @@ export default {
           try {
             (cmdType[args[0]](args, self));
           } catch (e) {
-            console.log('unknown cmd -',args, this.name);
             console.log('unknown cmd -',args, this.name);
             var availableHandlers = Object.keys(this.cmdHandlers);
             console.log('available cmd handlers-',availableHandlers);

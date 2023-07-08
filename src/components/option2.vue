@@ -75,6 +75,7 @@ name: "vOption",
           this.pOptions = this.NOT_SELECTED_DISABLED;
         }
       }
+      console.log('option2 created finished');
     },
   },
   data() {
