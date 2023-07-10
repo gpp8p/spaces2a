@@ -2,7 +2,7 @@
   <span class="">
          <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, 'family')" v-model="familyVal" class="selectStyle" >
                   <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in cmdObject.pickers.fontFamily.options"
+                  <v-option v-for="(thisOption, index) in cmdObject.options"
                             :key="index"
                             :cmdObject = thisOption
                             :cmdObjectVersion = thisCmdObjectVersion
@@ -10,7 +10,6 @@
                             class="optionStyle"
                   ></v-option>
             </select>
-
   </span>
 </template>
 
@@ -33,6 +32,7 @@ export default {
   mixins: [utils],
   mounted(){
     console.log(this.name,' selectv2 is mounted-', this.cmdObject.options);
+    this.familyVal = this.cmdObject.familyVal;
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   updated(){
@@ -44,7 +44,8 @@ export default {
   data(){
     return {
       cmdHandlers:{},
-      leafComponent: false
+      leafComponent: false,
+      familyVal:''
     }
   },
   methods:{

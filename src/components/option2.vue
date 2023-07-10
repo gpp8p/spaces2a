@@ -24,13 +24,14 @@ name: "vOption",
   },
   methods: {
     setupOption() {
-  //    debugger;
-      console.log('options setup-', this.cmdObject);
+//      debugger;
+      console.log('option2 setup-', this.cmdObject, this.cmdObject.existingData);
       if (typeof (this.cmdObject.style) != 'undefined') {
         this.optionStyle=this.cmdObject.style;
       }else{
         this.optionStyle="normal";
       }
+      console.log('typeof existing data-', this.cmdObject, typeof (this.cmdObject.existingData), this.cmdObject.existingData);
       if (typeof (this.cmdObject.existingData) != 'undefined') {
         this.currentValue = this.cmdObject.existingData;
         this.currentValueDefined=true;

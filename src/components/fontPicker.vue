@@ -10,9 +10,11 @@
         </span>
         <span>
           <selectv2
-            :cmdObject="cmdObject"
-            name="fontSelect"
+              :cmdObject="family"
+              name="fontSelect"
+              @cevt="handleEvt"
           ></selectv2>
+
         </span>
       </span>
       <span class="fselect">
@@ -117,9 +119,7 @@ export default {
   },
   components: {vOption, selectv2},
   mixins: [utils],
-  mounted(){
-    console.log(this.name,' is mounted');
-//    debugger;
+  created(){
     this.family =  this.cmdObject.pickers.fontFamily;
     this.familyVal=this.cmdObject.fieldValue.fontFamily;
     if(typeof(this.cmdObject.fieldValue.fontFamily)!='undefined'){
@@ -127,7 +127,22 @@ export default {
       this.family.fieldValue=this.cmdObject.fieldValue.fontFamily;
     }
     this.family = this.updateValues(this.family, this.family.fieldValue);
-
+    this.family.familyVal = this.family.fieldValue;
+  },
+  mounted(){
+    console.log(this.name,' is mounted');
+//    debugger;
+/*
+    this.family =  this.cmdObject.pickers.fontFamily;
+    this.familyVal=this.cmdObject.fieldValue.fontFamily;
+    if(typeof(this.cmdObject.fieldValue.fontFamily)!='undefined'){
+//      this.family.fontFamily=this.cmdObject.fieldValue.fontFamily;
+      this.family.fieldValue=this.cmdObject.fieldValue.fontFamily;
+    }
+    this.family = this.updateValues(this.family, this.family.fieldValue);
+    this.cmdObject.pickers.fontFamily=this.family;
+//    console.log('fontPicker - updated this.cmdObject.pickers.fontFamily', this.cmdObject.pickers.fontFamily);
+*/
     this.size =  this.cmdObject.pickers.size;
     this.sizeVal = this.cmdObject.fieldValue.fontSize;
     if(typeof(this.cmdObject.fieldValue.fontSize)!='undefined'){
@@ -158,10 +173,11 @@ export default {
     debugger;
     this.colorVal = this.cmdObject.fieldValue.color;
 
-    console.log('fontpicker this.family-', this.family);
+//    console.log('fontpicker this.family-', this.family);
     this.reload+=1;
     this.c1+=1;
-    console.log('fontPicker mounted is finished');
+//    console.log('fontPicker mounted is finished');
+//    console.log('fontPicker cmdHandlers-', this.cmdHandlers);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   beforeDestroy() {
