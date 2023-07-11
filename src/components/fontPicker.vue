@@ -4,68 +4,32 @@
        {{cmdObject.fieldLabel}}
     </span>
     <span class="fpick">
-      <span class="fselect">
-        <span>
-          Font
-        </span>
-        <span>
           <selectv2
               :cmdObject="family"
               name="fontSelect"
               @cevt="handleEvt"
           ></selectv2>
-        </span>
-      </span>
-      <span class="fselect">
-        <span>
-          Size
-        </span>
-        <span>
-         <selectv2
-             :cmdObject="size"
-             name="sizeSelect"
-             @cevt="handleEvt"
-         ></selectv2>
-        </span>
-      </span>
-      <span class="fselect">
-        <span>
-          Style
-        </span>
-        <span>
-        <selectv2
-            :cmdObject="fontStyle"
-            name="sizeSelect"
-            @cevt="handleEvt"
-        ></selectv2>
-        </span>
-      </span>
-      <span class="fselect">
-        <span>
-          Weight
-        </span>
-        <span>
-        <selectv2
-            :cmdObject="weight"
-            name="weightSelect"
-            @cevt="handleEvt"
-        ></selectv2>
-        </span>
-      </span>
-      <span class="fselect">
-        <span>
-          Alignment
-        </span>
-        <span>
-        <selectv2
-            :cmdObject="alignment"
-            name="alignmentSelect"
-            @cevt="handleEvt"
-        ></selectv2>
-
-        </span>
-      </span>
-      <span class="fselect">
+          <selectv2
+              :cmdObject="fontStyle"
+              name="styleSelect"
+              @cevt="handleEvt"
+          ></selectv2>
+          <selectv2
+              :cmdObject="size"
+              name="sizeSelect"
+              @cevt="handleEvt"
+          ></selectv2>
+          <selectv2
+              :cmdObject="weight"
+              name="weightSelect"
+              @cevt="handleEvt"
+          ></selectv2>
+      <selectv2
+              :cmdObject="alignment"
+              name="alignmentSelect"
+              @cevt="handleEvt"
+          ></selectv2>
+      <span class="colorSelect">
         <span>
           Color
         </span>
@@ -79,7 +43,7 @@
 
 <script>
 import utils from '../components/utils.vue';
-import vOption from "../components/option2.vue";
+//import vOption from "../components/option2.vue";
 import selectv2 from "@/components/selectv2";
 export default {
   name: "fontPicker",
@@ -93,7 +57,7 @@ export default {
       required: false
     }
   },
-  components: {vOption, selectv2},
+  components: {selectv2},
   mixins: [utils],
   created(){
     this.family =  this.cmdObject.pickers.fontFamily;
@@ -106,6 +70,8 @@ export default {
     this.family.selectVal = this.family.fieldValue;
     this.family.eventKey = 'family';
     this.family.selectStyle = this.cmdObject.selectStyle;
+    this.family.labelValue = 'Font';
+    this.family.labelLocation=this.LABEL_VERTICAL;
 
     this.size =  this.cmdObject.pickers.size;
     this.sizeVal = this.cmdObject.fieldValue.fontSize;
@@ -116,6 +82,9 @@ export default {
     this.size.selectVal = this.size.fieldValue;
     this.size.eventKey = 'size';
     this.size.selectStyle = this.cmdObject.selectStyle;
+    this.size.labelValue = 'Size';
+    this.size.labelLocation=this.LABEL_VERTICAL;
+
 
     this.weight =  this.cmdObject.pickers.weight;
     this.weightVal = this.cmdObject.fieldValue.fontWeight;
@@ -126,6 +95,9 @@ export default {
     this.weight.selectVal = this.weight.fieldValue;
     this.weight.eventKey = 'weight';
     this.weight.selectStyle = this.cmdObject.selectStyle;
+    this.weight.labelValue = 'Weight';
+    this.weight.labelLocation=this.LABEL_VERTICAL;
+
 
 
 
@@ -138,16 +110,22 @@ export default {
     this.fontStyle.selectVal = this.fontStyle.fieldValue;
     this.fontStyle.eventKey = 'fontStyle';
     this.fontStyle.selectStyle = this.cmdObject.selectStyle;
+    this.fontStyle.labelValue = 'Style';
+    this.fontStyle.labelLocation=this.LABEL_VERTICAL;
+
 
     this.alignment =  this.cmdObject.pickers.alignment;
     this.alignmentVal = this.cmdObject.fieldValue.alignment;
-    if(typeof(this.cmdObject.fieldValue.fontStyle)!='undefined'){
+    if(typeof(this.cmdObject.fieldValue.alignment)!='undefined'){
       this.alignment.fieldValue=this.cmdObject.fieldValue.alignment;
     }
     this.alignment = this.updateValues(this.alignment, this.alignment.fieldValue);
     this.alignment.selectVal = this.alignment.fieldValue;
     this.alignment.eventKey = 'alignment';
     this.alignment.selectStyle = this.cmdObject.selectStyle;
+    this.alignment.labelValue = 'Alignment';
+    this.alignment.labelLocation=this.LABEL_VERTICAL;
+
 
 
   },
@@ -225,6 +203,9 @@ export default {
       alignmentVal:'',
       colorVal:'',
       reload:0,
+      LABEL_NOT:0,
+      LABEL_VERTICAL:1,
+      LABEL_HOROZONTAL:2,
       c1:0
     }
   },
@@ -355,9 +336,9 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
 }
-.fselect {
+.colorSelect {
   display: grid;
-  grid-template-rows: 50% 50%;
+  grid-template-rows: 40% 60%;
 }
 .labelPlusInput {
   display:grid;

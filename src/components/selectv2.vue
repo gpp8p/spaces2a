@@ -1,5 +1,6 @@
 <template>
   <span class="">
+    <span v-if="this.labelLocation==this.LABEL_NOT">
          <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
                   <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
                   <v-option v-for="(thisOption, index) in cmdObject.options"
@@ -10,6 +11,42 @@
                             class="optionStyle"
                   ></v-option>
             </select>
+    </span>
+    <span v-if="this.labelLocation==this.LABEL_VERTICAL" class="fselectVertical">
+        <span>
+          {{this.labelValue}}
+        </span>
+        <span>
+         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
+                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
+                  <v-option v-for="(thisOption, index) in cmdObject.options"
+                            :key="index"
+                            :cmdObject = thisOption
+                            :cmdObjectVersion = thisCmdObjectVersion
+                            :name = thisOption.val
+                            class="optionStyle"
+                  ></v-option>
+            </select>
+        </span>
+    </span>
+    <span v-if="this.labelLocation==this.LABEL_HOROZONTAL" class="fselectHorozontal">
+        <span>
+          {{this.labelValue}}
+        </span>
+        <span>
+         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
+                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
+                  <v-option v-for="(thisOption, index) in cmdObject.options"
+                            :key="index"
+                            :cmdObject = thisOption
+                            :cmdObjectVersion = thisCmdObjectVersion
+                            :name = thisOption.val
+                            class="optionStyle"
+                  ></v-option>
+            </select>
+        </span>
+    </span>
+
   </span>
 </template>
 
@@ -33,7 +70,13 @@ export default {
   mounted(){
     console.log(this.name,' selectv2 is mounted-', this.cmdObject.options);
     this.selectVal = this.cmdObject.selectVal;
-    this.evetKey = this.cmdObject.eventKey;
+    this.eventKey = this.cmdObject.eventKey;
+    if(typeof(this.cmdObject.labelLocation)!='undefined'){
+      this.labelLocation = this.cmdObject.labelLocation;
+    }
+    if(typeof(this.cmdObject.labelValue)!='undefined'){
+      this.labelValue = this.cmdObject.labelValue;
+    }
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   updated(){
@@ -47,7 +90,13 @@ export default {
       cmdHandlers:{},
       leafComponent: false,
       selectVal:'',
-      eventKey:''
+      eventKey:'',
+      LABEL_NOT:0,
+      LABEL_VERTICAL:1,
+      LABEL_HOROZONTAL:2,
+      labelLocation:0,
+      labelValue:''
+
     }
   },
   methods:{
@@ -143,5 +192,15 @@ export default {
   width: 100%;
   margin-right: 15%;
   margin-top:5px;
+}
+
+.fselectVertical {
+  display: grid;
+  grid-template-rows: 50% 50%;
+}
+.fselectHorozontal{
+  display:grid;
+  margin-top: 3px;
+  grid-template-columns: 20% 70%;
 }
 </style>
