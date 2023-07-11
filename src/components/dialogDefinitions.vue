@@ -977,13 +977,14 @@ name: "dialogDefinitions",
                   type: "fontPicker",
                   fieldLabel: "Title Font:",
                   hasLabel: true,
-                  leafComponent: true,
+                  leafComponent: false,
                   labelStyle:{
                     color:"blue",
                     fontFamily: "Candara",
                     fontSize: "12px",
                     marginTop: "7px"
                   },
+                  selectStyle:'background: powderblue;color:blue;font-weight: bold;font-size: 12px;margin-bottom: 3px;width: 100%;margin-right: 15%;margin-top:5px; ',
                   loader: function(styleElements){
 //                    debugger;
                     var fontFamily='';

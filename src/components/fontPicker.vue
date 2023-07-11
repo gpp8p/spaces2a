@@ -14,7 +14,6 @@
               name="fontSelect"
               @cevt="handleEvt"
           ></selectv2>
-
         </span>
       </span>
       <span class="fselect">
@@ -22,17 +21,11 @@
           Size
         </span>
         <span>
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, 'size')" v-model="sizeVal" class="selectStyle" >
-                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in this.size.options"
-                            :key="index"
-                            :cmdObject = thisOption
-                            :cmdObjectVersion = thisCmdObjectVersion
-                            :name = thisOption.val
-                            class="optionStyle"
-                  ></v-option>
-
-            </select>
+         <selectv2
+             :cmdObject="size"
+             name="sizeSelect"
+             @cevt="handleEvt"
+         ></selectv2>
         </span>
       </span>
       <span class="fselect">
@@ -40,17 +33,11 @@
           Style
         </span>
         <span>
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, 'style')" v-model="styleVal" class="selectStyle" >
-                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in this.fontStyle.options"
-                            :key="index"
-                            :cmdObject = thisOption
-                            :cmdObjectVersion = thisCmdObjectVersion
-                            :name = thisOption.val
-                            class="optionStyle"
-                  ></v-option>
-
-            </select>
+        <selectv2
+            :cmdObject="fontStyle"
+            name="sizeSelect"
+            @cevt="handleEvt"
+        ></selectv2>
         </span>
       </span>
       <span class="fselect">
@@ -58,17 +45,11 @@
           Weight
         </span>
         <span>
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, 'weight')" v-model="weightVal" class="selectStyle" >
-                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in this.weight.options"
-                            :key="index"
-                            :cmdObject = thisOption
-                            :cmdObjectVersion = thisCmdObjectVersion
-                            :name = thisOption.val
-                            class="optionStyle"
-                  ></v-option>
-
-            </select>
+        <selectv2
+            :cmdObject="weight"
+            name="weightSelect"
+            @cevt="handleEvt"
+        ></selectv2>
         </span>
       </span>
       <span class="fselect">
@@ -76,17 +57,12 @@
           Alignment
         </span>
         <span>
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, 'weight')" v-model="alignmentVal" class="selectStyle" >
-                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in this.alignment.options"
-                            :key="index"
-                            :cmdObject = thisOption
-                            :cmdObjectVersion = thisCmdObjectVersion
-                            :name = thisOption.val
-                            class="optionStyle"
-                  ></v-option>
+        <selectv2
+            :cmdObject="alignment"
+            name="alignmentSelect"
+            @cevt="handleEvt"
+        ></selectv2>
 
-            </select>
         </span>
       </span>
       <span class="fselect">
@@ -127,7 +103,53 @@ export default {
       this.family.fieldValue=this.cmdObject.fieldValue.fontFamily;
     }
     this.family = this.updateValues(this.family, this.family.fieldValue);
-    this.family.familyVal = this.family.fieldValue;
+    this.family.selectVal = this.family.fieldValue;
+    this.family.eventKey = 'family';
+    this.family.selectStyle = this.cmdObject.selectStyle;
+
+    this.size =  this.cmdObject.pickers.size;
+    this.sizeVal = this.cmdObject.fieldValue.fontSize;
+    if(typeof(this.cmdObject.fieldValue.fontSize)!='undefined'){
+      this.size.fieldValue=this.cmdObject.fieldValue.fontSize;
+    }
+    this.size = this.updateValues(this.size, this.size.fieldValue);
+    this.size.selectVal = this.size.fieldValue;
+    this.size.eventKey = 'size';
+    this.size.selectStyle = this.cmdObject.selectStyle;
+
+    this.weight =  this.cmdObject.pickers.weight;
+    this.weightVal = this.cmdObject.fieldValue.fontWeight;
+    if(typeof(this.cmdObject.fieldValue.fontWeight)!='undefined'){
+      this.weight.fieldValue=this.cmdObject.fieldValue.fontWeight;
+    }
+    this.weight = this.updateValues(this.weight, this.weight.fieldValue);
+    this.weight.selectVal = this.weight.fieldValue;
+    this.weight.eventKey = 'weight';
+    this.weight.selectStyle = this.cmdObject.selectStyle;
+
+
+
+    this.fontStyle =  this.cmdObject.pickers.style;
+    this.styleVal = this.cmdObject.fieldValue.fontStyle;
+    if(typeof(this.cmdObject.fieldValue.fontStyle)!='undefined'){
+      this.fontStyle.fieldValue=this.cmdObject.fieldValue.fontStyle;
+    }
+    this.fontStyle = this.updateValues(this.fontStyle, this.fontStyle.fieldValue);
+    this.fontStyle.selectVal = this.fontStyle.fieldValue;
+    this.fontStyle.eventKey = 'fontStyle';
+    this.fontStyle.selectStyle = this.cmdObject.selectStyle;
+
+    this.alignment =  this.cmdObject.pickers.alignment;
+    this.alignmentVal = this.cmdObject.fieldValue.alignment;
+    if(typeof(this.cmdObject.fieldValue.fontStyle)!='undefined'){
+      this.alignment.fieldValue=this.cmdObject.fieldValue.alignment;
+    }
+    this.alignment = this.updateValues(this.alignment, this.alignment.fieldValue);
+    this.alignment.selectVal = this.alignment.fieldValue;
+    this.alignment.eventKey = 'alignment';
+    this.alignment.selectStyle = this.cmdObject.selectStyle;
+
+
   },
   mounted(){
     console.log(this.name,' is mounted');
@@ -142,7 +164,7 @@ export default {
     this.family = this.updateValues(this.family, this.family.fieldValue);
     this.cmdObject.pickers.fontFamily=this.family;
 //    console.log('fontPicker - updated this.cmdObject.pickers.fontFamily', this.cmdObject.pickers.fontFamily);
-*/
+
     this.size =  this.cmdObject.pickers.size;
     this.sizeVal = this.cmdObject.fieldValue.fontSize;
     if(typeof(this.cmdObject.fieldValue.fontSize)!='undefined'){
@@ -170,6 +192,7 @@ export default {
       this.alignment.fieldValue=this.cmdObject.fieldValue.alignment;
     }
     this.alignment = this.updateValues(this.alignment, this.alignment.fieldValue);
+*/
     debugger;
     this.colorVal = this.cmdObject.fieldValue.color;
 

@@ -1,6 +1,6 @@
 <template>
   <span class="">
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, 'family')" v-model="familyVal" class="selectStyle" >
+         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
                   <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
                   <v-option v-for="(thisOption, index) in cmdObject.options"
                             :key="index"
@@ -32,7 +32,8 @@ export default {
   mixins: [utils],
   mounted(){
     console.log(this.name,' selectv2 is mounted-', this.cmdObject.options);
-    this.familyVal = this.cmdObject.familyVal;
+    this.selectVal = this.cmdObject.selectVal;
+    this.evetKey = this.cmdObject.eventKey;
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   updated(){
@@ -45,7 +46,8 @@ export default {
     return {
       cmdHandlers:{},
       leafComponent: false,
-      familyVal:''
+      selectVal:'',
+      eventKey:''
     }
   },
   methods:{

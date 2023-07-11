@@ -88,6 +88,10 @@ export default {
       if(typeof(this.dialogComponents[d].loader)!='undefined'){
         var loadedVal = this.dialogComponents[d].loader(this.config.existingData.cardStyles);
         this.dialogComponents[d].fieldValue = loadedVal
+        if(typeof(this.config.existingData.cardSubStyles)!='undefined'){
+          loadedVal = this.dialogComponents[d].loader(this.config.existingData.cardSubStyles);
+          this.dialogComponents[d].subElementValue = loadedVal;
+        }
         console.log('existingValue is', loadedVal);
       }
     }
