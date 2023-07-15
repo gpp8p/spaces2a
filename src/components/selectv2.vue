@@ -1,7 +1,7 @@
 <template>
   <span class="">
     <span v-if="this.labelLocation==this.LABEL_NOT">
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
+         <select :size="this.selectSize" :multiple="multiple" @change="this.onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
                   <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
                   <v-option v-for="(thisOption, index) in cmdObject.options"
                             :key="index"
@@ -78,9 +78,11 @@ export default {
       this.labelValue = this.cmdObject.labelValue;
     }
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+    this.$emit('cevt', ['fieldInput', this.name, this.selectVal]);
   },
   updated(){
-    console.log(this.name,' selectv2 is updated-', this.cmdObject.options);
+    console.log(this.name,' selectv2 is updated-', this.selectVal);
+    this.$emit('cevt', ['fieldInput', this.name, this.selectVal]);
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -100,6 +102,7 @@ export default {
     }
   },
   methods:{
+
 //cmd handlers
     handleCmd(args){
       console.log(this.name, ' handleCmd', args);

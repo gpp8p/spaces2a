@@ -1,50 +1,15 @@
 <template>
-  <span class="labelPlusInput">
-    <span>
-       {{cmdObject.fieldLabel}}
-    </span>
-    <span class="fpick">
-          <selectv2
-              :cmdObject="family"
-              name="fontSelect"
-              @cevt="handleEvt"
-          ></selectv2>
-          <selectv2
-              :cmdObject="fontStyle"
-              name="styleSelect"
-              @cevt="handleEvt"
-          ></selectv2>
-          <selectv2
-              :cmdObject="size"
-              name="sizeSelect"
-              @cevt="handleEvt"
-          ></selectv2>
-          <selectv2
-              :cmdObject="weight"
-              name="weightSelect"
-              @cevt="handleEvt"
-          ></selectv2>
-      <selectv2
-              :cmdObject="alignment"
-              name="alignmentSelect"
-              @cevt="handleEvt"
-          ></selectv2>
-      <span class="colorSelect">
-        <span>
-          Color
-        </span>
-        <span>
-          <input type="color"  v-model = "colorVal"   @change="colorSelect"/>
-        </span>
-      </span>
-    </span>
+  <span class="fpRows">
+    <fontPickerRow :cmdObject = "this.fpTitleRow" name="titleStyles" @cevt = "handleEvt"></fontPickerRow>
+    <fontPickerRow :cmdObject = "this.fpSubRow" name="subElementStyles" @cevt = "handleEvt"></fontPickerRow>
   </span>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
 //import vOption from "../components/option2.vue";
-import selectv2 from "@/components/selectv2";
+import fontPickerRow from "../components/fontPickerRow.vue";
+//import selectv2 from "@/components/selectv2";
 export default {
   name: "fontPicker",
   props:{
@@ -57,11 +22,12 @@ export default {
       required: false
     }
   },
-  components: {selectv2},
+  components: {fontPickerRow},
   mixins: [utils],
   created(){
+    console.log('subElementValue-', this.cmdObject.subElementValue);
     this.family =  this.cmdObject.pickers.fontFamily;
-    this.familyVal=this.cmdObject.fieldValue.fontFamily;
+//    this.familyVal=this.cmdObject.fieldValue.fontFamily;
     if(typeof(this.cmdObject.fieldValue.fontFamily)!='undefined'){
 //      this.family.fontFamily=this.cmdObject.fieldValue.fontFamily;
       this.family.fieldValue=this.cmdObject.fieldValue.fontFamily;
@@ -73,8 +39,21 @@ export default {
     this.family.labelValue = 'Font';
     this.family.labelLocation=this.LABEL_VERTICAL;
 
+    this.subFamily = Object.assign({}, this.family);
+    this.subFamily.labelLocation = this.LABEL_NOT;
+    if(typeof(this.cmdObject.subElementValue.fontFamily)!='undefined'){
+      this.subFamily.fieldValue=this.cmdObject.subElementValue.fontFamily ;
+      this.subFamily = this.updateValues(this.subFamily, this.subFamily.fieldValue);
+    }else{
+      this.subFamily.fieldValue='' ;
+      this.subFamily = this.updateValues(this.subFamily, '');
+    }
+    this.fpTitleRow.family = this.family;
+    this.fpSubRow.family = this.subFamily;
+
+
     this.size =  this.cmdObject.pickers.size;
-    this.sizeVal = this.cmdObject.fieldValue.fontSize;
+//    this.sizeVal = this.cmdObject.fieldValue.fontSize;
     if(typeof(this.cmdObject.fieldValue.fontSize)!='undefined'){
       this.size.fieldValue=this.cmdObject.fieldValue.fontSize;
     }
@@ -85,9 +64,22 @@ export default {
     this.size.labelValue = 'Size';
     this.size.labelLocation=this.LABEL_VERTICAL;
 
+    this.subSize = Object.assign({}, this.size);
+    this.subSize.labelLocation = this.LABEL_NOT;
+    if(typeof(this.cmdObject.subElementValue.fontSize)!='undefined'){
+      this.subSize.fieldValue=this.cmdObject.subElementValue.fontSize ;
+      this.subSize = this.updateValues(this.subSize, this.subSize.fieldValue);
+    }else{
+      this.subSize.fieldValue='' ;
+      this.subSize = this.updateValues(this.subSize, '');
+    }
+    this.fpTitleRow.size = this.size;
+    this.fpSubRow.size = this.subSize;
+
+
 
     this.weight =  this.cmdObject.pickers.weight;
-    this.weightVal = this.cmdObject.fieldValue.fontWeight;
+//    this.weightVal = this.cmdObject.fieldValue.fontWeight;
     if(typeof(this.cmdObject.fieldValue.fontWeight)!='undefined'){
       this.weight.fieldValue=this.cmdObject.fieldValue.fontWeight;
     }
@@ -98,11 +90,22 @@ export default {
     this.weight.labelValue = 'Weight';
     this.weight.labelLocation=this.LABEL_VERTICAL;
 
+    this.subWeight = Object.assign({}, this.weight);
+    this.subWeight.labelLocation = this.LABEL_NOT;
+    if(typeof(this.cmdObject.subElementValue.fontWeight)!='undefined'){
+      this.subWeight.fieldValue=this.cmdObject.subElementValue.fontWeight ;
+      this.subWeight = this.updateValues(this.subWeight, this.subWeight.fieldValue);
+    }else{
+      this.subWeight.fieldValue='' ;
+      this.subWeight = this.updateValues(this.subWeight, '');
+    }
 
+    this.fpTitleRow.weight = this.weight;
+    this.fpSubRow.weight = this.subWeight;
 
 
     this.fontStyle =  this.cmdObject.pickers.style;
-    this.styleVal = this.cmdObject.fieldValue.fontStyle;
+//    this.styleVal = this.cmdObject.fieldValue.fontStyle;
     if(typeof(this.cmdObject.fieldValue.fontStyle)!='undefined'){
       this.fontStyle.fieldValue=this.cmdObject.fieldValue.fontStyle;
     }
@@ -113,9 +116,22 @@ export default {
     this.fontStyle.labelValue = 'Style';
     this.fontStyle.labelLocation=this.LABEL_VERTICAL;
 
+    this.subFontStyle = Object.assign({}, this.fontStyle);
+    this.subFontStyle.labelLocation = this.LABEL_NOT;
+    if(typeof(this.cmdObject.subElementValue.fontStyle)!='undefined'){
+      this.subFontStyle.fieldValue=this.cmdObject.subElementValue.fontStyle ;
+      this.subFontStyle = this.updateValues(this.subFontStyle, this.subFontStyle.fieldValue);
+    }else{
+      this.subFontStyle.fieldValue='' ;
+      this.subFontStyle = this.updateValues(this.subFontStyle, '');
+    }
+
+    this.fpTitleRow.fontStyle = this.fontStyle;
+    this.fpSubRow.fontStyle = this.subFontStyle;
+
 
     this.alignment =  this.cmdObject.pickers.alignment;
-    this.alignmentVal = this.cmdObject.fieldValue.alignment;
+//    this.alignmentVal = this.cmdObject.fieldValue.alignment;
     if(typeof(this.cmdObject.fieldValue.alignment)!='undefined'){
       this.alignment.fieldValue=this.cmdObject.fieldValue.alignment;
     }
@@ -126,52 +142,27 @@ export default {
     this.alignment.labelValue = 'Alignment';
     this.alignment.labelLocation=this.LABEL_VERTICAL;
 
+    this.subAlignment = Object.assign({}, this.alignment);
+    this.subAlignment.labelLocation = this.LABEL_NOT;
+    if(typeof(this.cmdObject.subElementValue.alignment)!='undefined'){
+      this.subAlignment.fieldValue=this.cmdObject.subElementValue.alignment ;
+      this.subAlignment = this.updateValues(this.subAlignment, this.subAlignment.fieldValue);
+    }else{
+      this.subAlignment.fieldValue='left' ;
+      this.subAlignment = this.updateValues(this.subAlignment, '');
+    }
+    this.fpTitleRow.alignment = this.alignment;
+    this.fpTitleRow.colorVal =  this.colorVal;
+    this.fpTitleRow.fieldLabel = "Title";
+    this.fpSubRow.alignment = this.subAlignment;
+    this.fpSubRow.fieldLabel = 'Links';
+
 
 
   },
   mounted(){
     console.log(this.name,' is mounted');
 //    debugger;
-/*
-    this.family =  this.cmdObject.pickers.fontFamily;
-    this.familyVal=this.cmdObject.fieldValue.fontFamily;
-    if(typeof(this.cmdObject.fieldValue.fontFamily)!='undefined'){
-//      this.family.fontFamily=this.cmdObject.fieldValue.fontFamily;
-      this.family.fieldValue=this.cmdObject.fieldValue.fontFamily;
-    }
-    this.family = this.updateValues(this.family, this.family.fieldValue);
-    this.cmdObject.pickers.fontFamily=this.family;
-//    console.log('fontPicker - updated this.cmdObject.pickers.fontFamily', this.cmdObject.pickers.fontFamily);
-
-    this.size =  this.cmdObject.pickers.size;
-    this.sizeVal = this.cmdObject.fieldValue.fontSize;
-    if(typeof(this.cmdObject.fieldValue.fontSize)!='undefined'){
-      this.size.fieldValue=this.cmdObject.fieldValue.fontSize;
-    }
-    this.size = this.updateValues(this.size, this.size.fieldValue);
-
-    this.weight =  this.cmdObject.pickers.weight;
-    this.weightVal = this.cmdObject.fieldValue.fontWeight;
-    if(typeof(this.cmdObject.fieldValue.fontWeight)!='undefined'){
-      this.weight.fieldValue=this.cmdObject.fieldValue.fontWeight;
-    }
-    this.weight = this.updateValues(this.weight, this.weight.fieldValue);
-
-    this.fontStyle =  this.cmdObject.pickers.style;
-    this.styleVal = this.cmdObject.fieldValue.fontStyle;
-    if(typeof(this.cmdObject.fieldValue.fontStyle)!='undefined'){
-      this.fontStyle.fieldValue=this.cmdObject.fieldValue.fontStyle;
-    }
-    this.fontStyle = this.updateValues(this.fontStyle, this.fontStyle.fieldValue);
-
-    this.alignment =  this.cmdObject.pickers.alignment;
-    this.alignmentVal = this.cmdObject.fieldValue.alignment;
-    if(typeof(this.cmdObject.fieldValue.fontStyle)!='undefined'){
-      this.alignment.fieldValue=this.cmdObject.fieldValue.alignment;
-    }
-    this.alignment = this.updateValues(this.alignment, this.alignment.fieldValue);
-*/
-    debugger;
     this.colorVal = this.cmdObject.fieldValue.color;
 
 //    console.log('fontpicker this.family-', this.family);
@@ -195,18 +186,19 @@ export default {
       alignment:{},
       color:{},
       selectSize:0,
-      sval:'',
-      familyVal:'',
-      sizeVal:'',
-      weightVal:'',
-      styleVal:'',
-      alignmentVal:'',
+      subFamily:{},
+      subSize:{},
+      subWeight:{},
+      subFontStyle:{},
+      subAlignment:{},
       colorVal:'',
       reload:0,
       LABEL_NOT:0,
       LABEL_VERTICAL:1,
       LABEL_HOROZONTAL:2,
-      c1:0
+      c1:0,
+      fpTitleRow:{},
+      fpSubRow:{}
     }
   },
   methods:{
@@ -221,29 +213,6 @@ export default {
     },
     colorSelect($event){
       console.log('colorSelect-', $event, this.colorVal);
-    },
-    onChange(evt, selectSource){
-      console.log('select changed-', evt, selectSource, this.sval);
-      switch(selectSource){
-        case 'family': {
-          this.family.fieldValue=this.familyVal;
-          break;
-        }
-        case 'size':{
-          this.size.fieldValue=this.sizeVal;
-          break;
-        }
-        case 'weight':{
-          this.weight.fieldValue=this.weightVal;
-          break;
-        }
-        case 'style':{
-          this.fontStyle.fieldValue=this.styleVal;
-          break;
-        }
-
-
-      }
     },
 //cmd handlers
     handleCmd(args){
@@ -299,7 +268,10 @@ export default {
         },
         'default': function(msg, context){
           console.log('evtHandler in fontPicker  - something else', msg, context);
-        }
+        },
+        'fieldInput': function(msg, context){
+          context.doFieldInput(msg, context);
+        },
       }
       if(typeof(evtType)!='undefined'){
         try {
@@ -317,6 +289,10 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
+    },
+    doFieldInput(msg, context) {
+      console.log('doFieldInput in fontPicker-', msg, context);
+      this.$emit('cevt', ['fieldInput', msg[1], msg[2], msg[1]]);
     }
 
 
@@ -358,6 +334,10 @@ export default {
   width: 100%;
   margin-right: 15%;
   margin-top:5px;
+}
+.fpRows {
+  display: grid;
+  grid-template-rows: 50% 50%;
 }
 input[type='color'] {
   vertical-align: middle;

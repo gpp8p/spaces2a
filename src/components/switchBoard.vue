@@ -308,8 +308,9 @@ export default {
       console.log('mainStylingCss',mainStylingCss);
       var thisCardStyling = this.getCardStyling(mainStylingCss);
       try {
-        subElementStylingCss = msg[3].elementStyles.sub[0];
+        subElementStylingCss = ";"+msg[3].elementStyles.sub[0];
         thisCardSubStyling = this.getCardStyling(subElementStylingCss);
+        console.log('in sb subElementStylingCss - ', subElementStylingCss, thisCardSubStyling);
       } catch (e) {
         console.log('no substyling information - ', e);
         thisCardSubStyling={};
