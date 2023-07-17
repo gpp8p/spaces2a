@@ -43,6 +43,7 @@ export default {
     this.subFamily.labelLocation = this.LABEL_NOT;
     if(typeof(this.cmdObject.subElementValue.fontFamily)!='undefined'){
       this.subFamily.fieldValue=this.cmdObject.subElementValue.fontFamily ;
+      this.subFamily.selectVal=this.cmdObject.subElementValue.fontFamily ;
       this.subFamily = this.updateValues(this.subFamily, this.subFamily.fieldValue);
     }else{
       this.subFamily.fieldValue='' ;
@@ -68,6 +69,7 @@ export default {
     this.subSize.labelLocation = this.LABEL_NOT;
     if(typeof(this.cmdObject.subElementValue.fontSize)!='undefined'){
       this.subSize.fieldValue=this.cmdObject.subElementValue.fontSize ;
+      this.subSize.selectVal = this.cmdObject.subElementValue.fontSize;
       this.subSize = this.updateValues(this.subSize, this.subSize.fieldValue);
     }else{
       this.subSize.fieldValue='' ;
@@ -94,6 +96,7 @@ export default {
     this.subWeight.labelLocation = this.LABEL_NOT;
     if(typeof(this.cmdObject.subElementValue.fontWeight)!='undefined'){
       this.subWeight.fieldValue=this.cmdObject.subElementValue.fontWeight ;
+      this.subWeight.sele4ctVal = this.cmdObject.subElementValue.fontWeight;
       this.subWeight = this.updateValues(this.subWeight, this.subWeight.fieldValue);
     }else{
       this.subWeight.fieldValue='' ;
@@ -120,6 +123,7 @@ export default {
     this.subFontStyle.labelLocation = this.LABEL_NOT;
     if(typeof(this.cmdObject.subElementValue.fontStyle)!='undefined'){
       this.subFontStyle.fieldValue=this.cmdObject.subElementValue.fontStyle ;
+      this.subFontStyle.selectVal = this.cmdObject.subElementValue.fontStyle ;
       this.subFontStyle = this.updateValues(this.subFontStyle, this.subFontStyle.fieldValue);
     }else{
       this.subFontStyle.fieldValue='' ;
@@ -146,28 +150,44 @@ export default {
     this.subAlignment.labelLocation = this.LABEL_NOT;
     if(typeof(this.cmdObject.subElementValue.alignment)!='undefined'){
       this.subAlignment.fieldValue=this.cmdObject.subElementValue.alignment ;
+      this.subAlignment.selectVal = this.cmdObject.subElementValue.alignment ;
       this.subAlignment = this.updateValues(this.subAlignment, this.subAlignment.fieldValue);
     }else{
       this.subAlignment.fieldValue='left' ;
       this.subAlignment = this.updateValues(this.subAlignment, '');
     }
+    debugger;
+    this.colorVal = this.cmdObject.fieldValue.color;
     this.fpTitleRow.alignment = this.alignment;
-    this.fpTitleRow.colorVal =  this.colorVal;
+
+//    this.fpTitleRow.colorVal =  this.colorVal;
+//    this.fpTitleRow.fontColor = Object.create();
+    this.titleColor.colorVal = this.colorVal;
+    this.titleColor.labelLocation = this.LABEL_VERTICAL;
+//    this.fpTitleRow.fontColor.colorVal = this.colorVal;
+//    this.fpTitleRow.fontColor.labelLocation=this.LABEL_VERTICAL;
+    this.fpTitleRow.fontColor = this.titleColor;
     this.fpTitleRow.fieldLabel = "Title";
     this.fpSubRow.alignment = this.subAlignment;
     this.fpSubRow.fieldLabel = 'Links';
-
+//    this.fpSubRow.colorVal = this.cmdObject.subElementValue.color;
+//    this.fpSubRow.fontColor= Object.create();
+    this.subColor.colorVal = this.cmdObject.subElementValue.color;
+    this.subColor.labelLocation = this.LABEL_NOT;
+    this.fpSubRow.fontColor = this.subColor;
+//    this.fpSubRow.fontColor.colorVal = this.cmdObject.subElementValue.color;
+//    this.fpSubRow.fontColor.labelLocation = this.LABEL_NOT;
 
 
   },
   mounted(){
     console.log(this.name,' is mounted');
 //    debugger;
-    this.colorVal = this.cmdObject.fieldValue.color;
+//    this.colorVal = this.cmdObject.fieldValue.color;
 
 //    console.log('fontpicker this.family-', this.family);
-    this.reload+=1;
-    this.c1+=1;
+//    this.reload+=1;
+//    this.c1+=1;
 //    console.log('fontPicker mounted is finished');
 //    console.log('fontPicker cmdHandlers-', this.cmdHandlers);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
@@ -198,7 +218,9 @@ export default {
       LABEL_HOROZONTAL:2,
       c1:0,
       fpTitleRow:{},
-      fpSubRow:{}
+      fpSubRow:{},
+      titleColor:{},
+      subColor:{}
     }
   },
   methods:{

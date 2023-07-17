@@ -6,37 +6,34 @@
     <span class="fpick">
           <selectv2
               :cmdObject="cmdObject.family"
-              name="fontSelect"
+              :name="this.familyName"
               @cevt="handleEvt"
           ></selectv2>
           <selectv2
               :cmdObject="cmdObject.fontStyle"
-              name="styleSelect"
+              :name="this.styleName"
               @cevt="handleEvt"
           ></selectv2>
           <selectv2
               :cmdObject="cmdObject.size"
-              name="sizeSelect"
+              :name="this.sizeName"
               @cevt="handleEvt"
           ></selectv2>
           <selectv2
               :cmdObject="cmdObject.weight"
-              name="weightSelect"
+              :name="this.weightName"
               @cevt="handleEvt"
           ></selectv2>
       <selectv2
           :cmdObject="cmdObject.alignment"
-          name="alignmentSelect"
+          :name="this.alignmentName"
           @cevt="handleEvt"
       ></selectv2>
-      <span class="colorSelect">
-        <span>
-          Color
-        </span>
-        <span>
-          <input type="color"  v-model = "cmdObject.colorVal"   @change="cmdObject.colorSelect"/>
-        </span>
-      </span>
+      <colorV2
+          :cmdObject="cmdObject.fontColor"
+          :name="this.fontColorName"
+          @cevt="handleEvt"
+      ></colorV2>
     </span>
   </span>
 </template>
@@ -44,6 +41,7 @@
 <script>
 import utils from '../components/utils.vue';
 import selectv2 from "@/components/selectv2";
+import colorV2 from "@/components/colorV2";
 
 export default {
   name: "fontPickerRow",
@@ -57,7 +55,7 @@ export default {
       required: false
     }
   },
-  components: {selectv2},
+  components: {selectv2, colorV2},
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');
@@ -70,7 +68,15 @@ export default {
   data(){
     return {
       cmdHandlers:{},
-      leafComponent: false
+      leafComponent: false,
+      familyName:this.name+"_fontSelect",
+      styleName: this.name+"_styleSelect",
+      sizeName: this.name+"_sizeSelecty",
+      weightName: this.name+"_weightSelect",
+      alignmentName: this.name+"_alignmentSelect",
+      fontColorName: this.name+"_fontColorSelect"
+
+
     }
   },
   methods:{

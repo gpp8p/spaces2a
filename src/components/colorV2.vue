@@ -1,60 +1,27 @@
 <template>
-  <span class="">
-    <span v-if="this.labelLocation==this.LABEL_NOT">
-         <select :size="this.selectSize" :multiple="multiple" @change="this.onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
-                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in cmdObject.options"
-                            :key="index"
-                            :cmdObject = thisOption
-                            :cmdObjectVersion = thisCmdObjectVersion
-                            :name = thisOption.val
-                            class="optionStyle"
-                  ></v-option>
-            </select>
-    </span>
-    <span v-if="this.labelLocation==this.LABEL_VERTICAL" class="fselectVertical">
+  <span>
+      <span class="colorSelect" v-if="labelLocation==this.LABEL_VERTICAL">
         <span>
-          {{this.labelValue}}
+          Color
         </span>
         <span>
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
-                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in cmdObject.options"
-                            :key="index"
-                            :cmdObject = thisOption
-                            :cmdObjectVersion = thisCmdObjectVersion
-                            :name = thisOption.val
-                            class="optionStyle"
-                  ></v-option>
-            </select>
+          <input type="color"  v-model = "colorVal"  @change="this.colorValueChanged" />
         </span>
-    </span>
-    <span v-if="this.labelLocation==this.LABEL_HOROZONTAL" class="fselectHorozontal">
+      </span>
+      <span class="colorSelect" v-if="labelLocation==this.LABEL_NOT">
         <span>
-          {{this.labelValue}}
+          <input type="color"  v-model = "colorVal"   />
         </span>
-        <span>
-         <select :size="this.selectSize" :multiple="multiple" @change="onChange($event, this.eventKey)" v-model="selectVal" :style="cmdObject.selectStyle" >
-                  <option v-if="this.selectSize==0"  class="optionStyle">Please Select</option>
-                  <v-option v-for="(thisOption, index) in cmdObject.options"
-                            :key="index"
-                            :cmdObject = thisOption
-                            :cmdObjectVersion = thisCmdObjectVersion
-                            :name = thisOption.val
-                            class="optionStyle"
-                  ></v-option>
-            </select>
-        </span>
-    </span>
-
+      </span>
   </span>
+
 </template>
 
 <script>
 import utils from '../components/utils.vue';
-import vOption from "../components/option2.vue";
+
 export default {
-  name: "selectv2",
+  name: "colorv2",
   props:{
     name:{
       type: String,
@@ -65,12 +32,11 @@ export default {
       required: true
     }
   },
-  components: {vOption},
+  components: {},
   mixins: [utils],
   mounted(){
-    console.log(this.name,' selectv2 is mounted-', this.cmdObject.options);
-    this.selectVal = this.cmdObject.selectVal;
-    this.eventKey = this.cmdObject.eventKey;
+    debugger;
+    console.log(this.name,'colorV2 is mounted-', this.cmdObject);
     if(typeof(this.cmdObject.labelLocation)!='undefined'){
       this.labelLocation = this.cmdObject.labelLocation;
     }else{
@@ -79,12 +45,13 @@ export default {
     if(typeof(this.cmdObject.labelValue)!='undefined'){
       this.labelValue = this.cmdObject.labelValue;
     }
+    if(typeof(this.cmdObject.colorVal)!='undefined'){
+      this.colorVal = this.cmdObject.colorVal;
+    }else{
+      this.colorVal = '#ffffff';
+    }
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
-    this.$emit('cevt', ['fieldInput', this.name, this.selectVal]);
-  },
-  updated(){
-    console.log(this.name,' selectv2 is updated-', this.selectVal);
-    this.$emit('cevt', ['fieldInput', this.name, this.selectVal]);
+    this.$emit('cevt', ['fieldInput',this.name, this.colorVal]);
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -92,19 +59,16 @@ export default {
   data(){
     return {
       cmdHandlers:{},
-      leafComponent: false,
-      selectVal:'',
-      eventKey:'',
+      leafComponent: true,
       LABEL_NOT:0,
       LABEL_VERTICAL:1,
       LABEL_HOROZONTAL:2,
       labelLocation:0,
-      labelValue:''
-
+      labelValue:'',
+      colorVal:''
     }
   },
   methods:{
-
 //cmd handlers
     handleCmd(args){
       console.log(this.name, ' handleCmd', args);
@@ -179,6 +143,10 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
+    },
+
+    colorValueChanged(){
+      this.$emit('cevt', ['fieldInput',this.name, this.colorVal]);
     }
 
 
@@ -188,24 +156,9 @@ export default {
 </script>
 
 <style scoped>
-.selectStyle {
-  background: powderblue;
-  color:blue;
-  font-weight: bold;
-  font-size: 12px;
-  margin-bottom: 3px;
-  width: 100%;
-  margin-right: 15%;
-  margin-top:5px;
-}
-
-.fselectVertical {
+.colorSelect {
   display: grid;
-  grid-template-rows: 50% 50%;
-}
-.fselectHorozontal{
-  display:grid;
-  margin-top: 3px;
-  grid-template-columns: 20% 70%;
+  grid-template-rows: 40% 60%;
 }
 </style>
+
