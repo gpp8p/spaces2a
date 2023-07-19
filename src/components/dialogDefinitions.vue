@@ -759,7 +759,7 @@ name: "dialogDefinitions",
                 boxShadow: '10px 10px 5px lightslategrey',
               },
               leafComponent: false,
-              menuName: 'dialogSubMenu2',
+              menuName: 'dialogSubMenu3',
               fields: [
                 {
                   type: "vBackgroundPicker",
@@ -1278,15 +1278,31 @@ name: "dialogDefinitions",
         }
         case 'headlineCard':{
           return {
-            card_component: 'headlineCard',
-            cardName: '',
-            cardBackground: {
-              backgroundType:"color",
-              colorSelect:"#0a3aff",
+            cardStyles:{
+              "background-color": "#bbfad7",
+              backgroundTypeColor: "checked",
+              border: "thin solid #0000FF",
+              "border-radius": "8px",
+              borderInclude: "checked",
+              "box-shadow": "10px 20px 30px black",
+              color: "#0000FF",
+              "font-family": "Candara",
+              "font-size": "18pt",
+              "font-style": "normal",
+              "font-weight": "normal",
+              roundIncluded: "checked",
+              shadow: "checked",
+              "text-align": "center"
+            },
+            cardSubStyles:{
+              color: "#0000FF",
+              "font-family": "Candara",
+              "font-size": "18pt",
+              "font-style": "normal",
+              "font-weight": "normal",
             }
           }
         }
-
       }
     }
   }

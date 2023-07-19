@@ -83,6 +83,7 @@ export default {
     }else{
       this.fieldValue='no';
     }
+    this.$emit('cevt', ['fieldInput', this.name, this.fieldValue]);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   beforeDestroy() {

@@ -62,6 +62,7 @@ export default {
     this.dialogComponents = this.dialogFields[this.config.definition].fields;
     if(typeof(this.config.existingData)!='undefined'){
       this.existingData =  this.config.existingData;
+      console.log('in dialog2 existing data-', this.existingData);
     }else{
       this.dialogDefaults = this.getDialogDefaults(this.config.definition);
       console.log('dialogDefaults-', this.dialogDefaults);
@@ -242,6 +243,9 @@ export default {
         'saveScreenEntry': function(msg, context){
           context.doSaveScreenEntry(msg, context);
         },
+        'saveCardConfigurationEntry': function(msg, context){
+          context.doSaveCardConfigurationEntry(msg, context);
+        },
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -287,6 +291,10 @@ export default {
     doSaveScreenEntry(msg, context){
       console.log('in dialog doSaveScreenEntry', msg, context, this.dialogData);
       this.$emit('cevt', ['saveScreenEntry', this.dialogData]);
+    },
+    doSaveCardConfigurationEntry(msg, context){
+      console.log('in dialog doSaveCardConfigurationEntry', msg, context, this.dialogData);
+      this.$emit('cevt', ['saveCardConfigurationEntry', this.dialogData]);
     }
 
 

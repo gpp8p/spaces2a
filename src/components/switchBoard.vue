@@ -63,14 +63,19 @@ export default {
         'saveScreenEntry':function(msg, context){
           context.doSaveScreenEntry(msg, context);
         },
+        'saveCardConfigurationEntry':function(msg, context){
+          context.doSaveCardConfigurationEntry(msg, context);
+        },
 
 
 
-/*
-        'default': function(msg, context){
-          console.log('evtHandler - something else', msg, context);
-        }
- */
+
+
+        /*
+                'default': function(msg, context){
+                  console.log('evtHandler - something else', msg, context);
+                }
+         */
       }
       try {
         (evtType[msg[0]](msg, self));
@@ -251,6 +256,9 @@ export default {
       this.cmdHandlers['mainNavArea'](['setMessage', 'Please select an area by dragging your mouse']);
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
+    },
+    doSaveCardConfigurationEntry(msg, context){
+      console.log('at doSaveCardConfigurationEntry-', msg, context);
     },
     doShowLogin(context){
 //      debugger;
