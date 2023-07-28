@@ -560,7 +560,7 @@ name: "dialogDefinitions",
                   type: "vSelect",
                   options: [
                     {
-                      val: 'headlineCard',
+                      val: 'configureHeadlineCard',
                       label: 'Headline Card',
                       isDisabled: false,
                       isSelected: false
@@ -744,7 +744,8 @@ name: "dialogDefinitions",
             }
           }
         }
-        case 'configureHeadlineCard': {
+        case 'configureHeadlineCard':{
+//        case 'configureHeadlineCard': {
           return {
             configureHeadlineCard: {
               dialogStyle: {
@@ -1268,6 +1269,7 @@ name: "dialogDefinitions",
         case 'emailPage':{
           break;
         }
+/*
         case 'configureHeadlineCard':{
           return {
             cardBackground:{
@@ -1276,24 +1278,29 @@ name: "dialogDefinitions",
             },
           }
         }
-        case 'headlineCard':{
+
+ */
+        case 'configureHeadlineCard':{
           return {
-            cardStyles:{
-              "background-color": "#bbfad7",
-              backgroundTypeColor: "checked",
-              border: "thin solid #0000FF",
-              "border-radius": "8px",
-              borderInclude: "checked",
-              "box-shadow": "10px 20px 30px black",
-              color: "#0000FF",
-              "font-family": "Candara",
-              "font-size": "18pt",
-              "font-style": "normal",
-              "font-weight": "normal",
-              roundIncluded: "checked",
-              shadow: "checked",
-              "text-align": "center"
+            background :{
+              backgroundType: "color",
+              colorSelect: "#bbfad7"
             },
+//              "background-color": "#bbfad7",
+//              backgroundTypeColor: "checked",
+            border: "thin solid #0000FF",
+            "border-radius": "8px",
+            borderInclude: "yes",
+            "box-shadow": "10px 20px 30px black",
+            color: "#0000FF",
+            "font-family": "Candara",
+            "font-size": "18pt",
+            "font-style": "normal",
+            "font-weight": "normal",
+            roundIncluded: "yes",
+            shadow: "yes",
+            "text-align": "center",
+
             cardSubStyles:{
               color: "#0000FF",
               "font-family": "Candara",

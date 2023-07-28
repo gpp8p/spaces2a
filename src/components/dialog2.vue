@@ -53,7 +53,7 @@ export default {
     }
   },
   mounted(){
-//    debugger;
+    debugger;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.dialogFields = this.getDialogDefinition(this.config.definition);
@@ -73,6 +73,7 @@ export default {
 //      debugger;
         var d;
         for(d=0; d<this.dialogComponents.length;d++){
+          console.log('fieldfIdentifier-',this.dialogDefaults[this.dialogComponents[d].fieldIdentifier], this.dialogComponents[d].fieldIdentifier);
           if(typeof(this.dialogDefaults[this.dialogComponents[d].fieldIdentifier])!='undefined'){
             this.dialogComponents[d].fieldValue = this.dialogDefaults[this.dialogComponents[d].fieldIdentifier];
           }
