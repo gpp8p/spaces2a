@@ -985,6 +985,7 @@ name: "dialogDefinitions",
                     fontSize: "12px",
                     marginTop: "7px"
                   },
+                  fieldIdentifier: 'titleStyle',
                   selectStyle:'background: powderblue;color:blue;font-weight: bold;font-size: 12px;margin-bottom: 3px;width: 100%;margin-right: 15%;margin-top:5px; ',
                   loader: function(styleElements){
 //                    debugger;
@@ -1293,21 +1294,35 @@ name: "dialogDefinitions",
             borderInclude: "yes",
             "box-shadow": "10px 20px 30px black",
             color: "#0000FF",
-            "font-family": "Candara",
-            "font-size": "18pt",
-            "font-style": "normal",
-            "font-weight": "normal",
+            titleStyle: {
+              fontFamily: "Candara",
+              fontSize: "18pt",
+              fontStyle: "normal",
+              fontWeight: "normal",
+              color: "#0000FF",
+              subElementValue:{
+                color: "#0000FF",
+                fontFamily: "Candara",
+                fontSize: "12pt",
+                fontStyle: "normal",
+                fontWeight: "normal",
+              },
+            },
+/*
+            subElementValue:{
+              color: "#0000FF",
+              fontFamily: "Candara",
+              fontSize: "12pt",
+              fontStyle: "normal",
+              fontWeight: "normal",
+            },
+
+ */
             roundIncluded: "yes",
             shadow: "yes",
             "text-align": "center",
 
-            cardSubStyles:{
-              color: "#0000FF",
-              "font-family": "Candara",
-              "font-size": "18pt",
-              "font-style": "normal",
-              "font-weight": "normal",
-            }
+
           }
         }
       }

@@ -26,6 +26,7 @@ export default {
   mixins: [utils],
   created(){
     console.log('subElementValue-', this.cmdObject.subElementValue);
+    debugger;
     this.family =  this.cmdObject.pickers.fontFamily;
 //    this.familyVal=this.cmdObject.fieldValue.fontFamily;
     if(typeof(this.cmdObject.fieldValue.fontFamily)!='undefined'){
@@ -41,14 +42,27 @@ export default {
 
     this.subFamily = Object.assign({}, this.family);
     this.subFamily.labelLocation = this.LABEL_NOT;
-    if(typeof(this.cmdObject.subElementValue.fontFamily)!='undefined'){
-      this.subFamily.fieldValue=this.cmdObject.subElementValue.fontFamily ;
-      this.subFamily.selectVal=this.cmdObject.subElementValue.fontFamily ;
-      this.subFamily = this.updateValues(this.subFamily, this.subFamily.fieldValue);
+    if(typeof(this.cmdObject.subElementValue)!='undefined'){
+      if(typeof(this.cmdObject.subElementValue.fontFamily)!='undefined'){
+        this.subFamily.fieldValue=this.cmdObject.subElementValue.fontFamily ;
+        this.subFamily.selectVal=this.cmdObject.subElementValue.fontFamily ;
+        this.subFamily = this.updateValues(this.subFamily, this.subFamily.fieldValue);
+      } else{
+        this.subFamily.fieldValue='' ;
+        this.subFamily = this.updateValues(this.subFamily, '');
+      }
     }else{
-      this.subFamily.fieldValue='' ;
-      this.subFamily = this.updateValues(this.subFamily, '');
+      if(typeof(this.cmdObject.fieldValue.subElementValue)!='undefined'){
+        this.subFamily.fieldValue=this.cmdObject.fieldValue.subElementValue.fontFamily ;
+        this.subFamily.selectVal=this.cmdObject.fieldValue.subElementValue.fontFamily ;
+        this.subFamily = this.updateValues(this.subFamily, this.subFamily.fieldValue);
+      }else{
+        this.subFamily.fieldValue='' ;
+        this.subFamily = this.updateValues(this.subFamily, '');
+      }
     }
+    var fvals = this.setFieldValues(this.cmdObject, 'fontFamily', 'Font', this.LABEL_VERTICAL, 'fasmily', this);
+    console.log('fvals - ', fvals);
     this.fpTitleRow.family = this.family;
     this.fpSubRow.family = this.subFamily;
 
@@ -315,6 +329,43 @@ export default {
     doFieldInput(msg, context) {
       console.log('doFieldInput in fontPicker-', msg, context);
       this.$emit('cevt', ['fieldInput', msg[1], msg[2], msg[1]]);
+    },
+
+    setFieldValues(cmdObject, fieldIdentifier, label, labelLocation, eventKey, context){
+      debugger;
+      var fieldVariable = cmdObject.pickers[fieldIdentifier];
+      if(typeof(this.cmdObject.fieldValue[fieldIdentifier])!='undefined'){
+        fieldVariable.fieldValue = cmdObject.fieldValue[fieldIdentifier];
+      }
+      fieldVariable = this.updateValues(fieldVariable, fieldVariable.fieldValue);
+      fieldVariable.selectVal = fieldVariable.fieldValue;
+      fieldVariable.eventKey = eventKey;
+      fieldVariable.selectStyle = cmdObject.selectStyle;
+      fieldVariable.labelValue = label;
+      fieldVariable.labelLocation=labelLocation;
+      var subFieldVariable = Object.assign({}, fieldVariable );
+      subFieldVariable.labelLocation = this.LABEL_NOT;
+
+      if(typeof(this.cmdObject.subElementValue)!='undefined'){
+        if(typeof(this.cmdObject.subElementValue[fieldIdentifier])!='undefined'){
+          subFieldVariable.fieldValue=this.cmdObject.subElementValue[fieldIdentifier] ;
+          subFieldVariable.selectVal=this.cmdObject.subElementValue[fieldIdentifier];
+          subFieldVariable = this.updateValues(subFieldVariable, subFieldVariable.fieldValue);
+        } else{
+          this.subFamily.fieldValue='' ;
+          this.subFamily = context.updateValues(this.subFamily, '');
+        }
+      }else{
+        if(typeof(this.cmdObject.fieldValue.subElementValue)!='undefined'){
+          subFieldVariable.fieldValue=this.cmdObject.fieldValue.subElementValue[fieldIdentifier] ;
+          subFieldVariable.selectVal=this.cmdObject.fieldValue.subElementValue[fieldIdentifier] ;
+          subFieldVariable = this.updateValues(this.subFamily, this.subFamily.fieldValue);
+        }else{
+          subFieldVariable.fieldValue='' ;
+          subFieldVariable = context.updateValues(this.subFamily, '');
+        }
+      }
+      return [fieldVariable, subFieldVariable];
     }
 
 
