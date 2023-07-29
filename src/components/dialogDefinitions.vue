@@ -1052,7 +1052,7 @@ name: "dialogDefinitions",
                         },
                       ]
                     },
-                    size:{
+                    fontSize:{
                       hasLabel: false,
                       options:[
                         {
@@ -1093,7 +1093,7 @@ name: "dialogDefinitions",
                         },
                       ]
                     },
-                    style:{
+                    fontStyle:{
                       hasLabel: false,
                       options:[
                         {
@@ -1110,7 +1110,7 @@ name: "dialogDefinitions",
                         },
                       ]
                     },
-                  weight: {
+                  fontWeight: {
                       hasLabel: false,
                       options:[
                         {
@@ -1299,13 +1299,15 @@ name: "dialogDefinitions",
               fontSize: "18pt",
               fontStyle: "normal",
               fontWeight: "normal",
-              color: "#0000FF",
+              alignment: "left",
+              color: "#999999",
               subElementValue:{
-                color: "#0000FF",
-                fontFamily: "Candara",
+                color: "#BBBBBB",
+                fontFamily: "Helvetica",
                 fontSize: "12pt",
                 fontStyle: "normal",
                 fontWeight: "normal",
+                alignment: "left",
               },
             },
 /*

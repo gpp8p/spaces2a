@@ -10,7 +10,7 @@
               @cevt="handleEvt"
           ></selectv2>
           <selectv2
-              :cmdObject="cmdObject.fontStyle"
+              :cmdObject="cmdObject.style"
               :name="this.styleName"
               @cevt="handleEvt"
           ></selectv2>
@@ -30,7 +30,7 @@
           @cevt="handleEvt"
       ></selectv2>
       <colorV2
-          :cmdObject="cmdObject.fontColor"
+          :cmdObject="cmdObject"
           :name="this.fontColorName"
           @cevt="handleEvt"
       ></colorV2>

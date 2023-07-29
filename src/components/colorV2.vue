@@ -8,7 +8,7 @@
           <input type="color"  v-model = "colorVal"  @change="this.colorValueChanged" />
         </span>
       </span>
-      <span class="colorSelect" v-if="labelLocation==this.LABEL_NOT">
+      <span  v-if="labelLocation==this.LABEL_NOT">
         <span>
           <input type="color"  v-model = "colorVal"   />
         </span>
@@ -159,6 +159,7 @@ export default {
 .colorSelect {
   display: grid;
   grid-template-rows: 40% 60%;
+
 }
 </style>
 

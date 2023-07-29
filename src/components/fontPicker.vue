@@ -27,6 +27,7 @@ export default {
   created(){
     console.log('subElementValue-', this.cmdObject.subElementValue);
     debugger;
+/*
     this.family =  this.cmdObject.pickers.fontFamily;
 //    this.familyVal=this.cmdObject.fieldValue.fontFamily;
     if(typeof(this.cmdObject.fieldValue.fontFamily)!='undefined'){
@@ -61,11 +62,25 @@ export default {
         this.subFamily = this.updateValues(this.subFamily, '');
       }
     }
-    var fvals = this.setFieldValues(this.cmdObject, 'fontFamily', 'Font', this.LABEL_VERTICAL, 'fasmily', this);
-    console.log('fvals - ', fvals);
-    this.fpTitleRow.family = this.family;
-    this.fpSubRow.family = this.subFamily;
+*/
+    var fvals = this.setFieldValues(this.cmdObject, 'fontFamily', 'Font', this.LABEL_VERTICAL, 'family', this);
+    console.log('computed style a - ', fvals[1]);
+//    this.fpTitleRow.family = this.family;
 
+    console.log()
+//    this.fpSubRow.family = this.subFamily;
+    console.log('computed style b - ', this.fpSubRow.family);
+    this.fpTitleRow.family = fvals[0];
+    this.fpSubRow.family = fvals[1];
+//    this.fpSubRow.family = fvals[1];
+
+
+//debugger;
+    fvals = this.setFieldValues(this.cmdObject, 'fontSize', 'Size', this.LABEL_VERTICAL, 'fontSize', this);
+    this.fpTitleRow.size = fvals[0];
+    this.fpSubRow.size = fvals[1];
+
+ /*
 
     this.size =  this.cmdObject.pickers.size;
 //    this.sizeVal = this.cmdObject.fieldValue.fontSize;
@@ -119,8 +134,14 @@ export default {
 
     this.fpTitleRow.weight = this.weight;
     this.fpSubRow.weight = this.subWeight;
+*/
+    fvals = this.setFieldValues(this.cmdObject, 'fontWeight', 'Weight', this.LABEL_VERTICAL, 'fontWeight', this);
+    this.fpTitleRow.weight = fvals[0];
+    this.fpSubRow.weight = fvals[1];
 
 
+
+/*
     this.fontStyle =  this.cmdObject.pickers.style;
 //    this.styleVal = this.cmdObject.fieldValue.fontStyle;
     if(typeof(this.cmdObject.fieldValue.fontStyle)!='undefined'){
@@ -146,8 +167,14 @@ export default {
 
     this.fpTitleRow.fontStyle = this.fontStyle;
     this.fpSubRow.fontStyle = this.subFontStyle;
+*/
+//    debugger;
+    fvals = this.setFieldValues(this.cmdObject, 'fontStyle', 'Style', this.LABEL_VERTICAL, 'fontStyle', this);
+    this.fpTitleRow.style = fvals[0];
+    this.fpSubRow.style = fvals[1];
 
 
+/*
     this.alignment =  this.cmdObject.pickers.alignment;
 //    this.alignmentVal = this.cmdObject.fieldValue.alignment;
     if(typeof(this.cmdObject.fieldValue.alignment)!='undefined'){
@@ -173,22 +200,45 @@ export default {
     debugger;
     this.colorVal = this.cmdObject.fieldValue.color;
     this.fpTitleRow.alignment = this.alignment;
+*/
+//debugger;
+    fvals = this.setFieldValues(this.cmdObject, 'alignment', 'Alignment', this.LABEL_VERTICAL, 'alignment', this);
+    this.fpTitleRow.alignment = fvals[0];
+    this.fpSubRow.alignment = fvals[1];
+
+debugger;
+    if(typeof(this.cmdObject.subElementValue)!='undefined'){
+      this.titleColor.colorVal = this.cmdObject.fieldValue.color;
+      this.fpTitleRow.colorVal = this.cmdObject.fieldValue.color;
+      this.titleColor.labelLocation = this.LABEL_VERTICAL;
+      this.fpSubRow.colorVal = this.cmdObject.subElementValue.color
+    }else{
+      this.titleColor.colorVal = this.cmdObject.fieldValue.color;
+      this.fpTitleRow.colorVal = this.cmdObject.fieldValue.color;
+      this.titleColor.labelLocation = this.LABEL_VERTICAL;
+
+      this.fpSubRow.colorVal = this.cmdObject.fieldValue.subElementValue.color;
+      this.fpSubRow.labelLocation = this.LABEL_NOT;
+      this.fpSubRow.fontColor = this.cmdObject.fieldValue.subElementValue.color;
+    }
+
+
 
 //    this.fpTitleRow.colorVal =  this.colorVal;
 //    this.fpTitleRow.fontColor = Object.create();
-    this.titleColor.colorVal = this.colorVal;
-    this.titleColor.labelLocation = this.LABEL_VERTICAL;
+//    this.titleColor.colorVal = this.colorVal;
+//    this.titleColor.labelLocation = this.LABEL_VERTICAL;
 //    this.fpTitleRow.fontColor.colorVal = this.colorVal;
 //    this.fpTitleRow.fontColor.labelLocation=this.LABEL_VERTICAL;
-    this.fpTitleRow.fontColor = this.titleColor;
+//    this.fpTitleRow.fontColor = this.titleColor;
     this.fpTitleRow.fieldLabel = "Title";
-    this.fpSubRow.alignment = this.subAlignment;
+//    this.fpSubRow.alignment = this.subAlignment;
     this.fpSubRow.fieldLabel = 'Links';
 //    this.fpSubRow.colorVal = this.cmdObject.subElementValue.color;
 //    this.fpSubRow.fontColor= Object.create();
-    this.subColor.colorVal = this.cmdObject.subElementValue.color;
-    this.subColor.labelLocation = this.LABEL_NOT;
-    this.fpSubRow.fontColor = this.subColor;
+//    this.subColor.colorVal = this.cmdObject.subElementValue.color;
+//    this.subColor.labelLocation = this.LABEL_NOT;
+//    this.fpSubRow.fontColor = this.subColor;
 //    this.fpSubRow.fontColor.colorVal = this.cmdObject.subElementValue.color;
 //    this.fpSubRow.fontColor.labelLocation = this.LABEL_NOT;
 
@@ -332,7 +382,7 @@ export default {
     },
 
     setFieldValues(cmdObject, fieldIdentifier, label, labelLocation, eventKey, context){
-      debugger;
+//      debugger;
       var fieldVariable = cmdObject.pickers[fieldIdentifier];
       if(typeof(this.cmdObject.fieldValue[fieldIdentifier])!='undefined'){
         fieldVariable.fieldValue = cmdObject.fieldValue[fieldIdentifier];
@@ -353,16 +403,16 @@ export default {
           subFieldVariable = this.updateValues(subFieldVariable, subFieldVariable.fieldValue);
         } else{
           this.subFamily.fieldValue='' ;
-          this.subFamily = context.updateValues(this.subFamily, '');
+          this.subFamily = context.updateValues(subFieldVariable, '');
         }
       }else{
         if(typeof(this.cmdObject.fieldValue.subElementValue)!='undefined'){
           subFieldVariable.fieldValue=this.cmdObject.fieldValue.subElementValue[fieldIdentifier] ;
           subFieldVariable.selectVal=this.cmdObject.fieldValue.subElementValue[fieldIdentifier] ;
-          subFieldVariable = this.updateValues(this.subFamily, this.subFamily.fieldValue);
+          subFieldVariable = this.updateValues(subFieldVariable, subFieldVariable.fieldValue);
         }else{
           subFieldVariable.fieldValue='' ;
-          subFieldVariable = context.updateValues(this.subFamily, '');
+          subFieldVariable = context.updateValues(subFieldVariable, '');
         }
       }
       return [fieldVariable, subFieldVariable];
