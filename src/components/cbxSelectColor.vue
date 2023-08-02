@@ -25,7 +25,7 @@
                   ></v-option>
 
             </select>
-            <input type="color" id="head" name="head" :value="fieldValue.borderColor">
+            <input type="color" id="head" name="head" :value="this.fieldValue.borderColor">
          </span>
 
          </span>
@@ -67,6 +67,7 @@ export default {
   mixins: [utils],
   mounted(){
     console.log(this.name,' is mounted');
+    debugger;
     var cType =  typeof this.cmdObject.hasLabel;
     if(cType != 'boolean'){
       this.hasLabel = false;
@@ -83,6 +84,7 @@ export default {
     }else{
       this.fieldValue='no';
     }
+    console.log('border color-', this.fieldValue.borderColor);
     this.$emit('cevt', ['fieldInput', this.name, this.fieldValue]);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },

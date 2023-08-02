@@ -80,23 +80,30 @@ export default {
         }
       }
     }
-//    debugger;
+    debugger;
     try {
-      console.log('this.config.existingData.cardStyles-', this.config.existingData);
+      console.log('this.config.existingData.cardStyles-', this.config.existingData.cardStyles);
+      console.log('this.config.existingData.cardSubStyles-', this.config.existingData.cardSubStyles);
     } catch (e) {
       console.log('error');
     }
-    for(d = 0; d<this.dialogComponents.length; d++){
-      if(typeof(this.dialogComponents[d].loader)!='undefined'){
-        var loadedVal = this.dialogComponents[d].loader(this.config.existingData.cardStyles);
-        this.dialogComponents[d].fieldValue = loadedVal
-        if(typeof(this.config.existingData.cardSubStyles)!='undefined'){
-          loadedVal = this.dialogComponents[d].loader(this.config.existingData.cardSubStyles);
-          this.dialogComponents[d].subElementValue = loadedVal;
+// since defaults are not loaded into existing data, this is never used in borders
+// need to use a variable here and put both the defaults or the loaded existing data into it
+// and then shape the defaults so the same loader is used to populate the fieldValues
+    if(typeof(this.config.existingData)!='undefined'){
+      for(d = 0; d<this.dialogComponents.length; d++){
+        if(typeof(this.dialogComponents[d].loader)!='undefined'){
+          var loadedVal = this.dialogComponents[d].loader(this.config.existingData.cardStyles);
+          this.dialogComponents[d].fieldValue = loadedVal
+          if(typeof(this.config.existingData.cardSubStyles)!='undefined'){
+            loadedVal = this.dialogComponents[d].loader(this.config.existingData.cardSubStyles);
+            this.dialogComponents[d].subElementValue = loadedVal;
+          }
+          console.log('existingValue is', loadedVal);
         }
-        console.log('existingValue is', loadedVal);
       }
     }
+
 /*
     try {
       var loadedBgVal = this.dialogComponents[0].loader(this.config.existingData.cardStyles);

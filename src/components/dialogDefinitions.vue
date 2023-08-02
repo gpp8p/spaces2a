@@ -939,7 +939,7 @@ name: "dialogDefinitions",
                     },
                   ],
                   loader: function(styleElements){
-//                    debugger;
+                    debugger;
                     var includeBdr='';
                     if(typeof(styleElements['borderInclude'])!='undefined'){
                       if(styleElements['borderInclude']=='checked'){
@@ -1289,6 +1289,11 @@ name: "dialogDefinitions",
             },
 //              "background-color": "#bbfad7",
 //              backgroundTypeColor: "checked",
+            borders:{
+              includeBorder: 'yes',
+              borderSize: 'medium',
+              borderColor: '#0000FF'
+            },
             border: "thin solid #0000FF",
             "border-radius": "8px",
             borderInclude: "yes",
@@ -1318,8 +1323,8 @@ name: "dialogDefinitions",
               fontStyle: "normal",
               fontWeight: "normal",
             },
+*/
 
- */
             roundIncluded: "yes",
             shadow: "yes",
             "text-align": "center",
