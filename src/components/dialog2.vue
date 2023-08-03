@@ -55,6 +55,17 @@ export default {
   mounted(){
     debugger;
     console.log(this.name,' is mounted');
+    console.log('dialog config-', this.config);
+    if(typeof(this.config.existingData)!='undefined'){
+      this.targetCard = {
+        newCard: false,
+        cardName: this.config.existingData.cardName
+      }
+    }else{
+      this.targetCard = {
+        newCard: true,
+      }
+    }
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.dialogFields = this.getDialogDefinition(this.config.definition);
     console.log('dialogFields-', this.dialogFields);
@@ -87,9 +98,6 @@ export default {
     } catch (e) {
       console.log('error');
     }
-// since defaults are not loaded into existing data, this is never used in borders
-// need to use a variable here and put both the defaults or the loaded existing data into it
-// and then shape the defaults so the same loader is used to populate the fieldValues
     if(typeof(this.config.existingData)!='undefined'){
       for(d = 0; d<this.dialogComponents.length; d++){
         if(typeof(this.dialogComponents[d].loader)!='undefined'){
@@ -133,7 +141,8 @@ export default {
       dialogComponents:[],
       menuVisible: false,
       leafComponent:false,
-      existingData:{}
+      existingData:{},
+      targetCard :{}
     }
   },
   methods:{
@@ -253,7 +262,7 @@ export default {
         },
         'saveCardConfigurationEntry': function(msg, context){
           context.doSaveCardConfigurationEntry(msg, context);
-        },
+        }
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -302,8 +311,10 @@ export default {
     },
     doSaveCardConfigurationEntry(msg, context){
       console.log('in dialog doSaveCardConfigurationEntry', msg, context, this.dialogData);
-      this.$emit('cevt', ['saveCardConfigurationEntry', this.dialogData]);
-    }
+      this.$emit('cevt', ['saveCardConfigurationEntry', this.dialogData, this.targetCard]);
+    },
+
+
 
 
 
