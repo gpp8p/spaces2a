@@ -158,7 +158,10 @@ export default {
           },
           'setCardMode':function(args, context){
             self.doSetCardMode(args, context);
-          }
+          },
+          'setValue':function(args, context){
+            self.doSetValue(args, context);
+          },
         }
         if(typeof(cmdType)!='undefined'){
           try {
@@ -180,7 +183,13 @@ export default {
       }
     },
 // put do cmds here
+    doSetValue(msg, context){
+      debugger;
+      if(msg[2]==this.name){
+        console.log('headlineCard doSetValue-',msg, context);
+      }
 
+    },
 //event handler
     evtOpt(msg){
       console.log('evtOpt in headlineCard', msg);

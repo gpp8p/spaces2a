@@ -259,6 +259,9 @@ export default {
     },
     doSaveCardConfigurationEntry(msg, context){
       console.log('at doSaveCardConfigurationEntry-', msg, context);
+      this.showDialog = false;
+      debugger;
+      this.cmdHandlers['mainPage'](['setValue', msg[1],'Headline1']);
     },
     doShowLogin(context){
 //      debugger;
