@@ -311,7 +311,7 @@ export default {
     doConfigureHeadlineCard(msg, context){
       console.log('in sb - doConfigureHeadlineCard', msg, context);
       context.dialogConfiguration.definition='configureHeadlineCard';
-//      debugger;
+      debugger;
       var mainStylingCss;
       var subElementStylingCss;
       var thisCardSubStyling;
@@ -335,6 +335,7 @@ export default {
       context.dialogReload+=1;
 
     },
+/*
     getCardStyling(mCss){
         console.log('getCardStyling-',mCss);
         var styleArray = mCss.split(';');
@@ -348,7 +349,7 @@ export default {
         console.log('styleValues-', styleValues);
         return styleValues;
     }
-
+*/
 
   }
 }

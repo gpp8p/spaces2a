@@ -57,6 +57,7 @@ export default {
     this.$emit('cevt', ['cardMounted','',this.name]);
 //    this.cardCss = this.config.card_parameters.gridCss +'; background-color:'+this.config.card_parameters.backgroundColor.colorSelect+';color:'+this.config.card_parameters.color+';';
       this.cardCss= this.config.card_parameters.style;
+      console.log('headline card style-', this.cardCss);
 //    debugger;
     console.log('mounting Headline card element styles-', this.config.elementStyles.sub);
     if (typeof(this.config.elementStyles.sub) === 'undefined'){
@@ -79,9 +80,11 @@ export default {
     }
     this.headlineStyle = hd.slice(0,-1);
     debugger;
+    var subElementStyles = this.config.elementStyles.sub;
+    console.log('headline subelement styles-',subElementStyles);
     this.menuItems = {
       currentSelectedMenuOption: 'Appearence',
-      style: 'color:blue; font-family: Geneva; font-size: 18px;',
+      style: subElementStyles[0],
       hoverStyle: 'color:red; font-family: Geneva; font-size: 18px;',
       menuType: 'headline',
       items:[]
@@ -187,6 +190,8 @@ export default {
       debugger;
       if(msg[2]==this.name){
         console.log('headlineCard doSetValue-',msg, context);
+        var currentMainStyles = this.getCardStyling(this.cardCss);
+        console.log('currentMainStyles-', currentMainStyles);
       }
 
     },
