@@ -23,6 +23,21 @@ export default {
       }
       console.log('styleValues-', styleValues);
       return styleValues;
+    },
+    substituteStyle(existingCss, styleName, newValue){
+      debugger;
+      var existingStyleValues = this.getCardStyling(existingCss);
+      if(typeof(existingStyleValues[styleName])!='undefined'){
+        existingStyleValues[styleName]=newValue;
+      }
+      var styleKeys = Object.keys(existingStyleValues);
+      var newCss='';
+      for(var s = 0;s<(styleKeys.length-1);s++){
+        newCss = newCss+ styleKeys[s]+':'+existingStyleValues[styleKeys[s]]+';';
+      }
+      console.log(newCss);
+      return newCss;
+
     }
   },
   data(){

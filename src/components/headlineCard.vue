@@ -80,12 +80,13 @@ export default {
     }
     this.headlineStyle = hd.slice(0,-1);
     debugger;
-    var subElementStyles = this.config.elementStyles.sub;
+    var subElementStyles = this.config.elementStyles.sub[0];
     console.log('headline subelement styles-',subElementStyles);
+    var hov=this.substituteStyle(subElementStyles, 'color', 'red');
     this.menuItems = {
       currentSelectedMenuOption: 'Appearence',
-      style: subElementStyles[0],
-      hoverStyle: 'color:red; font-family: Geneva; font-size: 18px;',
+      style: subElementStyles,
+      hoverStyle: hov,
       menuType: 'headline',
       items:[]
     }
