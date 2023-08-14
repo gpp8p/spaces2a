@@ -192,7 +192,11 @@ export default {
       if(msg[2]==this.name){
         console.log('headlineCard doSetValue-',msg, context);
         var currentMainStyles = this.getCardStyling(this.cardCss);
+        var currentGridStyle = this.getCardGridStyle(this.cardCss);
+        console.log('gridStyle-', currentGridStyle);
         console.log('currentMainStyles-', currentMainStyles);
+        console.log('entered styles-', msg[1]);
+        this.setStyleCss(msg[1], currentGridStyle);
       }
 
     },
@@ -269,6 +273,43 @@ export default {
         }
       }
 
+    },
+    setStyleCss(enteredStyles, gridStyle){
+      var thisStyleElements = Object.keys(enteredStyles);
+      var newStyle = gridStyle+";";
+      for(var s=0; s< thisStyleElements.length; s++){
+        console.log('headline style element-', thisStyleElements[s], newStyle[thisStyleElements[s]]);
+        switch(thisStyleElements[s]){
+          case 'borders':{
+            console.log('borders-', enteredStyles[thisStyleElements[s]]);
+            if(enteredStyles[thisStyleElements[s]].includeBorder=='yes'){
+              var newBorderSpec='';
+              newBorderSpec = newBorderSpec+'border:'+enteredStyles[thisStyleElements[s]].borderSize;
+              newBorderSpec = newBorderSpec+' solid ';
+              newBorderSpec = newBorderSpec+enteredStyles[thisStyleElements[s]].borderColor;
+              newBorderSpec = newBorderSpec+";";
+              newBorderSpec = newBorderSpec+ "borderInclude:checked;";
+              newStyle = newStyle+newBorderSpec;
+              console.log('newStyle-', newStyle);
+            }
+            break;
+          }
+          case 'cardBackground':{
+            if(enteredStyles[thisStyleElements[s]].backgroundType=='color'){
+              var newBackgroundSpec = '';
+              newBackgroundSpec = newBackgroundSpec+'backgroundTypeColor:checked;';
+              newBackgroundSpec = newBackgroundSpec+'background-color:'+enteredStyles[thisStyleElements[s]].colorSelect+";";
+              newStyle = newStyle+ newBackgroundSpec;
+              console.log('newStyle-', newStyle);
+            }else if(enteredStyles[thisStyleElements[s]].backgroundType=='image'){
+              console.log('image background need to fill this in');
+            }else if(enteredStyles[thisStyleElements[s]].backgroundType=='transparent'){
+              
+            }
+            break;
+          }
+        }
+      }
     }
 
 

@@ -24,6 +24,10 @@ export default {
       console.log('styleValues-', styleValues);
       return styleValues;
     },
+    getCardGridStyle(mCss){
+      var styleArray = mCss.split(';');
+      return styleArray[0];
+    },
     substituteStyle(existingCss, styleName, newValue){
       debugger;
       var existingStyleValues = this.getCardStyling(existingCss);
