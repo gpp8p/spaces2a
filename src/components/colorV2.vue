@@ -10,7 +10,7 @@
       </span>
       <span  v-if="labelLocation==this.LABEL_NOT">
         <span>
-          <input type="color"  v-model = "colorVal"   />
+          <input type="color"  v-model = "colorVal" @change="this.colorValueChanged"  />
         </span>
       </span>
   </span>

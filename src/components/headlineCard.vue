@@ -10,6 +10,14 @@
       <span>
         <span v-bind:style='this.headlineStyle'>
         {{ this.cardTitle }}
+          <span v-if="this.showOptions==true">
+            <menuItemsNew
+                :currentItems="menuItems"
+                :key="headlineOptionsReload"
+                name="headlineCardOptions"
+                @cevt="handleEvt"
+            ></menuItemsNew>
+          </span>
         </span>
       </span>
     </div>
@@ -200,6 +208,7 @@ export default {
         this.cardCss = newCssValues[0];
         this.menuItems.style = newCssValues[1];
         this.headlineStyle = newCssValues[2];
+        this.headlineOptionsReload+=1;
       }
 
     },
@@ -317,7 +326,7 @@ export default {
             break;
           }
           case 'titleStyles_alignmentSelect':{
-            newTitleStyle = newTitleStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+            newStyle = newStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
             break;
           }
           case 'titleStyles_fontColorSelect':{
@@ -342,7 +351,7 @@ export default {
           }
           case 'subElementStyles_alignmentSelect':{
             if(enteredStyles[thisStyleElements[s]].length>0){
-              newSubStyle = newSubStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+              newTitleStyle = newTitleStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
               break;
             }else{
               break;
