@@ -310,7 +310,7 @@ export default {
       this.$emit('cevt', ['saveScreenEntry', this.dialogData]);
     },
     doSaveCardConfigurationEntry(msg, context){
-      console.log('in dialog doSaveCardConfigurationEntry', msg, context, this.dialogData);
+      console.log('in dialog doSaveCardConfigurationEntry', msg, context, this.dialogData, this.targetCard);
       this.$emit('cevt', ['saveCardConfigurationEntry', this.dialogData, this.targetCard]);
     },
 

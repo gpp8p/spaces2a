@@ -196,7 +196,10 @@ export default {
         console.log('gridStyle-', currentGridStyle);
         console.log('currentMainStyles-', currentMainStyles);
         console.log('entered styles-', msg[1]);
-        this.setStyleCss(msg[1], currentGridStyle);
+        var newCssValues = this.setStyleCss(msg[1], currentGridStyle);
+        this.cardCss = newCssValues[0];
+        this.menuItems.style = newCssValues[1];
+        this.headlineStyle = newCssValues[2];
       }
 
     },
@@ -277,6 +280,8 @@ export default {
     setStyleCss(enteredStyles, gridStyle){
       var thisStyleElements = Object.keys(enteredStyles);
       var newStyle = gridStyle+";";
+      var newSubStyle = '';
+      var newTitleStyle = '';
       for(var s=0; s< thisStyleElements.length; s++){
         console.log('headline style element-', thisStyleElements[s], newStyle[thisStyleElements[s]]);
         switch(thisStyleElements[s]){
@@ -290,7 +295,7 @@ export default {
               newBorderSpec = newBorderSpec+";";
               newBorderSpec = newBorderSpec+ "borderInclude:checked;";
               newStyle = newStyle+newBorderSpec;
-              console.log('newStyle-', newStyle);
+
             }
             break;
           }
@@ -304,12 +309,73 @@ export default {
             }else if(enteredStyles[thisStyleElements[s]].backgroundType=='image'){
               console.log('image background need to fill this in');
             }else if(enteredStyles[thisStyleElements[s]].backgroundType=='transparent'){
-              
+              newBackgroundSpec = '';
+              newBackgroundSpec = newBackgroundSpec+'backgroundTypeColor:checked;';
+              newBackgroundSpec = newBackgroundSpec+'background-color:transparent;';
+              newStyle = newStyle+ newBackgroundSpec;
             }
             break;
           }
+          case 'titleStyles_alignmentSelect':{
+            newTitleStyle = newTitleStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'titleStyles_fontColorSelect':{
+            newTitleStyle = newTitleStyle+'color:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'titleStyles_fontSelect':{
+            newTitleStyle = newTitleStyle+'font-family:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'titleStyles_sizeSelecty':{
+            newTitleStyle = newTitleStyle+'font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            break
+          }
+          case 'titleStyles_styleSelect':{
+            newTitleStyle = newTitleStyle+'font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'titleStyles_weightSelect':{
+            newTitleStyle = newTitleStyle+'font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'subElementStyles_alignmentSelect':{
+            if(enteredStyles[thisStyleElements[s]].length>0){
+              newSubStyle = newSubStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+              break;
+            }else{
+              break;
+            }
+          }
+          case 'subElementStyles_fontColorSelect':{
+            newSubStyle = newSubStyle+'color:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'subElementStyles_fontSelect':{
+            newSubStyle = newSubStyle+'font-family:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'subElementStyles_sizeSelecty':{
+            newSubStyle = newSubStyle+'font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'subElementStyles_weightSelect':{
+            newSubStyle = newSubStyle+'font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'subElementStyles_styleSelect':{
+            newSubStyle = newSubStyle+'font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+
         }
+
       }
+      console.log('newStyle-', newStyle);
+      console.log('newSubStyle', newSubStyle);
+      console.log('newTitleStyle', newTitleStyle)
+      return [newStyle, newSubStyle, newTitleStyle];
     }
 
 
