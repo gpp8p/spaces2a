@@ -44,6 +44,7 @@
 import utils from '../components/utils.vue';
 import Menu from "../components/menuNew.vue";
 import menuItemsNew from "../components/menuItemsNew.vue";
+import axios from "axios";
 
 export default {
   name: "headlineCard",
@@ -60,6 +61,9 @@ export default {
   components: {Menu, menuItemsNew},
   mixins: [utils],
   mounted(){
+    if(typeof(this.config.id)!='undefined'){
+      this.cardId = this.config.id;
+    }
     console.log(this.name,'headlineCard is mounted', this.config);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.$emit('cevt', ['cardMounted','',this.name]);
@@ -152,7 +156,8 @@ export default {
       LINK_INTERNAL:0,
       LINK_EXTERNAL:1,
       menuItems:{},
-      headlineOptionsReload:0
+      headlineOptionsReload:0,
+      cardId:0
     }
   },
   methods:{
@@ -201,6 +206,7 @@ export default {
         console.log('headlineCard doSetValue-',msg, context);
         var currentMainStyles = this.getCardStyling(this.cardCss);
         var currentGridStyle = this.getCardGridStyle(this.cardCss);
+        var cardConfigurationObject = [];
         console.log('gridStyle-', currentGridStyle);
         console.log('currentMainStyles-', currentMainStyles);
         console.log('entered styles-', msg[1]);
@@ -209,6 +215,35 @@ export default {
         this.menuItems.style = newCssValues[1];
         this.headlineStyle = newCssValues[2];
         this.headlineOptionsReload+=1;
+        cardConfigurationObject[0]=this.cardId;
+        cardConfigurationObject[1]=newCssValues[3];
+        cardConfigurationObject[2]={};
+        var newSub = [];
+        newSub[0]={
+          elementConfiguration:newCssValues[4],
+          elementName:'sub',
+          elementStyles:newCssValues[5]
+        }
+        cardConfigurationObject[3]=newSub;
+        console.log('cardConfigurationObject-', cardConfigurationObject);
+        var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationObject);
+        console.log('jsonCardConfigurationPackage', jsonCardConfigurationPackage);
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ', apiPath);
+
+        axios.post(apiPath+'api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
+//        axios.post('http://localhost:8000/api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
+          cardParams: jsonCardConfigurationPackage,
+        }).then(response=>
+        {
+          console.log(response);
+          this.$emit('configurationHasBeenSaved')
+        }).catch(function(error) {
+          console.log(error);
+        });
+
+
+
       }
 
     },
@@ -291,8 +326,11 @@ export default {
       var newStyle = gridStyle+";";
       var newSubStyle = '';
       var newTitleStyle = '';
+      var newTitleStyleElements = {};
+      var newSubStyleElements = {};
+      var newSubStyleValues ={};
       for(var s=0; s< thisStyleElements.length; s++){
-        console.log('headline style element-', thisStyleElements[s], newStyle[thisStyleElements[s]]);
+        console.log('headline style element-', thisStyleElements[s],'-', enteredStyles[thisStyleElements[s]]);
         switch(thisStyleElements[s]){
           case 'borders':{
             console.log('borders-', enteredStyles[thisStyleElements[s]]);
@@ -302,6 +340,10 @@ export default {
               newBorderSpec = newBorderSpec+' solid ';
               newBorderSpec = newBorderSpec+enteredStyles[thisStyleElements[s]].borderColor;
               newBorderSpec = newBorderSpec+";";
+              newTitleStyleElements['border'] = 'border:'+enteredStyles[thisStyleElements[s]].borderSize+' solid '+enteredStyles[thisStyleElements[s]].borderColor+";";
+              newTitleStyleElements['borderInclude'] = "borderInclude:checked;"
+              newTitleStyleElements['borderRadius']= "border-radius:8px;";
+              newTitleStyleElements['borderSize']="border-width:"+enteredStyles[thisStyleElements[s]].borderSize+";";
               newBorderSpec = newBorderSpec+ "borderInclude:checked;";
               newStyle = newStyle+newBorderSpec;
 
@@ -314,6 +356,8 @@ export default {
               newBackgroundSpec = newBackgroundSpec+'backgroundTypeColor:checked;';
               newBackgroundSpec = newBackgroundSpec+'background-color:'+enteredStyles[thisStyleElements[s]].colorSelect+";";
               newStyle = newStyle+ newBackgroundSpec;
+              newTitleStyleElements['backgroundTypeColor']="backgroundTypeColor:checked;";
+              newTitleStyleElements['backgroundColor']='background-color:'+enteredStyles[thisStyleElements[s]].colorSelect+";";
               console.log('newStyle-', newStyle);
             }else if(enteredStyles[thisStyleElements[s]].backgroundType=='image'){
               console.log('image background need to fill this in');
@@ -321,37 +365,63 @@ export default {
               newBackgroundSpec = '';
               newBackgroundSpec = newBackgroundSpec+'backgroundTypeColor:checked;';
               newBackgroundSpec = newBackgroundSpec+'background-color:transparent;';
+              newTitleStyleElements['backgroundTypeColor']="backgroundTypeColor:checked;";
+              newTitleStyleElements['backgroundColor']='background-color:'+'transparent;';
               newStyle = newStyle+ newBackgroundSpec;
             }
             break;
           }
+          case 'roundIncluded':{
+            debugger;
+            if(enteredStyles[thisStyleElements[s]]=='yes'){
+              newTitleStyleElements['roundIncluded']="roundIncluded:checked;";
+              newStyle = newStyle+"roundIncluded:checked;";
+              newStyle = newStyle+ "border-radius:8px;";
+            }
+            break;
+          }
+          case 'shadow':{
+            newTitleStyleElements['shadow']="shadow:checked;";
+            newTitleStyleElements['boxShadow']="box-shadow:10px 20px 30px black;";
+            newStyle = newStyle+"shadow:checked;";
+            newStyle= newStyle+"box-shadow:10px 20px 30px black;";
+            break;
+          }
           case 'titleStyles_alignmentSelect':{
             newStyle = newStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['textAlign']="text-align:"+enteredStyles[thisStyleElements[s]]+";";
             break;
           }
           case 'titleStyles_fontColorSelect':{
             newTitleStyle = newTitleStyle+'color:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['color']="color:"+enteredStyles[thisStyleElements[s]]+";"
             break;
           }
           case 'titleStyles_fontSelect':{
             newTitleStyle = newTitleStyle+'font-family:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['fontFamily']="font-family:"+enteredStyles[thisStyleElements[s]]+';';
             break;
           }
           case 'titleStyles_sizeSelecty':{
             newTitleStyle = newTitleStyle+'font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['fontSize']='font-size:'+enteredStyles[thisStyleElements[s]]+';';
             break
           }
           case 'titleStyles_styleSelect':{
             newTitleStyle = newTitleStyle+'font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['fontStyle']='font-style:'+enteredStyles[thisStyleElements[s]]+';';
             break;
           }
           case 'titleStyles_weightSelect':{
             newTitleStyle = newTitleStyle+'font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['fontWeight']='font-weight:'+enteredStyles[thisStyleElements[s]]+';';
             break;
           }
           case 'subElementStyles_alignmentSelect':{
             if(enteredStyles[thisStyleElements[s]].length>0){
-              newTitleStyle = newTitleStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+              newSubStyle = newSubStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+              newSubStyleElements['textAlign']="text-align:"+enteredStyles[thisStyleElements[s]]+";";
+              newSubStyleValues['textAlign']=enteredStyles[thisStyleElements[s]];
               break;
             }else{
               break;
@@ -359,22 +429,32 @@ export default {
           }
           case 'subElementStyles_fontColorSelect':{
             newSubStyle = newSubStyle+'color:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['color']="color:"+enteredStyles[thisStyleElements[s]]+";"
+            newSubStyleValues['color']=enteredStyles[thisStyleElements[s]];
             break;
           }
           case 'subElementStyles_fontSelect':{
             newSubStyle = newSubStyle+'font-family:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['fontFamily']="font-family:"+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleValues['fontFamily']=enteredStyles[thisStyleElements[s]];
             break;
           }
           case 'subElementStyles_sizeSelecty':{
             newSubStyle = newSubStyle+'font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['fontSize']='font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleValues['fontSize']=enteredStyles[thisStyleElements[s]];
             break;
           }
           case 'subElementStyles_weightSelect':{
             newSubStyle = newSubStyle+'font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['fontWeight']='font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleValues['fontWeight']=enteredStyles[thisStyleElements[s]];
             break;
           }
           case 'subElementStyles_styleSelect':{
             newSubStyle = newSubStyle+'font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['fontStyle']='font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleValues['fontStyle']=enteredStyles[thisStyleElements[s]];
             break;
           }
 
@@ -383,8 +463,11 @@ export default {
       }
       console.log('newStyle-', newStyle);
       console.log('newSubStyle', newSubStyle);
-      console.log('newTitleStyle', newTitleStyle)
-      return [newStyle, newSubStyle, newTitleStyle];
+      console.log('newTitleStyle', newTitleStyle);
+      console.log('newTitleStyleElements', newTitleStyleElements);
+      console.log('newSubStyleElements', newSubStyleElements);
+      console.log('newSubStyleValues',newSubStyleValues);
+      return [newStyle, newSubStyle, newTitleStyle, newTitleStyleElements, newSubStyleValues, newSubStyleElements];
     }
 
 
