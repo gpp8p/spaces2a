@@ -438,13 +438,25 @@ export default {
       this.cellIndex[msg[3]]=msg[2];
     },
     doRemoveCmdHandler(msg, context){
-//      console.log('doRemoveCmdHandler-',msg, context);
+      console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     },
     doCreateNewCard(msg, context){
       console.log('doCreateNewCard-',context.selectedArea, msg);
       console.log('-createBlankCardInstance',this.allCards);
-//      debugger;
+      debugger;
+
+      this.saveNewCard(this.$store.getters.getCurrentLayoutId,
+          msg[1].cardName,
+          false,
+          msg[1].card_component,
+          context.selectedArea.topLeftY,
+          context.selectedArea.topLeftX,
+          context.selectedArea.bottomRightY,
+          context.selectedArea.bottomRightX,
+          this.$store.getters.getApiBase);
+
+/*
       context.cmdHandlers={};
       context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,
@@ -458,7 +470,7 @@ export default {
           (context.selectedArea.bottomRightY),
           (context.selectedArea.bottomRightX),
           msg[1].cardName,
-          msg[1].cardBackground, 'Headline');
+          '#DBAA6E', 'Headline');
       this.allCards.push(thisCard);
       context.gridConfigs.allCards=this.allCards;
 
@@ -466,6 +478,38 @@ export default {
       this.debugOn=true;
 //      console.log('after egrid reload-',context.cmdHandlers, context.cellIndex);
 //      debugger;
+*/
+    },
+    saveNewCard(layoutId, title, restricted, cardType, tlrow, tlcol, brrow, brcol, apiPath){
+      debugger;
+      axios.post(apiPath+'api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
+//        axios.post('http://localhost:8000/api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
+        layoutId: layoutId,
+        cardTitle: title,
+        restricted: restricted,
+        cardType: cardType,
+        topLeftRow: tlrow,
+        topLeftCol: tlcol,
+        bottomRightRow: brrow,
+        bottomRightCol: brcol
+      }).then(response=>
+      {
+        console.log('card saved:',response);
+//          debugger;
+//          this.$emit('cardSaved', [this.newCardParams.layoutId]);
+        /*
+                  this.$router.push({
+                    name: 'displayLayout',
+                    params: { layoutId: this.$store.getters.getCurrentLayoutId }
+                  })
+        */
+        this.$emit('cevt', ['cardSaved']);
+
+      }).catch(function(error) {
+        this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
+        console.log(error);
+        return "error:"+error;
+      });
     },
     doMenuSelection(msg, self){
       var evtType = {

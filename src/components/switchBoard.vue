@@ -66,6 +66,9 @@ export default {
         'saveCardConfigurationEntry':function(msg, context){
           context.doSaveCardConfigurationEntry(msg, context);
         },
+        'cardSaved':function(msg, context){
+          context.doCardSaved(msg, context);
+        },
 
 
 
@@ -237,7 +240,7 @@ export default {
  */
     doConfigurePage(msg, context){
       console.log('switchboard doConfigurePage-', msg, context);
-//      debugger;
+      debugger;
       if(typeof(msg[1])=='undefined'){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a page type','topLevelMenu']);
       }else{
@@ -269,19 +272,20 @@ export default {
       context.showDialog=true;
     },
     doCreateCard(msg, context){
-//      debugger;
+      debugger;
       console.log('doCreateCard menu selection', msg, context);
       if(typeof(msg[1].card_component)=='undefined'){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a card type','topLevelMenu']);
       }else{
-//        context.showDialog=false;
+        context.showDialog=false;
+        this.cmdHandlers['mainPage'](['createNewCard', msg[1], 'mainPage']);
 //        this.cmdHandlers['mainPage'](['createNewCard',msg[1].card_component]);
-        context.dialogConfiguration.definition=msg[1].card_component;
-        context.dialogReload+=1;
+//        context.dialogConfiguration.definition=msg[1].card_component;
+//        context.dialogReload+=1;
       }
     },
     doCreateNewCard(msg, context){
-//      debugger;
+      debugger;
       console.log('doCreateNewCard menu selection', msg, context);
       if(msg[1].cardName.length==0){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must enter a card name','topLevelMenu']);
@@ -299,6 +303,14 @@ export default {
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
 
+    },
+    doCardSaved(msg, context){
+      console.log('at doCardSaved-', msg, context);
+      this.pageConfiguration={}
+      this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
+      this.pageConfiguration.pageId = this.$store.getters.getCurrentLayoutId;
+      this.mode=this.SHOW_PAGE;
+      this.pageReload+=1;
     },
     doCardExitEdit(msg, context){
       console.log('in switchboard doCardExitEdit', msg, context);

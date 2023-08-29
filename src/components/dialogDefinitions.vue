@@ -557,10 +557,39 @@ name: "dialogDefinitions",
               menuName:'specifyCardDialogMenu',
               fields:[
                 {
+                  type: "inputField",
+                  hasLabel: true,
+                  fieldLabel: 'Card Name:',
+                  fieldSize: 50,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'cardName',
+                  name: 'cardName',
+                  autoFocus:true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
                   type: "vSelect",
                   options: [
                     {
-                      val: 'configureHeadlineCard',
+                      val: 'Headline',
                       label: 'Headline Card',
                       isDisabled: false,
                       isSelected: false
