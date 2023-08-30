@@ -12,7 +12,7 @@ name: "dialogDefinitions",
                 position:'fixed',
                 top:'30%',
                 left:'30%',
-                height:'40vh',
+                height:'45vh',
                 width:'50vw',
                 backgroundColor:'lavender',
                 color:'blue',
@@ -295,6 +295,41 @@ name: "dialogDefinitions",
                     }
                   }
                 },
+                {
+                  type: "checkbox",
+                  fieldLabel: "Template:",
+                  hasLabel: true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'template',
+                  name: "template",
+                  loader: function(styleElements){
+                    //                   debugger;
+                    if(typeof(styleElements['template'])!='undefined'){
+                      if(styleElements['template']=='checked'){
+                        return 'yes';
+                      }else{
+                        return 'no';
+                      }
+                    }else{
+                      return 'no';
+                    }
+                  },
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                  }
+                },
+
+
               ]
             }
           }

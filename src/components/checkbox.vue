@@ -155,8 +155,13 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
-    }
+    },
+    fieldChanged(){
+      debugger;
+      console.log('field changed', this.fieldValue);
+      this.$emit('cevt', ['fieldInput', this.name, this.fieldValue]);
 
+    }
 
 
   }

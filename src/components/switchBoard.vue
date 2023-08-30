@@ -3,6 +3,9 @@
 <script>
 //import store from "@/store";
 
+import store from "@/store";
+import axios from "axios";
+
 export default {
   name: "switchBoard",
   methods:{
@@ -244,21 +247,80 @@ export default {
       if(typeof(msg[1])=='undefined'){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a page type','topLevelMenu']);
       }else{
+
         context.dialogConfiguration.definition=msg[1];
         this.showDialog = true;
         context.dialogReload+=1;
+
+
+
+
+
       }
     },
 
     doSaveScreenEntry(msg, context){
-//      debugger;
+      debugger;
       console.log('switchboard doSaveScreenEntry', msg, context);
       this.pageConfiguration = msg[1];
+
       this.pageConfiguration.action=this.PAGE_EDIT;
       this.showDialog = false;
       this.cmdHandlers['mainNavArea'](['setMessage', 'Please select an area by dragging your mouse']);
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
+      var backgroundImage;
+      var backgroundColor;
+      var backgroundType;
+      var backgroundDisplay;
+      if(msg[1].pageBackground.backgroundType=='color'){
+        backgroundColor = msg[1].pageBackground.colorSelect;
+        backgroundType = 'color';
+        backgroundImage='';
+        backgroundDisplay = '';
+      }else{
+        backgroundType = 'image';
+        backgroundImage= msg[1].pageBackground.backgroundUrl;
+        backgroundColor = '';
+        backgroundDisplay = 'cover';
+      }
+      var apiPath = this.$store.getters.getApiBase;
+      axios.post(apiPath+'api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+//        axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+        name: msg[1].pageName,
+        description: msg[1].pageDescription,
+        height: msg[1].pageHeight,
+        width: msg[1].pageWidth,
+        backgroundColor: backgroundColor,
+        backgroundType: backgroundType,
+        backgroundImage: backgroundImage,
+        backgroundDisplay: backgroundDisplay,
+        template: msg[1].template,
+        userId: this.$store.getters.getLoggedInUserId,
+        user: this.$store.getters.getLoggedInUser,
+        orgId: this.$store.getters.getOrgId,
+        layoutId: this.$store.getters.getCurrentLayoutId,
+        permType: msg[1].permissions,
+      }).then(response=>
+      {
+        debugger;
+        store.commit('setCurrentLayoutId', response.data);
+        this.pageConfiguration.action=this.PAGE_EDIT;
+        this.showDialog = false;
+        this.cmdHandlers['mainNavArea'](['setMessage', 'Please select an area by dragging your mouse']);
+        this.mode=this.SHOW_PAGE;
+        this.pageReload+=1;
+
+//        this.layoutId=response.data;
+
+
+//        this.$emit('layoutSaved', [this.layoutId, this.height, this.width, this.description, this.menu_label, this.val]);
+//                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
+      }).catch(function(error) {
+        console.log(error);
+      });
+
+
     },
     doSaveCardConfigurationEntry(msg, context){
       console.log('at doSaveCardConfigurationEntry-', msg, context);
