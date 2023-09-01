@@ -275,14 +275,28 @@ export default {
       var backgroundDisplay;
       if(msg[1].pageBackground.backgroundType=='color'){
         backgroundColor = msg[1].pageBackground.colorSelect;
-        backgroundType = 'color';
+        backgroundType = 'C';
         backgroundImage='';
         backgroundDisplay = '';
       }else{
-        backgroundType = 'image';
+        backgroundType = 'I';
         backgroundImage= msg[1].pageBackground.backgroundUrl;
         backgroundColor = '';
         backgroundDisplay = 'cover';
+      }
+      // eslint-disable-next-line no-unused-vars
+      var template;
+      if(msg[1].template=='no'){
+        template=false;
+      }else{
+        template=true;
+      }
+      // eslint-disable-next-line no-unused-vars
+      var perms;
+      if(msg[1].permissions=='open'){
+        perms='default';
+      }else{
+        perms='template';
       }
       var apiPath = this.$store.getters.getApiBase;
       axios.post(apiPath+'api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
@@ -295,12 +309,12 @@ export default {
         backgroundType: backgroundType,
         backgroundImage: backgroundImage,
         backgroundDisplay: backgroundDisplay,
-        template: msg[1].template,
+        template: template,
         userId: this.$store.getters.getLoggedInUserId,
         user: this.$store.getters.getLoggedInUser,
         orgId: this.$store.getters.getOrgId,
         layoutId: this.$store.getters.getCurrentLayoutId,
-        permType: msg[1].permissions,
+        permType: perms,
       }).then(response=>
       {
         debugger;
