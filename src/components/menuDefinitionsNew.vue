@@ -373,7 +373,7 @@ name: "menuDefinitionsNew",
               },
               {
                 label:'Resize/Move',
-                action: 'resizeHeadlineCard',
+                action: 'resizeCard',
                 type: 'mItem'
               },
               {

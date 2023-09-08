@@ -311,6 +311,12 @@ export default {
         case 'external_link':{
           break
         }
+        case 'resizeCard':{
+          console.log('resizeCard-', context);
+          this.$emit('cevt', ['menuItemSelected', 'resizeCard', context.name, context.config ])
+          break;
+
+        }
         case 'configureHeadlineCard':{
           this.$emit('cevt', ['menuItemSelected', 'configureHeadlineCard', context.name, context.config ])
           break;

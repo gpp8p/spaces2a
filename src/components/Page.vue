@@ -51,13 +51,18 @@ export default {
         break;
       }
       case this.PAGE_LOAD_EDIT:{
-        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this);
+        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this, 0);
 //        debugger;
         console.log('Page load cmdHandlers - ', this.cmdHandlers);
         break;
       }
+      case this.PAGE_LOAD_RESIZE: {
+
+
+        break;
+      }
       case this.PAGE_LOAD_DISPLAY:{
-        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this);
+        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this, 0);
         if(this.$store.getters.getPerms.admin==true){
           this.$emit('cevt', ['setMenu', 'adminLogged', this.name]);
         }else if(this.$store.getters.getPerms.author==true){
@@ -88,6 +93,7 @@ export default {
       PAGE_EDIT:2,
       PAGE_LOAD_EDIT:3,
       PAGE_LOAD_DISPLAY:4,
+      PAGE_LOAD_RESIZE:5,
       MODE_EDIT:1,
       MODE_DISPLAY:2,
       mouseStatus:0,
@@ -136,7 +142,7 @@ export default {
       this.cmdHandler(args, this);
     },
     cmdHandler(args, self){
-//      debugger;
+      debugger;
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
           'default': function(args, context){
@@ -153,6 +159,12 @@ export default {
           },
           'pageSelected': function(args, context){
             console.log('Page doPageSelected-', args, context);
+          },
+          'resizeCard':function(args, context){
+            debugger;
+            console.log('page-resizeCard', args, context);
+            this.mode=this.PAGE_LOAD_RESIZE;
+            context.loadPage(context.config.pageId, context.$store.getters.getLoggedInUserId, context.$store.getters.getOrgId, context.PAGE_LOAD_RESIZE, context, args[1].id);
           }
         }
         if(typeof(cmdType)!='undefined'){
@@ -189,7 +201,7 @@ export default {
       context.gridConfigs.pageCells = [];
     },
     createPage(context){
-//      debugger;
+      debugger;
       console.log('createPage-',context.pageConfigs);
       context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
 
@@ -198,7 +210,8 @@ export default {
           '#DBAA6E');
     },
 
-    loadPage: function(layoutId, userId, orgId, mode, context) {
+    loadPage: function(layoutId, userId, orgId, mode, context, omitCard) {
+      console.log('in page load - omit:',omitCard);
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
       store.commit('setCurrentLayoutId', layoutId);
@@ -209,7 +222,7 @@ export default {
           layoutId:layoutId
         }
       }).then(response => {
-//        debugger;
+        debugger;
         console.log('getLayout-',response);
         console.log('getLayout content', response.data.cards);
         console.log('loaded layout-', layoutId);
@@ -249,12 +262,17 @@ export default {
             context.createPageForDisplay(context);
             break;
           }
+          case context.this.PAGE_LOAD_RESIZE:{
+            context.createPage(context);
+            break;
+          }
         }
         console.log('new page cells-', context.gridConfigs.pageCells);
         console.log('new page cards-', response.data.cards);
 //        debugger;
         context.gridConfigs.allCards=[];
         for(var c = 0;c<response.data.cards.length;c++){
+          console.log('card loaded-',response.data.cards[c]);
           var thisCardDimensions = response.data.cards[c].card_position;
           console.log('cardDimensions-', thisCardDimensions);
           var cardSelectedArea = {
@@ -270,10 +288,19 @@ export default {
               cardSelectedArea,
               context.gridConfigs.pageCells);
           console.log('thisCard-', response.data.cards[c]);
-          context.gridConfigs.allCards.push(response.data.cards[c]);
+          debugger;
+          if(omitCard>0){
+            if(response.data.cards[c].id !=omitCard){
+              context.gridConfigs.allCards.push(response.data.cards[c]);
+            }
+          }else{
+            context.gridConfigs.allCards.push(response.data.cards[c]);
+          }
+          context.allCards=context.gridConfigs.allCards;
+          context.mode=this.MODE_EDIT;
+          context.updateGrid+=1;
         }
-        this.allCards=context.gridConfigs.allCards;
-        context.mode=this.MODE_EDIT;
+
       }).catch(e => {
         console.log(e);
         this.errors.push(e);

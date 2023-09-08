@@ -77,6 +77,7 @@ export default {
 
 
 
+
         /*
                 'default': function(msg, context){
                   console.log('evtHandler - something else', msg, context);
@@ -175,6 +176,10 @@ export default {
       context.dialogConfiguration.definition='newCardSelect';
       context.showDialog=true;
     },
+    doResizeCard(msg,context){
+      console.log('switchboard in doResizeCard', msg, context);
+      this.cmdHandlers['mainPage'](['resizeCard', msg[3], 'mainPage']);
+    },
     doMenuSelection(msg, self){
       var evtType = {
         'editPage': function(msg, context){
@@ -196,6 +201,9 @@ export default {
         },
         'configureHeadlineCard': function(msg, context){
           context.doConfigureHeadlineCard(msg, context);
+        },
+        'resizeCard':function(msg, context){
+          context.doResizeCard(msg, context);
         },
 //        'saveScreenEntry':function(msg, context){
 //          context.doSaveScreenEntry(msg, context);
