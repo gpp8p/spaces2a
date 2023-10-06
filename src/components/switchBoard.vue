@@ -47,6 +47,12 @@ export default {
 //          debugger;
           context.doSelectCardType(msg, context);
         },
+        'resizeCard':function(msg, context){
+//          debugger;
+          context.doResizeCard(msg, context);
+        },
+
+
         'createCard':function(msg, context){
           console.log('createCard-', msg, context);
           context.doCreateCard(msg, context);
@@ -71,6 +77,12 @@ export default {
         },
         'cardSaved':function(msg, context){
           context.doCardSaved(msg, context);
+        },
+        'setNewCardDimensions':function(msg, context){
+          context.doSetNewCardDimensions(msg, context);
+        },
+        'editThisPage':function(msg, context){
+          context.doEditPage(msg, context);
         },
 
 
@@ -179,6 +191,11 @@ export default {
     doResizeCard(msg,context){
       console.log('switchboard in doResizeCard', msg, context);
       this.cmdHandlers['mainPage'](['resizeCard', msg[3], 'mainPage']);
+    },
+    doSetNewCardDimensions(msg,context){
+      console.log('switchboard - doSetNewCardDimensions-', msg, context);
+//      debugger;
+      this.cmdHandlers['mainPage'](['setNewCardDimensions', msg, 'mainPage']);
     },
     doMenuSelection(msg, self){
       var evtType = {

@@ -1,18 +1,12 @@
 <template>
   <span class="defaultClass">
-    <eGrid v-if="this.mode==this.MODE_EDIT"
+    <eGrid
         name ='eGrid'
         @cevt="handleEvt"
         :is-draggable=false
         :config="gridConfigs"
         :key="updateGrid"
     ></eGrid>
-    <displayGrid v-if="this.mode==this.MODE_DISPLAY"
-        name ='displayGrid'
-        @cevt="handleEvt"
-        :is-draggable=false
-        :config="gridConfigs"
-    ></displayGrid>
   </span>
 </template>
 
@@ -41,7 +35,7 @@ export default {
 //    console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
 //    this.$emit('cevt',['getPageConfiguration']);
-//    debugger;
+    debugger;
     switch(this.config.action){
       case this.PAGE_EDIT:{
         this.pageConfigs=this.config;
@@ -51,18 +45,21 @@ export default {
         break;
       }
       case this.PAGE_LOAD_EDIT:{
-        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this, 0);
-//        debugger;
+        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.MODE_EDIT, this, 0);
+        debugger;
         console.log('Page load cmdHandlers - ', this.cmdHandlers);
         break;
       }
       case this.PAGE_LOAD_RESIZE: {
+      debugger;
+//        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this, 0);
 
 
         break;
       }
       case this.PAGE_LOAD_DISPLAY:{
-        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.PAGE_EDIT, this, 0);
+        console.log('loading with PAGE_LOAD_DISPLAY');
+        this.loadPage(this.config.pageId, this.$store.getters.getLoggedInUserId, this.$store.getters.getOrgId, this.MODE_EDIT, this, 0);
         if(this.$store.getters.getPerms.admin==true){
           this.$emit('cevt', ['setMenu', 'adminLogged', this.name]);
         }else if(this.$store.getters.getPerms.author==true){
@@ -96,6 +93,7 @@ export default {
       PAGE_LOAD_RESIZE:5,
       MODE_EDIT:1,
       MODE_DISPLAY:2,
+      MODE_RESIZE:3,
       mouseStatus:0,
       MOUSE_NOT_CLICKED:0,
       MOUSE_DOWN: 1,
@@ -130,7 +128,14 @@ export default {
       allCards:[],
       lpHeight:0,
       lpWidth:0,
-      lpRowHeight:0
+      lpRowHeight:0,
+      cardBeingEdited:0,
+
+      bottomRightCol:0,
+      topLeftCol:0,
+      bottomRightRow:0,
+      topLeftRow:0,
+      cardId:0
 
 
     }
@@ -163,9 +168,39 @@ export default {
           'resizeCard':function(args, context){
             debugger;
             console.log('page-resizeCard', args, context);
-            this.mode=this.PAGE_LOAD_RESIZE;
-            context.loadPage(context.config.pageId, context.$store.getters.getLoggedInUserId, context.$store.getters.getOrgId, context.PAGE_LOAD_RESIZE, context, args[1].id);
-          }
+            context.cardBeingEdited=args[1].id;
+            context.loadPage(context.config.pageId, context.$store.getters.getLoggedInUserId, context.$store.getters.getOrgId, context.MODE_RESIZE, context, args[1].id);
+          },
+          'newCardSize':function(args, context){
+            console.log('Page doNewCardSize-', args, context);
+          },
+          'setNewCardDimensions':function(args, context){
+            console.log('Page setNewCardDimensions', args, context);
+            debugger;
+            context.bottomRightCol = args[1][1];
+            context.topLeftCol = args[1][3];
+            context.bottomRightRow = args[1][2];
+            context.topLeftRow = args[1][4];
+//            var newWidth = bottomRightCol - topLeftCol;
+//            var newHeight = bottomRightRow - topLeftRow;
+            context.cardId = args[1][5];
+            var apiPath = context.$store.getters.getApiBase;
+            axios.post(apiPath+'api/shan/resizeCard?XDEBUG_SESSION_START=12016', {
+              cardId: context.cardId,
+              layoutId: context.$store.getters.getCurrentLayoutId,
+              row: context.topLeftRow,
+              col: context.topLeftCol,
+              height: (context.bottomRightRow - context.topLeftRow)+1,
+              width: (context.bottomRightCol - context.topLeftCol)+1
+            }).then(response=>
+            {
+              console.log('card resized:'+response);
+              context.$emit('cevt',['editThisPage']);
+            }).catch(function(error) {
+              this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
+              console.log(error);
+            });
+          },
         }
         if(typeof(cmdType)!='undefined'){
           try {
@@ -297,7 +332,8 @@ export default {
             context.gridConfigs.allCards.push(response.data.cards[c]);
           }
           context.allCards=context.gridConfigs.allCards;
-          context.mode=this.MODE_EDIT;
+//          context.mode=this.MODE_EDIT;
+          context.mode = mode;
           context.updateGrid+=1;
         }
 
@@ -595,7 +631,7 @@ export default {
 //            this.findHandler(this.dragEndX, this.dragEndY)(['setCell', '#DBAA6E','blue']);
             this.selectedArea = this.normalizeSelectedArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY)
             this.mouseStatus=this.MOUSE_NOT_CLICKED;
-//            debugger;
+            debugger;
             this.cardAreaSet();
           }else if(msg[1]=='mouseOver'){
             if(this.debugOn==true){
@@ -642,9 +678,15 @@ export default {
 
   */
     cardAreaSet(){
-//      console.log('inCardAreaSet-');
-      var cardSelectParams = ['selectCardType'];
-      this.$emit('cevt', cardSelectParams);
+      console.log('inCardAreaSet  mode-', this.mode);
+      if(this.mode==this.MODE_EDIT){
+        var cardSelectParams = ['selectCardType'];
+        this.$emit('cevt', cardSelectParams);
+      }else{
+        var cardResizeParams = ['setNewCardDimensions',this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY, this.cardBeingEdited];
+        this.$emit('cevt', cardResizeParams);
+      }
+
     },
     layoutGridParameters(height, width, cellHeight, cellWidth) {
 //      debugger;
@@ -708,6 +750,14 @@ export default {
 //        console.log('cell position-', cellPositionX, cellPositionY);
         if(this.isCellInSelectedArea(cellPositionX, cellPositionY, selectedArea)==false){
           pageCells.push(thisCell);
+        }else{
+          console.log('cell in selected area-', thisCell);
+//          debugger;
+          var newCell = this.createBlankCellInstance(cellPositionY, cellPositionX, 1, 1, thisCell.id, '#00FFCC');
+          console.log('cell in selected area replacement-',newCell);
+//          thisCell.cell_parameters.backgroundColor='#00FFCC';
+//          debugger;
+          pageCells.push(newCell);
         }
       }
 
@@ -769,6 +819,7 @@ export default {
       return thisInstance;
 
     },
+
     createBlankCardInstance(row, col, height, width, id, background, type){
       var thisGridCss = this.computeGridCss(row, col, height, width);
       var thisCardStyle = thisGridCss+";"+"background-color:"+background.colorSelect+";color:#0000FF;";

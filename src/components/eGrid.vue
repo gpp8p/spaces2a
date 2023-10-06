@@ -135,7 +135,7 @@ export default {
       }
     },
     doSetPageCmdHandler(msg, context){
-//      console.log('eGrid - doSetPageCmdHandler-', msg, context);
+      console.log('eGrid - doSetPageCmdHandler-', msg, context);
       this.$emit('cevt', ['setCmdHandler', msg[1], msg[2], msg[3]]);
     },
     doSetCmdHandler(msg, context){
