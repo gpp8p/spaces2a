@@ -231,7 +231,7 @@ export default {
     },
     createPageForDisplay(context){
 //      debugger;
-      console.log('createPage-',context.pageConfigs);
+      console.log('createPageForDisplay-',context.pageConfigs);
       context.gridConfigs.gridCss = context.setupPageCss(context.pageConfigs);
       context.gridConfigs.pageCells = [];
     },
@@ -243,6 +243,7 @@ export default {
       context.gridConfigs.pageCells = context.makeBlankPage(context.pageConfigs.pageHeight,
           context.pageConfigs.pageWidth,
           '#DBAA6E');
+      context.updateGrid+=1;
     },
 
     loadPage: function(layoutId, userId, orgId, mode, context, omitCard) {
@@ -264,7 +265,9 @@ export default {
         context.lpHeight = response.data.layout.height;
         context.lpWidth = response.data.layout.width;
         let vgapTotal = Number(response.data.layout.height*3)+3;
-        context.lpRowHeight = Math.round((this.$store.getters.getContentHeight-vgapTotal)/response.data.layout.height);
+//        context.lpRowHeight = Math.round((this.$store.getters.getContentHeight-vgapTotal)/response.data.layout.height);
+// this is a shim need to add rowHeight to data model
+        context.lpRowHeight = 60;
         var loadedPageConfig = {
           pageDescription: "page description",
           pageHeight: context.lpHeight,
@@ -306,36 +309,42 @@ export default {
         console.log('new page cards-', response.data.cards);
 //        debugger;
         context.gridConfigs.allCards=[];
-        for(var c = 0;c<response.data.cards.length;c++){
-          console.log('card loaded-',response.data.cards[c]);
-          var thisCardDimensions = response.data.cards[c].card_position;
-          console.log('cardDimensions-', thisCardDimensions);
-          var cardSelectedArea = {
-            bottomRightX: (response.data.cards[c].card_position[3]+response.data.cards[c].card_position[1])-1,
-            bottomRightY: (response.data.cards[c].card_position[2]+response.data.cards[c].card_position[0])-1,
-            topLeftX: response.data.cards[c].card_position[1],
-            topLeftY: response.data.cards[c].card_position[0],
-          }
-          console.log('cardSelectedArea-',cardSelectedArea);
-          context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
-              context.pageConfigs.pageWidth,
-              '#DBAA6E',
-              cardSelectedArea,
-              context.gridConfigs.pageCells);
-          console.log('thisCard-', response.data.cards[c]);
-          debugger;
-          if(omitCard>0){
-            if(response.data.cards[c].id !=omitCard){
+        if(response.data.cards.length>0){
+          for(var c = 0;c<response.data.cards.length;c++){
+            console.log('card loaded-',response.data.cards[c]);
+            var thisCardDimensions = response.data.cards[c].card_position;
+            console.log('cardDimensions-', thisCardDimensions);
+            var cardSelectedArea = {
+              bottomRightX: (response.data.cards[c].card_position[3]+response.data.cards[c].card_position[1])-1,
+              bottomRightY: (response.data.cards[c].card_position[2]+response.data.cards[c].card_position[0])-1,
+              topLeftX: response.data.cards[c].card_position[1],
+              topLeftY: response.data.cards[c].card_position[0],
+            }
+            console.log('cardSelectedArea-',cardSelectedArea);
+            context.gridConfigs.pageCells = context.updateBlankPage(context.pageConfigs.pageHeight,
+                context.pageConfigs.pageWidth,
+                '#DBAA6E',
+                cardSelectedArea,
+                context.gridConfigs.pageCells);
+            console.log('thisCard-', response.data.cards[c]);
+            debugger;
+            if(omitCard>0){
+              if(response.data.cards[c].id !=omitCard){
+                context.gridConfigs.allCards.push(response.data.cards[c]);
+              }
+            }else{
               context.gridConfigs.allCards.push(response.data.cards[c]);
             }
-          }else{
-            context.gridConfigs.allCards.push(response.data.cards[c]);
-          }
-          context.allCards=context.gridConfigs.allCards;
+            context.allCards=context.gridConfigs.allCards;
 //          context.mode=this.MODE_EDIT;
+            context.mode = mode;
+            context.updateGrid+=1;
+          }
+        }else{
           context.mode = mode;
           context.updateGrid+=1;
         }
+
 
       }).catch(e => {
         console.log(e);
@@ -345,7 +354,7 @@ export default {
 
     setupPageCss(configs){
       console.log('setupPageCss-', configs);
-//      debugger;
+      debugger;
       this.gridRows = configs.pageHeight;
       this.gridColumns = configs.pageWidth;
       var cellGapAmt=3;
@@ -678,6 +687,7 @@ export default {
 
   */
     cardAreaSet(){
+      debugger;
       console.log('inCardAreaSet  mode-', this.mode);
       if(this.mode==this.MODE_EDIT){
         var cardSelectParams = ['selectCardType'];
