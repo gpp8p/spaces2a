@@ -113,6 +113,7 @@ export default {
     },
     doDismissDialog(msg, context){
       console.log('doDismissDialog-',msg, context);
+      context.dialogConfiguration={};
       this.showDialog=false;
     },
     doMySpaces(msg, context){
@@ -346,6 +347,7 @@ export default {
         store.commit('setCurrentLayoutId', response.data);
         this.pageConfiguration.action=this.PAGE_EDIT;
         this.showDialog = false;
+ //       this.dialogConfiguration={};
         this.cmdHandlers['mainNavArea'](['setMessage', 'Please select an area by dragging your mouse']);
         this.mode=this.SHOW_PAGE;
         this.pageReload+=1;
@@ -364,6 +366,7 @@ export default {
     doSaveCardConfigurationEntry(msg, context){
       console.log('at doSaveCardConfigurationEntry-', msg, context);
       this.showDialog = false;
+      context.dialogConfiguration={};
       debugger;
       this.cmdHandlers['mainPage'](['setValue', msg[1],msg[2].cardName]);
     },
