@@ -21,6 +21,19 @@ name: "dialogDefinitions",
               },
               leafComponent: false,
               menuName:'dialogSubMenu2',
+              loader: function(existingData, dialogComponents){
+                console.log('in oneWindow loader -',existingData, dialogComponents );
+                if(typeof(existingData)!='undefined'){
+                  for(var d = 0; d<dialogComponents.length; d++){
+                    if(typeof(dialogComponents[d].loader)!='undefined'){
+                      console.log('loaded component - ', dialogComponents[d]);
+                    }else{
+    //                  console.log('not loaded component - ', dialogComponents[d]);
+                      dialogComponents[d].fieldValue = existingData[dialogComponents[d].fieldIdentifier];
+                    }
+                  }
+                }
+              },
               fields:[
                 {
                   type: "textLiteral",
@@ -334,6 +347,322 @@ name: "dialogDefinitions",
             }
           }
         }
+        case 'pageSettings':{
+          return {
+            pageSettings:{
+              dialogStyle :{
+                position:'fixed',
+                top:'30%',
+                left:'30%',
+                height:'45vh',
+                width:'50vw',
+                backgroundColor:'lavender',
+                color:'blue',
+                borderRadius:'10px',
+                boxShadow:'10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName:'dialogSubMenu2',
+              loader: function(existingData, dialogComponents){
+                console.log('in pageSettings loader -',existingData, dialogComponents );
+                debugger;
+                if(typeof(existingData)!='undefined'){
+                  for(var d = 0; d<dialogComponents.length; d++){
+                    if(typeof(dialogComponents[d].loader)!='undefined'){
+                      console.log('loaded component - ', dialogComponents[d]);
+                      dialogComponents[d].fieldValue = dialogComponents[d].loader(existingData, dialogComponents,d);
+                    }else{
+                      console.log('not loaded component - ', dialogComponents[d].fieldIdentifier, existingData[dialogComponents[d].fieldIdentifier]);
+                      dialogComponents[d].fieldValue = existingData[dialogComponents[d].fieldIdentifier];
+                    }
+                  }
+                }
+              },
+              fields:[
+                {
+                  type: "textLiteral",
+                  fieldLabel: 'Page Type:',
+                  fieldIdentifier:"pageType",
+                  hasLabel: true,
+                  name: "pageType",
+                  size:0,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  class: "labelPlusInput"
+
+                },
+                {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Name:',
+                  fieldSize: 40,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageName',
+                  name: 'pageName',
+                  autoFocus:true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+
+
+                {
+                  type: "inputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Description:',
+                  fieldSize: 50,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageDescription',
+                  name: 'pageDescription',
+                  autoFocus:false,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "textLiteral",
+                  fieldLabel: 'Page Grid Rows:',
+                  fieldIdentifier:"pageHeight",
+                  hasLabel: true,
+                  name: "pageHeight",
+                  size:0,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  class: "labelPlusInput"
+                },
+                {
+                  type: "textLiteral",
+                  fieldLabel: 'Page Grid Columns:',
+                  fieldIdentifier:"pageWidth",
+                  hasLabel: true,
+                  name: "pageWidth",
+                  size:0,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  class: "labelPlusInput"
+                },
+
+                {
+                  type: "inputNumberField",
+                  hasLabel: true,
+                  fieldLabel: 'Screen Width (%):',
+                  fieldSize: 5,
+                  fieldMaxLength: 5,
+                  fieldIdentifier: 'screenWidth',
+                  name: 'screenWidth',
+                  autoFocus:false,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "inputNumberField",
+                  hasLabel: true,
+                  fieldLabel: 'Row Height :',
+                  fieldSize: 5,
+                  fieldMaxLength: 5,
+                  fieldIdentifier: 'rowHeight',
+                  name: 'rowHeight',
+                  autoFocus:false,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "vBackgroundPicker",
+                  fieldLabel: "Background:",
+                  hasLabel: "true",
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'pageBackground',
+                  name: "pageBackground",
+
+                  loader: function(existingData, dialogComponents, currentComponent){
+                    console.log('backgroundPicker loader-', existingData, dialogComponents, currentComponent);
+                    debugger;
+                    if(existingData[dialogComponents[currentComponent].fieldIdentifier].backgroundType=='image'){
+                      var imageUrl='';
+                      if(typeof(existingData.backgroundImageUrl)!='undefined'){
+                        imageUrl = existingData.backgroundImageUrl;
+                      }
+                      return {
+                        backgroundType: 'image',
+                        url:imageUrl,
+                        colorSelect:''
+                      }
+                    }
+                    else if(existingData[dialogComponents[currentComponent].fieldIdentifier].backgroundType=='color'){
+                      return {
+                        backgroundType: 'color',
+                        colorSelect: existingData[dialogComponents[currentComponent].fieldIdentifier].colorSelect,
+                        url:''
+                      }
+                    }
+                    else {
+                      return {
+                        backgroundType: 'transparent'
+                      }
+                    }
+                  },
+
+
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                    backGroundRadioGroupStyle:{
+                      type: "vRadioGroup",
+                      hasLabel: "false",
+                      orient: "horozontal",
+                      groupName: "backgroundType",
+                      leafComponent: true,
+                      labelStyle:{
+                        color:"blue",
+                        fontFamily: "Candara",
+                        fontSize: "12px",
+                      },
+                      buttonLabelStyle:{
+                        color:"blue",
+                        fontFamily: "Candara",
+                        fontSize: "12px",
+                      },
+                      radioButtons: [
+                        {
+                          fieldLabel:"Color",
+                          val: "color",
+                        },
+                        {
+                          fieldLabel: "Image",
+                          val: "image",
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  type: "checkbox",
+                  fieldLabel: "Template:",
+                  hasLabel: true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'template',
+                  name: "template",
+                  loader: function(styleElements){
+                    //                   debugger;
+                    if(typeof(styleElements['template'])!='undefined'){
+                      if(styleElements['template']=='checked'){
+                        return 'yes';
+                      }else{
+                        return 'no';
+                      }
+                    }else{
+                      return 'no';
+                    }
+                  },
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                  }
+                },
+
+
+              ]
+            }
+          }
+        }
+
+
         case 'mySpaces':{
           return {
             mySpaces:{
@@ -667,6 +996,7 @@ name: "dialogDefinitions",
             }
           }
         }
+//      is headlineCard used ?  configureHeadlineCard is what I see in action
         case 'headlineCard':{
           return {
               headlineCard :{
@@ -684,6 +1014,22 @@ name: "dialogDefinitions",
               },
               leafComponent: false,
               menuName:'configureNewCardMenu',
+              loader: function(existingData, dialogComponents){
+                debugger;
+                if(typeof(existingData)!='undefined'){
+                  for(d = 0; d<dialogComponents.length; d++){
+                    if(typeof(dialogComponents[d].loader)!='undefined'){
+                      var loadedVal = dialogComponents[d].loader(existingData.cardStyles);
+                      dialogComponents[d].fieldValue = loadedVal
+                      if(typeof(existingData.cardSubStyles)!='undefined'){
+                        loadedVal = dialogComponents[d].loader(existingData.cardSubStyles);
+                        dialogComponents[d].subElementValue = loadedVal;
+                      }
+                      console.log('existingValue is', loadedVal);
+                    }
+                  }
+                }
+              },
               fields:[
                 {
                   type: "vSelect",
@@ -825,6 +1171,22 @@ name: "dialogDefinitions",
               },
               leafComponent: false,
               menuName: 'dialogSubMenu3',
+              loader: function(existingData, dialogComponents){
+                debugger;
+                if(typeof(existingData)!='undefined'){
+                  for(var d = 0; d<dialogComponents.length; d++){
+                    if(typeof(dialogComponents[d].loader)!='undefined'){
+                      var loadedVal = dialogComponents[d].loader(existingData.cardStyles);
+                      dialogComponents[d].fieldValue = loadedVal
+                      if(typeof(existingData.cardSubStyles)!='undefined'){
+                        loadedVal = dialogComponents[d].loader(existingData.cardSubStyles);
+                        dialogComponents[d].subElementValue = loadedVal;
+                      }
+                      console.log('existingValue is', loadedVal);
+                    }
+                  }
+                }
+              },
               fields: [
                 {
                   type: "vBackgroundPicker",

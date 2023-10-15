@@ -84,6 +84,9 @@ export default {
         'editThisPage':function(msg, context){
           context.doEditPage(msg, context);
         },
+        'currentPageSettings':function(msg, context){
+          context.doCurrentPageSettings(msg, context);
+        },
 
 
 
@@ -198,6 +201,13 @@ export default {
 //      debugger;
       this.cmdHandlers['mainPage'](['setNewCardDimensions', msg, 'mainPage']);
     },
+    doCurrentPageSettings(msg,context){
+      console.log('switchboard in doCurrentPageSettings', msg, context);
+      context.dialogConfiguration.definition='pageSettings';
+      context.dialogConfiguration.existingData= msg[1];
+      context.showDialog=true;
+
+    },
     doMenuSelection(msg, self){
       var evtType = {
         'editPage': function(msg, context){
@@ -228,6 +238,9 @@ export default {
 //        },
         'mySpaces':function(msg, context){
           context.doMySpaces(msg, context);
+        },
+        'pageSettings':function(msg, context){
+          context.doPageSettings(msg, context);
         }
 //        'createCard':function(msg, context){
 //          context.doCreateCard(msg, context);
@@ -283,6 +296,10 @@ export default {
 
 
       }
+    },
+    doPageSettings(msg, context){
+      console.log('in doPageSettings', msg, context);
+      this.cmdHandlers['mainPage'](['pageSettings']);
     },
 
     doSaveScreenEntry(msg, context){

@@ -71,8 +71,12 @@ export default {
     console.log('dialogFields-', this.dialogFields);
     this.dialogStyle = this.dialogFields[this.config.definition].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config.definition].fields;
+    console.log('dialog2 components-', this.dialogComponents);
     if(typeof(this.config.existingData)!='undefined'){
       this.existingData =  this.config.existingData;
+      if(typeof(this.dialogFields[this.config.definition].loader)!='undefined'){
+        this.dialogFields[this.config.definition].loader(this.existingData, this.dialogComponents);
+      }
       console.log('in dialog2 existing data-', this.existingData);
     }else{
       this.dialogDefaults = this.getDialogDefaults(this.config.definition);
@@ -98,6 +102,7 @@ export default {
     } catch (e) {
       console.log('error');
     }
+/*
     if(typeof(this.config.existingData)!='undefined'){
       for(d = 0; d<this.dialogComponents.length; d++){
         if(typeof(this.dialogComponents[d].loader)!='undefined'){
@@ -111,6 +116,9 @@ export default {
         }
       }
     }
+*/
+
+
 
 /*
     try {

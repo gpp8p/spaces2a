@@ -40,6 +40,7 @@ export default {
   },
   mounted(){
 //    debugger;
+    console.log('vBackgroundPicker mounted cmdObject-', this.cmdObject);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.backgroundCmdObject = this.cmdObject;
     if(typeof(this.cmdObject.hasLabel)!='undefined'){

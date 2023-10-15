@@ -30,9 +30,22 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Edit',
-                action: 'editPage',
-                type: 'mItem'
+                label: 'Page',
+                action: 'pageSetup',
+                type: 'dropDownMenuItem',
+                submenu: {
+                  items:[
+                    {
+                      label: 'Edit Page',
+                      action: 'editPage'
+                    },
+                    {
+                      label: 'Page Settings',
+                      action: 'pageSettings'
+                    },
+
+                  ]
+                }
               },
               {
                 label:'Delete',

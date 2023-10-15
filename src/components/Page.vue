@@ -201,6 +201,10 @@ export default {
               console.log(error);
             });
           },
+          'pageSettings':function(args, context){
+            console.log('Page pageSettings-', args, context);
+            context.$emit('cevt',['currentPageSettings', context.pageConfigs]);
+          },
         }
         if(typeof(cmdType)!='undefined'){
           try {
@@ -269,9 +273,9 @@ export default {
 // this is a shim need to add rowHeight to data model
         context.lpRowHeight = 60;
         var loadedPageConfig = {
-          pageDescription: "page description",
+          pageDescription: response.data.layout.description,
           pageHeight: context.lpHeight,
-          pageName: "page name",
+          pageName: response.data.layout.menu_label,
           pageWidth: context.lpWidth,
           rowHeight: context.lpRowHeight,
           screenWidth: "100",
