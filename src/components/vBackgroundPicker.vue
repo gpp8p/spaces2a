@@ -11,7 +11,7 @@
       ></v-radio-group>
 
       <span>
-        <input type="file" id="file" ref="file" v-if="this.backgroundType==this.BACKGROUND_IMAGE" v-on:change="handleFileUpload()"/>
+        <file-upload :config="uploadConfig" name="fileUpload" v-if="this.backgroundType==this.BACKGROUND_IMAGE" @cevt="handleEvt"></file-upload>
       </span>
       <span v-if="this.backgroundType==this.BACKGROUND_COLOR">
         <input type="color"  :value = "colorValue"  @change="colorSelect"/>
@@ -24,9 +24,10 @@
 <script>
 import utils from "@/components/utils";
 import vRadioGroup from "@/components/vRadioGroup";
+import fileUpload from "../components/fileUpload.vue";
 export default {
   name: "vBackgroundPicker",
-  components: { vRadioGroup },
+  components: { vRadioGroup, fileUpload },
   mixins: [utils],
   props: {
     cmdObject: {
@@ -95,6 +96,8 @@ export default {
     }
 //    this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.cmdObject.existingData, this.name]);
     console.log('backgroundPicker sets  -', this.cmdObject.existingData);
+    console.log('fieldValue-', this.cmdObject.fieldValue);
+    this.uploadConfig.imageUrl = this.cmdObject.fieldValue.url;
     this.cmdVersion+=1;
 
   },
@@ -329,7 +332,7 @@ export default {
           },
         ]
       },
-
+      uploadConfig:{},
     }
   }
 }

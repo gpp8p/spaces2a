@@ -13,7 +13,7 @@
 <script>
 import utils from '../components/utils.vue';
 import eGrid from "../components/eGrid.vue"
-import displayGrid from "../components/displayGrid"
+//import displayGrid from "../components/displayGrid"
 import axios from "axios";
 import store from "@/store";
 
@@ -29,7 +29,7 @@ export default {
       required: false
     }
   },
-  components: {eGrid, displayGrid},
+  components: {eGrid},
   mixins: [utils],
   mounted(){
 //    console.log(this.name,' is mounted');

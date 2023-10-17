@@ -3,9 +3,17 @@
 
         <input type="file" id="file" ref="file" v-if="this.fileAlreadySelected==false" v-on:change="handleFileUpload()"/>
         <span v-if="this.fileAlreadySelected==true">
+          <span @onchange="displayTypeChange">
+                <select v-model="backgroundDisplayType">
+                  <option value="crop">Crop to Fit</option>
+                  <option value="existing">Existing Size</option>
+                  <option value="stretch">Stretch</option>
+                  <option value="repeat">Repeat</option>
+                </select>
+              </span>
           <o-button variant="primary" size="small" @click="changeImage">Change Image</o-button>
         </span>
-        <span v-if="!uploadStatus">
+        <span v-if="uploadStatus">
             Ok!
         </span>
 
@@ -21,6 +29,10 @@ export default {
     name:{
       type: String,
       required: true
+    },
+    config:{
+      type: Object,
+      required: false
     }
   },
   components: {},
@@ -28,6 +40,9 @@ export default {
   mounted(){
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+    if(typeof(this.config.imageUrl)!='undefined'){
+      this.fileAlreadySelected=true;
+    }
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -35,7 +50,10 @@ export default {
   data(){
     return {
       cmdHandlers:{},
-      leafComponent: false
+      leafComponent: false,
+      fileAlreadySelected: false,
+      uploadStatus: false,
+      backgroundDisplayType:'',
     }
   },
   methods:{
@@ -113,14 +131,52 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
-    }
+    },
 
+    handleFileUpload(){
+      console.log('handleFileUpload called');
+      this.file = this.$refs.file.files[0];
+      this.submitFile();
+    },
+    changeImage(){
+      this.fileAlreadySelected=false;
+    },
+    submitFile(){
+      let formData = new FormData();
+      formData.append('file', this.file);
+      formData.append('org', this.$store.getters.getOrgId);
+      formData.append('fileRole', this.fileRole);
+// eslint-disable-next-line no-debugger
+      debugger;
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
 
+      axios.post( apiPath+'api/shan/fileUpload?XDEBUG_SESSION_START=15617',
+//                axios.post( 'http://localhost:8000/api/shan/fileUpload?XDEBUG_SESSION_START=15617',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+      ).then(response=>{
+// eslint-disable-next-line no-console
+        this.returnedData = response.data;
+        this.$emit('selectedValue', [this.fileRole, this.returnedData]);
+        console.log('SUCCESS!!'+response.data);
+        this.uploadStatus=false;
+      }).catch(function(error){
+//            debugger;
+        console.log('FAILURE!!'+error);
+      });
+    },
 
   }
 }
 </script>
 
 <style scoped>
-
+.uploadWrapperStyle{
+  padding-top: 10px;
+}
 </style>
