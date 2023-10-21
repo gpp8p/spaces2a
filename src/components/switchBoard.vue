@@ -121,6 +121,7 @@ export default {
     },
     doMySpaces(msg, context){
       console.log('doMySpaces-',msg, context);
+      debugger;
       context.dialogConfiguration.definition='mySpaces';
       context.showDialog=true;
     },
@@ -323,7 +324,7 @@ export default {
         backgroundDisplay = '';
       }else{
         backgroundType = 'I';
-        backgroundImage= msg[1].pageBackground.backgroundUrl;
+        backgroundImage= msg[1].backgroundImage;
         backgroundColor = '';
         backgroundDisplay = 'cover';
       }

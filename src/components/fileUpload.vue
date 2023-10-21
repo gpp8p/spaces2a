@@ -22,6 +22,7 @@
 
 <script>
 import utils from '../components/utils.vue';
+import axios from "axios";
 
 export default {
   name: "fileUpload",
@@ -43,6 +44,10 @@ export default {
     if(typeof(this.config.imageUrl)!='undefined'){
       this.fileAlreadySelected=true;
     }
+    if(typeof(this.config.backgroundDisplay)!='undefined'){
+      this.backgroundDisplayType = this.config.backgroundDisplay;
+    }
+
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -141,11 +146,14 @@ export default {
     changeImage(){
       this.fileAlreadySelected=false;
     },
+    displayTypeChange(msg){
+      console.log('display type changed-', msg);
+    },
     submitFile(){
       let formData = new FormData();
       formData.append('file', this.file);
       formData.append('org', this.$store.getters.getOrgId);
-      formData.append('fileRole', this.fileRole);
+      formData.append('fileRole', 'backgroundImage');
 // eslint-disable-next-line no-debugger
       debugger;
       var apiPath = this.$store.getters.getApiBase;
@@ -161,12 +169,13 @@ export default {
           }
       ).then(response=>{
 // eslint-disable-next-line no-console
+        debugger;
         this.returnedData = response.data;
-        this.$emit('selectedValue', [this.fileRole, this.returnedData]);
+        this.$emit('cevt', ['fieldInput','backgroundType', 'image', this.returnedData]);
         console.log('SUCCESS!!'+response.data);
         this.uploadStatus=false;
       }).catch(function(error){
-//            debugger;
+            debugger;
         console.log('FAILURE!!'+error);
       });
     },

@@ -279,6 +279,7 @@ export default {
           pageWidth: context.lpWidth,
           rowHeight: context.lpRowHeight,
           screenWidth: "100",
+          backgroundDisplay: response.data.layout.backgroundDisplay,
           pageBackground: {
             backgroundType: "color",
             colorSelect: "#0a3aff"

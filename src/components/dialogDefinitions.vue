@@ -544,6 +544,7 @@ name: "dialogDefinitions",
                     color: "#0a3aff"
                   }
                 },
+
                 {
                   type: "vBackgroundPicker",
                   fieldLabel: "Background:",
@@ -563,13 +564,18 @@ name: "dialogDefinitions",
                     debugger;
                     if(existingData[dialogComponents[currentComponent].fieldIdentifier].backgroundType=='image'){
                       var imageUrl='';
+                      var backgroundDisplay='';
                       if(typeof(existingData.backgroundImageUrl)!='undefined'){
                         imageUrl = existingData.backgroundImageUrl;
+                      }
+                      if(typeof(existingData.backgroundDisplay)!='undefined'){
+                        backgroundDisplay = existingData.backgroundDisplay;
                       }
                       return {
                         backgroundType: 'image',
                         url:imageUrl,
-                        colorSelect:''
+                        colorSelect:'',
+                        backgroundDisplay: backgroundDisplay
                       }
                     }
                     else if(existingData[dialogComponents[currentComponent].fieldIdentifier].backgroundType=='color'){
@@ -622,6 +628,10 @@ name: "dialogDefinitions",
                     }
                   }
                 },
+
+
+
+
                 {
                   type: "checkbox",
                   fieldLabel: "Template:",

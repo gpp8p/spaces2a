@@ -98,6 +98,7 @@ export default {
     console.log('backgroundPicker sets  -', this.cmdObject.existingData);
     console.log('fieldValue-', this.cmdObject.fieldValue);
     this.uploadConfig.imageUrl = this.cmdObject.fieldValue.url;
+    this.uploadConfig.backgroundDisplay = this.cmdObject.fieldValue.backgroundDisplay;
     this.cmdVersion+=1;
 
   },
@@ -199,7 +200,7 @@ export default {
     doFieldInput(msg, context){
       console.log('at doFieldInput-', msg, context);
       console.log('this.backgroundType-', this.backgroundType);
-//      debugger;
+      debugger;
       switch(msg[1]){
         case 'backgroundType':{
           switch(msg[2]){
@@ -211,6 +212,7 @@ export default {
             case 'image':{
               this.backgroundType=this.BACKGROUND_IMAGE;
               this.$emit('cevt',['fieldInput', this.name, 'image']);
+              this.$emit('cevt',['fieldInput', 'backgroundImage', msg[3]]);
               break;
             }
             case 'transparent':{
