@@ -362,7 +362,7 @@ name: "dialogDefinitions",
                 boxShadow:'10px 10px 5px lightslategrey',
               },
               leafComponent: false,
-              menuName:'dialogSubMenu2',
+              menuName:'dialogSubMenu4',
               loader: function(existingData, dialogComponents){
                 console.log('in pageSettings loader -',existingData, dialogComponents );
                 debugger;

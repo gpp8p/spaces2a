@@ -268,6 +268,9 @@ export default {
         'saveScreenEntry': function(msg, context){
           context.doSaveScreenEntry(msg, context);
         },
+        'updateScreenEntry': function(msg, context){
+          context.doUpdateScreenEntry(msg, context);
+        },
         'saveCardConfigurationEntry': function(msg, context){
           context.doSaveCardConfigurationEntry(msg, context);
         }
@@ -316,6 +319,10 @@ export default {
     doSaveScreenEntry(msg, context){
       console.log('in dialog doSaveScreenEntry', msg, context, this.dialogData);
       this.$emit('cevt', ['saveScreenEntry', this.dialogData]);
+    },
+    doUpdateScreenEntry(msg, context){
+      console.log('in dialog doUpdateScreenEntry', msg, context, this.dialogData);
+      this.$emit('cevt', ['updateScreenEntry', this.dialogData]);
     },
     doSaveCardConfigurationEntry(msg, context){
       console.log('in dialog doSaveCardConfigurationEntry', msg, context, this.dialogData, this.targetCard);

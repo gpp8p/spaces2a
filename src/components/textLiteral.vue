@@ -50,6 +50,7 @@ export default {
     cType = typeof this.cmdObject.fieldValue;
     if(cType !='undefined'){
       this.fieldValue = this.cmdObject.fieldValue;
+      this.$emit('cevt', ['fieldInput', this.cmdObject.name, this.fieldValue]);
     }
     cType = typeof this.cmdObject.fieldSize;
     if(cType!='undefined'){

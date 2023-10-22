@@ -7,7 +7,7 @@
                 <select v-model="backgroundDisplayType">
                   <option value="crop">Crop to Fit</option>
                   <option value="existing">Existing Size</option>
-                  <option value="stretch">Stretch</option>
+                  <option value="cover">Stretch</option>
                   <option value="repeat">Repeat</option>
                 </select>
               </span>

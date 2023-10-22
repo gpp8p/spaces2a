@@ -72,6 +72,9 @@ export default {
         'saveScreenEntry':function(msg, context){
           context.doSaveScreenEntry(msg, context);
         },
+        'updateScreenEntry':function(msg, context){
+          context.doUpdateScreenEntry(msg, context);
+        },
         'saveCardConfigurationEntry':function(msg, context){
           context.doSaveCardConfigurationEntry(msg, context);
         },
@@ -301,6 +304,92 @@ export default {
     doPageSettings(msg, context){
       console.log('in doPageSettings', msg, context);
       this.cmdHandlers['mainPage'](['pageSettings']);
+    },
+    doUpdateScreenEntry(msg, context){
+      console.log('at doUpdateScreenEntry-', msg, context);
+      debugger;
+      // eslint-disable-next-line no-unused-vars
+      var backgroundImage;
+      // eslint-disable-next-line no-unused-vars
+      var backgroundColor;
+      // eslint-disable-next-line no-unused-vars
+      var backgroundType;
+      // eslint-disable-next-line no-unused-vars
+      var backgroundDisplay;
+      if(msg[1].pageBackground.backgroundType=='color'){
+        backgroundColor = msg[1].pageBackground.colorSelect;
+        backgroundType = 'C';
+        backgroundImage='';
+        backgroundDisplay = '';
+      }else{
+        backgroundType = 'I';
+        backgroundImage= msg[1].backgroundImage;
+        backgroundColor = '';
+        backgroundDisplay = msg[1].pageBackground;
+      }
+      // eslint-disable-next-line no-unused-vars
+      var template;
+      if(msg[1].template=='no'){
+        template=false;
+      }else{
+        template=true;
+      }
+      // eslint-disable-next-line no-unused-vars
+      var perms;
+      perms='default';
+/*
+      if(msg[1].permissions=='open'){
+        perms='default';
+      }else{
+        perms='template';
+      }
+*/
+      var apiPath = this.$store.getters.getApiBase;
+      axios.post(apiPath+'api/shan/updateLayout?XDEBUG_SESSION_START=17516', {
+//        axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+        name: msg[1].pageName,
+        description: msg[1].pageDescription,
+        height: msg[1].pageHeight,
+        width: msg[1].pageWidth,
+        backgroundColor: backgroundColor,
+        backgroundType: backgroundType,
+        backgroundImage: backgroundImage,
+        backgroundDisplay: backgroundDisplay,
+        template: template,
+        userId: this.$store.getters.getLoggedInUserId,
+        user: this.$store.getters.getLoggedInUser,
+        orgId: this.$store.getters.getOrgId,
+        layoutId: this.$store.getters.getCurrentLayoutId,
+        permType: perms,
+      }).then(response=>
+      {
+        debugger;
+        console.log('page update-', response.data);
+        context.showDialog=false;
+        context.pageConfiguration={}
+        context.pageConfiguration.action= context.PAGE_LOAD_DISPLAY;
+        context.pageConfiguration.pageId = context.$store.getters.getCurrentLayoutId;
+        context.mode=context.SHOW_PAGE;
+        context.pageReload+=1;
+
+
+//        this.pageConfiguration.action=this.PAGE_DISPLAY;
+//        this.showDialog = false;
+//        this.$emit('cevt',['pageSelected', this.$store.getters.getCurrentLayoutId]);
+//       this.dialogConfiguration={};
+//        this.cmdHandlers['mainNavArea'](['setMessage', 'Please select an area by dragging your mouse']);
+//        this.mode=this.SHOW_PAGE;
+//        this.pageReload+=1;
+
+//        this.layoutId=response.data;
+
+
+//        this.$emit('layoutSaved', [this.layoutId, this.height, this.width, this.description, this.menu_label, this.val]);
+//                this.$refs.editGrid.createBlankLayout(msg[2],msg[3],msg[1],msg[0]);
+      }).catch(function(error) {
+        console.log(error);
+      });
+
     },
 
     doSaveScreenEntry(msg, context){
