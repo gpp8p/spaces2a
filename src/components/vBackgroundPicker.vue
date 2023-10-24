@@ -223,6 +223,11 @@ export default {
           }
           break;
         }
+        case 'backgroundDisplay':{
+          debugger;
+          this.$emit('cevt',['fieldInput', 'backgroundDisplay', msg[2]]);
+          break;
+        }
       }
       console.log('this.backgroundType (2)-', this.backgroundType);
     },

@@ -323,9 +323,9 @@ export default {
         backgroundDisplay = '';
       }else{
         backgroundType = 'I';
-        backgroundImage= msg[1].backgroundImage;
+        backgroundImage= msg[1].pageBackground.url;
         backgroundColor = '';
-        backgroundDisplay = msg[1].pageBackground;
+        backgroundDisplay = msg[1].backgroundDisplay;
       }
       // eslint-disable-next-line no-unused-vars
       var template;

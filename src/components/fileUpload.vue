@@ -2,15 +2,16 @@
     <span class="uploadWrapperStyle">
 
         <input type="file" id="file" ref="file" v-if="this.fileAlreadySelected==false" v-on:change="handleFileUpload()"/>
-        <span v-if="this.fileAlreadySelected==true">
-          <span @onchange="displayTypeChange">
-                <select v-model="backgroundDisplayType">
+           <span >
+                <select v-model="backgroundDisplayType" @change="displayTypeChange">
                   <option value="crop">Crop to Fit</option>
                   <option value="existing">Existing Size</option>
                   <option value="cover">Stretch</option>
                   <option value="repeat">Repeat</option>
                 </select>
               </span>
+        <span v-if="this.fileAlreadySelected==true">
+
           <o-button variant="primary" size="small" @click="changeImage">Change Image</o-button>
         </span>
         <span v-if="uploadStatus">
@@ -146,8 +147,10 @@ export default {
     changeImage(){
       this.fileAlreadySelected=false;
     },
-    displayTypeChange(msg){
-      console.log('display type changed-', msg);
+    displayTypeChange(){
+      debugger;
+      console.log('display type changed-', this.backgroundDisplayType);
+      this.$emit('cevt', ['fieldInput','backgroundDisplay', this.backgroundDisplayType]);
     },
     submitFile(){
       let formData = new FormData();
@@ -172,6 +175,7 @@ export default {
         debugger;
         this.returnedData = response.data;
         this.$emit('cevt', ['fieldInput','backgroundType', 'image', this.returnedData]);
+        this.$emit('cevt', ['fieldInput','backgroundDisplay', this.backgroundDisplayType]);
         console.log('SUCCESS!!'+response.data);
         this.uploadStatus=false;
       }).catch(function(error){
