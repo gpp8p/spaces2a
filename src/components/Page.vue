@@ -272,6 +272,7 @@ export default {
 //        context.lpRowHeight = Math.round((this.$store.getters.getContentHeight-vgapTotal)/response.data.layout.height);
 // this is a shim need to add rowHeight to data model
         context.lpRowHeight = 60;
+
         var loadedPageConfig = {
           pageDescription: response.data.layout.description,
           pageHeight: context.lpHeight,

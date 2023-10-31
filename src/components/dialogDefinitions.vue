@@ -1211,7 +1211,8 @@ name: "dialogDefinitions",
                       return {
                         colorSelect: 'transparent',
                         backgroundType:'transparent',
-                        url: ''
+                        url: '',
+                        backgroundDisplay:''
                       }
                     }
                     var urlSpec='';

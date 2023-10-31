@@ -99,6 +99,9 @@ export default {
     console.log('fieldValue-', this.cmdObject.fieldValue);
     this.uploadConfig.imageUrl = this.cmdObject.fieldValue.url;
     this.uploadConfig.backgroundDisplay = this.cmdObject.fieldValue.backgroundDisplay;
+    this.pageBackground = this.cmdObject.fieldValue;
+    this.background=this.cmdObject.fieldValue;
+    this.$emit('cevt', ['fieldInput', 'background', this.background]);
     this.cmdVersion+=1;
 
   },
@@ -198,26 +201,34 @@ export default {
       }
     },
     doFieldInput(msg, context){
-      console.log('at doFieldInput-', msg, context);
+      console.log('at doFieldInput background picker -', msg, context);
       console.log('this.backgroundType-', this.backgroundType);
       debugger;
       switch(msg[1]){
         case 'backgroundType':{
+          this.background.backgroundType=msg[2];
           switch(msg[2]){
             case 'color':{
               this.backgroundType=this.BACKGROUND_COLOR;
               this.$emit('cevt',['fieldInput', this.name, 'color']);
+ //             this.$emit('cevt', ['fieldInput', 'background', this.pageBackground]);
+              this.$emit('cevt', ['fieldInput', 'background', this.background]);
               break;
             }
             case 'image':{
               this.backgroundType=this.BACKGROUND_IMAGE;
               this.$emit('cevt',['fieldInput', this.name, 'image']);
               this.$emit('cevt',['fieldInput', 'backgroundImage', msg[3]]);
+              this.$emit('cevt', ['fieldInput', 'pageBackground', this.pageBackground]);
+ //             this.$emit('cevt', ['fieldInput', 'background', this.pageBackground]);
+              this.$emit('cevt', ['fieldInput', 'background', this.background]);
               break;
             }
             case 'transparent':{
               this.backgroundType=this.BACKGROUND_TRANSPARENT;
               this.$emit('cevt', ['fieldInput', this.name, 'transparent']);
+    //          this.$emit('cevt', ['fieldInput', 'background', this.pageBackground]);
+              this.$emit('cevt', ['fieldInput', 'background', this.background]);
               break;
             }
           }
@@ -225,7 +236,19 @@ export default {
         }
         case 'backgroundDisplay':{
           debugger;
+          this.pageBackground.backgroundDisplay = msg[2];
+          this.background.backgroundDisplay=msg[2];
           this.$emit('cevt',['fieldInput', 'backgroundDisplay', msg[2]]);
+          this.$emit('cevt', ['fieldInput', 'pageBackground', this.pageBackground]);
+   //       this.$emit('cevt', ['fieldInput', 'background', this.pageBackground]);
+          this.$emit('cevt', ['fieldInput', 'background', this.background]);
+          break;
+        }
+        case 'backgroundImage':{
+          this.pageBackground.url = msg[2];
+          this.background.url=msg[2];
+  //        this.$emit('cevt', ['fieldInput', 'background', this.pageBackground]);
+          this.$emit('cevt', ['fieldInput', 'background', this.background]);
           break;
         }
       }
@@ -340,6 +363,18 @@ export default {
         ]
       },
       uploadConfig:{},
+      pageBackground: {
+        backgroundDisplay:'',
+        url:'',
+        backgroundType:'',
+        colorSelect:''
+      },
+      background:{
+        backgroundDisplay:'',
+        url:'',
+        backgroundType:'',
+        colorSelect:''
+      }
     }
   }
 }

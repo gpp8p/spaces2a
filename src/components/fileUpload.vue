@@ -175,6 +175,7 @@ export default {
         debugger;
         this.returnedData = response.data;
         this.$emit('cevt', ['fieldInput','backgroundType', 'image', this.returnedData]);
+        this.$emit('cevt', ['fieldInput','backgroundImage', this.returnedData]);
         this.$emit('cevt', ['fieldInput','backgroundDisplay', this.backgroundDisplayType]);
         console.log('SUCCESS!!'+response.data);
         this.uploadStatus=false;

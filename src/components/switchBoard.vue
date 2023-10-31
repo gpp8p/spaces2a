@@ -323,7 +323,11 @@ export default {
         backgroundDisplay = '';
       }else{
         backgroundType = 'I';
-        backgroundImage= msg[1].pageBackground.url;
+        if(typeof(msg[1].pageBackground.url)=='undefined'){
+          backgroundImage=msg[1].backgroundImage;
+        }else{
+          backgroundImage= msg[1].pageBackground.url;
+        }
         backgroundColor = '';
         backgroundDisplay = msg[1].backgroundDisplay;
       }
@@ -415,7 +419,7 @@ export default {
         backgroundType = 'I';
         backgroundImage= msg[1].backgroundImage;
         backgroundColor = '';
-        backgroundDisplay = 'cover';
+        backgroundDisplay = msg[1].backgroundDisplay;
       }
       // eslint-disable-next-line no-unused-vars
       var template;
