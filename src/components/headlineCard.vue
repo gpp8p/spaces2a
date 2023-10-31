@@ -356,7 +356,7 @@ export default {
             }
             break;
           }
-          case 'cardBackground':{
+          case 'background':{
             if(enteredStyles[thisStyleElements[s]].backgroundType=='color'){
               var newBackgroundSpec = '';
               newBackgroundSpec = newBackgroundSpec+'backgroundTypeColor:checked;';
@@ -366,7 +366,28 @@ export default {
               newTitleStyleElements['backgroundColor']='background-color:'+enteredStyles[thisStyleElements[s]].colorSelect+";";
               console.log('newStyle-', newStyle);
             }else if(enteredStyles[thisStyleElements[s]].backgroundType=='image'){
+              debugger;
               console.log('image background need to fill this in');
+              newBackgroundSpec = newBackgroundSpec+'backgroundTypeImage:checked;';
+              newTitleStyleElements['backgroundTypeImage']="backgroundTypeImage:checked;";
+              newBackgroundSpec = newBackgroundSpec + enteredStyles[thisStyleElements[s]].url+";";
+              switch(enteredStyles[thisStyleElements[s]].backgroundDisplay){
+                case 'crop':{
+
+                  break;
+                }
+                case 'cover':{
+                  break;
+                }
+                case 'existing':{
+                  break;
+                }
+                case 'repeat':{
+                  break;
+                }
+              }
+              newTitleStyleElements['backgroundImage']="background-image:url("+enteredStyles[thisStyleElements[s]].url+");";
+
             }else if(enteredStyles[thisStyleElements[s]].backgroundType=='transparent'){
               newBackgroundSpec = '';
               newBackgroundSpec = newBackgroundSpec+'backgroundTypeColor:checked;';

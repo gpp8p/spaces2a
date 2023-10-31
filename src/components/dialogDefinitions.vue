@@ -1182,10 +1182,12 @@ name: "dialogDefinitions",
               leafComponent: false,
               menuName: 'dialogSubMenu3',
               loader: function(existingData, dialogComponents){
+                console.log('loading headline card config existing data-', existingData );
                 debugger;
                 if(typeof(existingData)!='undefined'){
                   for(var d = 0; d<dialogComponents.length; d++){
                     if(typeof(dialogComponents[d].loader)!='undefined'){
+                      console.log('loading a field-', dialogComponents[d]);
                       var loadedVal = dialogComponents[d].loader(existingData.cardStyles);
                       dialogComponents[d].fieldValue = loadedVal
                       if(typeof(existingData.cardSubStyles)!='undefined'){
