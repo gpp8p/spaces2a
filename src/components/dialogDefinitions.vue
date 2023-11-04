@@ -560,7 +560,7 @@ name: "dialogDefinitions",
                   name: "pageBackground",
 
                   loader: function(existingData, dialogComponents, currentComponent){
-                    console.log('backgroundPicker loader-', existingData, dialogComponents, currentComponent);
+                    console.log('page backgroundPicker loader-', existingData, dialogComponents, currentComponent);
                     debugger;
                     if(existingData[dialogComponents[currentComponent].fieldIdentifier].backgroundType=='image'){
                       var imageUrl='';
@@ -1028,7 +1028,7 @@ name: "dialogDefinitions",
                 debugger;
                 console.log('headlineCard config existing data-', existingData);
                 if(typeof(existingData)!='undefined'){
-                  for(d = 0; d<dialogComponents.length; d++){
+                  for(var d = 0; d<dialogComponents.length; d++){
                     if(typeof(dialogComponents[d].loader)!='undefined'){
                       var loadedVal = dialogComponents[d].loader(existingData.cardStyles);
                       dialogComponents[d].fieldValue = loadedVal
@@ -1229,8 +1229,12 @@ name: "dialogDefinitions",
                       var bgDisp = styleElements['background-size'];
                       if(bgDisp=="100% 100%"){
                         bgDisplay='cover';
-;                      }else{
+                      }else{
                         bgDisplay = bgDisp;
+                      }
+                      var bgRepeat=styleElements['background-repeat'];
+                      if(bgRepeat=='repeat'){
+                        bgDisplay='repeat';
                       }
  //                     bgDisplay = styleElements['background-size'];
                       clrSel = '';

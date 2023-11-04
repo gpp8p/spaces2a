@@ -200,7 +200,7 @@ export default {
               ";";
           return gridCss
         }
-        case 'existing':{
+        case 'contain':{
           gridCss =
               "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:contain; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
               gridHeightCss +

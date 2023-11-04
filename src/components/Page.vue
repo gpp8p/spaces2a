@@ -150,9 +150,9 @@ export default {
       debugger;
       if(args[2]==this.name || this.leafComponent==false){
         var cmdType ={
-          'default': function(args, context){
+//          'default': function(args, context){
 //            console.log('cmdHandler in Page - something else', args, context);
-          },
+//          },
           'setPageConfig':function(args, context){
 //            console.log('cmdHandler in Page - sewtPageConfig', args, context);
 //            debugger;
@@ -268,7 +268,7 @@ export default {
         console.log('loaded layout-', layoutId);
         context.lpHeight = response.data.layout.height;
         context.lpWidth = response.data.layout.width;
-        let vgapTotal = Number(response.data.layout.height*3)+3;
+//        let vgapTotal = Number(response.data.layout.height*3)+3;
 //        context.lpRowHeight = Math.round((this.$store.getters.getContentHeight-vgapTotal)/response.data.layout.height);
 // this is a shim need to add rowHeight to data model
         context.lpRowHeight = 60;
@@ -420,7 +420,7 @@ export default {
         }
         case 'repeat':{
           gridCss =
-              "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:auto auto; background-repeat:repeat; background-position: center; height: 90vh; color: #ffcd90; " +
+              "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:contain; background-repeat:repeat; background-position: center; height: 90vh; color: #ffcd90; " +
               gridHeightCss +
               ";" +
               gridWidthCss +
@@ -497,9 +497,9 @@ export default {
           context.doSetGridConfiguration(msg, context);
         },
   */
-        'default': function(msg, context){
+//        'default': function(msg, context){
 //          console.log('evtHandler in Page  - something else', msg, context);
-        }
+//        }
       }
       if(typeof(evtType)!='undefined'){
         try {

@@ -40,7 +40,7 @@ export default {
   components: {},
   mixins: [utils],
   mounted(){
-    console.log(this.name,' is mounted');
+    console.log(this.name,'fileUpload is mounted-', this.config);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     if(typeof(this.config.imageUrl)!='undefined'){
       this.fileAlreadySelected=true;

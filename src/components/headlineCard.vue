@@ -373,6 +373,7 @@ export default {
               newBackgroundSpec = newBackgroundSpec+'backgroundTypeImage:checked;';
               newTitleStyleElements['backgroundTypeImage']="backgroundTypeImage:checked;";
               newBackgroundSpec = newBackgroundSpec + enteredStyles[thisStyleElements[s]].url+";";
+              console.log('headline card at 376-',enteredStyles[thisStyleElements[s]].backgroundDisplay);
               switch(enteredStyles[thisStyleElements[s]].backgroundDisplay){
                 case 'crop':{
                   newBackgroundSpec = newBackgroundSpec+'background-size:crop;';
@@ -389,7 +390,7 @@ export default {
 //                  newTitleStyleElements['backgroundPosition']="background-position: center center;";
                   break;
                 }
-                case 'existing':{
+                case 'contain':{
                   newBackgroundSpec = newBackgroundSpec+'background-size:contain;';
                   newTitleStyleElements['backgroundSize']="background-size:contain;";
                   newTitleStyleElements['backgroundRepeat']="background-repeat:no-repeat;";
