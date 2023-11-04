@@ -18,8 +18,14 @@ export default {
       var styleValues= {}
       for(var s = 1;s<styleArray.length;s++){
         var thisStyleElement = styleArray[s].split(':');
-//          console.log('thisStyleElement-', thisStyleElement);
-        styleValues[thisStyleElement[0]]=thisStyleElement[1];
+        debugger;
+        //          console.log('thisStyleElement-', thisStyleElement);
+        if(thisStyleElement[0]=='background-image'){
+          styleValues[thisStyleElement[0]]=thisStyleElement[1]+':'+thisStyleElement[2]+':'+thisStyleElement[3]
+        }else{
+          styleValues[thisStyleElement[0]]=thisStyleElement[1];
+        }
+
       }
       console.log('styleValues-', styleValues);
       return styleValues;

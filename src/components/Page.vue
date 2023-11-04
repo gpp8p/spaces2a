@@ -389,18 +389,18 @@ export default {
       return gridCss;
     },
     backgroundImageCss(backgroundUrl, widthBackground, heightBackground, gridHeightCss, gridWidthCss, backgroundDisplay){
-//      debugger;
+      debugger;
       switch(backgroundDisplay){
         case 'crop':{
           var gridCss =
-              "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:cover; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
+              "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:crop; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
               gridHeightCss +
               ";" +
               gridWidthCss +
               ";";
           return gridCss
         }
-        case 'existing':{
+        case 'contain':{
           gridCss =
               "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:contain; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +
               gridHeightCss +
@@ -427,6 +427,7 @@ export default {
               ";";
           return gridCss
         }
+
         default:{
           gridCss =
               "display: grid; grid-gap: 3px; background-image: url("+backgroundUrl+"); background-size:cover; background-repeat: no-repeat; background-position: center; height: 90vh; color: #ffcd90; " +

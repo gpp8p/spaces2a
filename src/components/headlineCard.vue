@@ -204,6 +204,7 @@ export default {
       debugger;
       if(msg[2]==this.name){
         console.log('headlineCard doSetValue-',msg, context);
+        debugger;
         var currentMainStyles = this.getCardStyling(this.cardCss);
         var currentGridStyle = this.getCardGridStyle(this.cardCss);
         var cardConfigurationObject = [];
@@ -318,6 +319,7 @@ export default {
 
         }
         case 'configureHeadlineCard':{
+          console.log('configureHeadline menu choice-',context.config);
           this.$emit('cevt', ['menuItemSelected', 'configureHeadlineCard', context.name, context.config ])
           break;
         }
@@ -373,20 +375,42 @@ export default {
               newBackgroundSpec = newBackgroundSpec + enteredStyles[thisStyleElements[s]].url+";";
               switch(enteredStyles[thisStyleElements[s]].backgroundDisplay){
                 case 'crop':{
-
+                  newBackgroundSpec = newBackgroundSpec+'background-size:crop;';
+                  newTitleStyleElements['backgroundSize']="background-size:crop;";
+                  newTitleStyleElements['backgroundRepeat']="background-repeat:no-repeat;";
+//                  newTitleStyleElements['backgroundPosition']="background-position: center center;";
                   break;
                 }
                 case 'cover':{
+                  newBackgroundSpec = newBackgroundSpec+'background-size:100% 100%;';
+//                  newBackgroundSpec = newBackgroundSpec+'background-size:cover;';
+                  newTitleStyleElements['backgroundSize']="background-size:100% 100%;";
+                  newTitleStyleElements['backgroundRepeat']="background-repeat:no-repeat;";
+//                  newTitleStyleElements['backgroundPosition']="background-position: center center;";
                   break;
                 }
                 case 'existing':{
+                  newBackgroundSpec = newBackgroundSpec+'background-size:contain;';
+                  newTitleStyleElements['backgroundSize']="background-size:contain;";
+                  newTitleStyleElements['backgroundRepeat']="background-repeat:no-repeat;";
                   break;
                 }
                 case 'repeat':{
+                  newBackgroundSpec = newBackgroundSpec+'background-size:contain;background-repeat:repeat;';
+                  newTitleStyleElements['backgroundSize']="background-size:contain;";
+                  newTitleStyleElements['backgroundRepeat']="background-repeat:repeat;";
+
                   break;
                 }
               }
-              newTitleStyleElements['backgroundImage']="background-image:url("+enteredStyles[thisStyleElements[s]].url+");";
+              debugger;
+              var imageRef = enteredStyles[thisStyleElements[s]].url;
+              if(imageRef.includes("url(")){
+                newTitleStyleElements['backgroundImage']="background-image:"+enteredStyles[thisStyleElements[s]].url+";";
+              }else{
+                newTitleStyleElements['backgroundImage']="background-image:url("+enteredStyles[thisStyleElements[s]].url+");";
+              }
+
 
             }else if(enteredStyles[thisStyleElements[s]].backgroundType=='transparent'){
               newBackgroundSpec = '';

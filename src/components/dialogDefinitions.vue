@@ -1026,6 +1026,7 @@ name: "dialogDefinitions",
               menuName:'configureNewCardMenu',
               loader: function(existingData, dialogComponents){
                 debugger;
+                console.log('headlineCard config existing data-', existingData);
                 if(typeof(existingData)!='undefined'){
                   for(d = 0; d<dialogComponents.length; d++){
                     if(typeof(dialogComponents[d].loader)!='undefined'){
@@ -1207,6 +1208,7 @@ name: "dialogDefinitions",
                   leafComponent: true,
                   loader: function(styleElements){
 //                    debugger;
+                    console.log('entering loader for bg picker-', styleElements);
                     var bgType='';
                     var clrSel=styleElements['background-color'];
                     if(clrSel=='transparent'){
@@ -1218,10 +1220,20 @@ name: "dialogDefinitions",
                       }
                     }
                     var urlSpec='';
+                    var bgDisplay='';
                     if(typeof(styleElements['backgroundTypeColor'])!='undefined'){
                       bgType = 'color';
                     }else if(typeof(styleElements['backgroundTypeImage'])!='undefined'){
                       bgType='image';
+                      urlSpec = styleElements['background-image'];
+                      var bgDisp = styleElements['background-size'];
+                      if(bgDisp=="100% 100%"){
+                        bgDisplay='cover';
+;                      }else{
+                        bgDisplay = bgDisp;
+                      }
+ //                     bgDisplay = styleElements['background-size'];
+                      clrSel = '';
 
                     }else{
                       bgType='transparent';
@@ -1230,7 +1242,8 @@ name: "dialogDefinitions",
                       return {
                         colorSelect: clrSel,
                         backgroundType:bgType,
-                        url: urlSpec
+                        url: urlSpec,
+                        backgroundDisplay:bgDisplay
                       }
                   },
                   labelStyle: {
