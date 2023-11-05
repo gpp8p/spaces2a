@@ -69,6 +69,10 @@ export default {
           console.log('pageSelected in App-', msg, context);
           context.doPageSelected(msg, context);
         },
+        'configurationHasBeenSaved':function(msg, context){
+          console.log('configurationHasBeenSaved in App-', msg, context);
+          context.doConfigurationHasBeenSaved(msg, context);
+        },
         'saveScreenEntry':function(msg, context){
           context.doSaveScreenEntry(msg, context);
         },
@@ -139,6 +143,19 @@ export default {
       this.pageReload+=1;
 //      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);
     },
+
+    doConfigurationHasBeenSaved(msg, context){
+      console.log('doConfigurationHasBeenSavedd-',msg, context);
+//      debugger;
+      context.showDialog=false;
+      this.pageConfiguration={}
+      this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
+      this.pageConfiguration.pageId = msg[1];
+      this.mode=this.SHOW_PAGE;
+      this.pageReload+=1;
+//      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);
+    },
+
     doSetMenu(msg, context){
       console.log('Page in doSetMenu-', msg, context);
       this.cmdHandlers['mainNavArea'](['setMenu', msg[1],'topLevelMenu']);

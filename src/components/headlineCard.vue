@@ -238,7 +238,7 @@ export default {
         }).then(response=>
         {
           console.log(response);
-          this.$emit('configurationHasBeenSaved')
+          this.$emit('cevt',['configurationHasBeenSaved', this.$store.getters.getCurrentLayoutId]);
         }).catch(function(error) {
           console.log(error);
         });
