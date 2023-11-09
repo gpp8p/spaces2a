@@ -3,7 +3,7 @@
 export default {
 name: "dialogDefinitions",
   methods: {
-    getDialogDefinition(dialogName){
+    getDialogDefinition(dialogName, componentLoaders){
       switch(dialogName){
         case 'oneWindow':{
           return {
@@ -560,7 +560,7 @@ name: "dialogDefinitions",
                   name: "pageBackground",
 
                   loader: function(existingData, dialogComponents, currentComponent){
-                    console.log('page backgroundPicker loader-', existingData, dialogComponents, currentComponent);
+                    console.log('page backgroundPicker loader-', existingData);
                     debugger;
                     if(existingData[dialogComponents[currentComponent].fieldIdentifier].backgroundType=='image'){
                       var imageUrl='';
@@ -1184,11 +1184,13 @@ name: "dialogDefinitions",
               menuName: 'dialogSubMenu3',
               loader: function(existingData, dialogComponents){
                 console.log('loading headline card config existing data-', existingData );
+                console.log('componentLoaders-',componentLoaders);
                 debugger;
                 if(typeof(existingData)!='undefined'){
                   for(var d = 0; d<dialogComponents.length; d++){
                     if(typeof(dialogComponents[d].loader)!='undefined'){
                       console.log('loading a field-', dialogComponents[d]);
+                      console.log('loading existing data headline-', existingData);
                       var loadedVal = dialogComponents[d].loader(existingData.cardStyles);
                       dialogComponents[d].fieldValue = loadedVal
                       if(typeof(existingData.cardSubStyles)!='undefined'){
@@ -1206,9 +1208,17 @@ name: "dialogDefinitions",
                   fieldLabel: "Background:",
                   hasLabel: "true",
                   leafComponent: true,
+                  loader:function(styleElements){
+                    return componentLoaders.background(styleElements);
+                  },
+/*
                   loader: function(styleElements){
-//                    debugger;
+                    debugger;
                     console.log('entering loader for bg picker-', styleElements);
+                    var thisComponentLoader = componentLoaders.background;
+                    thisComponentLoader();
+//                    console.log('componentLoader invoked-', componentLoaders.background());
+//                    console.log(loadExistingBackground(styleElements));
                     var bgType='';
                     var clrSel=styleElements['background-color'];
                     if(clrSel=='transparent'){
@@ -1250,6 +1260,7 @@ name: "dialogDefinitions",
                         backgroundDisplay:bgDisplay
                       }
                   },
+ */
                   labelStyle: {
                     color: "blue",
                     fontFamily: "Candara",
@@ -1697,6 +1708,9 @@ name: "dialogDefinitions",
           }
         }
       }
+    },
+    loadExistingBackground(exData){
+      console.log('in loadExistingBackground-', exData);
     },
     getDialogDefaults(pageType){
       switch(pageType){

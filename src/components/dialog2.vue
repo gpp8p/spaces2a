@@ -37,11 +37,12 @@ import mySpaces from "../components/mySpaces.vue";
 import checkbox from "../components/checkbox.vue"
 import cbxSelectColor from "@/components/cbxSelectColor";
 import fontPicker from "@/components/fontPicker";
+import componentLoaders from "@/components/componentLoaders";
 
 export default {
   name: "dialog2",
   components: {InputField, inputNumberField, inputPasswordField, vButton, vCheckBox, vSelect, vRadioGroup, vBackgroundPicker, textLiteral, Menu, mySpaces, checkbox, cbxSelectColor, fontPicker},
-  mixins: [utils, menuDefinitions, dialogDefinitions],
+  mixins: [utils, menuDefinitions, dialogDefinitions, componentLoaders],
   props:{
     name:{
       type: String,
@@ -67,7 +68,8 @@ export default {
       }
     }
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
-    this.dialogFields = this.getDialogDefinition(this.config.definition);
+    this.componentLoaders = this.getComponentLoaders();
+    this.dialogFields = this.getDialogDefinition(this.config.definition, this.componentLoaders);
     console.log('dialogFields-', this.dialogFields);
     this.dialogStyle = this.dialogFields[this.config.definition].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config.definition].fields;
@@ -150,7 +152,8 @@ export default {
       menuVisible: false,
       leafComponent:false,
       existingData:{},
-      targetCard :{}
+      targetCard :{},
+      componentLoaders:{}
     }
   },
   methods:{

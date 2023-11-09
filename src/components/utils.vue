@@ -18,7 +18,7 @@ export default {
       var styleValues= {}
       for(var s = 1;s<styleArray.length;s++){
         var thisStyleElement = styleArray[s].split(':');
-        debugger;
+//        debugger;
         //          console.log('thisStyleElement-', thisStyleElement);
         if(thisStyleElement[0]=='background-image'){
           styleValues[thisStyleElement[0]]=thisStyleElement[1]+':'+thisStyleElement[2]+':'+thisStyleElement[3]
