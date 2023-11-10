@@ -111,11 +111,14 @@ export default {
   methods:{
     colorSelect(evt){
       console.log('colorSelect-', evt.target.value);
-      let backgroundPickerValue = {
-        colorSelect: evt.target.value,
-        backgroundType: 'color'
+      this.colorValue = evt.target.value;
+      let backgroundPickerValue ={
+            backgroundDisplay:'',
+            url:'',
+            backgroundType:'color',
+            colorSelect:evt.target.value
       }
-      this.$emit('cevt',['fieldInput', this.name, backgroundPickerValue]);
+      this.$emit('cevt',['fieldInput', 'background', backgroundPickerValue]);
     },
     setBackgroundType(backgroundType){
 //      debugger;

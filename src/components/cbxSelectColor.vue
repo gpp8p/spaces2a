@@ -25,7 +25,7 @@
                   ></v-option>
 
             </select>
-            <input type="color" id="head" name="head" :value="this.fieldValue.borderColor">
+            <input type="color" id="head" name="head" :value="this.fieldValue.borderColor" @change="borderColorSelect">
          </span>
 
          </span>
@@ -176,7 +176,17 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
-    }
+    },
+    borderColorSelect(evt){
+      console.log('colorSelect-', evt.target.value);
+      this.colorValue = evt.target.value;
+      let borderColorValue = {
+        borderColor:evt.target.value,
+        borderSize:this.fieldValue.borderSize,
+        includeBorder: this.fieldValue.includeBorder
+      }
+      this.$emit('cevt',['fieldInput', 'borders', borderColorValue]);
+    },
 
 
 
