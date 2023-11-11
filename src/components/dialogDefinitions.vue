@@ -1406,6 +1406,9 @@ name: "dialogDefinitions",
                     },
                   ],
                   loader: function(styleElements){
+                    return componentLoaders.borders(styleElements);
+                  },
+ /*
                     debugger;
                     var includeBdr='';
                     if(typeof(styleElements['borderInclude'])!='undefined'){
@@ -1429,8 +1432,8 @@ name: "dialogDefinitions",
                         borderColor: ''
                       }
                     }
+*/
 
-                  },
                   fieldIdentifier: 'borders',
                   name: "borders",
                   styles:{
@@ -1455,6 +1458,11 @@ name: "dialogDefinitions",
                   fieldIdentifier: 'titleStyle',
                   selectStyle:'background: powderblue;color:blue;font-weight: bold;font-size: 12px;margin-bottom: 3px;width: 100%;margin-right: 15%;margin-top:5px; ',
                   loader: function(styleElements){
+                    return componentLoaders.fontPicker(styleElements);
+                  },
+
+
+/*
 //                    debugger;
                     var fontFamily='';
                     var fontSize='';
@@ -1488,7 +1496,8 @@ name: "dialogDefinitions",
                       alignment: textAlign,
                       color: textColor
                     }
-                  },
+*/
+
                   pickers:{
                     fontFamily:{
                       hasLabel: false,
