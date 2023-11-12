@@ -355,5 +355,8 @@ export default {
   margin-top: 5%;
   display: flex;
   flex-direction: column;
+  overflow-y:scroll;
+  -webkit-overflow-scrolling: touch;
+
 }
 </style>

@@ -1,45 +1,26 @@
 <template>
-    <span class="myspaceWrapper">
-      <o-table :data="data"
-               :columns="columns"
-               :selected.sync="selected"
-               :paginated="isPaginated"
-               :per-page="perPage"
-               :current-page.sync="currentPage"
-               :pagination-simple="isPaginationSimple"
-               :pagination-position="paginationPosition"
-               aria-next-label="Next page"
-               aria-previous-label="Previous page"
-               aria-page-label="Page"
-               aria-current-label="Current page"
-               @update:selected="spaceSelected"
-               focusable> </o-table>
-    </span>
+  <span class="">
+
+  </span>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
+import axios from "axios";
+import tableWrapper from '../components/tableWrapper.vue';
 
 
 export default {
-  name: "tableWrapper",
+  name: "linkEditor",
   props:{
     name:{
       type: String,
       required: true
-    },
-    config:{
-      type: Object,
-      required: true
     }
   },
-  components: {},
+  components: {axios, tableWrapper},
   mixins: [utils],
   mounted(){
-    debugger;
-    this.data = this.config.data;
-    this.perPage = this.config.perPage;
-    this.columns = this.config.columns;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
@@ -50,18 +31,13 @@ export default {
     return {
       cmdHandlers:{},
       leafComponent: false,
-      isPaginated: true,
-      isPaginationSimple: false,
-      paginationPosition: 'bottom',
-      defaultSortDirection: 'asc',
-      sortIcon: 'arrow-up',
-      sortIconSize: 'small',
-      currentPage: 1,
-      perPage: 0,
-      nxtPage: 'Next Page',
-      selected:'',
-      columns:[],
-      data:[]
+      mode:0,
+      MODE_SHOW_LINKS:0,
+      MODE_CREATE_PAGE:1,
+      MODE_COPY_PAGE:2,
+      MODE_ADD_LINK:3,
+      MODE_EXTERNAL_LINK:4,
+      MODE_EDIT_HEADLINE:5
     }
   },
   methods:{
@@ -76,6 +52,11 @@ export default {
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
           }
+          /*  example
+                    'setCardMode':function(args, context){
+                      self.doSetCardMode(args, context);
+                    }
+          */
         }
         if(typeof(cmdType)!='undefined'){
           try {
@@ -95,10 +76,6 @@ export default {
           }
         }
       }
-    },
-    spaceSelected(msg){
-      console.log('spaceSAelected', msg);
-      this.$emit('cevt',['pageSelected', msg.id] );
     },
 // put do cmds here
 
@@ -138,8 +115,7 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
-    },
-
+    }
 
 
 
@@ -148,13 +124,6 @@ export default {
 </script>
 
 <style scoped>
-@import "https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css";
-.myspaceWrapper {
-  font-family: Arial;
-  width: 100%;
-  margin-right: 10%;
-  overflow-y:scroll;
-  -webkit-overflow-scrolling: touch;
-}
+
 </style>
 

@@ -370,6 +370,7 @@ name: "dialogDefinitions",
                   for(var d = 0; d<dialogComponents.length; d++){
                     if(typeof(dialogComponents[d].loader)!='undefined'){
                       console.log('loaded component - ', dialogComponents[d]);
+                      console.log('loaded component existing data-', existingData);
                       dialogComponents[d].fieldValue = dialogComponents[d].loader(existingData, dialogComponents,d);
                     }else{
                       console.log('not loaded component - ', dialogComponents[d].fieldIdentifier, existingData[dialogComponents[d].fieldIdentifier]);
@@ -560,7 +561,7 @@ name: "dialogDefinitions",
                   name: "pageBackground",
 
                   loader: function(existingData, dialogComponents, currentComponent){
-                    console.log('page backgroundPicker loader-', existingData);
+                    console.log('page backgroundPicker loader-', existingData, currentComponent, dialogComponents);
                     debugger;
                     if(existingData[dialogComponents[currentComponent].fieldIdentifier].backgroundType=='image'){
                       var imageUrl='';
@@ -680,7 +681,7 @@ name: "dialogDefinitions",
                 position: 'fixed',
                 top: '20%',
                 left: '20%',
-                height: '60vh',
+                height: '70vh',
                 width: '65vw',
                 backgroundColor: 'lavender',
                 color: 'blue',
