@@ -672,7 +672,26 @@ name: "dialogDefinitions",
             }
           }
         }
+        case 'linkEditor':{
+          return {
+            linkEditor:{
+              dialogStyle: {
+                position: 'fixed',
+                top: '20%',
+                left: '20%',
+                height: '65vh',
+                width: '65vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName:'linkEditorSubMenu1'
 
+            }
+          }
+        }
 
         case 'mySpaces':{
           return {
@@ -681,7 +700,7 @@ name: "dialogDefinitions",
                 position: 'fixed',
                 top: '20%',
                 left: '20%',
-                height: '70vh',
+                height: '65vh',
                 width: '65vw',
                 backgroundColor: 'lavender',
                 color: 'blue',
@@ -690,6 +709,59 @@ name: "dialogDefinitions",
               },
               leafComponent: false,
               menuName: 'mySpacesMenu',
+              fields:[
+                {
+                  type: 'mySpaces',
+                  perPage: 8,
+
+                  columns: [
+                    {
+                      field: 'id',
+                      label: 'ID',
+                      width: '10',
+                      numeric: true
+                    },
+                    {
+                      field: 'menu_label',
+                      label: 'Name'
+                    },
+                    {
+                      field: 'description',
+                      label: 'Description'
+
+                    },
+
+                    {
+                      field: 'height',
+                      label: 'Height'
+                    },
+                    {
+                      field: 'width',
+                      label: 'Width'
+                    }
+                  ],
+                }
+              ]
+            }
+
+          }
+        }
+        case 'editLink':{
+          return {
+            mySpaces:{
+              dialogStyle: {
+                position: 'fixed',
+                top: '20%',
+                left: '20%',
+                height: '65vh',
+                width: '65vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName: 'linkEditorMenu1',
               fields:[
                 {
                   type: 'mySpaces',

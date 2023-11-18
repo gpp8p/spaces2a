@@ -14,6 +14,13 @@
           :key="dialogReload"
           @cevt="handleEvt"
       ></dialog2>
+      <linkEditor
+          v-if="this.showLinkEditor==true"
+          :config="linkEditorConfiguration"
+          name="linkEWditor"
+          :key="dialogReload"
+          @cevt="handleEvt"
+      ></linkEditor>
       <section class="content">
         <Page v-if="this.mode==this.SHOW_PAGE"
               name ='mainPage'
@@ -39,6 +46,7 @@ import switchBoard from './components/switchBoard.vue';
 import Page from "./components/Page.vue";
 //import Menu from './components/menu.vue';
 import dialog2 from './components/dialog2';
+import linkEditor from './components/linkEditor';
 import mainNavigationArea from "./components/mainNavigationArea.vue";
 //import dummy from "./components/dummy.vue";
 import '@oruga-ui/oruga-next/dist/oruga.css';
@@ -47,7 +55,7 @@ import '@oruga-ui/oruga-next/dist/oruga-full-vars.css'
 export default{
   name: "App",
   mixins: [utils, switchBoard],
-  components: { mainNavigationArea, dialog2, Page},
+  components: { mainNavigationArea, dialog2, linkEditor, Page},
   created() {
 //    debugger;
     console.log('entry path is - ', this.$route.path);
@@ -144,7 +152,9 @@ export default{
       navbarHeightFraction:0.06,
       cmdHandlers:{},
       dialogConfiguration:{},
+      linkEditorConfiguration:{},
       showDialog:false,
+      showLinkEditor:false,
       mode:0,
       SHOW_PAGE:1,
       dialogReload:0,

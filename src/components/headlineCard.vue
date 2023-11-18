@@ -323,6 +323,11 @@ export default {
           this.$emit('cevt', ['menuItemSelected', 'configureHeadlineCard', context.name, context.config ])
           break;
         }
+        case 'editHeadlineCard':{
+          console.log('editHeadline menu choice-',context.config);
+          this.$emit('cevt', ['menuItemSelected', 'editHeadlineCard', context.name, context.config ])
+          break;
+        }
         default:{
           this.$emit('cevt', msg);
         }

@@ -334,6 +334,52 @@ name: "menuDefinitionsNew",
 
           }
         }
+        case 'linkEditorSubMenu1':{
+          return {
+            items: [
+              {
+                label:'Create Page',
+                action:'createPageAndLink',
+                type:'mItem'
+              },
+              {
+                label:'Copy This Page',
+                action:'copyThisPage',
+                type:'mItem'
+              },
+              {
+                label:'Add Link',
+                action:'addLink',
+                type:'mItem'
+              },
+              {
+                label:'Add External Link',
+                action:'addExternalLink',
+                type:'mItem'
+              },
+              {
+                label:'Edit Headline',
+                action:'editHeadline',
+                type:'mItem'
+              },
+              {
+                label:'Save',
+                action: 'saveLinks',
+                type: 'mItem'
+              },
+              {
+                label:'Cancel',
+                action: 'dismissLinkEditor',
+                type: 'mItem'
+              },
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
+
+          }
+        }
         case 'dialogSubMenu3':{
           return {
             items: [

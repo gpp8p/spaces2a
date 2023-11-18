@@ -124,7 +124,9 @@ export default {
     doDismissDialog(msg, context){
       console.log('doDismissDialog-',msg, context);
       context.dialogConfiguration={};
+      context.linkEditorConfiguration={};
       this.showDialog=false;
+      this.showLinkEditor=false;
     },
     doMySpaces(msg, context){
       console.log('doMySpaces-',msg, context);
@@ -250,6 +252,9 @@ export default {
         },
         'configureHeadlineCard': function(msg, context){
           context.doConfigureHeadlineCard(msg, context);
+        },
+        'editHeadlineCard': function(msg, context){
+          context.doEditHeadlineCard(msg, context);
         },
         'resizeCard':function(msg, context){
           context.doResizeCard(msg, context);
@@ -551,6 +556,11 @@ export default {
       this.pageConfiguration.pageId = this.$store.getters.getCurrentLayoutId;
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
+    },
+    doEditHeadlineCard(msg, context){
+      console.log('in switchboard doEditHeadlineCard', msg, context);
+      this.linkEditorConfiguration.definition = 'linkEditor';
+      this.showLinkEditor=true;
     },
     doConfigureHeadlineCard(msg, context){
       console.log('in sb - doConfigureHeadlineCard', msg, context);
