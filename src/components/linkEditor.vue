@@ -47,6 +47,10 @@ export default {
     this.dialogFields = this.getDialogDefinition(this.config.definition, this.componentLoaders);
     this.dialogStyle = this.dialogFields.linkEditor.dialogStyle;
     this.cmdHandlers['linkEditorMenu'](['setMenu', this.dialogFields.linkEditor.menuName,'linkEditorMenu']);
+    this.configObject.columns = this.existingDataColumns;
+    this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
+    this.configObject.perPage = this.perPage;
+    this.reloadKey+=1;
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -67,6 +71,35 @@ export default {
       MODE_EDIT_HEADLINE:5,
       dialogData:{},
       dialogFields:[],
+      perPage:5,
+      existingDataColumns: [
+      {
+        field: 'id',
+        label: 'ID',
+        numeric: true,
+        visible: false
+      },
+      {
+        field: 'description',
+        label: 'Link To'
+      },
+      {
+        field: 'isExternal',
+        label: 'External ?',
+        numeric: true,
+      },
+      {
+        field:  'link_url',
+        label:  'Target'
+      },
+      {
+        field: 'layout_link_to',
+        label: '',
+        numeric: true,
+        visible: false
+      }
+
+    ],
 
     }
   },

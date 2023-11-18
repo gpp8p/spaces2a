@@ -560,6 +560,7 @@ export default {
     doEditHeadlineCard(msg, context){
       console.log('in switchboard doEditHeadlineCard', msg, context);
       this.linkEditorConfiguration.definition = 'linkEditor';
+      this.linkEditorConfiguration.existingData = msg[3];
       this.showLinkEditor=true;
     },
     doConfigureHeadlineCard(msg, context){
