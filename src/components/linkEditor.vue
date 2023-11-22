@@ -1,6 +1,6 @@
 <template>
   <section :style="dialogStyle" class="dialogLayout">
-  <span class="">
+  <span class="linkTable">
     <tableWrapper
         :config = "configObject"
         :key = "reloadKey"
@@ -69,9 +69,14 @@ export default {
       MODE_ADD_LINK:3,
       MODE_EXTERNAL_LINK:4,
       MODE_EDIT_HEADLINE:5,
+      MODE_SHOW_AVAILABLE_PAGES:6,
       dialogData:{},
       dialogFields:[],
       perPage:5,
+      selectedPageLink:0,
+      selectedPageDescription:'',
+      selectedPageIsExternal:0,
+      selectedPageType:'',
       existingDataColumns: [
       {
         field: 'id',
@@ -100,6 +105,22 @@ export default {
       }
 
     ],
+    loadedDataColumns:[
+      {
+        field: 'id',
+        label: 'ID',
+        numeric: true,
+        visible: false
+      },
+      {
+         field: 'menu_label',
+         label: 'Label'
+      },
+      {
+        field: 'description',
+        label: 'Link To'
+      },
+    ]
 
     }
   },
@@ -148,7 +169,7 @@ export default {
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
-      console.log('evtHandler in- (set this)', msg, self);
+      console.log('evtHandler in- linkEditor', msg, self);
 //      debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
@@ -160,6 +181,9 @@ export default {
         },
         'menuItemSelected': function(msg, context){
           context.doMenuItemSelected(msg, context);
+        },
+        'pageSelected': function(msg, context){
+          context.doPageSelected(msg, context);
         },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
@@ -203,6 +227,15 @@ export default {
         'saveLinks': function(msg, context){
           context.doSaveLinks(msg, context);
         },
+        'dismissLinkEditor':function(msg, context){
+          context.doDismissLinkEditor(msg, context);
+        },
+        'returnToLinkEditorMain':function(msg, context){
+          context.doReturnToLinkEditorMain(msg, context);
+        },
+        'changeLink':function(msg, context){
+          context.doChangeLink(msg, context);
+        }
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -231,6 +264,26 @@ export default {
     doSaveLinks(msg, context){
       console.log('in SaveLinks', msg, context);
     },
+    doDismissLinkEditor(msg, context){
+      console.log('in doDismissLinkEditor', msg, context);
+      this.$emit('cevt', ['dismissDialog']);
+    },
+    doPageSelected(msg, context){
+      console.log('in doPageSelected', msg, context);
+      this.selectedPageLink = msg[2];
+      this.selectedPageIsExternal = msg[3];
+      this.selectedPageDescription = msg[4];
+      this.selectedPageType = msg[5];
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
+    },
+    doReturnToLinkEditorMain(msg, context){
+      console.log('in doReturnToLinkEditorMain', msg, context);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+    },
+    doChangeLink(msg, context) {
+      console.log('in doChangeLink', msg, context);
+      this.getMySpaces();
+    },
 
     getMySpaces(){
       var apiPath = this.$store.getters.getApiBase;
@@ -242,10 +295,12 @@ export default {
           userId: this.$store.getters.getLoggedInUserId,
         }
       }).then(response=> {
-//        debugger;
+        debugger;
         console.log('getMySpaces',response);
 //        this.data=response.data;
         this.configObject.data = response.data;
+        this.configObject.columns = this.loadedDataColumns;
+        this.configObject.perPage = 8;
         this.reloadKey+=1;
       }).catch(e=>{
         console.log(e);
@@ -269,6 +324,10 @@ export default {
   border-style: solid;
   border-color: red;
   border-width: 2px;
+}
+.linkTable {
+  margin-left: auto;
+  margin-right: auto;
 }
 .dialogWrapperStyle {
   margin-left: 5%;

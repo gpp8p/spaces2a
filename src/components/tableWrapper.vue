@@ -97,8 +97,8 @@ export default {
       }
     },
     spaceSelected(msg){
-      console.log('spaceSAelected', msg);
-      this.$emit('cevt',['pageSelected', msg.id] );
+      console.log('spaceSelected', msg);
+      this.$emit('cevt',['pageSelected', msg.id, msg.layout_link_to, msg.isExternal, msg.description, msg.type] );
     },
 // put do cmds here
 
