@@ -278,6 +278,10 @@ export default {
     },
     doReturnToLinkEditorMain(msg, context){
       console.log('in doReturnToLinkEditorMain', msg, context);
+      this.configObject.columns = this.existingDataColumns;
+      this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
+      this.configObject.perPage = this.perPage;
+      this.reloadKey+=1;
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
     },
     doChangeLink(msg, context) {
@@ -326,8 +330,8 @@ export default {
   border-width: 2px;
 }
 .linkTable {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 .dialogWrapperStyle {
   margin-left: 5%;

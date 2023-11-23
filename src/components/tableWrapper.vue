@@ -2,6 +2,7 @@
     <span class="myspaceWrapper">
       <o-table :data="data"
                :columns="columns"
+               bordered="true"
                :selected.sync="selected"
                :paginated="isPaginated"
                :per-page="perPage"
