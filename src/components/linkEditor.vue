@@ -1,6 +1,7 @@
 <template>
   <section :style="dialogStyle" class="dialogLayout">
-  <span class="linkTable">
+  <span class="promptClass">{{this.prompt}}</span>
+  <span class="linkTable" v-if="this.mode == this.MODE_SHOW_LINKS || this.mode==this.MODE_SHOW_AVAILABLE_PAGES">
     <tableWrapper
         :config = "configObject"
         :key = "reloadKey"
@@ -49,7 +50,11 @@ export default {
     this.cmdHandlers['linkEditorMenu'](['setMenu', this.dialogFields.linkEditor.menuName,'linkEditorMenu']);
     this.configObject.columns = this.existingDataColumns;
     this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
-    this.configObject.perPage = this.perPage;
+    console.log('windowSize-', window.innerHeight);
+    this.configObject.perPage = this.getTableHeight(window.innerHeight);
+    this.prompt='Existing Links - Click on one to select';
+//    this.configObject.perPage = this.perPage;
+    this.mode = this.MODE_SHOW_LINKS;
     this.reloadKey+=1;
   },
   beforeDestroy() {
@@ -72,7 +77,7 @@ export default {
       MODE_SHOW_AVAILABLE_PAGES:6,
       dialogData:{},
       dialogFields:[],
-      perPage:5,
+      perPage:this.getTableHeight(window.innerHeight),
       selectedPageLink:0,
       selectedPageDescription:'',
       selectedPageIsExternal:0,
@@ -120,7 +125,8 @@ export default {
         field: 'description',
         label: 'Link To'
       },
-    ]
+    ],
+    prompt:''
 
     }
   },
@@ -269,23 +275,32 @@ export default {
       this.$emit('cevt', ['dismissDialog']);
     },
     doPageSelected(msg, context){
+      debugger;
       console.log('in doPageSelected', msg, context);
-      this.selectedPageLink = msg[2];
-      this.selectedPageIsExternal = msg[3];
-      this.selectedPageDescription = msg[4];
-      this.selectedPageType = msg[5];
-      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
+      if(this.mode==this.MODE_SHOW_LINKS){
+        this.selectedPageLink = msg[2];
+        this.selectedPageIsExternal = msg[3];
+        this.selectedPageDescription = msg[4];
+        this.selectedPageType = msg[5];
+        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
+        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
+      }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES){
+        debugger;
+      }
+
     },
     doReturnToLinkEditorMain(msg, context){
       console.log('in doReturnToLinkEditorMain', msg, context);
       this.configObject.columns = this.existingDataColumns;
       this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
-      this.configObject.perPage = this.perPage;
+      this.configObject.perPage = this.getTableHeight(window.innerHeight);
+      this.prompt='Existing Links - Click on one to select';
       this.reloadKey+=1;
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
     },
     doChangeLink(msg, context) {
       console.log('in doChangeLink', msg, context);
+      this.prompt = 'Available Pages - Click on one to change this link'
       this.getMySpaces();
     },
 
@@ -304,12 +319,18 @@ export default {
 //        this.data=response.data;
         this.configObject.data = response.data;
         this.configObject.columns = this.loadedDataColumns;
-        this.configObject.perPage = 8;
+        this.configObject.perPage = this.getTableHeight(window.innerHeight);
         this.reloadKey+=1;
       }).catch(e=>{
         console.log(e);
       });
     },
+
+    getTableHeight(windowHeight){
+      if(windowHeight>700) return 7;
+      if(windowHeight<700 && windowHeight>550)return 6;
+      return 5;
+    }
 
 
 
@@ -324,7 +345,7 @@ export default {
 <style scoped>
 .dialogLayout {
   display:grid;
-  grid-template-rows: 85% 15%;
+  grid-template-rows: 15% 70% 15%;
   border-style: solid;
   border-color: red;
   border-width: 2px;
@@ -342,6 +363,13 @@ export default {
   overflow-y:scroll;
   -webkit-overflow-scrolling: touch;
 
+}
+.promptClass {
+  margin-left: auto;
+  margin-right: auto;
+  font-family: Candara;
+  font-size: medium;
+  color: red;
 }
 </style>
 
