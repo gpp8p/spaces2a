@@ -50,6 +50,7 @@ export default {
     this.cmdHandlers['linkEditorMenu'](['setMenu', this.dialogFields.linkEditor.menuName,'linkEditorMenu']);
     this.configObject.columns = this.existingDataColumns;
     this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
+    this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
     console.log('windowSize-', window.innerHeight);
     this.configObject.perPage = this.getTableHeight(window.innerHeight);
     this.prompt='Existing Links - Click on one to select';
@@ -126,7 +127,8 @@ export default {
         label: 'Link To'
       },
     ],
-    prompt:''
+    prompt:'',
+    availableLinks:[]
 
     }
   },
@@ -286,6 +288,16 @@ export default {
         this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
       }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES){
         debugger;
+        this.configObject.columns = this.existingDataColumns;
+        this.availableLinks[this.selectedPageLink]=this.configObject.data[msg[1]];
+        this.configObject.perPage = this.getTableHeight(window.innerHeight);
+        this.configObject.columns = this.existingDataColumns;
+        this.configObject.data = this.availableLinks;
+//        this.configObject.data[this.selectedPageLink]=this.
+        this.mode==this.MODE_SHOW_LINKS;
+        this.prompt='Existing Links - Click on one to select';
+        this.reloadKey+=1;
+        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
       }
 
     },
