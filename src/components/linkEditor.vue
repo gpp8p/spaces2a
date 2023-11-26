@@ -53,7 +53,7 @@ export default {
     this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
     console.log('windowSize-', window.innerHeight);
     this.configObject.perPage = this.getTableHeight(window.innerHeight);
-    this.prompt='Existing Links - Click on one to select';
+    this.prompt='Existing Links - Click on one to select a link to change';
 //    this.configObject.perPage = this.perPage;
     this.mode = this.MODE_SHOW_LINKS;
     this.reloadKey+=1;
@@ -280,7 +280,8 @@ export default {
       debugger;
       console.log('in doPageSelected', msg, context);
       if(this.mode==this.MODE_SHOW_LINKS){
-        this.selectedPageLink = msg[2];
+        this.selectedPageLink = this.availableLinks.findIndex((element) => element.id == msg[1]);
+        console.log('selectedElementIndex-', this.selectedPageLink);
         this.selectedPageIsExternal = msg[3];
         this.selectedPageDescription = msg[4];
         this.selectedPageType = msg[5];
@@ -289,13 +290,18 @@ export default {
       }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES){
         debugger;
         this.configObject.columns = this.existingDataColumns;
-        this.availableLinks[this.selectedPageLink]=this.configObject.data[msg[1]];
+        var selectedPage = this.configObject.data.find((element) => element.id == msg[1]);
+        selectedPage.layout_link_to = msg[1];
+        selectedPage.link_url = this.$store.getters.getUrlBase+'/displayLayout/'+msg[1];
+        selectedPage.isExternal=0;
+        console.log('selectedPage-', selectedPage);
+        this.availableLinks[this.selectedPageLink]=selectedPage;
         this.configObject.perPage = this.getTableHeight(window.innerHeight);
         this.configObject.columns = this.existingDataColumns;
         this.configObject.data = this.availableLinks;
 //        this.configObject.data[this.selectedPageLink]=this.
         this.mode==this.MODE_SHOW_LINKS;
-        this.prompt='Existing Links - Click on one to select';
+        this.prompt='Existing Links - Click on one to select a link to change';
         this.reloadKey+=1;
         this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
       }
@@ -306,9 +312,11 @@ export default {
       this.configObject.columns = this.existingDataColumns;
       this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
       this.configObject.perPage = this.getTableHeight(window.innerHeight);
-      this.prompt='Existing Links - Click on one to select';
-      this.reloadKey+=1;
+      this.mode=this.MODE_SHOW_LINKS;
+      this.prompt='Existing Links - Click on one to select a link to change';
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+      this.reloadKey+=1;
+
     },
     doChangeLink(msg, context) {
       console.log('in doChangeLink', msg, context);
