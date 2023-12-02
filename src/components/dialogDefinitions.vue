@@ -4,7 +4,135 @@ export default {
 name: "dialogDefinitions",
   methods: {
     getDialogDefinition(dialogName, componentLoaders){
+      debugger;
       switch(dialogName){
+        case 'copyPage': {
+          return {
+            copyPage: {
+              dialogStyle: {
+                position: 'fixed',
+                top: '30%',
+                left: '30%',
+                height: '35vh',
+                width: '40vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName: 'dialogSubMenu2',
+              loader: function (existingData, dialogComponents) {
+                console.log('in copyPage loader -', existingData, dialogComponents);
+                if (typeof (existingData) != 'undefined') {
+                  for (var d = 0; d < dialogComponents.length; d++) {
+                    if (typeof (dialogComponents[d].loader) != 'undefined') {
+                      console.log('loaded component - ', dialogComponents[d]);
+                    } else {
+                      //                  console.log('not loaded component - ', dialogComponents[d]);
+                      dialogComponents[d].fieldValue = existingData[dialogComponents[d].fieldIdentifier];
+                    }
+                  }
+                }
+              },
+              fields: [
+                {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Name:',
+                  fieldSize: 40,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageName',
+                  name: 'pageName',
+                  autoFocus: true,
+                  leafComponent: true,
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel: {
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel: {
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "inputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Description:',
+                  fieldSize: 50,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageDescription',
+                  name: 'pageDescription',
+                  autoFocus: false,
+                  leafComponent: true,
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel: {
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel: {
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+
+                {
+                  type: "vRadioGroup",
+                  hasLabel: "true",
+                  groupLabel: "Permissions:",
+                  orient: "horozontal",
+                  groupName: "permissions",
+                  fieldIdentifier: 'permissions',
+                  name: 'permissions',
+                  componentStyle: {
+                    display: "grid",
+                    gridTemplateColumns: "20% 70%"
+                  },
+                  leafComponent: true,
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                  },
+                  buttonLabelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                  },
+                  radioButtons: [
+                    {
+                      fieldLabel: "Open Access",
+                      val: "open",
+                    },
+                    {
+                      fieldLabel: "Copy Page Permissions (Restricted)",
+                      val: "restricted",
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
         case 'oneWindow':{
           return {
             oneWindow:{

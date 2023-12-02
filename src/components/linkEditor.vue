@@ -8,6 +8,13 @@
         @cevt="handleEvt"
     ></tableWrapper>
   </span>
+    <span class="linkTable" v-if="this.mode == this.MODE_COPY_PAGE ">
+    <copyPage
+        name = 'copyPage'
+        :key = "reloadKey"
+        @cevt="handleEvt"
+    ></copyPage>
+  </span>
 
   <Menu
       name="linkEditorMenu"
@@ -24,6 +31,7 @@ import Menu from "../components/menuNew.vue";
 import menuDefinitions from "../components/menuDefinitionsNew.vue";
 import dialogDefinitions from "../components/dialogDefinitions.vue";
 import componentLoaders from "@/components/componentLoaders";
+import copyPage from "@/components/copyPage";
 
 
 export default {
@@ -38,7 +46,7 @@ export default {
       required: false
     }
   },
-  components: {axios, tableWrapper, Menu},
+  components: {axios, tableWrapper, Menu, copyPage},
   mixins: [utils, menuDefinitions, dialogDefinitions, componentLoaders],
   mounted(){
     console.log(this.name,' is mounted');
@@ -256,6 +264,9 @@ export default {
     },
     doCopyThisPage(msg, context){
       console.log('in CopyThisPage', msg, context);
+      this.mode = this.MODE_COPY_PAGE;
+      this.reloadKey+=1;
+
     },
     doAddLink(msg, context){
       console.log('in addLink', msg, context);
