@@ -163,6 +163,11 @@ export default {
   color: blue;
   font-family: Helvetica;
 }
+.layoutMenu {
+  font-size: small;
+  color: blue;
+  font-family: Helvetica;
+}
 
 </style>
 

@@ -66,7 +66,7 @@ name: "dialogDefinitions",
                   }
                 },
                 {
-                  type: "inputField",
+                  type: "InputField",
                   hasLabel: true,
                   fieldLabel: 'Page Description:',
                   fieldSize: 50,

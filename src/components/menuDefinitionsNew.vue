@@ -334,6 +334,22 @@ name: "menuDefinitionsNew",
 
           }
         }
+        case 'linkEditorSubMenu2':{
+          return {
+            items: [
+              {
+                label:'Do Copy This Page',
+                action:'copyThisPageDo',
+                type:'mItem'
+              },
+              {
+                label:'Go Back',
+                action: 'returnToLinkEditorMain',
+                type: 'mItem'
+              }
+            ]
+          }
+        }
         case 'linkEditorSubMenu1':{
           return {
             items: [
@@ -408,11 +424,7 @@ name: "menuDefinitionsNew",
                 action:'moveLinkDown',
                 type:'mItem'
               },
-              {
-                label:'Go Back',
-                action: 'returnToLinkEditorMain',
-                type: 'mItem'
-              }
+
             ],
             currentSelectedMenuOption: 'Appearence',
             style: 'color:blue; font-family: Geneva; font-size: 10px;',

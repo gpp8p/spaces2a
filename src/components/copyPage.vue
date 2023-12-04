@@ -1,6 +1,12 @@
 <template>
   <span class="">
-    {{'copy page here'}}
+      <component v-for="(thisField, index) in this.dialogComponents"
+                 :is="thisField.type"
+                 :key="index"
+                 :cmdObject="thisField"
+                 :name="thisField.name"
+                 @cevt="handleEvt"
+      ></component>
   </span>
 </template>
 
@@ -8,7 +14,8 @@
 import utils from '../components/utils.vue';
 import componentLoaders from "@/components/componentLoaders";
 import dialogDefinitions from "../components/dialogDefinitions.vue";
-
+import InputField from "../components/inputField.vue";
+import vRadioGroup from "../components/vRadioGroup.vue";
 export default {
   name: "copyPage",
   props:{
@@ -17,7 +24,7 @@ export default {
       required: true
     }
   },
-  components: {},
+  components: {InputField, vRadioGroup},
   mixins: [utils, componentLoaders, dialogDefinitions],
   mounted(){
     debugger;

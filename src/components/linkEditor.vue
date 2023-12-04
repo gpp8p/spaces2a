@@ -252,6 +252,7 @@ export default {
         'changeLink':function(msg, context){
           context.doChangeLink(msg, context);
         }
+
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -265,6 +266,8 @@ export default {
     doCopyThisPage(msg, context){
       console.log('in CopyThisPage', msg, context);
       this.mode = this.MODE_COPY_PAGE;
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
+      this.prompt='';
       this.reloadKey+=1;
 
     },
