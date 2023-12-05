@@ -46,7 +46,7 @@ export default {
       required: false
     }
   },
-  components: {axios, tableWrapper, Menu, copyPage},
+  components: {tableWrapper, Menu, copyPage},
   mixins: [utils, menuDefinitions, dialogDefinitions, componentLoaders],
   mounted(){
     console.log(this.name,' is mounted');
@@ -136,7 +136,9 @@ export default {
       },
     ],
     prompt:'',
-    availableLinks:[]
+    availableLinks:[],
+    targetTemplateId:0,
+    copyIt:false,
 
     }
   },
@@ -201,6 +203,10 @@ export default {
         'pageSelected': function(msg, context){
           context.doPageSelected(msg, context);
         },
+        'fieldInput': function(msg, context){
+//          debugger;
+          context.doFieldInput(msg, context);
+        },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
         }
@@ -251,7 +257,10 @@ export default {
         },
         'changeLink':function(msg, context){
           context.doChangeLink(msg, context);
-        }
+        },
+        'copyThisPageDo':function(msg, context){
+          context.doCopyThisPageDo(msg, context);
+        },
 
       }
       if(typeof(menuSelection)!='undefined'){
@@ -266,11 +275,16 @@ export default {
     doCopyThisPage(msg, context){
       console.log('in CopyThisPage', msg, context);
       this.mode = this.MODE_COPY_PAGE;
-      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu3','linkEditorMenu']);
       this.prompt='';
       this.reloadKey+=1;
 
     },
+    doFieldInput(msg, context){
+      console.log('at doFieldInput-', msg, context);
+      this.dialogData[msg[1]]=msg[2];
+    },
+
     doAddLink(msg, context){
       console.log('in addLink', msg, context);
     },
@@ -364,15 +378,58 @@ export default {
       if(windowHeight>700) return 7;
       if(windowHeight<700 && windowHeight>550)return 6;
       return 5;
+    },
+    doCopyThisPageDo(msg, context) {
+      console.log('at doCopyThisPageDo', msg, context);
+      this.targetTemplateId = this.$store.getters.getCurrentLayoutId;
+      this.makeTemplateClone();
+      this.copyIt=true;
+    },
+
+      makeTemplateClone(){
+        var apiPath = this.$store.getters.getApiBase;
+        console.log('apiPath - ',apiPath);
+
+        axios.post(apiPath+'api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
+  //      axios.post('http://localhost:8000/api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
+          params:{
+            layoutId: this.$store.getters.getCurrentLayoutId,
+            templateId: this.targetTemplateId,
+            orgId: this.$store.getters.getOrgId,
+            description: this.dialogData['pageDescription'],
+            menu_label: this.dialogData['pageName'],
+            permType: this.dialogData['permissions'],
+            copyIt: this.copyIt
+          }
+        })
+            .then(response => {
+              console.log(response);
+              console.log('route status after makeTemplateClone', this.$route.name);
+              console.log('cmd after makeTemplateClone:'+this.cmd);
+        debugger;
+
+              if(this.$route.name == 'edit'){
+  /*
+  //        from a link mod
+                if(this.cmd == 'doAddThisPageCopy') {
+                  this.$emit('addCloneSuccessful', response.data);
+                }else if(this.cmd == 'doCloneTemplateAdd'){
+                  this.$emit('doCloneTemplateAddSuccessful', response.data);
+                }else{
+                  this.$emit('cloneSuccessfulReturnToEdit', response.data);
+                }
+  */
+              }else{
+  //        from a top-level create
+                this.$emit('cloneSuccessful', response.data);
+              }
+            })
+            .catch(e => {
+              console.log(e,'- cloneTemplate failed');
+            });
+
+      }
     }
-
-
-
-
-
-
-
-  }
 }
 </script>
 

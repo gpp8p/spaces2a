@@ -334,7 +334,7 @@ name: "menuDefinitionsNew",
 
           }
         }
-        case 'linkEditorSubMenu2':{
+        case 'linkEditorSubMenu3':{
           return {
             items: [
               {

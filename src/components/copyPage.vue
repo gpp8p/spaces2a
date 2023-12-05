@@ -48,7 +48,8 @@ export default {
       componentLoaders:{},
       dialogFields:[],
       dialogStyle:'',
-      dialogComponents:[]
+      dialogComponents:[],
+      dialogData:{},
     }
   },
   methods:{
@@ -108,7 +109,11 @@ export default {
         },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
-        }
+        },
+        'fieldInput': function(msg, context){
+//          debugger;
+          context.doFieldInput(msg, context);
+        },
       }
       if(typeof(evtType)!='undefined'){
         try {
@@ -117,6 +122,11 @@ export default {
           this.$emit('cevt', msg);
         }
       }
+    },
+    doFieldInput(msg, context){
+      console.log('at doFieldInput-', msg, context);
+//      this.dialogData[msg[1]]=msg[2];
+      this.$emit('cevt', msg);
     },
     doSetCmdHandler(msg, context){
 //      debugger;
