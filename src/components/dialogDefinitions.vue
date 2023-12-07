@@ -6,6 +6,315 @@ name: "dialogDefinitions",
     getDialogDefinition(dialogName, componentLoaders){
       debugger;
       switch(dialogName){
+        case 'createPageAndLink':{
+          return {
+            createPageAndLink:{
+              dialogStyle: {
+                position: 'fixed',
+                top: '30%',
+                left: '30%',
+                height: '35vh',
+                width: '40vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              fields:[
+                {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Name:',
+                  fieldSize: 40,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageName',
+                  name: 'pageName',
+                  autoFocus:true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "inputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Description:',
+                  fieldSize: 50,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageDescription',
+                  name: 'pageDescription',
+                  autoFocus:false,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "inputNumberField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Grid Rows:',
+                  fieldSize: 5,
+                  fieldMaxLength: 5,
+                  fieldIdentifier: 'pageHeight',
+                  name: 'pageHeight',
+                  autoFocus:false,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"#0a3aff",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "inputNumberField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Grid Columns:',
+                  fieldSize: 5,
+                  fieldMaxLength: 5,
+                  fieldIdentifier: 'pageWidth',
+                  name: 'pageWidth',
+                  autoFocus:false,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "inputNumberField",
+                  hasLabel: true,
+                  fieldLabel: 'Screen Width (%):',
+                  fieldSize: 5,
+                  fieldMaxLength: 5,
+                  fieldIdentifier: 'screenWidth',
+                  name: 'screenWidth',
+                  autoFocus:false,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "inputNumberField",
+                  hasLabel: true,
+                  fieldLabel: 'Row Height :',
+                  fieldSize: 5,
+                  fieldMaxLength: 5,
+                  fieldIdentifier: 'rowHeight',
+                  name: 'rowHeight',
+                  autoFocus:false,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+
+                {
+                  type: "vRadioGroup",
+                  hasLabel: "true",
+                  groupLabel: "Permissions:",
+                  orient: "horozontal",
+                  groupName: "permissions",
+                  fieldIdentifier: 'permissions',
+                  name: 'permissions',
+                  componentStyle:{
+                    display: "grid",
+                    gridTemplateColumns: "20% 70%"
+                  },
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                  },
+                  buttonLabelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                  },
+                  radioButtons: [
+                    {
+                      fieldLabel:"Open Access",
+                      val: "open",
+                    },
+                    {
+                      fieldLabel: "Copy Page Permissions (Restricted)",
+                      val: "restricted",
+                    }
+                  ]
+                },
+                {
+                  type: "vBackgroundPicker",
+                  fieldLabel: "Background:",
+                  hasLabel: "true",
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'pageBackground',
+                  name: "pageBackground",
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                    backGroundRadioGroupStyle:{
+                      type: "vRadioGroup",
+                      hasLabel: "false",
+                      orient: "horozontal",
+                      groupName: "backgroundType",
+                      leafComponent: true,
+                      labelStyle:{
+                        color:"blue",
+                        fontFamily: "Candara",
+                        fontSize: "12px",
+                      },
+                      buttonLabelStyle:{
+                        color:"blue",
+                        fontFamily: "Candara",
+                        fontSize: "12px",
+                      },
+                      radioButtons: [
+                        {
+                          fieldLabel:"Color",
+                          val: "color",
+                        },
+                        {
+                          fieldLabel: "Image",
+                          val: "image",
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  type: "checkbox",
+                  fieldLabel: "Template:",
+                  hasLabel: true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'template',
+                  name: "template",
+                  loader: function(styleElements){
+                    //                   debugger;
+                    if(typeof(styleElements['template'])!='undefined'){
+                      if(styleElements['template']=='checked'){
+                        return 'yes';
+                      }else{
+                        return 'no';
+                      }
+                    }else{
+                      return 'no';
+                    }
+                  },
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                  }
+                },
+              ]
+            }
+          }
+        }
         case 'copyPage': {
           return {
             copyPage: {
@@ -1926,20 +2235,36 @@ name: "dialogDefinitions",
       switch(pageType){
         case 'oneWindow':{
           return {
-            pageBackground:{
-              backgroundType:"color",
-              colorSelect:"#0a3aff",
+            pageBackground: {
+              backgroundType: "color",
+              colorSelect: "#0a3aff",
             },
-            pageDescription:"page description",
-            pageName:"page name",
+            pageDescription: "page description",
+            pageName: "page name",
             pageType: "One Window Page",
-            permissions:"open",
-            pageHeight:"15",
-            pageWidth:"15",
-            rowHeight:"60",
-            screenWidth:"100"
-          }
+            permissions: "open",
+            pageHeight: "15",
+            pageWidth: "15",
+            rowHeight: "60",
+            screenWidth: "100"
 //          break;
+          }
+        }
+        case "createPageAndLink":{
+            return {
+              pageBackground: {
+                backgroundType: "color",
+                colorSelect: "#0a3aff",
+              },
+              pageDescription: "page description",
+              pageName: "page name",
+              pageType: "One Window Page",
+              permissions: "open",
+              pageHeight: "15",
+              pageWidth: "15",
+              rowHeight: "60",
+              screenWidth: "100"
+            }
         }
         case 'extPage':{
           break;

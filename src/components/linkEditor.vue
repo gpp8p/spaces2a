@@ -8,12 +8,20 @@
         @cevt="handleEvt"
     ></tableWrapper>
   </span>
-    <span class="linkTable" v-if="this.mode == this.MODE_COPY_PAGE ">
+  <span class="linkTable" v-if="this.mode == this.MODE_COPY_PAGE ">
     <copyPage
         name = 'copyPage'
         :key = "reloadKey"
         @cevt="handleEvt"
     ></copyPage>
+  </span>
+    <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE ">
+    <ccPage
+        name = 'ccPage'
+        :config = 'ccPageConfig'
+        :key = "reloadKey"
+        @cevt="handleEvt"
+    ></ccPage>
   </span>
 
   <Menu
@@ -32,6 +40,7 @@ import menuDefinitions from "../components/menuDefinitionsNew.vue";
 import dialogDefinitions from "../components/dialogDefinitions.vue";
 import componentLoaders from "@/components/componentLoaders";
 import copyPage from "@/components/copyPage";
+import ccPage from "@/components/ccPage";
 
 
 export default {
@@ -46,7 +55,7 @@ export default {
       required: false
     }
   },
-  components: {tableWrapper, Menu, copyPage},
+  components: {tableWrapper, Menu, copyPage, ccPage},
   mixins: [utils, menuDefinitions, dialogDefinitions, componentLoaders],
   mounted(){
     console.log(this.name,' is mounted');
@@ -139,6 +148,7 @@ export default {
     availableLinks:[],
     targetTemplateId:0,
     copyIt:false,
+    ccPageConfig:{}
 
     }
   },
@@ -290,6 +300,10 @@ export default {
     },
     doCreatePageAndLink(msg, context){
       console.log('in CreatePageAndLink', msg, context);
+      this.ccPageConfig.definition = 'createPageAndLink';
+      this.mode=this.MODE_CREATE_PAGE;
+      this.prompt='Create This Page and Add It to the Card\'s Links';
+      this.reloadKey+=1;
     },
     doAddExternalLink(msg, context){
       console.log('in AddExternalLink', msg, context);
