@@ -4,7 +4,7 @@ export default {
 name: "dialogDefinitions",
   methods: {
     getDialogDefinition(dialogName, componentLoaders){
-      debugger;
+//      debugger;
       switch(dialogName){
         case 'createPageAndLink':{
           return {
@@ -802,7 +802,7 @@ name: "dialogDefinitions",
               menuName:'dialogSubMenu4',
               loader: function(existingData, dialogComponents){
                 console.log('in pageSettings loader -',existingData, dialogComponents );
-                debugger;
+//                debugger;
                 if(typeof(existingData)!='undefined'){
                   for(var d = 0; d<dialogComponents.length; d++){
                     if(typeof(dialogComponents[d].loader)!='undefined'){
@@ -999,7 +999,7 @@ name: "dialogDefinitions",
 
                   loader: function(existingData, dialogComponents, currentComponent){
                     console.log('page backgroundPicker loader-', existingData, currentComponent, dialogComponents);
-                    debugger;
+//                    debugger;
                     if(existingData[dialogComponents[currentComponent].fieldIdentifier].backgroundType=='image'){
                       var imageUrl='';
                       var backgroundDisplay='';
@@ -1127,42 +1127,15 @@ name: "dialogDefinitions",
               menuName:'linkEditorSubMenu1',
               fields:[
                 {
-                  type: "InputField",
-                  hasLabel: true,
-                  fieldLabel: 'Page Name:',
-                  fieldSize: 40,
-                  fieldMaxLength: 60,
-                  fieldIdentifier: 'pageName',
-                  name: 'pageName',
-                  autoFocus:true,
-                  leafComponent: true,
-                  labelStyle:{
-                    color:"blue",
-                    fontFamily: "Candara",
-                    fontSize: "12px"
-                  },
-                  styleWithLabel:{
-                    display: "grid",
-                    marginTop: "3px",
-                    gridTemplateColumns: "20% 70%",
-                    fontFamily: "Arial",
-                    fontSize: "medium",
-                    color: "#0a3aff"
-                  },
-                  styleWithoutLabel :{
-                    fontFamily: "Arial",
-                    fontSize: "medium",
-                    color: "#0a3aff"
-                  }
-                },
-                {
                   type: 'tableWrapper',
                   perPage:6,
+/*
                   loader: function(existingData, dialogComponents){
                     console.log('tableWrapper loader-', existingData, dialogComponents);
                     this.fieldValue = existingData;
                   },
-                  name: 'existingElements',
+*/
+                  name: 'availableLinks',
                   columns:[
                       {
                         field: 'id',
@@ -1602,7 +1575,7 @@ name: "dialogDefinitions",
               leafComponent: false,
               menuName:'configureNewCardMenu',
               loader: function(existingData, dialogComponents){
-                debugger;
+//                debugger;
                 console.log('headlineCard config existing data-', existingData);
                 if(typeof(existingData)!='undefined'){
                   for(var d = 0; d<dialogComponents.length; d++){
@@ -1762,7 +1735,7 @@ name: "dialogDefinitions",
               loader: function(existingData, dialogComponents){
                 console.log('loading headline card config existing data-', existingData );
                 console.log('componentLoaders-',componentLoaders);
-                debugger;
+//                debugger;
                 if(typeof(existingData)!='undefined'){
                   for(var d = 0; d<dialogComponents.length; d++){
                     if(typeof(dialogComponents[d].loader)!='undefined'){

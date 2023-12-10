@@ -41,40 +41,31 @@ export default {
     console.log('ccPage Fields-', this.dialogFields);
     this.dialogStyle = this.dialogFields[this.config.definition].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config.definition].fields;
-    this.existingData =  this.config.existingData[this.config.definition];
-/*
-    run into trouble here is there are multiple fields, some of this have existing data and some of which do not
-*/
+    console.log('ccPage components-',this.dialogComponents);
+//    debugger;
+    Object.keys(this.config.existingData).forEach(key => {
+      console.log('existingData key-', key, this.config.existingData[key]);
+      this.existingData[key] =  this.config.existingData[key];
+    });
+//    this.existingData =  this.config.existingData[this.config.definition];
+
+    debugger;
+    this.dialogDefaults = this.getDialogDefaults(this.config.definition);
+    Object.keys(this.dialogComponents).forEach(key => {
+      console.log('existingData dialogComponents key-', key, this.dialogComponents[key]);
+      if(typeof(this.existingData[this.dialogComponents[key].name])!='undefined') {
+        console.log('existingData1-', this.existingData[this.dialogComponents[key].name], this.existingData[this.dialogComponents[key].name]);
+        this.dialogComponents[key].fieldValue = this.existingData[this.dialogComponents[key].name];
+      }else{
+        console.log('leafComponent-', this.dialogFields[this.config.definition].leafComponent);
+        this.dialogComponents[key].leafComponent=this.dialogFields[this.config.definition].leafComponent;
+        console.log('defaults 1-',this.dialogDefaults );
+        this.dialogComponents[key].fieldValue = this.dialogDefaults[this.dialogComponents[key].name];
+      }
+    });
+    console.log('dialogComponents after loading-', this.dialogComponents);
 
 
-    if(typeof(this.existingData)!='undefined'){
-      for(var d = 0; d<this.dialogComponents.length; d++){
-        console.log('ccPage components-', this.dialogComponents[d]);
-        this.dialogComponents[d].loader(this.existingData, this.dialogComponents);
-      }
-      /*
-      if(typeof(this.dialogFields[this.config.definition].loader)!='undefined'){
-        this.dialogFields[this.config.definition].loader(this.existingData, this.dialogComponents);
-      }
-      */
-      console.log('in dialog2 existing data-', this.existingData);
-    }else{
-      this.dialogDefaults = this.getDialogDefaults(this.config.definition);
-      console.log('dialogDefaults-', this.dialogDefaults);
-      if(typeof( this.dialogFields[this.config.definition].leafComponent)!= 'undefined'){
-        this.leafComponent=this.dialogFields[this.config.definition].leafComponent;
-      }
-      if(typeof(this.dialogDefaults)!='undefined'){
-//      debugger;
-        var d;
-        for(d=0; d<this.dialogComponents.length;d++){
-          console.log('fieldfIdentifier-',this.dialogDefaults[this.dialogComponents[d].fieldIdentifier], this.dialogComponents[d].fieldIdentifier);
-          if(typeof(this.dialogDefaults[this.dialogComponents[d].fieldIdentifier])!='undefined'){
-            this.dialogComponents[d].fieldValue = this.dialogDefaults[this.dialogComponents[d].fieldIdentifier];
-          }
-        }
-      }
-    }
 
   },
   beforeDestroy() {
@@ -89,6 +80,7 @@ export default {
       dialogStyle:'',
       dialogComponents:[],
       dialogData:{},
+      existingData:{}
     }
   },
   methods:{

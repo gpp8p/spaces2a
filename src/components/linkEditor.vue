@@ -62,7 +62,11 @@ export default {
     this.ccPageConfig.columns = this.existingDataColumns;
     this.ccPageConfig.definition = 'linkEditor';
     this.ccPageConfig.existingData ={};
-    this.ccPageConfig.existingData[this.ccPageConfig.definition] = this.config.existingData.card_parameters.content.availableLinks;
+    Object.keys(this.config.existingData.card_parameters.content).forEach(key => {
+      console.log('existing data key-',key, this.config.existingData.card_parameters.content[key]);
+      this.ccPageConfig.existingData[key]=this.config.existingData.card_parameters.content[key];
+    });
+//    this.ccPageConfig.existingData[this.ccPageConfig.definition] = this.config.existingData.card_parameters.content.availableLinks;
     this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
     console.log('windowSize-', window.innerHeight);
     this.configObject.perPage = this.getTableHeight(window.innerHeight);
