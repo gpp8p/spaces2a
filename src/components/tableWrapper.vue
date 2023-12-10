@@ -1,6 +1,6 @@
 <template>
     <span class="myspaceWrapper">
-      <o-table :data="data"
+      <o-table :data="fieldValue"
                :columns="columns"
                bordered="true"
                :selected.sync="selected"
@@ -29,7 +29,7 @@ export default {
       type: String,
       required: true
     },
-    config:{
+    cmdObject:{
       type: Object,
       required: true
     }
@@ -38,9 +38,9 @@ export default {
   mixins: [utils],
   mounted(){
     debugger;
-    this.data = this.config.data;
-    this.perPage = this.config.perPage;
-    this.columns = this.config.columns;
+    this.fieldValue = this.cmdObject.fieldValue;
+    this.perPage = this.cmdObject.perPage;
+    this.columns = this.cmdObject.columns;
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
@@ -62,7 +62,7 @@ export default {
       nxtPage: 'Next Page',
       selected:'',
       columns:[],
-      data:[]
+      fieldValue:[]
     }
   },
   methods:{

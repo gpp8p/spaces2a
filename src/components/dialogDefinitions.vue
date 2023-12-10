@@ -1124,7 +1124,74 @@ name: "dialogDefinitions",
                 boxShadow: '10px 10px 5px lightslategrey',
               },
               leafComponent: false,
-              menuName:'linkEditorSubMenu1'
+              menuName:'linkEditorSubMenu1',
+              fields:[
+                {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Name:',
+                  fieldSize: 40,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageName',
+                  name: 'pageName',
+                  autoFocus:true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel:{
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel :{
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: 'tableWrapper',
+                  perPage:6,
+                  loader: function(existingData, dialogComponents){
+                    console.log('tableWrapper loader-', existingData, dialogComponents);
+                    this.fieldValue = existingData;
+                  },
+                  name: 'existingElements',
+                  columns:[
+                      {
+                        field: 'id',
+                        label: 'ID',
+                        numeric: true,
+                        visible: false
+                      },
+                      {
+                        field: 'description',
+                        label: 'Link To'
+                      },
+                      {
+                        field: 'isExternal',
+                        label: 'External ?',
+                        numeric: true,
+                      },
+                      {
+                        field:  'link_url',
+                        label:  'Target'
+                      },
+                      {
+                        field: 'layout_link_to',
+                        label: '',
+                        numeric: true,
+                        visible: false
+                      }
+                  ],
+                }
+              ]
 
             }
           }

@@ -19,6 +19,7 @@ import inputNumberField from "../components/inputNumberField";
 import vRadioGroup from "../components/vRadioGroup.vue";
 import vBackgroundPicker from "../components/vBackgroundPicker.vue";
 import checkbox from "../components/checkbox.vue"
+import tableWrapper from "../components/tableWrapper.vue";
 export default {
   name: "ccPage",
   props:{
@@ -31,7 +32,7 @@ export default {
       required: false
     }
   },
-  components: {InputField, inputNumberField, vRadioGroup, vBackgroundPicker, checkbox},
+  components: {InputField, inputNumberField, vRadioGroup, vBackgroundPicker, checkbox, tableWrapper},
   mixins: [utils, componentLoaders, dialogDefinitions],
   mounted(){
     debugger;
@@ -40,12 +41,22 @@ export default {
     console.log('ccPage Fields-', this.dialogFields);
     this.dialogStyle = this.dialogFields[this.config.definition].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config.definition].fields;
-    console.log('ccPage components-', this.dialogComponents);
-    if(typeof(this.config.existingData)!='undefined'){
-      this.existingData =  this.config.existingData;
+    this.existingData =  this.config.existingData[this.config.definition];
+/*
+    run into trouble here is there are multiple fields, some of this have existing data and some of which do not
+*/
+
+
+    if(typeof(this.existingData)!='undefined'){
+      for(var d = 0; d<this.dialogComponents.length; d++){
+        console.log('ccPage components-', this.dialogComponents[d]);
+        this.dialogComponents[d].loader(this.existingData, this.dialogComponents);
+      }
+      /*
       if(typeof(this.dialogFields[this.config.definition].loader)!='undefined'){
         this.dialogFields[this.config.definition].loader(this.existingData, this.dialogComponents);
       }
+      */
       console.log('in dialog2 existing data-', this.existingData);
     }else{
       this.dialogDefaults = this.getDialogDefaults(this.config.definition);

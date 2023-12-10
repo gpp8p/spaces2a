@@ -1,21 +1,14 @@
 <template>
   <section :style="dialogStyle" class="dialogLayout">
   <span class="promptClass">{{this.prompt}}</span>
-  <span class="linkTable" v-if="this.mode == this.MODE_SHOW_LINKS || this.mode==this.MODE_SHOW_AVAILABLE_PAGES">
+  <span class="linkTable" v-if="this.mode==this.MODE_SHOW_AVAILABLE_PAGES">
     <tableWrapper
         :config = "configObject"
         :key = "reloadKey"
         @cevt="handleEvt"
     ></tableWrapper>
   </span>
-  <span class="linkTable" v-if="this.mode == this.MODE_COPY_PAGE ">
-    <copyPage
-        name = 'copyPage'
-        :key = "reloadKey"
-        @cevt="handleEvt"
-    ></copyPage>
-  </span>
-    <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE ">
+  <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE || this.mode==this.MODE_COPY_PAGE || this.mode == this.MODE_SHOW_LINKS">
     <ccPage
         name = 'ccPage'
         :config = 'ccPageConfig'
@@ -39,7 +32,6 @@ import Menu from "../components/menuNew.vue";
 import menuDefinitions from "../components/menuDefinitionsNew.vue";
 import dialogDefinitions from "../components/dialogDefinitions.vue";
 import componentLoaders from "@/components/componentLoaders";
-import copyPage from "@/components/copyPage";
 import ccPage from "@/components/ccPage";
 
 
@@ -55,7 +47,7 @@ export default {
       required: false
     }
   },
-  components: {tableWrapper, Menu, copyPage, ccPage},
+  components: {tableWrapper, Menu, ccPage},
   mixins: [utils, menuDefinitions, dialogDefinitions, componentLoaders],
   mounted(){
     console.log(this.name,' is mounted');
@@ -67,11 +59,17 @@ export default {
     this.cmdHandlers['linkEditorMenu'](['setMenu', this.dialogFields.linkEditor.menuName,'linkEditorMenu']);
     this.configObject.columns = this.existingDataColumns;
     this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
+    this.ccPageConfig.columns = this.existingDataColumns;
+    this.ccPageConfig.definition = 'linkEditor';
+    this.ccPageConfig.existingData ={};
+    this.ccPageConfig.existingData[this.ccPageConfig.definition] = this.config.existingData.card_parameters.content.availableLinks;
     this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
     console.log('windowSize-', window.innerHeight);
     this.configObject.perPage = this.getTableHeight(window.innerHeight);
+    this.ccPageConfig.perPage = this.getTableHeight(window.innerHeight);
     this.prompt='Existing Links - Click on one to select a link to change';
 //    this.configObject.perPage = this.perPage;
+    debugger;
     this.mode = this.MODE_SHOW_LINKS;
     this.reloadKey+=1;
   },
@@ -86,7 +84,7 @@ export default {
       dialogStyle:{},
       configObject:{},
       reloadKey:0,
-      MODE_SHOW_LINKS:0,
+      MODE_SHOW_LINKS:7,
       MODE_CREATE_PAGE:1,
       MODE_COPY_PAGE:2,
       MODE_ADD_LINK:3,
@@ -282,6 +280,7 @@ export default {
         }
       }
     },
+/*
     doCopyThisPage(msg, context){
       console.log('in CopyThisPage', msg, context);
       this.mode = this.MODE_COPY_PAGE;
@@ -290,6 +289,16 @@ export default {
       this.reloadKey+=1;
 
     },
+*/
+    doCopyThisPage(msg, context){
+      console.log('in CopyThisPage', msg, context);
+      this.ccPageConfig.definition = 'copyPage';
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu3','linkEditorMenu']);
+      this.mode = this.MODE_COPY_PAGE;
+      this.prompt='';
+      this.reloadKey+=1;
+    },
+
     doFieldInput(msg, context){
       console.log('at doFieldInput-', msg, context);
       this.dialogData[msg[1]]=msg[2];
