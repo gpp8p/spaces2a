@@ -1,7 +1,7 @@
 <template>
   <span class="">
       <tableWrapper
-          :config = "configObject"
+          :cmdObject = "configObject"
           :key = "reloadKey"
           @cevt="handleEvt"
       ></tableWrapper>
@@ -136,10 +136,10 @@ export default {
           userId: this.$store.getters.getLoggedInUserId,
         }
       }).then(response=> {
-//        debugger;
+        debugger;
         console.log('getMySpaces',response);
 //        this.data=response.data;
-        this.configObject.data = response.data;
+        this.configObject.fieldValue = response.data;
         this.reloadKey+=1;
       }).catch(e=>{
         console.log(e);

@@ -406,7 +406,7 @@ name: "menuDefinitionsNew",
               },
               {
                 label:'Change Link',
-                action:'changeLink',
+                action:'loadAvailableLinks',
                 type:'mItem'
               },
               {

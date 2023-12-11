@@ -3,7 +3,7 @@
   <span class="promptClass">{{this.prompt}}</span>
   <span class="linkTable" v-if="this.mode==this.MODE_SHOW_AVAILABLE_PAGES">
     <tableWrapper
-        :config = "configObject"
+        :cmdObject = "configObject"
         :key = "reloadKey"
         @cevt="handleEvt"
     ></tableWrapper>
@@ -195,12 +195,12 @@ export default {
 
 //event handler
     evtOpt(msg){
-      console.log('evtOpt in menu', msg);
+      console.log('evtOpt in linkEditor', msg);
       this.evtHandler(msg, this);
     },
     evtHandler(msg, self){
       console.log('evtHandler in- linkEditor', msg, self);
-//      debugger;
+      debugger;
       var evtType = {
         'setCmdHandler': function(msg, context){
           //console.log('evtHandler - a menu event', msg);
@@ -218,6 +218,9 @@ export default {
         'fieldInput': function(msg, context){
 //          debugger;
           context.doFieldInput(msg, context);
+        },
+        'changeLink':function(msg, context){
+          context.doChangeLink(msg, context);
         },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
@@ -267,11 +270,11 @@ export default {
         'returnToLinkEditorMain':function(msg, context){
           context.doReturnToLinkEditorMain(msg, context);
         },
-        'changeLink':function(msg, context){
-          context.doChangeLink(msg, context);
-        },
         'copyThisPageDo':function(msg, context){
           context.doCopyThisPageDo(msg, context);
+        },
+        'loadAvailableLinks':function(msg, context){
+          context.doLoadAvailableLinks(msg, context);
         },
 
       }
@@ -340,7 +343,8 @@ export default {
         this.selectedPageIsExternal = msg[3];
         this.selectedPageDescription = msg[4];
         this.selectedPageType = msg[5];
-        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
+//        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
+        this.getMySpaces();
         this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
       }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES){
         debugger;
@@ -373,13 +377,13 @@ export default {
       this.reloadKey+=1;
 
     },
-    doChangeLink(msg, context) {
-      console.log('in doChangeLink', msg, context);
-      this.prompt = 'Available Pages - Click on one to change this link'
+    doLoadAvailableLinks(msg, context) {
+      console.log('in doLoadAvailableLinks', msg, context);
       this.getMySpaces();
     },
 
     getMySpaces(){
+      debugger;
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
       axios.get(apiPath+'api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
@@ -391,11 +395,14 @@ export default {
       }).then(response=> {
         debugger;
         console.log('getMySpaces',response);
-//        this.data=response.data;
-        this.configObject.data = response.data;
+        this.configObject.fieldValue = response.data;
         this.configObject.columns = this.loadedDataColumns;
         this.configObject.perPage = this.getTableHeight(window.innerHeight);
+        this.prompt = 'Available Pages - Click on one to change this link'
+        this.mode = this.MODE_SHOW_AVAILABLE_PAGES;
         this.reloadKey+=1;
+
+        console.log('this.configObject-', this.configObject)
       }).catch(e=>{
         console.log(e);
       });
