@@ -98,8 +98,8 @@ export default {
       }
     },
     spaceSelected(msg){
-      console.log('spaceSelected', msg);
-      this.$emit('cevt',['pageSelected', msg.id, msg.layout_link_to, msg.isExternal, msg.description, msg.type] );
+      console.log('spaceSelected tablewrapper', msg);
+      this.$emit('cevt',['pageSelected', msg.id, msg.layout_link_to, msg.isExternal, msg.description, msg.type, msg] );
     },
 // put do cmds here
 

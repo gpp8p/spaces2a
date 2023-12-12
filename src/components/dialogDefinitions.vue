@@ -1169,7 +1169,49 @@ name: "dialogDefinitions",
             }
           }
         }
+        case 'availablePages':{
+          return {
+            availablePages:{
+              dialogStyle: {
+                position: 'fixed',
+                top: '20%',
+                left: '20%',
+                height: '65vh',
+                width: '45vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName:'linkEditorSubMenu2',
+              fields:[
+                {
+                  type: 'tableWrapper',
+                  perPage:6,
+                  name: 'availablePages',
+                  columns:[
+                    {
+                      field: 'id',
+                      label: 'ID',
+                      numeric: true,
+                      visible: false
+                    },
+                    {
+                      field: 'menu_label',
+                      label: 'Label'
+                    },
+                    {
+                      field: 'description',
+                      label: 'Link To'
+                    },
+                  ],
+                }
+              ]
 
+            }
+          }
+        }
         case 'mySpaces':{
           return {
             mySpaces:{

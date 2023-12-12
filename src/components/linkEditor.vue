@@ -1,14 +1,7 @@
 <template>
   <section :style="dialogStyle" class="dialogLayout">
   <span class="promptClass">{{this.prompt}}</span>
-  <span class="linkTable" v-if="this.mode==this.MODE_SHOW_AVAILABLE_PAGES">
-    <tableWrapper
-        :cmdObject = "configObject"
-        :key = "reloadKey"
-        @cevt="handleEvt"
-    ></tableWrapper>
-  </span>
-  <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE || this.mode==this.MODE_COPY_PAGE || this.mode == this.MODE_SHOW_LINKS">
+  <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE || this.mode==this.MODE_COPY_PAGE || this.mode == this.MODE_SHOW_LINKS || this.mode == this.MODE_SHOW_AVAILABLE_PAGES" >
     <ccPage
         name = 'ccPage'
         :config = 'ccPageConfig'
@@ -222,6 +215,9 @@ export default {
         'changeLink':function(msg, context){
           context.doChangeLink(msg, context);
         },
+        'setMenuTo':function(msg, context){
+          context.doSetMenuTo(msg, context);
+        },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
         }
@@ -297,6 +293,10 @@ export default {
 
     },
 */
+    doSetMenuTo(msg, context){
+      console.log('in doSetMenuTo-', msg, context);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', msg[1],'linkEditorMenu']);
+    },
     doCopyThisPage(msg, context){
       console.log('in CopyThisPage', msg, context);
       this.ccPageConfig.definition = 'copyPage';
@@ -343,13 +343,15 @@ export default {
         this.selectedPageIsExternal = msg[3];
         this.selectedPageDescription = msg[4];
         this.selectedPageType = msg[5];
-//        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
+        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
         this.getMySpaces();
-        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
+//        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
       }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES){
         debugger;
+        console.log('space selected-', msg);
         this.configObject.columns = this.existingDataColumns;
-        var selectedPage = this.configObject.data.find((element) => element.id == msg[1]);
+//        var selectedPage = this.configObject.data.find((element) => element.id == msg[1]);
+        var selectedPage = this.fieldValue.find((element) => element.id == msg[1]);
         selectedPage.layout_link_to = msg[1];
         selectedPage.link_url = this.$store.getters.getUrlBase+'/displayLayout/'+msg[1];
         selectedPage.isExternal=0;
@@ -395,9 +397,13 @@ export default {
       }).then(response=> {
         debugger;
         console.log('getMySpaces',response);
-        this.configObject.fieldValue = response.data;
-        this.configObject.columns = this.loadedDataColumns;
-        this.configObject.perPage = this.getTableHeight(window.innerHeight);
+        this.ccPageConfig.existingData ={};
+        this.ccPageConfig.existingData.availablePages = response.data;
+        this.ccPageConfig.columns = this.loadedDataColumns;
+        this.ccPageConfig.perPage = this.getTableHeight(window.innerHeight);
+        this.ccPageConfig.definition = 'availablePages';
+
+
         this.prompt = 'Available Pages - Click on one to change this link'
         this.mode = this.MODE_SHOW_AVAILABLE_PAGES;
         this.reloadKey+=1;

@@ -48,7 +48,7 @@ export default {
       this.existingData[key] =  this.config.existingData[key];
     });
 //    this.existingData =  this.config.existingData[this.config.definition];
-
+    this.$emit('cevt',['setMenuTo', this.dialogFields[this.config.definition].menuName]);
     debugger;
     this.dialogDefaults = this.getDialogDefaults(this.config.definition);
     Object.keys(this.dialogComponents).forEach(key => {
