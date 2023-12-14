@@ -63,7 +63,7 @@ export default {
     this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
     console.log('windowSize-', window.innerHeight);
     this.configObject.perPage = this.getTableHeight(window.innerHeight);
-    this.ccPageConfig.perPage = this.getTableHeight(window.innerHeight);
+    console.log('mounted ccPageConfig-', this.ccPageConfig);
     this.prompt='Existing Links - Click on one to select a link to change';
 //    this.configObject.perPage = this.perPage;
     debugger;
@@ -338,11 +338,18 @@ export default {
       debugger;
       console.log('in doPageSelected', msg, context);
       if(this.mode==this.MODE_SHOW_LINKS){
+        this.selectedPageLink = this.availableLinks.findIndex((element) => element.id == msg[1].id);
+        console.log('selectedElementIndex-', this.selectedPageLink);
+        this.selectedPageIsExternal = msg[1].isExternal;
+        this.selectedPageDescription = msg[1].description;
+        this.selectedPageType = msg[1].type;
+/*
         this.selectedPageLink = this.availableLinks.findIndex((element) => element.id == msg[1]);
         console.log('selectedElementIndex-', this.selectedPageLink);
         this.selectedPageIsExternal = msg[3];
         this.selectedPageDescription = msg[4];
         this.selectedPageType = msg[5];
+  */
         this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
         this.getMySpaces();
 //        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
@@ -351,16 +358,24 @@ export default {
         console.log('space selected-', msg);
         this.configObject.columns = this.existingDataColumns;
 //        var selectedPage = this.configObject.data.find((element) => element.id == msg[1]);
-        var selectedPage = this.fieldValue.find((element) => element.id == msg[1]);
-        selectedPage.layout_link_to = msg[1];
-        selectedPage.link_url = this.$store.getters.getUrlBase+'/displayLayout/'+msg[1];
+        var selectedPage = {};
+//        var selectedPageAt = this.ccPageConfig.existingData.availablePages.findIndex((element) => element.id == msg[1].id);
+        selectedPage.id = msg[1].id
+        selectedPage.layout_link_to = msg[1].id;
+        selectedPage.description = msg[1].menu_label;
+        selectedPage.link_url = this.$store.getters.getUrlBase+'/displayLayout/'+msg[1].id;
         selectedPage.isExternal=0;
         console.log('selectedPage-', selectedPage);
         this.availableLinks[this.selectedPageLink]=selectedPage;
+        console.log('ccPageConfig - 2', this.ccPageConfig);
+        this.ccPageConfig.existingData.availableLinks=this.availableLinks;
+/*
         this.configObject.perPage = this.getTableHeight(window.innerHeight);
         this.configObject.columns = this.existingDataColumns;
         this.configObject.data = this.availableLinks;
 //        this.configObject.data[this.selectedPageLink]=this.
+*/
+        this.ccPageConfig.definition = 'linkEditor';
         this.mode==this.MODE_SHOW_LINKS;
         this.prompt='Existing Links - Click on one to select a link to change';
         this.reloadKey+=1;

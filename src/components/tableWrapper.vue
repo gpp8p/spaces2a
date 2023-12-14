@@ -99,7 +99,29 @@ export default {
     },
     spaceSelected(msg){
       console.log('spaceSelected tablewrapper', msg);
-      this.$emit('cevt',['pageSelected', msg.id, msg.layout_link_to, msg.isExternal, msg.description, msg.type, msg] );
+      var thisSelectedItem = {};
+      switch(this.cmdObject.name){
+        case 'availableLinks':{
+          thisSelectedItem.id = msg.id;
+          thisSelectedItem.layout_link_to = msg.layout_link_to;
+          thisSelectedItem.isExternal=msg.isExternal;
+          thisSelectedItem.description=msg.description;
+          thisSelectedItem.type=msg.type;
+          thisSelectedItem.tableType = this.cmdObject.name;
+          break;
+        }
+        case 'availablePages':{
+          thisSelectedItem.description = msg.description;
+          thisSelectedItem.height=msg.height;
+          thisSelectedItem.id=msg.id;
+          thisSelectedItem.menu_label=msg.menu_label;
+          thisSelectedItem.width=msg.width;
+          break;
+        }
+      }
+
+        this.$emit('cevt', ['pageSelected',thisSelectedItem]);
+//      this.$emit('cevt',['pageSelected', msg.id, msg.layout_link_to, msg.isExternal, msg.description, msg.type, thisSelectedItem] );
     },
 // put do cmds here
 
