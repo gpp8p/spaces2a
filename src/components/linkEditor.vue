@@ -20,7 +20,6 @@
 <script>
 import utils from '../components/utils.vue';
 import axios from "axios";
-import tableWrapper from '../components/tableWrapper.vue';
 import Menu from "../components/menuNew.vue";
 import menuDefinitions from "../components/menuDefinitionsNew.vue";
 import dialogDefinitions from "../components/dialogDefinitions.vue";
@@ -40,7 +39,7 @@ export default {
       required: false
     }
   },
-  components: {tableWrapper, Menu, ccPage},
+  components: {Menu, ccPage},
   mixins: [utils, menuDefinitions, dialogDefinitions, componentLoaders],
   mounted(){
     console.log(this.name,' is mounted');
@@ -50,8 +49,6 @@ export default {
     this.dialogFields = this.getDialogDefinition(this.config.definition, this.componentLoaders);
     this.dialogStyle = this.dialogFields.linkEditor.dialogStyle;
     this.cmdHandlers['linkEditorMenu'](['setMenu', this.dialogFields.linkEditor.menuName,'linkEditorMenu']);
-    this.configObject.columns = this.existingDataColumns;
-    this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
     this.ccPageConfig.columns = this.existingDataColumns;
     this.ccPageConfig.definition = 'linkEditor';
     this.ccPageConfig.existingData ={};
@@ -59,13 +56,10 @@ export default {
       console.log('existing data key-',key, this.config.existingData.card_parameters.content[key]);
       this.ccPageConfig.existingData[key]=this.config.existingData.card_parameters.content[key];
     });
-//    this.ccPageConfig.existingData[this.ccPageConfig.definition] = this.config.existingData.card_parameters.content.availableLinks;
     this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
     console.log('windowSize-', window.innerHeight);
-    this.configObject.perPage = this.getTableHeight(window.innerHeight);
     console.log('mounted ccPageConfig-', this.ccPageConfig);
     this.prompt='Existing Links - Click on one to select a link to change';
-//    this.configObject.perPage = this.perPage;
     debugger;
     this.mode = this.MODE_SHOW_LINKS;
     this.reloadKey+=1;
@@ -148,7 +142,6 @@ export default {
     }
   },
   methods:{
-//cmd handlers
     handleCmd(args){
       console.log(this.name, ' handleCmd', args);
       this.cmdHandler(args, this);
@@ -159,11 +152,6 @@ export default {
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
           }
-          /*  example
-                    'setCardMode':function(args, context){
-                      self.doSetCardMode(args, context);
-                    }
-          */
         }
         if(typeof(cmdType)!='undefined'){
           try {
@@ -209,7 +197,6 @@ export default {
           context.doPageSelected(msg, context);
         },
         'fieldInput': function(msg, context){
-//          debugger;
           context.doFieldInput(msg, context);
         },
         'changeLink':function(msg, context){
@@ -283,16 +270,6 @@ export default {
         }
       }
     },
-/*
-    doCopyThisPage(msg, context){
-      console.log('in CopyThisPage', msg, context);
-      this.mode = this.MODE_COPY_PAGE;
-      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu3','linkEditorMenu']);
-      this.prompt='';
-      this.reloadKey+=1;
-
-    },
-*/
     doSetMenuTo(msg, context){
       console.log('in doSetMenuTo-', msg, context);
       this.cmdHandlers['linkEditorMenu'](['setMenu', msg[1],'linkEditorMenu']);
@@ -343,23 +320,13 @@ export default {
         this.selectedPageIsExternal = msg[1].isExternal;
         this.selectedPageDescription = msg[1].description;
         this.selectedPageType = msg[1].type;
-/*
-        this.selectedPageLink = this.availableLinks.findIndex((element) => element.id == msg[1]);
-        console.log('selectedElementIndex-', this.selectedPageLink);
-        this.selectedPageIsExternal = msg[3];
-        this.selectedPageDescription = msg[4];
-        this.selectedPageType = msg[5];
-  */
         this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
         this.getMySpaces();
-//        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
       }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES){
         debugger;
         console.log('space selected-', msg);
-        this.configObject.columns = this.existingDataColumns;
-//        var selectedPage = this.configObject.data.find((element) => element.id == msg[1]);
         var selectedPage = {};
-//        var selectedPageAt = this.ccPageConfig.existingData.availablePages.findIndex((element) => element.id == msg[1].id);
+
         selectedPage.id = msg[1].id
         selectedPage.layout_link_to = msg[1].id;
         selectedPage.description = msg[1].menu_label;
@@ -369,12 +336,6 @@ export default {
         this.availableLinks[this.selectedPageLink]=selectedPage;
         console.log('ccPageConfig - 2', this.ccPageConfig);
         this.ccPageConfig.existingData.availableLinks=this.availableLinks;
-/*
-        this.configObject.perPage = this.getTableHeight(window.innerHeight);
-        this.configObject.columns = this.existingDataColumns;
-        this.configObject.data = this.availableLinks;
-//        this.configObject.data[this.selectedPageLink]=this.
-*/
         this.ccPageConfig.definition = 'linkEditor';
         this.mode==this.MODE_SHOW_LINKS;
         this.prompt='Existing Links - Click on one to select a link to change';
@@ -384,10 +345,20 @@ export default {
 
     },
     doReturnToLinkEditorMain(msg, context){
+      debugger;
       console.log('in doReturnToLinkEditorMain', msg, context);
-      this.configObject.columns = this.existingDataColumns;
-      this.configObject.data = this.config.existingData.card_parameters.content.availableLinks;
-      this.configObject.perPage = this.getTableHeight(window.innerHeight);
+      this.ccPageConfig.columns = this.loadedDataColumns;
+      this.ccPageConfig.perPage = this.getTableHeight(window.innerHeight);
+//      this.ccPageConfig.data =  this.config.existingData.card_parameters.content.availableLinks;
+      Object.keys(this.config.existingData.card_parameters.content).forEach(key => {
+        console.log('existing data key-',key, this.config.existingData.card_parameters.content[key]);
+        this.ccPageConfig.existingData[key]=this.config.existingData.card_parameters.content[key];
+      });
+      this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
+
+
+
+      this.ccPageConfig.definition = 'linkEditor';
       this.mode=this.MODE_SHOW_LINKS;
       this.prompt='Existing Links - Click on one to select a link to change';
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
@@ -404,7 +375,6 @@ export default {
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
       axios.get(apiPath+'api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
-//    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
         params:{
           orgId:this.$store.getters.getOrgId,
           userId: this.$store.getters.getLoggedInUserId,
@@ -422,8 +392,6 @@ export default {
         this.prompt = 'Available Pages - Click on one to change this link'
         this.mode = this.MODE_SHOW_AVAILABLE_PAGES;
         this.reloadKey+=1;
-
-        console.log('this.configObject-', this.configObject)
       }).catch(e=>{
         console.log(e);
       });

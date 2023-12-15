@@ -118,6 +118,14 @@ export default {
           thisSelectedItem.width=msg.width;
           break;
         }
+        case 'mySpaces':{
+          thisSelectedItem.description = msg.description;
+          thisSelectedItem.height=msg.height;
+          thisSelectedItem.id=msg.id;
+          thisSelectedItem.menu_label=msg.menu_label;
+          thisSelectedItem.width=msg.width;
+          break;
+        }
       }
 
         this.$emit('cevt', ['pageSelected',thisSelectedItem]);

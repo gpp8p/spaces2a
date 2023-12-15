@@ -410,11 +410,6 @@ name: "menuDefinitionsNew",
                 type:'mItem'
               },
               {
-                label:'Change Link Label',
-                action:'changeLinkLabel',
-                type:'mItem'
-              },
-              {
                 label:'Move Up',
                 action:'moveLinkUp',
                 type:'mItem'
@@ -424,6 +419,11 @@ name: "menuDefinitionsNew",
                 action:'moveLinkDown',
                 type:'mItem'
               },
+              {
+                label: 'Go Back',
+                action:'returnToLinkEditorMain',
+                type:'mItem'
+              }
 
             ],
             currentSelectedMenuOption: 'Appearence',

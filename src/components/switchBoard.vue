@@ -136,11 +136,11 @@ export default {
     },
     doPageSelected(msg, context){
       console.log('doPageSelected-',msg, context);
-//      debugger;
+      debugger;
       context.showDialog=false;
       this.pageConfiguration={}
       this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
-      this.pageConfiguration.pageId = msg[1];
+      this.pageConfiguration.pageId = msg[1].id;
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
 //      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);

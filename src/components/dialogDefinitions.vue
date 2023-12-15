@@ -1232,7 +1232,7 @@ name: "dialogDefinitions",
                 {
                   type: 'mySpaces',
                   perPage: 8,
-
+                  name: 'mySpaces',
                   columns: [
                     {
                       field: 'id',
