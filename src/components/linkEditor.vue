@@ -2,12 +2,15 @@
   <section :style="dialogStyle" class="dialogLayout">
   <span class="promptClass">{{this.prompt}}</span>
   <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE || this.mode==this.MODE_COPY_PAGE || this.mode == this.MODE_SHOW_LINKS || this.mode == this.MODE_SHOW_AVAILABLE_PAGES" >
-    <ccPage
+    <ccPage v-if="this.pleaseWait==false"
         name = 'ccPage'
         :config = 'ccPageConfig'
         :key = "reloadKey"
         @cevt="handleEvt"
     ></ccPage>
+    <span v-if="this.pleaseWait == true" class="pleaseWait">
+      <h2> Please Wait</h2>
+    </span>
   </span>
 
   <Menu
@@ -82,6 +85,7 @@ export default {
       MODE_EXTERNAL_LINK:4,
       MODE_EDIT_HEADLINE:5,
       MODE_SHOW_AVAILABLE_PAGES:6,
+      pleaseWait:false,
       dialogData:{},
       dialogFields:[],
       perPage:this.getTableHeight(window.innerHeight),
@@ -372,6 +376,7 @@ export default {
 
     getMySpaces(){
       debugger;
+      this.pleaseWait=true;
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
       axios.get(apiPath+'api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
@@ -390,6 +395,7 @@ export default {
 
 
         this.prompt = 'Available Pages - Click on one to change this link'
+        this.pleaseWait=false;
         this.mode = this.MODE_SHOW_AVAILABLE_PAGES;
         this.reloadKey+=1;
       }).catch(e=>{
@@ -477,6 +483,9 @@ export default {
   overflow-y:scroll;
   -webkit-overflow-scrolling: touch;
 
+}
+.pleaseWait {
+  font-family: Candara;
 }
 .promptClass {
   margin-left: auto;
