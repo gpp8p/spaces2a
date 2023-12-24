@@ -1,7 +1,11 @@
 <template>
   <section :style="dialogStyle" class="dialogLayout">
   <span class="promptClass">{{this.prompt}}</span>
-  <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE || this.mode==this.MODE_COPY_PAGE || this.mode == this.MODE_SHOW_LINKS || this.mode == this.MODE_SHOW_AVAILABLE_PAGES" >
+  <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE ||
+                                this.mode==this.MODE_COPY_PAGE ||
+                                this.mode == this.MODE_SHOW_LINKS ||
+                                this.mode == this.MODE_SHOW_AVAILABLE_PAGES ||
+                                this.mode == this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK" >
     <ccPage v-if="this.pleaseWait==false"
         name = 'ccPage'
         :config = 'ccPageConfig'
@@ -85,6 +89,7 @@ export default {
       MODE_EXTERNAL_LINK:4,
       MODE_EDIT_HEADLINE:5,
       MODE_SHOW_AVAILABLE_PAGES:6,
+      MODE_SHOW_AVAILABLE_PAGES_ADD_LINK:8,
       pleaseWait:false,
       dialogData:{},
       dialogFields:[],
@@ -294,6 +299,8 @@ export default {
 
     doAddLink(msg, context){
       console.log('in addLink', msg, context);
+      this.prompt = "Find the link you wish toi add and click on it"
+      this.getMySpaces(this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK);
     },
     doCreatePageAndLink(msg, context){
       console.log('in CreatePageAndLink', msg, context);
@@ -324,8 +331,9 @@ export default {
         this.selectedPageIsExternal = msg[1].isExternal;
         this.selectedPageDescription = msg[1].description;
         this.selectedPageType = msg[1].type;
-        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
-        this.getMySpaces();
+//        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
+        this.prompt = 'Available Pages - Click on one to change this link'
+        this.getMySpaces(this.MODE_SHOW_AVAILABLE_PAGES);
       }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES){
         debugger;
         console.log('space selected-', msg);
@@ -339,6 +347,22 @@ export default {
         console.log('selectedPage-', selectedPage);
         this.availableLinks[this.selectedPageLink]=selectedPage;
         console.log('ccPageConfig - 2', this.ccPageConfig);
+        this.ccPageConfig.existingData.availableLinks=this.availableLinks;
+        this.ccPageConfig.definition = 'linkEditor';
+        this.mode==this.MODE_SHOW_LINKS;
+        this.prompt='Existing Links - Click on one to select a link to change';
+        this.reloadKey+=1;
+        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+      }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK){
+        var selectedPage = {};
+        debugger;
+        selectedPage.id = msg[1].id
+        selectedPage.layout_link_to = msg[1].id;
+        selectedPage.description = msg[1].menu_label;
+        selectedPage.link_url = this.$store.getters.getUrlBase+'/displayLayout/'+msg[1].id;
+        selectedPage.isExternal=0;
+        console.log('selectedPage add iink-', selectedPage);
+        this.availableLinks.push(selectedPage);
         this.ccPageConfig.existingData.availableLinks=this.availableLinks;
         this.ccPageConfig.definition = 'linkEditor';
         this.mode==this.MODE_SHOW_LINKS;
@@ -374,7 +398,7 @@ export default {
       this.getMySpaces();
     },
 
-    getMySpaces(){
+    getMySpaces(nextMode){
       debugger;
       this.pleaseWait=true;
       var apiPath = this.$store.getters.getApiBase;
@@ -394,9 +418,9 @@ export default {
         this.ccPageConfig.definition = 'availablePages';
 
 
-        this.prompt = 'Available Pages - Click on one to change this link'
+//        this.prompt = 'Available Pages - Click on one to change this link'
         this.pleaseWait=false;
-        this.mode = this.MODE_SHOW_AVAILABLE_PAGES;
+        this.mode = nextMode;
         this.reloadKey+=1;
       }).catch(e=>{
         console.log(e);
@@ -486,6 +510,7 @@ export default {
 }
 .pleaseWait {
   font-family: Candara;
+  color:red;
 }
 .promptClass {
   margin-left: auto;
