@@ -271,6 +271,15 @@ export default {
         'cancelSelectPage':function(msg, context){
           context.doReturnToLinkEditorMain(msg, context);
         },
+        'newPageLink':function(msg, context){
+          context.doNewPageLink(msg, context);
+        },
+        'insertPage':function(msg, context){
+          context.doInsertPage(msg, context);
+        },
+        'returnToPageSelected':function(msg, context){
+          context.doReturnToPageSelected(msg, context);
+        },
 
       }
       if(typeof(menuSelection)!='undefined'){
@@ -285,6 +294,15 @@ export default {
     doSetMenuTo(msg, context){
       console.log('in doSetMenuTo-', msg, context);
       this.cmdHandlers['linkEditorMenu'](['setMenu', msg[1],'linkEditorMenu']);
+    },
+    doNewPageLink(msg, context){
+      console.log('in doNewPageLink-', msg, context);
+      debugger;
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'newPageLink','linkEditorMenu']);
+    },
+    doInsertPage(msg, context){
+      console.log('in doInsert-', msg, context);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'newPageInsert','linkEditorMenu']);
     },
     doCopyThisPage(msg, context){
       console.log('in CopyThisPage', msg, context);
@@ -376,6 +394,10 @@ export default {
         this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
       }
 
+    },
+    doReturnToPageSelected(msg, context){
+      console.log('in doRetiurnToPageSelected', msg, context);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
     },
     doReturnToLinkEditorMain(msg, context){
       debugger;

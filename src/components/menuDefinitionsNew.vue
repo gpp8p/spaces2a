@@ -354,17 +354,12 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Create Page',
-                action:'createPageAndLink',
+                label:'Add Link to New Page',
+                action:'newPageLink',
                 type:'mItem'
               },
               {
-                label:'Copy This Page',
-                action:'copyThisPage',
-                type:'mItem'
-              },
-              {
-                label:'Add Link',
+                label:'Add Link to Existing Page',
                 action:'addLink',
                 type:'mItem'
               },
@@ -396,6 +391,69 @@ name: "menuDefinitionsNew",
 
           }
         }
+        case 'newPageLink':{
+          return {
+            items: [
+              {
+                label:'Create Page',
+                action:'createPage',
+                type:'mItem'
+              },
+              {
+                label:'Copy This Page',
+                action:'copyThisPage',
+                type:'mItem'
+              },
+              {
+                label:'Copy Template',
+                action:'copyTemplate',
+                type:'mItem'
+              },
+              {
+                label:'Go Back',
+                action:'returnToLinkEditorMain',
+                type:'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
+
+          }
+        }
+        case 'newPageInsert':{
+          return {
+            items: [
+              {
+                label:'Create Page',
+                action:'createPage',
+                type:'mItem'
+              },
+              {
+                label:'Copy This Page',
+                action:'copyThisPage',
+                type:'mItem'
+              },
+              {
+                label:'Copy Template',
+                action:'copyTemplate',
+                type:'mItem'
+              },
+              {
+                label:'Go Back',
+                action:'returnToPageSelected',
+                type:'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
+
+          }
+        }
+
         case 'selectPageCancel': {
           console.log('insertCard menu');
           return {
@@ -416,6 +474,11 @@ name: "menuDefinitionsNew",
         case 'linkEditorSubMenu2':{
           return {
             items: [
+              {
+                label:'Insert Page',
+                action:'insertPage',
+                type:'mItem'
+              },
               {
                 label:'Remove',
                 action:'removeLinkLink',
