@@ -1184,7 +1184,7 @@ name: "dialogDefinitions",
                 boxShadow: '10px 10px 5px lightslategrey',
               },
               leafComponent: false,
-              menuName:'linkEditorSubMenu2',
+              menuName:'selectPageCancel',
               fields:[
                 {
                   type: 'tableWrapper',

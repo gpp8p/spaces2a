@@ -268,6 +268,9 @@ export default {
         'loadAvailableLinks':function(msg, context){
           context.doLoadAvailableLinks(msg, context);
         },
+        'cancelSelectPage':function(msg, context){
+          context.doReturnToLinkEditorMain(msg, context);
+        },
 
       }
       if(typeof(menuSelection)!='undefined'){
@@ -331,9 +334,10 @@ export default {
         this.selectedPageIsExternal = msg[1].isExternal;
         this.selectedPageDescription = msg[1].description;
         this.selectedPageType = msg[1].type;
-//        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
+        this.mode=this.MODE_SHOW_AVAILABLE_PAGES;
         this.prompt = 'Available Pages - Click on one to change this link'
-        this.getMySpaces(this.MODE_SHOW_AVAILABLE_PAGES);
+//        this.getMySpaces(this.MODE_SHOW_AVAILABLE_PAGES);
+        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu2','linkEditorMenu']);
       }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES){
         debugger;
         console.log('space selected-', msg);
@@ -349,12 +353,12 @@ export default {
         console.log('ccPageConfig - 2', this.ccPageConfig);
         this.ccPageConfig.existingData.availableLinks=this.availableLinks;
         this.ccPageConfig.definition = 'linkEditor';
-        this.mode==this.MODE_SHOW_LINKS;
+        this.mode=this.MODE_SHOW_LINKS;
         this.prompt='Existing Links - Click on one to select a link to change';
         this.reloadKey+=1;
-        this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+        context.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
       }else if(this.mode==this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK){
-        var selectedPage = {};
+        selectedPage = {};
         debugger;
         selectedPage.id = msg[1].id
         selectedPage.layout_link_to = msg[1].id;
@@ -365,9 +369,10 @@ export default {
         this.availableLinks.push(selectedPage);
         this.ccPageConfig.existingData.availableLinks=this.availableLinks;
         this.ccPageConfig.definition = 'linkEditor';
-        this.mode==this.MODE_SHOW_LINKS;
+        this.mode=this.MODE_SHOW_LINKS;
         this.prompt='Existing Links - Click on one to select a link to change';
         this.reloadKey+=1;
+        console.log('back to show links -', this.mode);
         this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
       }
 
@@ -395,7 +400,8 @@ export default {
     },
     doLoadAvailableLinks(msg, context) {
       console.log('in doLoadAvailableLinks', msg, context);
-      this.getMySpaces();
+      this.prompt="Click on page to substitute for this link"
+      this.getMySpaces(this.MODE_SHOW_AVAILABLE_PAGES);
     },
 
     getMySpaces(nextMode){
