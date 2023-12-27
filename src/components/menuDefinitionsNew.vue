@@ -354,12 +354,12 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Add Link to New Page',
+                label:'Add Link Creating New Page',
                 action:'newPageLink',
                 type:'mItem'
               },
               {
-                label:'Add Link to Existing Page',
+                label:'Add Link Using Existing Page',
                 action:'addLink',
                 type:'mItem'
               },
@@ -481,7 +481,7 @@ name: "menuDefinitionsNew",
               },
               {
                 label:'Remove',
-                action:'removeLinkLink',
+                action:'removeLink',
                 type:'mItem'
               },
               {

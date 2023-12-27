@@ -280,6 +280,9 @@ export default {
         'returnToPageSelected':function(msg, context){
           context.doReturnToPageSelected(msg, context);
         },
+        'removeLink':function(msg, context){
+          context.doRemoveLink(msg, context);
+        },
 
       }
       if(typeof(menuSelection)!='undefined'){
@@ -322,6 +325,19 @@ export default {
       console.log('in addLink', msg, context);
       this.prompt = "Find the link you wish toi add and click on it"
       this.getMySpaces(this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK);
+    },
+    doRemoveLink(msg, context){
+      debugger;
+      console.log('in removeLink-', msg, context);
+      this.availableLinks = context.removeElementByIndex(this.availableLinks, this.selectedPageLink);
+      this.ccPageConfig.existingData.availableLinks=this.availableLinks;
+      this.ccPageConfig.definition = 'linkEditor';
+      this.mode=this.MODE_SHOW_LINKS;
+      this.prompt='Existing Links - Click on one to select a link to change';
+      this.reloadKey+=1;
+      console.log('back to show links -', this.mode);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+
     },
     doCreatePageAndLink(msg, context){
       console.log('in CreatePageAndLink', msg, context);
