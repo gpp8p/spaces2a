@@ -17,7 +17,7 @@
       <linkEditor
           v-if="this.showLinkEditor==true"
           :config="linkEditorConfiguration"
-          name="linkEWditor"
+          name="linkEditor"
           :key="dialogReload"
           @cevt="handleEvt"
       ></linkEditor>
@@ -78,6 +78,7 @@ export default{
     console.log('apiBase is - ', this.$store.getters.getApiBase);
     console.log('helpUrl is -', this.$store.getters.getHelpUrl);
     var pathArray=this.$route.path.substring(1).split('/');
+    console.log('current pathArray-', pathArray);
     if(pathArray.length==3 && pathArray[0]=='target'){
       console.log('this is a protected page link from static html');
       console.log(pathArray);
@@ -86,13 +87,16 @@ export default{
       store.commit('setDirectLoginLink', pathArray[2]);
     }else{
       console.log('this is a normal login');
+      console.log('pathArray[0]', pathArray[0], pathArray[0].length);
       console.log('current layoutId',this.$store.getters.getCurrentLayoutId);
       if(pathArray[0].length>0){
         if(pathArray[0]=="dist"){
           pathArray=[""];
           store.commit('setDefaultOrg', 'root');
+          console.log('default org set to root');
         }else{
-          store.commit('setDefaultOrg', pathArray[0]);
+          store.commit('setDefaultOrg', pathArray[1]);
+          console.log('default org set to --', pathArray[1])
         }
       }else{
         store.commit('setDefaultOrg', 'root');

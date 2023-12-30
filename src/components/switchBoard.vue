@@ -73,8 +73,13 @@ export default {
           console.log('configurationHasBeenSaved in App-', msg, context);
           context.doConfigurationHasBeenSaved(msg, context);
         },
+/*
+        'saveNewPageAddLink':function(msg, context){
+          context.doSaveNewPageAddLink(msg, context);
+        },
+*/
         'saveScreenEntry':function(msg, context){
-          context.doSaveScreenEntry(msg, context);
+          context.doUpdateScreenEntry(msg, context);
         },
         'updateScreenEntry':function(msg, context){
           context.doUpdateScreenEntry(msg, context);
@@ -259,9 +264,6 @@ export default {
         'resizeCard':function(msg, context){
           context.doResizeCard(msg, context);
         },
-//        'saveScreenEntry':function(msg, context){
-//          context.doSaveScreenEntry(msg, context);
-//        },
         'mySpaces':function(msg, context){
           context.doMySpaces(msg, context);
         },
@@ -327,6 +329,11 @@ export default {
       console.log('in doPageSettings', msg, context);
       this.cmdHandlers['mainPage'](['pageSettings']);
     },
+/*
+    doSaveNewPageAddLink(msg, context){
+      console.log('at doSaveNewPage-',msg, context);
+    },
+ */
     doUpdateScreenEntry(msg, context){
       console.log('at doUpdateScreenEntry-', msg, context);
       debugger;

@@ -71,7 +71,7 @@ export default {
 
     },
     doSetMenu(msg, context){
-//      debugger;
+      debugger;
       console.log('doSetMenu-', msg);
       context.currentItems=this.getMenuOpts(msg[1]);
       this.cmdHandlers['menuItems'](['setCurrentItems', this.currentItems, 'menuItems']);

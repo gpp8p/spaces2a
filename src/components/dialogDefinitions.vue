@@ -7,6 +7,7 @@ name: "dialogDefinitions",
 //      debugger;
       switch(dialogName){
         case 'createPageAndLink':{
+          debugger;
           return {
             createPageAndLink:{
               dialogStyle: {
@@ -1066,10 +1067,6 @@ name: "dialogDefinitions",
                     }
                   }
                 },
-
-
-
-
                 {
                   type: "checkbox",
                   fieldLabel: "Template:",
@@ -2332,6 +2329,7 @@ name: "dialogDefinitions",
 //          break;
           }
         }
+
         case "createPageAndLink":{
             return {
               pageBackground: {
@@ -2348,6 +2346,7 @@ name: "dialogDefinitions",
               screenWidth: "100"
             }
         }
+
         case 'extPage':{
           break;
         }

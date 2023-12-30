@@ -35,7 +35,7 @@ export default {
   components: {InputField, inputNumberField, vRadioGroup, vBackgroundPicker, checkbox, tableWrapper},
   mixins: [utils, componentLoaders, dialogDefinitions],
   mounted(){
-    debugger;
+//    debugger;
     this.componentLoaders = this.getComponentLoaders();
     this.dialogFields = this.getDialogDefinition(this.config.definition, this.componentLoaders);
     console.log('ccPage Fields-', this.dialogFields);

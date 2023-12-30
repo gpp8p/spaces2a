@@ -1,4 +1,7 @@
 <script>
+import axios from "axios";
+import store from "@/store";
+
 export default {
   name: 'utils',
   methods: {
@@ -131,6 +134,68 @@ export default {
       array.splice(indexToShift + 1, 0, objectToShift);
 
       return array;
+    },
+
+
+    saveNewPage(dialogData, layoutSavedCallback){
+      debugger;
+      var backgroundImage;
+      var backgroundColor;
+      var backgroundType;
+      var backgroundDisplay;
+      if(dialogData.pageBackground.backgroundType=='color'){
+        backgroundColor = dialogData.pageBackground.colorSelect;
+        backgroundType = 'C';
+        backgroundImage='';
+        backgroundDisplay = '';
+      }else{
+        backgroundType = 'I';
+        backgroundImage= dialogData.backgroundImage;
+        backgroundColor = '';
+        backgroundDisplay = dialogData.backgroundDisplay;
+      }
+      // eslint-disable-next-line no-unused-vars
+      var template;
+      if(dialogData.template=='no'){
+        template=false;
+      }else{
+        template=true;
+      }
+      // eslint-disable-next-line no-unused-vars
+      var perms;
+      if(dialogData.permissions=='open'){
+        perms='default';
+      }else{
+        perms='template';
+      }
+      console.log('in saveNewPage-', dialogData, layoutSavedCallback);
+      var apiPath = this.$store.getters.getApiBase;
+      axios.post(apiPath+'api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+//        axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
+        name: dialogData.pageName,
+        description: dialogData.pageDescription,
+        height: dialogData.pageHeight,
+        width: dialogData.pageWidth,
+        backgroundColor: backgroundColor,
+        backgroundType: backgroundType,
+        backgroundImage: backgroundImage,
+        backgroundDisplay: backgroundDisplay,
+        template: template,
+        userId: this.$store.getters.getLoggedInUserId,
+        user: this.$store.getters.getLoggedInUser,
+        orgId: this.$store.getters.getOrgId,
+        layoutId: this.$store.getters.getCurrentLayoutId,
+        permType: perms,
+      }).then(response=>
+      {
+        debugger;
+//        store.commit('setCurrentLayoutId', response.data);
+        layoutSavedCallback(response.data);
+
+      }).catch(function(error) {
+        console.log(error);
+      });
+
     }
 
 

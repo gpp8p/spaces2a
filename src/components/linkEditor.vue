@@ -238,7 +238,7 @@ export default {
     doMenuItemSelected(msg, context){
       console.log('doMenuItemSelected in dialog-', msg, context);
       var menuSelection = {
-        'createPageAndLink': function(msg, context){
+        'createPage': function(msg, context){
           context.doCreatePageAndLink(msg, context);
         },
         'copyThisPage': function(msg, context){
@@ -282,6 +282,9 @@ export default {
         },
         'removeLink':function(msg, context){
           context.doRemoveLink(msg, context);
+        },
+        'saveNewPageAddLink':function(msg, context){
+          context.doSaveNewPageAddLink(msg, context);
         },
 
       }
@@ -345,6 +348,8 @@ export default {
       this.mode=this.MODE_CREATE_PAGE;
       this.prompt='Create This Page and Add It to the Card\'s Links';
       this.reloadKey+=1;
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'createPageMenu','linkEditorMenu']);
+
     },
     doAddExternalLink(msg, context){
       console.log('in AddExternalLink', msg, context);
@@ -440,6 +445,14 @@ export default {
       console.log('in doLoadAvailableLinks', msg, context);
       this.prompt="Click on page to substitute for this link"
       this.getMySpaces(this.MODE_SHOW_AVAILABLE_PAGES);
+    },
+    doSaveNewPageAddLink(msg, context) {
+      console.log('in doSaveNewPageAddLink-', msg, context);
+//      this.$emit('cevt', ['saveNewPageAddLink', this.dialogData]);
+      var pageSavedCallback = function(layoutId){
+        console.log('pageSavedCallback-', layoutId);
+      }
+      this.saveNewPage(context.dialogData, pageSavedCallback);
     },
 
     getMySpaces(nextMode){
