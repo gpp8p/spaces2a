@@ -760,9 +760,9 @@ name: "dialogDefinitions",
                   fieldIdentifier: 'template',
                   name: "template",
                   loader: function(styleElements){
-                    //                   debugger;
+                                       debugger;
                     if(typeof(styleElements['template'])!='undefined'){
-                      if(styleElements['template']=='checked'){
+                      if(styleElements['template']=='Y'){
                         return 'yes';
                       }else{
                         return 'no';
@@ -1081,9 +1081,9 @@ name: "dialogDefinitions",
                   fieldIdentifier: 'template',
                   name: "template",
                   loader: function(styleElements){
-                    //                   debugger;
+                                       debugger;
                     if(typeof(styleElements['template'])!='undefined'){
-                      if(styleElements['template']=='checked'){
+                      if(styleElements['template']=='Y'){
                         return 'yes';
                       }else{
                         return 'no';

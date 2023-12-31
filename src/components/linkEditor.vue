@@ -453,6 +453,7 @@ export default {
         console.log('pageSavedCallback-', layoutId);
       }
       this.saveNewPage(context.dialogData, pageSavedCallback);
+
     },
 
     getMySpaces(nextMode){

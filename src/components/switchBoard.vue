@@ -345,14 +345,14 @@ export default {
       var backgroundType;
       // eslint-disable-next-line no-unused-vars
       var backgroundDisplay;
-      if(msg[1].pageBackground.backgroundType=='color'){
-        backgroundColor = msg[1].pageBackground.colorSelect;
+      if(msg[1].background.backgroundType=='color'){
+        backgroundColor = msg[1].background.colorSelect;
         backgroundType = 'C';
         backgroundImage='';
         backgroundDisplay = '';
       }else{
         backgroundType = 'I';
-        if(typeof(msg[1].pageBackground.url)=='undefined'){
+        if(typeof(msg[1].background.url)=='undefined'){
           backgroundImage=msg[1].backgroundImage;
         }else{
           backgroundImage= msg[1].pageBackground.url;
@@ -439,16 +439,16 @@ export default {
       var backgroundColor;
       var backgroundType;
       var backgroundDisplay;
-      if(msg[1].pageBackground.backgroundType=='color'){
-        backgroundColor = msg[1].pageBackground.colorSelect;
+      if(msg[1].background.backgroundType=='color'){
+        backgroundColor = msg[1].background.colorSelect;
         backgroundType = 'C';
         backgroundImage='';
         backgroundDisplay = '';
       }else{
         backgroundType = 'I';
-        backgroundImage= msg[1].backgroundImage;
+        backgroundImage= msg[1].background.backgroundImage;
         backgroundColor = '';
-        backgroundDisplay = msg[1].backgroundDisplay;
+        backgroundDisplay = msg[1].background.backgroundDisplay;
       }
       // eslint-disable-next-line no-unused-vars
       var template;

@@ -284,7 +284,8 @@ export default {
           pageBackground: {
             backgroundType: "color",
             colorSelect: "#0a3aff"
-          }
+          },
+          template:response.data.layout.template,
         }
         if(response.data.layout.backgroundType=='C'){
           loadedPageConfig.pageBackground.backgroundType='color';
