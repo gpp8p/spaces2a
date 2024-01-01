@@ -144,7 +144,7 @@ export default {
       var backgroundType;
       var backgroundDisplay;
       if(dialogData.pageBackground.backgroundType=='color'){
-        backgroundColor = dialogData.pageBackground.colorSelect;
+        backgroundColor = dialogData.background.colorSelect;
         backgroundType = 'C';
         backgroundImage='';
         backgroundDisplay = '';
@@ -190,11 +190,42 @@ export default {
       {
         debugger;
 //        store.commit('setCurrentLayoutId', response.data);
-        layoutSavedCallback(response.data);
+        layoutSavedCallback(response.data, this);
 
       }).catch(function(error) {
         console.log(error);
       });
+
+    },
+
+    makeTemplateClone(copyTemplateCallback, context){
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      debugger;
+
+      axios.post(apiPath+'api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
+        //      axios.post('http://localhost:8000/api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
+        params:{
+          layoutId: context.$store.getters.getCurrentLayoutId,
+          templateId: context.targetTemplateId,
+          orgId: context.$store.getters.getOrgId,
+          description: context.dialogData['pageDescription'],
+          menu_label: context.dialogData['pageName'],
+          permType: context.dialogData['permissions'],
+          copyIt: context.copyIt
+        }
+      })
+          .then(response => {
+            console.log(response);
+//            console.log('route status after makeTemplateClone', this.$route.name);
+//            console.log('cmd after makeTemplateClone:'+this.cmd);
+            debugger;
+            copyTemplateCallback(response.data, this);
+
+          })
+          .catch(e => {
+            console.log(e,'- cloneTemplate failed');
+          });
 
     }
 

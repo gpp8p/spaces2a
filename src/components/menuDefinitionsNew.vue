@@ -318,12 +318,12 @@ name: "menuDefinitionsNew",
             items: [
               {
                 label:'Save',
-                action: 'saveNewPage',
+                action: 'copyThisPageInsertLink',
                 type: 'mItem'
               },
               {
                 label:'Cancel',
-                action: 'dismissDialog',
+                action: 'returnToLinkEditorMain',
                 type: 'mItem'
               }
             ],

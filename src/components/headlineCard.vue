@@ -335,6 +335,7 @@ export default {
 
     },
     setStyleCss(enteredStyles, gridStyle){
+      console.log('enteredStyles-', enteredStyles);
       var thisStyleElements = Object.keys(enteredStyles);
       var newStyle = gridStyle+";";
       var newSubStyle = '';
@@ -438,11 +439,13 @@ export default {
             break;
           }
           case 'shadow':{
-            newTitleStyleElements['shadow']="shadow:checked;";
-            newTitleStyleElements['boxShadow']="box-shadow:10px 20px 30px black;";
-            newStyle = newStyle+"shadow:checked;";
-            newStyle= newStyle+"box-shadow:10px 20px 30px black;";
-            break;
+            if(enteredStyles[thisStyleElements[s]]=='yes'){
+              newTitleStyleElements['shadow']="shadow:checked;";
+              newTitleStyleElements['boxShadow']="box-shadow:10px 20px 30px black;";
+              newStyle = newStyle+"shadow:checked;";
+              newStyle= newStyle+"box-shadow:10px 20px 30px black;";
+              break;
+            }
           }
           case 'titleStyles_alignmentSelect':{
             newStyle = newStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';

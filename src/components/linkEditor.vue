@@ -286,6 +286,9 @@ export default {
         'saveNewPageAddLink':function(msg, context){
           context.doSaveNewPageAddLink(msg, context);
         },
+        'copyThisPageInsertLink':function(msg, context){
+          context.doCopyThisPageInsertLink(msg, context);
+        },
 
       }
       if(typeof(menuSelection)!='undefined'){
@@ -449,11 +452,48 @@ export default {
     doSaveNewPageAddLink(msg, context) {
       console.log('in doSaveNewPageAddLink-', msg, context);
 //      this.$emit('cevt', ['saveNewPageAddLink', this.dialogData]);
-      var pageSavedCallback = function(layoutId){
-        console.log('pageSavedCallback-', layoutId);
+      var pageSavedCallback = function(layoutId, context){
+        debugger;
+        console.log('pageSavedCallback-', layoutId, context);
+        var pageToInsert={};
+        pageToInsert.id = layoutId
+        pageToInsert.layout_link_to = layoutId;
+        pageToInsert.description = context.dialogData.pageName;
+        pageToInsert.link_url = context.$store.getters.getUrlBase+'/displayLayout/'+layoutId;
+        pageToInsert.isExternal=0;
+        context.availableLinks=context.insertObjectAfterIndex(context.availableLinks, context.selectedPageLink, pageToInsert)
+        context.ccPageConfig.existingData.availableLinks=context.availableLinks;
+        context.ccPageConfig.definition = 'linkEditor';
+        context.mode=context.MODE_SHOW_LINKS;
+        context.prompt='Existing Links - Click on one to select a link to change';
+        context.reloadKey+=1;
+        console.log('back to show links -', context.mode);
+        context.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
       }
       this.saveNewPage(context.dialogData, pageSavedCallback);
 
+    },
+    doCopyThisPageInsertLink(msg, context) {
+      console.log('in copythisPageInsertLink', msg, context);
+      this.targetTemplateId = this.$store.getters.getCurrentLayoutId;
+      var copyTemplateCallback = function(layoutId, context){
+        console.log('in copythisPageInsertLink',layoutId, context);
+        var pageToInsert={};
+        pageToInsert.id = layoutId
+        pageToInsert.layout_link_to = layoutId;
+        pageToInsert.description = context.dialogData.pageName;
+        pageToInsert.link_url = context.$store.getters.getUrlBase+'/displayLayout/'+layoutId;
+        pageToInsert.isExternal=0;
+        context.availableLinks=context.insertObjectAfterIndex(context.availableLinks, context.selectedPageLink, pageToInsert)
+        context.ccPageConfig.existingData.availableLinks=context.availableLinks;
+        context.ccPageConfig.definition = 'linkEditor';
+        context.mode=context.MODE_SHOW_LINKS;
+        context.prompt='Existing Links - Click on one to select a link to change';
+        context.reloadKey+=1;
+        console.log('back to show links -', context.mode);
+        context.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+      }
+      this.makeTemplateClone(copyTemplateCallback, context);
     },
 
     getMySpaces(nextMode){
@@ -492,55 +532,16 @@ export default {
     },
     doCopyThisPageDo(msg, context) {
       console.log('at doCopyThisPageDo', msg, context);
+      var copyTemplateCallback = function(layoutId, context){
+        console.log('in copyTemplateCallback',layoutId, context);
+      }
       this.targetTemplateId = this.$store.getters.getCurrentLayoutId;
-      this.makeTemplateClone();
+      this.makeTemplateClone(copyTemplateCallback, context);
       this.copyIt=true;
     },
 
-      makeTemplateClone(){
-        var apiPath = this.$store.getters.getApiBase;
-        console.log('apiPath - ',apiPath);
-
-        axios.post(apiPath+'api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
-  //      axios.post('http://localhost:8000/api/shan/cloneTemplate?XDEBUG_SESSION_START=14668', {
-          params:{
-            layoutId: this.$store.getters.getCurrentLayoutId,
-            templateId: this.targetTemplateId,
-            orgId: this.$store.getters.getOrgId,
-            description: this.dialogData['pageDescription'],
-            menu_label: this.dialogData['pageName'],
-            permType: this.dialogData['permissions'],
-            copyIt: this.copyIt
-          }
-        })
-            .then(response => {
-              console.log(response);
-              console.log('route status after makeTemplateClone', this.$route.name);
-              console.log('cmd after makeTemplateClone:'+this.cmd);
-        debugger;
-
-              if(this.$route.name == 'edit'){
-  /*
-  //        from a link mod
-                if(this.cmd == 'doAddThisPageCopy') {
-                  this.$emit('addCloneSuccessful', response.data);
-                }else if(this.cmd == 'doCloneTemplateAdd'){
-                  this.$emit('doCloneTemplateAddSuccessful', response.data);
-                }else{
-                  this.$emit('cloneSuccessfulReturnToEdit', response.data);
-                }
-  */
-              }else{
-  //        from a top-level create
-                this.$emit('cloneSuccessful', response.data);
-              }
-            })
-            .catch(e => {
-              console.log(e,'- cloneTemplate failed');
-            });
-
-      }
-    }
+// end of methods
+  }
 }
 </script>
 
