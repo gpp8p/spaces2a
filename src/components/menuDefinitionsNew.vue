@@ -536,6 +536,27 @@ name: "menuDefinitionsNew",
 
           }
         }
+        case 'dialogSubMenu4':{
+          return {
+            items: [
+              {
+                label:'Update Headline',
+                action: 'updateHeadline',
+                type: 'mItem'
+              },
+              {
+                label:'Go Back',
+                action: 'returnToLinkEditorMain',
+                type: 'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
+
+          }
+        }
 
         case 'dialogSubMenu3':{
           return {

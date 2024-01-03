@@ -1754,6 +1754,71 @@ name: "dialogDefinitions",
             }
           }
         }
+        case 'headlineText': {
+          return {
+            headlineText: {
+              dialogStyle: {
+                position: 'fixed',
+                top: '30%',
+                left: '30%',
+                height: '35vh',
+                width: '40vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName: 'dialogSubMenu4',
+              loader: function (existingData, dialogComponents) {
+                console.log('in copyPage loader -', existingData, dialogComponents);
+                if (typeof (existingData) != 'undefined') {
+                  for (var d = 0; d < dialogComponents.length; d++) {
+                    if (typeof (dialogComponents[d].loader) != 'undefined') {
+                      console.log('loaded component - ', dialogComponents[d]);
+                    } else {
+                      //                  console.log('not loaded component - ', dialogComponents[d]);
+                      dialogComponents[d].fieldValue = existingData[dialogComponents[d].fieldIdentifier];
+                    }
+                  }
+                }
+              },
+              fields: [
+                {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Headline Text:',
+                  fieldSize: 60,
+                  fieldMaxLength: 100,
+                  fieldIdentifier: 'headlineText',
+                  name: 'headlineText',
+                  autoFocus: true,
+                  leafComponent: true,
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel: {
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel: {
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                }
+              ]
+            }
+          }
+        }
+
+
         case 'configureHeadlineCard':{
 //        case 'configureHeadlineCard': {
           return {

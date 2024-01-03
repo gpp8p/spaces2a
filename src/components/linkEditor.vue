@@ -289,6 +289,13 @@ export default {
         'copyThisPageInsertLink':function(msg, context){
           context.doCopyThisPageInsertLink(msg, context);
         },
+        'moveLinkUp':function(msg, context){
+          context.doMoveLinkUp(msg, context);
+        },
+        'moveLinkDown':function(msg, context){
+          context.doMoveLinkDown(msg, context);
+        },
+
 
       }
       if(typeof(menuSelection)!='undefined'){
@@ -345,6 +352,32 @@ export default {
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
 
     },
+    doMoveLinkUp(msg, context){
+      debugger;
+      console.log('in moveLink up-', msg, context);
+      this.availableLinks = context.shiftObjectTowardsBeginning(this.availableLinks, this.selectedPageLink);
+      this.ccPageConfig.existingData.availableLinks=this.availableLinks;
+      this.ccPageConfig.definition = 'linkEditor';
+      this.mode=this.MODE_SHOW_LINKS;
+      this.prompt='Existing Links - Click on one to select a link to change';
+      this.reloadKey+=1;
+      console.log('back to show links -', this.mode);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+
+    },
+    doMoveLinkDown(msg, context){
+      debugger;
+      console.log('in move link down-', msg, context);
+      this.availableLinks = context.shiftObjectTowardsEnd(this.availableLinks, this.selectedPageLink);
+      this.ccPageConfig.existingData.availableLinks=this.availableLinks;
+      this.ccPageConfig.definition = 'linkEditor';
+      this.mode=this.MODE_SHOW_LINKS;
+      this.prompt='Existing Links - Click on one to select a link to change';
+      this.reloadKey+=1;
+      console.log('back to show links -', this.mode);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+
+    },
     doCreatePageAndLink(msg, context){
       console.log('in CreatePageAndLink', msg, context);
       this.ccPageConfig.definition = 'createPageAndLink';
@@ -358,7 +391,13 @@ export default {
       console.log('in AddExternalLink', msg, context);
     },
     doEditHeadline(msg, context){
-      console.log('in EditHeadline', msg, context);
+      console.log('in headlineText', msg, context);
+      this.ccPageConfig.definition = 'headlineText';
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu3','linkEditorMenu']);
+      this.mode = this.MODE_COPY_PAGE;
+      this.prompt='';
+      this.reloadKey+=1;
+
     },
     doSaveLinks(msg, context){
       console.log('in SaveLinks', msg, context);

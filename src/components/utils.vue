@@ -116,6 +116,7 @@ export default {
     },
 
   shiftObjectTowardsEnd(array, indexToShift) {
+      debugger;
       if (indexToShift < 0 || indexToShift >= array.length) {
         // Check if the index is out of bounds
         console.out("Index out of bounds");

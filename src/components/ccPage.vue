@@ -20,6 +20,7 @@ import vRadioGroup from "../components/vRadioGroup.vue";
 import vBackgroundPicker from "../components/vBackgroundPicker.vue";
 import checkbox from "../components/checkbox.vue"
 import tableWrapper from "../components/tableWrapper.vue";
+import fontPicker from "@/components/fontPicker";
 export default {
   name: "ccPage",
   props:{
@@ -32,7 +33,7 @@ export default {
       required: false
     }
   },
-  components: {InputField, inputNumberField, vRadioGroup, vBackgroundPicker, checkbox, tableWrapper},
+  components: {InputField, inputNumberField, vRadioGroup, vBackgroundPicker, checkbox, tableWrapper, fontPicker},
   mixins: [utils, componentLoaders, dialogDefinitions],
   mounted(){
 //    debugger;
