@@ -36,7 +36,7 @@ export default {
   components: {InputField, inputNumberField, vRadioGroup, vBackgroundPicker, checkbox, tableWrapper, fontPicker},
   mixins: [utils, componentLoaders, dialogDefinitions],
   mounted(){
-//    debugger;
+    debugger;
     this.componentLoaders = this.getComponentLoaders();
     this.dialogFields = this.getDialogDefinition(this.config.definition, this.componentLoaders);
     console.log('ccPage Fields-', this.dialogFields);
@@ -49,8 +49,10 @@ export default {
       this.existingData[key] =  this.config.existingData[key];
     });
 //    this.existingData =  this.config.existingData[this.config.definition];
-    this.$emit('cevt',['setMenuTo', this.dialogFields[this.config.definition].menuName]);
     debugger;
+    console.log('new menu-', this.dialogFields[this.config.definition].menuName);
+    this.$emit('cevt',['setMenuTo', this.dialogFields[this.config.definition].menuName]);
+//    debugger;
     this.dialogDefaults = this.getDialogDefaults(this.config.definition);
     Object.keys(this.dialogComponents).forEach(key => {
       console.log('existingData dialogComponents key-', key, this.dialogComponents[key]);

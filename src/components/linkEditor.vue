@@ -5,7 +5,8 @@
                                 this.mode==this.MODE_COPY_PAGE ||
                                 this.mode == this.MODE_SHOW_LINKS ||
                                 this.mode == this.MODE_SHOW_AVAILABLE_PAGES ||
-                                this.mode == this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK" >
+                                this.mode == this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK ||
+                                this.mode == this.MODE_HEADLINE_TEXT" >
     <ccPage v-if="this.pleaseWait==false"
         name = 'ccPage'
         :config = 'ccPageConfig'
@@ -90,6 +91,7 @@ export default {
       MODE_EDIT_HEADLINE:5,
       MODE_SHOW_AVAILABLE_PAGES:6,
       MODE_SHOW_AVAILABLE_PAGES_ADD_LINK:8,
+      MODE_HEADLINE_TEXT:9,
       pleaseWait:false,
       dialogData:{},
       dialogFields:[],
@@ -146,7 +148,9 @@ export default {
     availableLinks:[],
     targetTemplateId:0,
     copyIt:false,
-    ccPageConfig:{}
+    ccPageConfig:{},
+    cardTitle:''
+//    dataToSave:{}
 
     }
   },
@@ -392,9 +396,10 @@ export default {
     },
     doEditHeadline(msg, context){
       console.log('in headlineText', msg, context);
+
       this.ccPageConfig.definition = 'headlineText';
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu3','linkEditorMenu']);
-      this.mode = this.MODE_COPY_PAGE;
+      this.mode = this.MODE_HEADLINE_TEXT;
       this.prompt='';
       this.reloadKey+=1;
 
@@ -491,9 +496,15 @@ export default {
     doSaveNewPageAddLink(msg, context) {
       console.log('in doSaveNewPageAddLink-', msg, context);
 //      this.$emit('cevt', ['saveNewPageAddLink', this.dialogData]);
-      var pageSavedCallback = function(layoutId, context){
+      var pageSavedCallback = function(layoutId, context, updateLinkDataCallback){
         debugger;
         console.log('pageSavedCallback-', layoutId, context);
+        var thisCardTitle='';
+        if(context.cardTitle.length>0){
+          thisCardTitle=context.cardTtile;
+        }
+        updateLinkDataCallback(context, thisCardTitle);
+        debugger;
         var pageToInsert={};
         pageToInsert.id = layoutId
         pageToInsert.layout_link_to = layoutId;
@@ -509,7 +520,22 @@ export default {
         console.log('back to show links -', context.mode);
         context.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
       }
-      this.saveNewPage(context.dialogData, pageSavedCallback);
+      var updateLinkDataCallback=function(context, title){
+        console.log('in updateLinkDataCallback-', context, cardTitle);
+        var cardTitle = ''
+        if(typeof(title)!='undefined'){
+          cardTitle = title;
+        }
+        var allCardLinks = JSON.stringify(context.availableLinks);
+        var linksSavedCallback = function(){
+          console.out('links saved');
+        }
+        var orient = 'horozontal';
+        this.updateLinkData(orient, cardTitle, allCardLinks, linksSavedCallback)
+
+
+      }
+      this.saveNewPage(context, pageSavedCallback, updateLinkDataCallback);
 
     },
     doCopyThisPageInsertLink(msg, context) {

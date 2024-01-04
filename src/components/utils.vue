@@ -137,13 +137,40 @@ export default {
       return array;
     },
 
+    updateLinkData(orient, cardTitle, allCardLinks, linksSavedCallback){
+      debugger;
+      var apiPath = this.$store.getters.getApiBase;
+      axios.post(apiPath+'api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
+//      axios.post('http://localhost:8000/api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
+        orient: orient,
+        cardTitle: cardTitle,
+        allLinks:allCardLinks,
+        org_id: this.$store.getters.getOrgId,
+        layout_id: this.$store.getters.getCurrentLayoutId,
+        card_instance_id:this.cardId,
+        is_external:0,
+        type:'U'
+      }).then(response=>
+      {
+          debugger;
+        console.log(response);
+        linksSavedCallback();
+      }).catch(function(error) {
+        //       debugger;
+        alert('returned with an error'+error);
+        console.log(error);
+      });
 
-    saveNewPage(dialogData, layoutSavedCallback){
+    },
+
+
+    saveNewPage(context, layoutSavedCallback, updateLinkDataCallback){
       debugger;
       var backgroundImage;
       var backgroundColor;
       var backgroundType;
       var backgroundDisplay;
+      var dialogData = context.dialogData;
       if(dialogData.pageBackground.backgroundType=='color'){
         backgroundColor = dialogData.background.colorSelect;
         backgroundType = 'C';
@@ -169,7 +196,7 @@ export default {
       }else{
         perms='template';
       }
-      console.log('in saveNewPage-', dialogData, layoutSavedCallback);
+      console.log('in saveNewPage-', context, layoutSavedCallback);
       var apiPath = this.$store.getters.getApiBase;
       axios.post(apiPath+'api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
 //        axios.post('http://localhost:8000/api/shan/createLayoutNoBlanks?XDEBUG_SESSION_START=17516', {
@@ -191,13 +218,15 @@ export default {
       {
         debugger;
 //        store.commit('setCurrentLayoutId', response.data);
-        layoutSavedCallback(response.data, this);
+        layoutSavedCallback(response.data, context, updateLinkDataCallback);
 
       }).catch(function(error) {
         console.log(error);
       });
 
     },
+
+
 
     makeTemplateClone(copyTemplateCallback, context){
       var apiPath = this.$store.getters.getApiBase;

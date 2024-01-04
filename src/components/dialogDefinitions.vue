@@ -1754,6 +1754,7 @@ name: "dialogDefinitions",
             }
           }
         }
+
         case 'headlineText': {
           return {
             headlineText: {
