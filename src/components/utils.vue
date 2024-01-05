@@ -140,14 +140,15 @@ export default {
     updateLinkData(orient, cardTitle, allCardLinks, linksSavedCallback){
       debugger;
       var apiPath = this.$store.getters.getApiBase;
+      var thisCardTitle = cardTitle;
       axios.post(apiPath+'api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
 //      axios.post('http://localhost:8000/api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
         orient: orient,
-        cardTitle: cardTitle,
+        cardTitle: thisCardTitle,
         allLinks:allCardLinks,
         org_id: this.$store.getters.getOrgId,
         layout_id: this.$store.getters.getCurrentLayoutId,
-        card_instance_id:this.cardId,
+        card_instance_id:this.$store.getters.getCardBeingEditedId,
         is_external:0,
         type:'U'
       }).then(response=>

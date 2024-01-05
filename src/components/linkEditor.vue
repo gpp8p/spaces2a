@@ -503,7 +503,7 @@ export default {
         if(context.cardTitle.length>0){
           thisCardTitle=context.cardTtile;
         }
-        updateLinkDataCallback(context, thisCardTitle);
+
         debugger;
         var pageToInsert={};
         pageToInsert.id = layoutId
@@ -512,6 +512,7 @@ export default {
         pageToInsert.link_url = context.$store.getters.getUrlBase+'/displayLayout/'+layoutId;
         pageToInsert.isExternal=0;
         context.availableLinks=context.insertObjectAfterIndex(context.availableLinks, context.selectedPageLink, pageToInsert)
+        updateLinkDataCallback(context, thisCardTitle);
         context.ccPageConfig.existingData.availableLinks=context.availableLinks;
         context.ccPageConfig.definition = 'linkEditor';
         context.mode=context.MODE_SHOW_LINKS;
@@ -522,19 +523,22 @@ export default {
       }
       var updateLinkDataCallback=function(context, title){
         console.log('in updateLinkDataCallback-', context, cardTitle);
+        debugger;
         var cardTitle = ''
         if(typeof(title)!='undefined'){
           cardTitle = title;
         }
         var allCardLinks = JSON.stringify(context.availableLinks);
         var linksSavedCallback = function(){
-          console.out('links saved');
+          console.log('links saved');
         }
         var orient = 'horozontal';
-        this.updateLinkData(orient, cardTitle, allCardLinks, linksSavedCallback)
-
+        debugger;
+        context.updateLinkData(orient, cardTitle, allCardLinks, linksSavedCallback)
+        console.log('links updated');
 
       }
+      debugger;
       this.saveNewPage(context, pageSavedCallback, updateLinkDataCallback);
 
     },

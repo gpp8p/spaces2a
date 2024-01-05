@@ -20,7 +20,8 @@ export default new Vuex.Store({
     currentLayoutId:0,
     perms: {},
     contentHeight:0,
-    contentWidth:0
+    contentWidth:0,
+    cardBeingEditedId:0,
   },
   mutations: {
     setMatrixSaved(state, matrixSaved){
@@ -70,6 +71,9 @@ export default new Vuex.Store({
     },
     setContentWidth(state, contentWidth){
       state.contentWidth = contentWidth;
+    },
+    setCardBeingEditedId(state, cardBeingEditedId){
+      state.cardBeingEditedId = cardBeingEditedId;
     }
 
 
@@ -125,6 +129,9 @@ export default new Vuex.Store({
     getContentWidth(state){
       return state.contentWidth;
     },
+    getCardBeingEditedId(state){
+      return state.cardBeingEditedId;
+    }
 
   }
 

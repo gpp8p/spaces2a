@@ -45,6 +45,7 @@ import utils from '../components/utils.vue';
 import Menu from "../components/menuNew.vue";
 import menuItemsNew from "../components/menuItemsNew.vue";
 import axios from "axios";
+import store from "@/store";
 
 export default {
   name: "headlineCard",
@@ -324,7 +325,10 @@ export default {
           break;
         }
         case 'editHeadlineCard':{
+          debugger;
+          var thisCardId = context.config.id;
           console.log('editHeadline menu choice-',context.config);
+          store.commit('setCardBeingEditedId', thisCardId);
           this.$emit('cevt', ['menuItemSelected', 'editHeadlineCard', context.name, context.config ])
           break;
         }
