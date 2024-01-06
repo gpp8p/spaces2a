@@ -99,6 +99,9 @@ export default {
         'currentPageSettings':function(msg, context){
           context.doCurrentPageSettings(msg, context);
         },
+        'exitEdit':function(msg, context){
+          context.doCardExitEdit(msg, context);
+        },
 
 
 
@@ -562,6 +565,8 @@ export default {
       this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
       this.pageConfiguration.pageId = this.$store.getters.getCurrentLayoutId;
       this.mode=this.SHOW_PAGE;
+      context.showLinkEditor=false;
+      context.showDialog=false;
       this.pageReload+=1;
     },
     doEditHeadlineCard(msg, context){

@@ -530,7 +530,11 @@ export default {
         }
         var allCardLinks = JSON.stringify(context.availableLinks);
         var linksSavedCallback = function(){
+          debugger;
           console.log('links saved');
+//          context.mode=context.MODE_SHOW_LINKS;
+//          context.reloadKey+=1;
+          context.$emit('cevt',['exitEdit','exitEdit','exitEdit']);
         }
         var orient = 'horozontal';
         debugger;
