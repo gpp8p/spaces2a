@@ -56,14 +56,22 @@ export default {
     this.dialogDefaults = this.getDialogDefaults(this.config.definition);
     Object.keys(this.dialogComponents).forEach(key => {
       console.log('existingData dialogComponents key-', key, this.dialogComponents[key]);
+      console.log('existingData value-', this.existingData[this.dialogComponents[key].name]);
+      debugger;
       if(typeof(this.existingData[this.dialogComponents[key].name])!='undefined') {
         console.log('existingData1-', this.existingData[this.dialogComponents[key].name], this.existingData[this.dialogComponents[key].name]);
         this.dialogComponents[key].fieldValue = this.existingData[this.dialogComponents[key].name];
       }else{
-        console.log('leafComponent-', this.dialogFields[this.config.definition].leafComponent);
-        this.dialogComponents[key].leafComponent=this.dialogFields[this.config.definition].leafComponent;
-        console.log('defaults 1-',this.dialogDefaults );
-        this.dialogComponents[key].fieldValue = this.dialogDefaults[this.dialogComponents[key].name];
+        if(typeof(this.dialogFields[this.dialogComponents[key].name].loader)!='undefined'){
+          console.log('loader present for-', this.dialogComponents[key].name);
+          this.dialogComponents[key].fieldValue=this.dialogFields[this.dialogComponents[key].name].loader(this.existingData,this.dialogComponents);
+        }else{
+          console.log('leafComponent-', this.dialogFields[this.config.definition].leafComponent);
+          this.dialogComponents[key].leafComponent=this.dialogFields[this.config.definition].leafComponent;
+          console.log('defaults 1-',this.dialogDefaults );
+          this.dialogComponents[key].fieldValue = this.dialogDefaults[this.dialogComponents[key].name];
+        }
+
       }
     });
     console.log('dialogComponents after loading-', this.dialogComponents);

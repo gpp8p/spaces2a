@@ -71,7 +71,7 @@ export default {
 //    this.cardCss = this.config.card_parameters.gridCss +'; background-color:'+this.config.card_parameters.backgroundColor.colorSelect+';color:'+this.config.card_parameters.color+';';
       this.cardCss= this.config.card_parameters.style;
       console.log('headline card style-', this.cardCss);
-//    debugger;
+    debugger;
     console.log('mounting Headline card element styles-', this.config.elementStyles.sub);
     if (typeof(this.config.elementStyles.sub) === 'undefined'){
       this.subStyle = '';

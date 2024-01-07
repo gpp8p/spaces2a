@@ -65,6 +65,13 @@ export default {
       this.ccPageConfig.existingData[key]=this.config.existingData.card_parameters.content[key];
     });
     this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
+    debugger;
+    if(typeof(this.config.existingData.card_parameters.content.linkMenuTitle)!='undefined'){
+      this.cardTitle = this.config.existingData.card_parameters.content.linkMenuTitle;
+    }else{
+      this.cardTitle = '';
+    }
+    this.cardTitle = this.config.existingData.card_parameters.content.linkMenuTitle;
     console.log('windowSize-', window.innerHeight);
     console.log('mounted ccPageConfig-', this.ccPageConfig);
     this.prompt='Existing Links - Click on one to select a link to change';
@@ -257,9 +264,6 @@ export default {
         'editHeadline': function(msg, context){
           context.doEditHeadline(msg, context);
         },
-        'saveLinks': function(msg, context){
-          context.doSaveLinks(msg, context);
-        },
         'dismissLinkEditor':function(msg, context){
           context.doDismissLinkEditor(msg, context);
         },
@@ -298,6 +302,12 @@ export default {
         },
         'moveLinkDown':function(msg, context){
           context.doMoveLinkDown(msg, context);
+        },
+        'updateHeadline':function(msg, context){
+          context.doUpdateHeadline(msg, context);
+        },
+        'saveLinks':function(msg, context){
+          context.doUpdateCardData(msg, context);
         },
 
 
@@ -382,6 +392,12 @@ export default {
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
 
     },
+    doUpdateHeadline(msg, context){
+      console.log('in doUpdateHeadline-', msg, context);
+      this.cardTitle = this.dialogData.headlineText;
+      this.doUpdateCardData(msg, context);
+
+    },
     doCreatePageAndLink(msg, context){
       console.log('in CreatePageAndLink', msg, context);
       this.ccPageConfig.definition = 'createPageAndLink';
@@ -402,10 +418,6 @@ export default {
       this.mode = this.MODE_HEADLINE_TEXT;
       this.prompt='';
       this.reloadKey+=1;
-
-    },
-    doSaveLinks(msg, context){
-      console.log('in SaveLinks', msg, context);
     },
     doDismissLinkEditor(msg, context){
       console.log('in doDismissLinkEditor', msg, context);
@@ -493,6 +505,23 @@ export default {
       this.prompt="Click on page to substitute for this link"
       this.getMySpaces(this.MODE_SHOW_AVAILABLE_PAGES);
     },
+    doUpdateCardData(msg, context){
+      console.log('in doUpdateCardData-', msg, context);
+      debugger;
+      var allCardLinks = JSON.stringify(context.availableLinks);
+      var linksSavedCallback = function(){
+        debugger;
+        console.log('links saved');
+//          context.mode=context.MODE_SHOW_LINKS;
+//          context.reloadKey+=1;
+        context.$emit('cevt',['exitEdit','exitEdit','exitEdit']);
+      }
+      var orient = 'horozontal';
+      debugger;
+      context.updateLinkData(orient, context.cardTitle, allCardLinks, linksSavedCallback)
+      console.log('links updated');
+
+    },
     doSaveNewPageAddLink(msg, context) {
       console.log('in doSaveNewPageAddLink-', msg, context);
 //      this.$emit('cevt', ['saveNewPageAddLink', this.dialogData]);
@@ -524,10 +553,13 @@ export default {
       var updateLinkDataCallback=function(context, title){
         console.log('in updateLinkDataCallback-', context, cardTitle);
         debugger;
-        var cardTitle = ''
+
+        var thisCardTitle = ''
         if(typeof(title)!='undefined'){
-          cardTitle = title;
+          thisCardTitle = title;
         }
+
+
         var allCardLinks = JSON.stringify(context.availableLinks);
         var linksSavedCallback = function(){
           debugger;
@@ -538,7 +570,7 @@ export default {
         }
         var orient = 'horozontal';
         debugger;
-        context.updateLinkData(orient, cardTitle, allCardLinks, linksSavedCallback)
+        context.updateLinkData(orient, context.cardTitle, allCardLinks, linksSavedCallback)
         console.log('links updated');
 
       }

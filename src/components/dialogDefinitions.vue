@@ -1772,7 +1772,9 @@ name: "dialogDefinitions",
               leafComponent: false,
               menuName: 'dialogSubMenu4',
               loader: function (existingData, dialogComponents) {
-                console.log('in copyPage loader -', existingData, dialogComponents);
+                console.log('in headlineText loader -', existingData, dialogComponents);
+                return existingData.linkMenuTitle;
+/*
                 if (typeof (existingData) != 'undefined') {
                   for (var d = 0; d < dialogComponents.length; d++) {
                     if (typeof (dialogComponents[d].loader) != 'undefined') {
@@ -1783,6 +1785,8 @@ name: "dialogDefinitions",
                     }
                   }
                 }
+
+ */
               },
               fields: [
                 {
