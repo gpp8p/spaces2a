@@ -62,6 +62,21 @@ export default {
         console.log('existingData1-', this.existingData[this.dialogComponents[key].name], this.existingData[this.dialogComponents[key].name]);
         this.dialogComponents[key].fieldValue = this.existingData[this.dialogComponents[key].name];
       }else{
+        console.log('dl1-fieldName-', this.dialogComponents[key].name);
+        console.log('dl1-component-', this.dialogComponents[key]);
+        console.log('dl1-dialogFields', this.dialogFields);
+
+//        if(typeof(this.dialogFields[this.dialogComponents[key].name].loader)!='undefined'){
+        if(typeof(this.dialogComponents[key].loader)!='undefined'){
+          console.log('loader present for-', this.dialogComponents[key].name);
+          this.dialogComponents[key].fieldValue = this.dialogComponents[key].loader(this.existingData, this.dialogComponents);
+        }else{
+          this.dialogComponents[key].fieldValue = this.dialogDefaults[this.dialogComponents[key].name];
+        }
+
+ //       console.log('fields-',this.dialogFields);
+ //       console.log('loader-',this.dialogFields[this.dialogComponents[key].name].loader);
+/*
         if(typeof(this.dialogFields[this.dialogComponents[key].name].loader)!='undefined'){
           console.log('loader present for-', this.dialogComponents[key].name);
           this.dialogComponents[key].fieldValue=this.dialogFields[this.dialogComponents[key].name].loader(this.existingData,this.dialogComponents);
@@ -71,7 +86,7 @@ export default {
           console.log('defaults 1-',this.dialogDefaults );
           this.dialogComponents[key].fieldValue = this.dialogDefaults[this.dialogComponents[key].name];
         }
-
+*/
       }
     });
     console.log('dialogComponents after loading-', this.dialogComponents);

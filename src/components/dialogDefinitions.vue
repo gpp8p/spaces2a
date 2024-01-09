@@ -1771,23 +1771,6 @@ name: "dialogDefinitions",
               },
               leafComponent: false,
               menuName: 'dialogSubMenu4',
-              loader: function (existingData, dialogComponents) {
-                console.log('in headlineText loader -', existingData, dialogComponents);
-                return existingData.linkMenuTitle;
-/*
-                if (typeof (existingData) != 'undefined') {
-                  for (var d = 0; d < dialogComponents.length; d++) {
-                    if (typeof (dialogComponents[d].loader) != 'undefined') {
-                      console.log('loaded component - ', dialogComponents[d]);
-                    } else {
-                      //                  console.log('not loaded component - ', dialogComponents[d]);
-                      dialogComponents[d].fieldValue = existingData[dialogComponents[d].fieldIdentifier];
-                    }
-                  }
-                }
-
- */
-              },
               fields: [
                 {
                   type: "InputField",
@@ -1799,6 +1782,10 @@ name: "dialogDefinitions",
                   name: 'headlineText',
                   autoFocus: true,
                   leafComponent: true,
+                  loader: function (existingData, dialogComponents) {
+                    console.log('in headlineText loader -', existingData, dialogComponents);
+                    return existingData.linkMenuTitle;
+                  },
                   labelStyle: {
                     color: "blue",
                     fontFamily: "Candara",
