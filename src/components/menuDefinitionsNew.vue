@@ -513,6 +513,11 @@ name: "menuDefinitionsNew",
                 type:'mItem'
               },
               {
+                label:'Change Link Label',
+                action:'changeLinkLabel',
+                type:'mItem'
+              },
+              {
                 label:'Move Up',
                 action:'moveLinkUp',
                 type:'mItem'
@@ -542,6 +547,28 @@ name: "menuDefinitionsNew",
               {
                 label:'Update Headline',
                 action: 'updateHeadline',
+                type: 'mItem'
+              },
+              {
+                label:'Go Back',
+                action: 'returnToLinkEditorMain',
+                type: 'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
+
+          }
+        }
+
+        case 'changeLinkLabel':{
+          return {
+            items: [
+              {
+                label:'Update Link Label',
+                action: 'updateLinkLabel',
                 type: 'mItem'
               },
               {

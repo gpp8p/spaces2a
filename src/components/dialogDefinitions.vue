@@ -1114,7 +1114,7 @@ name: "dialogDefinitions",
                 top: '20%',
                 left: '20%',
                 height: '65vh',
-                width: '45vw',
+                width: '55vw',
                 backgroundColor: 'lavender',
                 color: 'blue',
                 borderRadius: '10px',
@@ -1754,6 +1754,61 @@ name: "dialogDefinitions",
             }
           }
         }
+        case 'changeLinkLabel': {
+          return {
+            changeLinkLabel: {
+              dialogStyle: {
+                position: 'fixed',
+                top: '30%',
+                left: '30%',
+                height: '35vh',
+                width: '40vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName: 'changeLinkLabel',
+              fields: [
+                {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Link Label:',
+                  fieldSize: 60,
+                  fieldMaxLength: 100,
+                  fieldIdentifier: 'linkLabel',
+                  name: 'linkLabel',
+                  autoFocus: true,
+                  leafComponent: true,
+                  loader: function (existingData, dialogComponents) {
+                    console.log('in linkLabel loader -', existingData, dialogComponents);
+                    return "";
+                  },
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel: {
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel: {
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                }
+              ]
+            }
+          }
+        }
+
 
         case 'headlineText': {
           return {

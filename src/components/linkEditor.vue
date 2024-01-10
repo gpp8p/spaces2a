@@ -6,6 +6,7 @@
                                 this.mode == this.MODE_SHOW_LINKS ||
                                 this.mode == this.MODE_SHOW_AVAILABLE_PAGES ||
                                 this.mode == this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK ||
+                                this.mode == this.MODE_CHANGE_LINK_LABEL ||
                                 this.mode == this.MODE_HEADLINE_TEXT" >
     <ccPage v-if="this.pleaseWait==false"
         name = 'ccPage'
@@ -99,6 +100,7 @@ export default {
       MODE_SHOW_AVAILABLE_PAGES:6,
       MODE_SHOW_AVAILABLE_PAGES_ADD_LINK:8,
       MODE_HEADLINE_TEXT:9,
+      MODE_CHANGE_LINK_LABEL:10,
       pleaseWait:false,
       dialogData:{},
       dialogFields:[],
@@ -309,6 +311,12 @@ export default {
         'saveLinks':function(msg, context){
           context.doUpdateCardData(msg, context);
         },
+        'changeLinkLabel':function(msg, context){
+          context.doChangeLinkLabel(msg, context);
+        },
+        'updateLinkLabel':function(msg, context){
+          context.doUpdateLinkLabel(msg, context);
+        },
 
 
       }
@@ -397,6 +405,23 @@ export default {
       this.cardTitle = this.dialogData.headlineText;
       this.doUpdateCardData(msg, context);
 
+    },
+    doChangeLinkLabel(msg, context){
+      console.log('in doChangeLinkLabel-', msg, context);
+      this.ccPageConfig.definition = 'changeLinkLabel';
+      this.ccPageConfig.existingData.linkLabel=this.selectedPageDescription;
+//      this.ccPageConfig.selectedPageLink = this.selectedPageLink;
+//      this.ccPageConfig.selectedPageDescription = this.selectedPageDescription;
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'changeLinkLabel','linkEditorMenu']);
+      this.mode = this.MODE_CHANGE_LINK_LABEL;
+      this.prompt='';
+      this.reloadKey+=1;
+
+    },
+    doUpdateLinkLabel(msg, context){
+      console.log('in doUpdateLinkLabel-', msg, context);
+      this.availableLinks[this.selectedPageLink]=this.dialogData.linkLabel;
+      this.doUpdateCardData(msg, context);
     },
     doCreatePageAndLink(msg, context){
       console.log('in CreatePageAndLink', msg, context);
