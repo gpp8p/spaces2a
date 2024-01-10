@@ -395,8 +395,8 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Create Page',
-                action:'createPage',
+                label:'Create Page Add Link',
+                action:'createPageAdd',
                 type:'mItem'
               },
               {
@@ -424,6 +424,27 @@ name: "menuDefinitionsNew",
         }
 
         case 'createPageMenu':{
+          return {
+            items: [
+              {
+                label:'Save',
+                action:'saveNewPageInsertLink',
+                type:'mItem'
+              },
+              {
+                label:'Go Back',
+                action:'returnToLinkEditorMain',
+                type:'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
+
+          }
+        }
+        case 'createPageMenuAdd':{
           return {
             items: [
               {

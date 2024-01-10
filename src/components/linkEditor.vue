@@ -101,6 +101,8 @@ export default {
       MODE_SHOW_AVAILABLE_PAGES_ADD_LINK:8,
       MODE_HEADLINE_TEXT:9,
       MODE_CHANGE_LINK_LABEL:10,
+      ADD_LINK:0,
+      INSERT_LINK:1,
       pleaseWait:false,
       dialogData:{},
       dialogFields:[],
@@ -250,9 +252,13 @@ export default {
     },
     doMenuItemSelected(msg, context){
       console.log('doMenuItemSelected in dialog-', msg, context);
+      debugger;
       var menuSelection = {
         'createPage': function(msg, context){
           context.doCreatePageAndLink(msg, context);
+        },
+        'createPageAdd':function(msg, context){
+          context.doCreatePageAndLinkAdd(msg, context);
         },
         'copyThisPage': function(msg, context){
           context.doCopyThisPage(msg, context);
@@ -294,7 +300,10 @@ export default {
           context.doRemoveLink(msg, context);
         },
         'saveNewPageAddLink':function(msg, context){
-          context.doSaveNewPageAddLink(msg, context);
+          context.doSaveNewPageInsertLink(msg, context, context.ADD_LINK);
+        },
+        'saveNewPageInsertLink':function(msg, context){
+          context.doSaveNewPageInsertLink(msg, context, context.INSERT_LINK);
         },
         'copyThisPageInsertLink':function(msg, context){
           context.doCopyThisPageInsertLink(msg, context);
@@ -420,7 +429,7 @@ export default {
     },
     doUpdateLinkLabel(msg, context){
       console.log('in doUpdateLinkLabel-', msg, context);
-      this.availableLinks[this.selectedPageLink]=this.dialogData.linkLabel;
+      this.availableLinks[this.selectedPageLink].description=this.dialogData.linkLabel;
       this.doUpdateCardData(msg, context);
     },
     doCreatePageAndLink(msg, context){
@@ -430,6 +439,15 @@ export default {
       this.prompt='Create This Page and Add It to the Card\'s Links';
       this.reloadKey+=1;
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'createPageMenu','linkEditorMenu']);
+
+    },
+    doCreatePageAndLinkAdd(msg, context){
+      console.log('in CreatePageAndLink', msg, context);
+      this.ccPageConfig.definition = 'createPageAndLink';
+      this.mode=this.MODE_CREATE_PAGE;
+      this.prompt='Create This Page and Add It to the Card\'s Links';
+      this.reloadKey+=1;
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'createPageMenuAdd','linkEditorMenu']);
 
     },
     doAddExternalLink(msg, context){
@@ -547,9 +565,8 @@ export default {
       console.log('links updated');
 
     },
-    doSaveNewPageAddLink(msg, context) {
-      console.log('in doSaveNewPageAddLink-', msg, context);
-//      this.$emit('cevt', ['saveNewPageAddLink', this.dialogData]);
+    doSaveNewPageInsertLink(msg, context, addOrInsert) {
+      console.log('in doSaveNewPageInsertLink-', msg, context);
       var pageSavedCallback = function(layoutId, context, updateLinkDataCallback){
         debugger;
         console.log('pageSavedCallback-', layoutId, context);
@@ -565,7 +582,12 @@ export default {
         pageToInsert.description = context.dialogData.pageName;
         pageToInsert.link_url = context.$store.getters.getUrlBase+'/displayLayout/'+layoutId;
         pageToInsert.isExternal=0;
-        context.availableLinks=context.insertObjectAfterIndex(context.availableLinks, context.selectedPageLink, pageToInsert)
+        if(addOrInsert == context.INSERT_LINK){
+          context.availableLinks=context.insertObjectAfterIndex(context.availableLinks, context.selectedPageLink, pageToInsert);
+        }else{
+          context.availableLinks.push(pageToInsert);
+        }
+
         updateLinkDataCallback(context, thisCardTitle);
         context.ccPageConfig.existingData.availableLinks=context.availableLinks;
         context.ccPageConfig.definition = 'linkEditor';
@@ -576,13 +598,14 @@ export default {
         context.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
       }
       var updateLinkDataCallback=function(context, title){
-        console.log('in updateLinkDataCallback-', context, cardTitle);
+        console.log('in updateLinkDataCallback-', context, title);
         debugger;
 
         var thisCardTitle = ''
         if(typeof(title)!='undefined'){
           thisCardTitle = title;
         }
+        console.log('cardTitle-', thisCardTitle);
 
 
         var allCardLinks = JSON.stringify(context.availableLinks);
