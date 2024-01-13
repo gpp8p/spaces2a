@@ -317,8 +317,8 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Save',
-                action: 'copyThisPageInsertLink',
+                label:'Save (s1)',
+                action: 'copyThisPageAppendLink',
                 type: 'mItem'
               },
               {
@@ -338,7 +338,7 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Do Copy This Page',
+                label:'Do Copy This Page (le1)',
                 action:'copyThisPageDo',
                 type:'mItem'
               },
@@ -400,7 +400,7 @@ name: "menuDefinitionsNew",
                 type:'mItem'
               },
               {
-                label:'Copy This Page',
+                label:'Copy This Page (le2)',
                 action:'copyThisPage',
                 type:'mItem'
               },
@@ -475,7 +475,7 @@ name: "menuDefinitionsNew",
                 type:'mItem'
               },
               {
-                label:'Copy This Page',
+                label:'Copy This Page (le3)',
                 action:'copyThisPage',
                 type:'mItem'
               },
@@ -562,7 +562,7 @@ name: "menuDefinitionsNew",
 
           }
         }
-        case 'dialogSubMenu4':{
+        case 'dialogSubMenu5':{
           return {
             items: [
               {

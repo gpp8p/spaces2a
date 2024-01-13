@@ -102,6 +102,9 @@ export default {
         'exitEdit':function(msg, context){
           context.doCardExitEdit(msg, context);
         },
+        'showDialog':function(msg, context){
+          context.doShowDialog(msg, context);
+        },
 
 
 
@@ -129,6 +132,9 @@ export default {
       console.log('doRemoveCmdHandler-',msg, context);
       delete(context._data.cmdHandlers[msg[2]]);
     },
+    doShowDialog(msg, context){
+      console.log('in doShowDialog', msg, context);
+    },
     doDismissDialog(msg, context){
       console.log('doDismissDialog-',msg, context);
       context.dialogConfiguration={};
@@ -148,7 +154,7 @@ export default {
       context.showDialog=false;
       this.pageConfiguration={}
       this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
-      this.pageConfiguration.pageId = msg[1].id;
+      this.pageConfiguration.pageId = msg[1];
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
 //      context.cmdHandlers['mainPage'](['displayPage', msg,'mainPage']);
@@ -525,7 +531,21 @@ export default {
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a card type','topLevelMenu']);
       }else{
         context.showDialog=false;
-        this.cmdHandlers['mainPage'](['createNewCard', msg[1], 'mainPage']);
+        debugger;
+        switch(msg[1].card_component){
+          case 'Headline':{
+            context.dialogConfiguration.definition='configureHeadlineCard';
+            context.showDialog=true;
+            context.dialogReload+=1;
+
+            break;
+          }
+        }
+
+
+
+//        this.cmdHandlers['mainPage'](['createNewCardConfigure', msg[1], 'mainPage']);
+//        this.cmdHandlers['mainPage'](['createNewCard', msg[1], 'mainPage']);
 //        this.cmdHandlers['mainPage'](['createNewCard',msg[1].card_component]);
 //        context.dialogConfiguration.definition=msg[1].card_component;
 //        context.dialogReload+=1;
@@ -585,6 +605,20 @@ export default {
       mainStylingCss = msg[3].card_parameters.style;
       console.log('mainStylingCss',mainStylingCss);
       var thisCardStyling = this.getCardStyling(mainStylingCss);
+
+      if(typeof(msg[3].elementStyles)!='undefined'){
+        subElementStylingCss = ";"+msg[3].elementStyles.sub[0];
+        thisCardSubStyling = this.getCardStyling(subElementStylingCss);
+      }else{
+//        debugger;
+//        var defaultStyling = this.getDialogDefaults('configureHeadlineCard');
+//        console.log('configure headline card default styling-',defaultStyling);
+//        thisCardSubStyling = defaultStyling.titleStyle.subElementValue;
+//        thisCardSubStyling={};
+      }
+
+
+/*
       try {
         subElementStylingCss = ";"+msg[3].elementStyles.sub[0];
         thisCardSubStyling = this.getCardStyling(subElementStylingCss);
@@ -593,11 +627,21 @@ export default {
         console.log('no substyling information - ', e);
         thisCardSubStyling={};
       }
+*/
       console.log('thisCardStyline-', thisCardStyling);
-      context.dialogConfiguration.existingData={cardName: msg[2],
-                                                cardConfig: msg[3],
-                                                cardStyles:thisCardStyling,
-                                                cardSubStyles: thisCardSubStyling};
+      console.log('this background-color ', thisCardStyling['background-color']);
+      console.log('is true-', ((thisCardStyling['background-color']=='#dbddd0')&& (thisCardStyling['backgroundTypeColor']=='checked')&& (thisCardStyling['color']=='#0000FF')));
+      console.log('thisCardSubstyling', thisCardSubStyling);
+      if(((thisCardStyling['background-color']=='#dbddd0')&& (thisCardStyling['backgroundTypeColor']=='checked')&& (thisCardStyling['color']=='#0000FF'))){
+        console.log('this is a new card');
+      }else{
+        console.log('not a new card');
+        context.dialogConfiguration.existingData={cardName: msg[2],
+          cardConfig: msg[3],
+          cardStyles:thisCardStyling,
+          cardSubStyles: thisCardSubStyling};
+      }
+
       context.showDialog=true
       context.dialogReload+=1;
 

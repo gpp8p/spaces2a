@@ -124,7 +124,7 @@ export default {
     },
     doPageSelected(msg, context){
       console.log('doPageSelected-',msg, context);
-      this.$emit('cevt',['pageSelected', msg[1]]);
+      this.$emit('cevt',['pageSelected', msg[1].id]);
     },
     getMySpaces(){
       var apiPath = this.$store.getters.getApiBase;

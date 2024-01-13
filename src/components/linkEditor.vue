@@ -3,6 +3,8 @@
   <span class="promptClass">{{this.prompt}}</span>
   <span class="linkTable" v-if="this.mode == this.MODE_CREATE_PAGE ||
                                 this.mode==this.MODE_COPY_PAGE ||
+                                this.mode==this.MODE_COPY_PAGE_ADD_LINK ||
+                                this.mode==this.MODE_COPY_PAGE_INSERT_LINK ||
                                 this.mode == this.MODE_SHOW_LINKS ||
                                 this.mode == this.MODE_SHOW_AVAILABLE_PAGES ||
                                 this.mode == this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK ||
@@ -101,6 +103,8 @@ export default {
       MODE_SHOW_AVAILABLE_PAGES_ADD_LINK:8,
       MODE_HEADLINE_TEXT:9,
       MODE_CHANGE_LINK_LABEL:10,
+      MODE_COPY_PAGE_ADD_LINK:11,
+      MODE_COPY_PAGE_INSERT_LINK:12,
       ADD_LINK:0,
       INSERT_LINK:1,
       pleaseWait:false,
@@ -305,8 +309,8 @@ export default {
         'saveNewPageInsertLink':function(msg, context){
           context.doSaveNewPageInsertLink(msg, context, context.INSERT_LINK);
         },
-        'copyThisPageInsertLink':function(msg, context){
-          context.doCopyThisPageInsertLink(msg, context);
+        'copyThisPageAppendLink':function(msg, context){
+          context.doCopyThisPageAppendLink(msg, context, context.ADD_LINK);
         },
         'moveLinkUp':function(msg, context){
           context.doMoveLinkUp(msg, context);
@@ -359,6 +363,15 @@ export default {
       this.prompt='';
       this.reloadKey+=1;
     },
+    doCopyThisPageAddLink(msg, context){
+      console.log('in CopyThisPage', msg, context);
+      this.ccPageConfig.definition = 'copyPage';
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu3','linkEditorMenu']);
+      this.mode = this.MODE_COPY_PAGE_ADD_LINK;
+      this.prompt='';
+      this.reloadKey+=1;
+    },
+
 
     doFieldInput(msg, context){
       console.log('at doFieldInput-', msg, context);
@@ -571,8 +584,10 @@ export default {
         debugger;
         console.log('pageSavedCallback-', layoutId, context);
         var thisCardTitle='';
-        if(context.cardTitle.length>0){
-          thisCardTitle=context.cardTtile;
+        if(typeof(context.cardTitle)!='undefined'){
+          if(context.cardTitle.length>0){
+            thisCardTitle=context.cardTtile;
+          }
         }
 
         debugger;
@@ -618,7 +633,8 @@ export default {
         }
         var orient = 'horozontal';
         debugger;
-        context.updateLinkData(orient, context.cardTitle, allCardLinks, linksSavedCallback)
+        context.updateLinkData(orient, thisCardTitle, allCardLinks, linksSavedCallback)
+//        context.updateLinkData(orient, context.cardTitle, allCardLinks, linksSavedCallback)
         console.log('links updated');
 
       }
@@ -626,7 +642,8 @@ export default {
       this.saveNewPage(context, pageSavedCallback, updateLinkDataCallback);
 
     },
-    doCopyThisPageInsertLink(msg, context) {
+    doCopyThisPageAppendLink(msg, context, addOrInsert) {
+      debugger;
       console.log('in copythisPageInsertLink', msg, context);
       this.targetTemplateId = this.$store.getters.getCurrentLayoutId;
       var copyTemplateCallback = function(layoutId, context){
@@ -637,8 +654,24 @@ export default {
         pageToInsert.description = context.dialogData.pageName;
         pageToInsert.link_url = context.$store.getters.getUrlBase+'/displayLayout/'+layoutId;
         pageToInsert.isExternal=0;
-        context.availableLinks=context.insertObjectAfterIndex(context.availableLinks, context.selectedPageLink, pageToInsert)
+        if(addOrInsert == context.INSERT_LINK){
+          context.availableLinks=context.insertObjectAfterIndex(context.availableLinks, context.selectedPageLink, pageToInsert);
+        }else{
+          context.availableLinks.push(pageToInsert);
+        }
         context.ccPageConfig.existingData.availableLinks=context.availableLinks;
+        var allCardLinks = JSON.stringify(context.availableLinks);
+        var linksSavedCallback = function(){
+          debugger;
+          console.log('links saved');
+//          context.mode=context.MODE_SHOW_LINKS;
+//          context.reloadKey+=1;
+          context.$emit('cevt',['exitEdit','exitEdit','exitEdit']);
+        }
+        var orient = 'horozontal';
+        debugger;
+        context.updateLinkData(orient, context.cardTitle, allCardLinks, linksSavedCallback)
+        console.log('links updated');
         context.ccPageConfig.definition = 'linkEditor';
         context.mode=context.MODE_SHOW_LINKS;
         context.prompt='Existing Links - Click on one to select a link to change';

@@ -51,10 +51,11 @@ import mainNavigationArea from "./components/mainNavigationArea.vue";
 //import dummy from "./components/dummy.vue";
 import '@oruga-ui/oruga-next/dist/oruga.css';
 import '@oruga-ui/oruga-next/dist/oruga-full-vars.css'
+import dialogDefinitions from "./components/dialogDefinitions.vue";
 
 export default{
   name: "App",
-  mixins: [utils, switchBoard],
+  mixins: [utils, switchBoard, dialogDefinitions],
   components: { mainNavigationArea, dialog2, linkEditor, Page},
   created() {
 //    debugger;

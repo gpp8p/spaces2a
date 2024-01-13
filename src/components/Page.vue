@@ -162,6 +162,10 @@ export default {
 //            console.log('createNewCard', args, context);
             context.doCreateNewCard(args, context);
           },
+ //         'createNewCardConfigure':function(args, context){
+//            console.log('createNewCard', args, context);
+//            context.doCreateNewCardConfigure(args, context);
+//          },
           'pageSelected': function(args, context){
             console.log('Page doPageSelected-', args, context);
           },
@@ -521,6 +525,19 @@ export default {
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     },
+/*
+    doCreateNewCardConfigure(msg, context){
+      console.log('in doCreateNewCardConfigfure-', msg, context);
+      debugger;
+      switch(msg[1].card_component){
+        case 'Headline':{
+          context.dialogConfiguration.definition='configureHeadlineCard';
+
+          break;
+        }
+      }
+    },
+*/
     doCreateNewCard(msg, context){
       console.log('doCreateNewCard-',context.selectedArea, msg);
       console.log('-createBlankCardInstance',this.allCards);
