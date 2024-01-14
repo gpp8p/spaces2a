@@ -256,6 +256,7 @@ export default {
       this.dialogData[msg[1]]=msg[2];
     },
     doMenuItemSelected(msg, context){
+//      debugger;
       console.log('doMenuItemSelected in dialog-', msg, context);
       var menuSelection = {
         'loginVerify': function(msg, context){
@@ -281,7 +282,10 @@ export default {
         },
         'saveCardConfigurationEntry': function(msg, context){
           context.doSaveCardConfigurationEntry(msg, context);
-        }
+        },
+        'createCardAndConfiguration': function(msg, context){
+          context.doCreateCardAndConfiguration(msg, context);
+        },
       }
       if(typeof(menuSelection)!='undefined'){
 //        debugger;
@@ -336,12 +340,10 @@ export default {
       console.log('in dialog doSaveCardConfigurationEntry', msg, context, this.dialogData, this.targetCard);
       this.$emit('cevt', ['saveCardConfigurationEntry', this.dialogData, this.targetCard]);
     },
-
-
-
-
-
-
+    doCreateCardAndConfiguration(msg, context){
+      console.log('in dialog doCreateCardAndConfiguration', msg, context)
+      this.$emit('cevt', ['createCardAndConfiguration', this.dialogData, 'createCardAndConfiguration']);
+    }
   }
 }
 </script>

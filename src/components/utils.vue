@@ -258,7 +258,31 @@ export default {
             console.log(e,'- cloneTemplate failed');
           });
 
-    }
+    },
+    saveNewCard(layoutId, title, restricted, cardType, tlrow, tlcol, brrow, brcol, apiPath, context, configureCardCallback){
+      debugger;
+      axios.post(apiPath+'api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
+//        axios.post('http://localhost:8000/api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
+        layoutId: layoutId,
+        cardTitle: title,
+        restricted: restricted,
+        cardType: cardType,
+        topLeftRow: tlrow,
+        topLeftCol: tlcol,
+        bottomRightRow: brrow,
+        bottomRightCol: brcol
+      }).then(response=>
+      {
+        configureCardCallback(context);
+        console.log('card saved:',response);
+        this.$emit('cevt', ['cardSaved']);
+
+      }).catch(function(error) {
+        this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
+        console.log(error);
+        return "error:"+error;
+      });
+    },
 
 
 

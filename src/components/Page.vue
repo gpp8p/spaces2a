@@ -664,6 +664,7 @@ export default {
 //            this.findHandler(this.dragStartX, this.dragStartY)(['setCell', '#DBAA6E','blue']);
 //            this.findHandler(this.dragEndX, this.dragEndY)(['setCell', '#DBAA6E','blue']);
             this.selectedArea = this.normalizeSelectedArea(this.dragEndX, this.dragEndY, this.dragStartX, this.dragStartY)
+            this.$emit('cevt',['selectedArea', this.selectedArea]);
             this.mouseStatus=this.MOUSE_NOT_CLICKED;
             debugger;
             this.cardAreaSet();

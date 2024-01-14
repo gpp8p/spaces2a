@@ -633,7 +633,7 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Create Card',
+                label:'Create Card and Configure',
                 action: 'createCardAndConfiguration',
                 type: 'mItem'
               },

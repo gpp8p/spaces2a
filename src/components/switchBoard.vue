@@ -105,6 +105,12 @@ export default {
         'showDialog':function(msg, context){
           context.doShowDialog(msg, context);
         },
+        'createCardAndConfiguration':function(msg, context){
+          context.doCreateCardAndConfiguration(msg, context);
+        },
+        'selectedArea':function(msg, context){
+          context.doSelectedArea(msg, context);
+        }
 
 
 
@@ -279,9 +285,9 @@ export default {
         'pageSettings':function(msg, context){
           context.doPageSettings(msg, context);
         },
-        'createCardAndConfiguration':function(msg, context){
-          context.doCreateCardAndConfiguration(msg, context);
-        }
+//        'createCardAndConfiguration':function(msg, context){
+//          context.doCreateCardAndConfiguration(msg, context);
+//        }
 //        'createCard':function(msg, context){
 //          context.doCreateCard(msg, context);
 //        },
@@ -436,8 +442,32 @@ export default {
       });
 
     },
+    doSelectedArea(msg, context){
+      console.log('in doSelectedArea', msg, context);
+      context.selectedArea = msg[1];
+    },
     doCreateCardAndConfiguration(msg, context){
       console.log('in doCreateCardAndConfiguration-',msg, context);
+      context.cardConfiguration = msg[1];
+      var configureCardCallback = function(context){
+        console.log('in configureCardCallback', context);
+      }
+
+
+
+      this.saveNewCard(this.$store.getters.getCurrentLayoutId,
+          context.newCardParams['cardName'],
+          false,
+          context.newCardParams['card_component'],
+          context.selectedArea.topLeftY,
+          context.selectedArea.topLeftX,
+          context.selectedArea.bottomRightY,
+          context.selectedArea.bottomRightX,
+          this.$store.getters.getApiBase,
+          context,
+          configureCardCallback);
+
+
     },
 
     doSaveScreenEntry(msg, context){
