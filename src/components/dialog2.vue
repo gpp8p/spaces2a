@@ -130,7 +130,12 @@ export default {
       console.log('error-', e);
     }
  */
-    this.cmdHandlers['dialogMenu'](['setMenu', this.dialogFields[this.config.definition].menuName,'dialogMenu']);
+    if(typeof(this.config.menuOverride)!='undefined'){
+      this.cmdHandlers['dialogMenu'](['setMenu', this.config.menuOverride,'dialogMenu']);
+    }else{
+      this.cmdHandlers['dialogMenu'](['setMenu', this.dialogFields[this.config.definition].menuName,'dialogMenu']);
+    }
+
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);

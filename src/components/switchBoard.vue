@@ -278,6 +278,9 @@ export default {
         },
         'pageSettings':function(msg, context){
           context.doPageSettings(msg, context);
+        },
+        'createCardAndConfiguration':function(msg, context){
+          context.doCreateCardAndConfiguration(msg, context);
         }
 //        'createCard':function(msg, context){
 //          context.doCreateCard(msg, context);
@@ -433,6 +436,9 @@ export default {
       });
 
     },
+    doCreateCardAndConfiguration(msg, context){
+      console.log('in doCreateCardAndConfiguration-',msg, context);
+    },
 
     doSaveScreenEntry(msg, context){
       debugger;
@@ -534,7 +540,9 @@ export default {
         debugger;
         switch(msg[1].card_component){
           case 'Headline':{
+            context.newCardParams = msg[1];
             context.dialogConfiguration.definition='configureHeadlineCard';
+            context.dialogConfiguration.menuOverride='newCardConfigureMenu';
             context.showDialog=true;
             context.dialogReload+=1;
 

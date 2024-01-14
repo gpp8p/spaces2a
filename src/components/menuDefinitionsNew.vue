@@ -605,13 +605,36 @@ name: "menuDefinitionsNew",
 
           }
         }
-
         case 'dialogSubMenu3':{
           return {
             items: [
               {
                 label:'Save',
                 action: 'saveCardConfigurationEntry',
+                type: 'mItem'
+              },
+              {
+                label:'Cancel',
+                action: 'dismissDialog',
+                type: 'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
+
+          }
+        }
+
+
+
+        case 'newCardConfigureMenu':{
+          return {
+            items: [
+              {
+                label:'Create Card',
+                action: 'createCardAndConfiguration',
                 type: 'mItem'
               },
               {
