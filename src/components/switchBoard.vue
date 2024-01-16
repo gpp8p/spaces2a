@@ -448,9 +448,42 @@ export default {
     },
     doCreateCardAndConfiguration(msg, context){
       console.log('in doCreateCardAndConfiguration-',msg, context);
+      debugger;
       context.cardConfiguration = msg[1];
+      var cardHeight = context.selectedArea.bottomRightY-context.selectedArea.topLeftY;
+      var cardWidth = context.selectedArea.bottomRightX-context.selectedArea.topLeftX;
+      var currentGridStyle = this.computeGridCss(context.selectedArea.topLeftY,
+          context.selectedArea.topLeftX,
+          cardHeight, cardWidth);
+      var cardConfigurationObject = [];
+      console.log('gridStyle-', currentGridStyle);
+      console.log('entered styles-', msg[1]);
+      var newCssValues = context.setStyleCss(msg[1], currentGridStyle);
+//      this.cardCss = newCssValues[0];
+//      this.menuItems.style = newCssValues[1];
+//      this.headlineStyle = newCssValues[2];
+      cardConfigurationObject[0]=(-1);
+      cardConfigurationObject[1]=newCssValues[3];
+      cardConfigurationObject[2]={};
+      var newSub = [];
+      newSub[0]={
+        elementConfiguration:newCssValues[4],
+        elementName:'sub',
+        elementStyles:newCssValues[5]
+      }
+      cardConfigurationObject[3]=newSub;
+      console.log('cardConfigurationObject-', cardConfigurationObject);
+//        var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationObject);
+//        console.log('jsonCardConfigurationPackage', jsonCardConfigurationPackage);
+
+/*
       var configureCardCallback = function(context){
         console.log('in configureCardCallback', context);
+        context.showDialog = false;
+        context.dialogConfiguration={};
+        debugger;
+        this.cmdHandlers['mainPage'](['setValue', context.cardConfiguration,context.newCardParams.cardName]);
+
       }
 
 
@@ -464,8 +497,9 @@ export default {
           context.selectedArea.bottomRightY,
           context.selectedArea.bottomRightX,
           this.$store.getters.getApiBase,
-          context,
-          configureCardCallback);
+          context)
+//          configureCardCallback);
+*/
 
 
     },

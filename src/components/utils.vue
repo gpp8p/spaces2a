@@ -227,7 +227,223 @@ export default {
 
     },
 
+    computeGridCss(row, col, height, width){
+//        debugger;
+      var startRow = row;
+      var startColumn = col;
+      var endRow=0;
+      var endCol=0;
+      if(height==1){
+        endRow = row;
+      }else{
+        endRow = height+1;
+      }
+      if(width==1){
+        endCol=startColumn+width;
+      }else{
+        endCol = width+1;
+      }
+      var thisCss = "grid-area:"+startRow+"/"+startColumn+"/"+endRow+"/"+endCol;
+      return thisCss;
 
+    },
+
+    setStyleCss(enteredStyles, gridStyle){
+      console.log('enteredStyles-', enteredStyles);
+//      debugger;
+      var thisStyleElements = Object.keys(enteredStyles);
+      var newStyle = gridStyle+";";
+      var newSubStyle = '';
+      var newTitleStyle = '';
+      var newTitleStyleElements = {};
+      var newSubStyleElements = {};
+      var newSubStyleValues ={};
+      for(var s=0; s< thisStyleElements.length; s++){
+        console.log('headline style element-', thisStyleElements[s],'-', enteredStyles[thisStyleElements[s]]);
+        switch(thisStyleElements[s]){
+          case 'borders':{
+            console.log('borders-', enteredStyles[thisStyleElements[s]]);
+            if(enteredStyles[thisStyleElements[s]].includeBorder=='yes'){
+              var newBorderSpec='';
+              newBorderSpec = newBorderSpec+'border:'+enteredStyles[thisStyleElements[s]].borderSize;
+              newBorderSpec = newBorderSpec+' solid ';
+              newBorderSpec = newBorderSpec+enteredStyles[thisStyleElements[s]].borderColor;
+              newBorderSpec = newBorderSpec+";";
+              newTitleStyleElements['border'] = 'border:'+enteredStyles[thisStyleElements[s]].borderSize+' solid '+enteredStyles[thisStyleElements[s]].borderColor+";";
+              newTitleStyleElements['borderInclude'] = "borderInclude:checked;"
+              newTitleStyleElements['borderRadius']= "border-radius:8px;";
+              newTitleStyleElements['borderSize']="border-width:"+enteredStyles[thisStyleElements[s]].borderSize+";";
+              newBorderSpec = newBorderSpec+ "borderInclude:checked;";
+              newStyle = newStyle+newBorderSpec;
+
+            }
+            break;
+          }
+          case 'background':{
+            if(enteredStyles[thisStyleElements[s]].backgroundType=='color'){
+              var newBackgroundSpec = '';
+              newBackgroundSpec = newBackgroundSpec+'backgroundTypeColor:checked;';
+              newBackgroundSpec = newBackgroundSpec+'background-color:'+enteredStyles[thisStyleElements[s]].colorSelect+";";
+              newStyle = newStyle+ newBackgroundSpec;
+              newTitleStyleElements['backgroundTypeColor']="backgroundTypeColor:checked;";
+              newTitleStyleElements['backgroundColor']='background-color:'+enteredStyles[thisStyleElements[s]].colorSelect+";";
+              console.log('newStyle-', newStyle);
+            }else if(enteredStyles[thisStyleElements[s]].backgroundType=='image'){
+//              debugger;
+              console.log('image background need to fill this in');
+              newBackgroundSpec = newBackgroundSpec+'backgroundTypeImage:checked;';
+              newTitleStyleElements['backgroundTypeImage']="backgroundTypeImage:checked;";
+              newBackgroundSpec = newBackgroundSpec + enteredStyles[thisStyleElements[s]].url+";";
+              console.log('headline card at 376-',enteredStyles[thisStyleElements[s]].backgroundDisplay);
+              switch(enteredStyles[thisStyleElements[s]].backgroundDisplay){
+                case 'crop':{
+                  newBackgroundSpec = newBackgroundSpec+'background-size:crop;';
+                  newTitleStyleElements['backgroundSize']="background-size:crop;";
+                  newTitleStyleElements['backgroundRepeat']="background-repeat:no-repeat;";
+//                  newTitleStyleElements['backgroundPosition']="background-position: center center;";
+                  break;
+                }
+                case 'cover':{
+                  newBackgroundSpec = newBackgroundSpec+'background-size:100% 100%;';
+//                  newBackgroundSpec = newBackgroundSpec+'background-size:cover;';
+                  newTitleStyleElements['backgroundSize']="background-size:100% 100%;";
+                  newTitleStyleElements['backgroundRepeat']="background-repeat:no-repeat;";
+//                  newTitleStyleElements['backgroundPosition']="background-position: center center;";
+                  break;
+                }
+                case 'contain':{
+                  newBackgroundSpec = newBackgroundSpec+'background-size:contain;';
+                  newTitleStyleElements['backgroundSize']="background-size:contain;";
+                  newTitleStyleElements['backgroundRepeat']="background-repeat:no-repeat;";
+                  break;
+                }
+                case 'repeat':{
+                  newBackgroundSpec = newBackgroundSpec+'background-size:contain;background-repeat:repeat;';
+                  newTitleStyleElements['backgroundSize']="background-size:contain;";
+                  newTitleStyleElements['backgroundRepeat']="background-repeat:repeat;";
+
+                  break;
+                }
+              }
+//              debugger;
+              var imageRef = enteredStyles[thisStyleElements[s]].url;
+              if(imageRef.includes("url(")){
+                newTitleStyleElements['backgroundImage']="background-image:"+enteredStyles[thisStyleElements[s]].url+";";
+              }else{
+                newTitleStyleElements['backgroundImage']="background-image:url("+enteredStyles[thisStyleElements[s]].url+");";
+              }
+
+
+            }else if(enteredStyles[thisStyleElements[s]].backgroundType=='transparent'){
+              newBackgroundSpec = '';
+              newBackgroundSpec = newBackgroundSpec+'backgroundTypeColor:checked;';
+              newBackgroundSpec = newBackgroundSpec+'background-color:transparent;';
+              newTitleStyleElements['backgroundTypeColor']="backgroundTypeColor:checked;";
+              newTitleStyleElements['backgroundColor']='background-color:'+'transparent;';
+              newStyle = newStyle+ newBackgroundSpec;
+            }
+            break;
+          }
+          case 'roundIncluded':{
+//            debugger;
+            if(enteredStyles[thisStyleElements[s]]=='yes'){
+              newTitleStyleElements['roundIncluded']="roundIncluded:checked;";
+              newStyle = newStyle+"roundIncluded:checked;";
+              newStyle = newStyle+ "border-radius:8px;";
+            }
+            break;
+          }
+          case 'shadow':{
+            if(enteredStyles[thisStyleElements[s]]=='yes'){
+              newTitleStyleElements['shadow']="shadow:checked;";
+              newTitleStyleElements['boxShadow']="box-shadow:10px 20px 30px black;";
+              newStyle = newStyle+"shadow:checked;";
+              newStyle= newStyle+"box-shadow:10px 20px 30px black;";
+              break;
+            }
+          }
+          case 'titleStyles_alignmentSelect':{
+            newStyle = newStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['textAlign']="text-align:"+enteredStyles[thisStyleElements[s]]+";";
+            break;
+          }
+          case 'titleStyles_fontColorSelect':{
+            newTitleStyle = newTitleStyle+'color:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['color']="color:"+enteredStyles[thisStyleElements[s]]+";"
+            break;
+          }
+          case 'titleStyles_fontSelect':{
+            newTitleStyle = newTitleStyle+'font-family:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['fontFamily']="font-family:"+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'titleStyles_sizeSelecty':{
+            newTitleStyle = newTitleStyle+'font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['fontSize']='font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            break
+          }
+          case 'titleStyles_styleSelect':{
+            newTitleStyle = newTitleStyle+'font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['fontStyle']='font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'titleStyles_weightSelect':{
+            newTitleStyle = newTitleStyle+'font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            newTitleStyleElements['fontWeight']='font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            break;
+          }
+          case 'subElementStyles_alignmentSelect':{
+            if(enteredStyles[thisStyleElements[s]].length>0){
+              newSubStyle = newSubStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
+              newSubStyleElements['textAlign']="text-align:"+enteredStyles[thisStyleElements[s]]+";";
+              newSubStyleValues['textAlign']=enteredStyles[thisStyleElements[s]];
+              break;
+            }else{
+              break;
+            }
+          }
+          case 'subElementStyles_fontColorSelect':{
+            newSubStyle = newSubStyle+'color:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['color']="color:"+enteredStyles[thisStyleElements[s]]+";"
+            newSubStyleValues['color']=enteredStyles[thisStyleElements[s]];
+            break;
+          }
+          case 'subElementStyles_fontSelect':{
+            newSubStyle = newSubStyle+'font-family:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['fontFamily']="font-family:"+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleValues['fontFamily']=enteredStyles[thisStyleElements[s]];
+            break;
+          }
+          case 'subElementStyles_sizeSelecty':{
+            newSubStyle = newSubStyle+'font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['fontSize']='font-size:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleValues['fontSize']=enteredStyles[thisStyleElements[s]];
+            break;
+          }
+          case 'subElementStyles_weightSelect':{
+            newSubStyle = newSubStyle+'font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['fontWeight']='font-weight:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleValues['fontWeight']=enteredStyles[thisStyleElements[s]];
+            break;
+          }
+          case 'subElementStyles_styleSelect':{
+            newSubStyle = newSubStyle+'font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleElements['fontStyle']='font-style:'+enteredStyles[thisStyleElements[s]]+';';
+            newSubStyleValues['fontStyle']=enteredStyles[thisStyleElements[s]];
+            break;
+          }
+
+        }
+
+      }
+      console.log('newStyle-', newStyle);
+      console.log('newSubStyle', newSubStyle);
+      console.log('newTitleStyle', newTitleStyle);
+      console.log('newTitleStyleElements', newTitleStyleElements);
+      console.log('newSubStyleElements', newSubStyleElements);
+      console.log('newSubStyleValues',newSubStyleValues);
+      return [newStyle, newSubStyle, newTitleStyle, newTitleStyleElements, newSubStyleValues, newSubStyleElements];
+    },
 
     makeTemplateClone(copyTemplateCallback, context){
       var apiPath = this.$store.getters.getApiBase;
@@ -273,6 +489,7 @@ export default {
         bottomRightCol: brcol
       }).then(response=>
       {
+        debugger;
         configureCardCallback(context);
         console.log('card saved:',response);
         this.$emit('cevt', ['cardSaved']);

@@ -855,7 +855,7 @@ export default {
       return thisInstance;
 
     },
-
+/*
     createBlankCardInstance(row, col, height, width, id, background, type){
       var thisGridCss = this.computeGridCss(row, col, height, width);
       var thisCardStyle = thisGridCss+";"+"background-color:"+background.colorSelect+";color:#0000FF;";
@@ -876,6 +876,7 @@ export default {
       return thisInstance;
 
     },
+/*
     computeGridCss(row, col, height, width){
 //        debugger;
       var startRow = row;
@@ -896,6 +897,7 @@ export default {
       return thisCss;
 
     },
+*/
     dragDirection(dragX, dragY, topLeftX, topLeftY){
       var dragDirection;
       if(dragX < topLeftX){

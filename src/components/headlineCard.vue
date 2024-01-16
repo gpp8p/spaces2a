@@ -340,6 +340,7 @@ export default {
     },
     setStyleCss(enteredStyles, gridStyle){
       console.log('enteredStyles-', enteredStyles);
+      debugger;
       var thisStyleElements = Object.keys(enteredStyles);
       var newStyle = gridStyle+";";
       var newSubStyle = '';
