@@ -361,6 +361,7 @@ export default {
               newStyle= newStyle+"box-shadow:10px 20px 30px black;";
               break;
             }
+            break;
           }
           case 'titleStyles_alignmentSelect':{
             newStyle = newStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
@@ -475,9 +476,9 @@ export default {
           });
 
     },
-    saveNewCard(layoutId, title, restricted, cardType, tlrow, tlcol, brrow, brcol, apiPath, context, configureCardCallback){
+    saveNewCard(layoutId, title, restricted, cardType, tlrow, tlcol, brrow, brcol, apiPath, jsonConfigurationPackage){
       debugger;
-      axios.post(apiPath+'api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
+      axios.post(apiPath+'api/shan/saveCardAndConfiguration?XDEBUG_SESSION_START=12016', {
 //        axios.post('http://localhost:8000/api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
         layoutId: layoutId,
         cardTitle: title,
@@ -486,11 +487,12 @@ export default {
         topLeftRow: tlrow,
         topLeftCol: tlcol,
         bottomRightRow: brrow,
-        bottomRightCol: brcol
+        bottomRightCol: brcol,
+        cardParams:jsonConfigurationPackage
       }).then(response=>
       {
         debugger;
-        configureCardCallback(context);
+//        configureCardCallback(context);
         console.log('card saved:',response);
         this.$emit('cevt', ['cardSaved']);
 

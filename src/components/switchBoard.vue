@@ -473,8 +473,8 @@ export default {
       }
       cardConfigurationObject[3]=newSub;
       console.log('cardConfigurationObject-', cardConfigurationObject);
-//        var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationObject);
-//        console.log('jsonCardConfigurationPackage', jsonCardConfigurationPackage);
+        var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationObject);
+        console.log('jsonCardConfigurationPackage', jsonCardConfigurationPackage);
 
 /*
       var configureCardCallback = function(context){
@@ -486,7 +486,7 @@ export default {
 
       }
 
-
+*/
 
       this.saveNewCard(this.$store.getters.getCurrentLayoutId,
           context.newCardParams['cardName'],
@@ -497,9 +497,9 @@ export default {
           context.selectedArea.bottomRightY,
           context.selectedArea.bottomRightX,
           this.$store.getters.getApiBase,
-          context)
+          jsonCardConfigurationPackage);
 //          configureCardCallback);
-*/
+
 
 
     },
