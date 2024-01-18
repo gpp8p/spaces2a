@@ -497,7 +497,8 @@ export default {
           context.selectedArea.bottomRightY,
           context.selectedArea.bottomRightX,
           this.$store.getters.getApiBase,
-          jsonCardConfigurationPackage);
+          jsonCardConfigurationPackage,
+          context);
 //          configureCardCallback);
 
 
@@ -645,9 +646,12 @@ export default {
     },
     doCardSaved(msg, context){
       console.log('at doCardSaved-', msg, context);
+      debugger;
       this.pageConfiguration={}
       this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
       this.pageConfiguration.pageId = this.$store.getters.getCurrentLayoutId;
+      context.showLinkEditor=false;
+      context.showDialog=false;
       this.mode=this.SHOW_PAGE;
       this.pageReload+=1;
     },

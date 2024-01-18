@@ -476,7 +476,7 @@ export default {
           });
 
     },
-    saveNewCard(layoutId, title, restricted, cardType, tlrow, tlcol, brrow, brcol, apiPath, jsonConfigurationPackage){
+    saveNewCard(layoutId, title, restricted, cardType, tlrow, tlcol, brrow, brcol, apiPath, jsonConfigurationPackage, context){
       debugger;
       axios.post(apiPath+'api/shan/saveCardAndConfiguration?XDEBUG_SESSION_START=12016', {
 //        axios.post('http://localhost:8000/api/shan/saveCardOnly?XDEBUG_SESSION_START=12016', {
@@ -494,7 +494,8 @@ export default {
         debugger;
 //        configureCardCallback(context);
         console.log('card saved:',response);
-        this.$emit('cevt', ['cardSaved']);
+  //      context.$emit('cevt', ['cardSaved']);
+        context.doCardSaved({}, context)
 
       }).catch(function(error) {
         this.$emit('layoutMessage', ['error', 'There was an error saving this card',0 ]);
