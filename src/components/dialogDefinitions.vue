@@ -1209,6 +1209,44 @@ name: "dialogDefinitions",
             }
           }
         }
+        case 'availableTemplates':{
+          return {
+            availableTemplates:{
+              dialogStyle: {
+                position: 'fixed',
+                top: '20%',
+                left: '20%',
+                height: '65vh',
+                width: '45vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName:'selectPageCancel',
+              fields:[
+                {
+                  type: 'tableWrapper',
+                  perPage:6,
+                  name: 'availableTemplates',
+                  columns:[
+                    {
+                      field: 'id',
+                      label: 'ID',
+                      numeric: true,
+                      visible: false
+                    },
+                    {
+                      field: 'description',
+                      label: 'Template'
+                    },
+                  ],
+                }
+              ]
+            }
+          }
+        }
         case 'mySpaces':{
           return {
             mySpaces:{

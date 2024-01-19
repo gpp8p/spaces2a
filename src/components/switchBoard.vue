@@ -151,6 +151,7 @@ export default {
     doMySpaces(msg, context){
       console.log('doMySpaces-',msg, context);
       debugger;
+      context.dialogConfiguration={};
       context.dialogConfiguration.definition='mySpaces';
       context.showDialog=true;
     },
@@ -232,6 +233,7 @@ export default {
     doSelectCardType(msg,context){
 //      debugger;
       console.log('in doSelectCardType', msg, context);
+      context.dialogConfiguration={};
       context.dialogConfiguration.definition='newCardSelect';
       context.showDialog=true;
     },
@@ -246,6 +248,7 @@ export default {
     },
     doCurrentPageSettings(msg,context){
       console.log('switchboard in doCurrentPageSettings', msg, context);
+      context.dialogConfiguration={};
       context.dialogConfiguration.definition='pageSettings';
       context.dialogConfiguration.existingData= msg[1];
       context.showDialog=true;
@@ -332,7 +335,7 @@ export default {
       if(typeof(msg[1])=='undefined'){
         this.cmdHandlers['mainNavArea'](['setMessage', 'You must select a page type','topLevelMenu']);
       }else{
-
+        context.dialogConfiguration={};
         context.dialogConfiguration.definition=msg[1];
         this.showDialog = true;
         context.dialogReload+=1;
@@ -567,7 +570,7 @@ export default {
         store.commit('setCurrentLayoutId', response.data);
         this.pageConfiguration.action=this.PAGE_EDIT;
         this.showDialog = false;
- //       this.dialogConfiguration={};
+//        this.dialogConfiguration={};
         this.cmdHandlers['mainNavArea'](['setMessage', 'Please select an area by dragging your mouse']);
         this.mode=this.SHOW_PAGE;
         this.pageReload+=1;
@@ -606,6 +609,7 @@ export default {
         switch(msg[1].card_component){
           case 'Headline':{
             context.newCardParams = msg[1];
+            context.dialogConfiguration={};
             context.dialogConfiguration.definition='configureHeadlineCard';
             context.dialogConfiguration.menuOverride='newCardConfigureMenu';
             context.showDialog=true;
@@ -673,6 +677,7 @@ export default {
     },
     doConfigureHeadlineCard(msg, context){
       console.log('in sb - doConfigureHeadlineCard', msg, context);
+      context.dialogConfiguration={};
       context.dialogConfiguration.definition='configureHeadlineCard';
       debugger;
       var mainStylingCss;

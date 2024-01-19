@@ -9,6 +9,8 @@
                                 this.mode == this.MODE_SHOW_AVAILABLE_PAGES ||
                                 this.mode == this.MODE_SHOW_AVAILABLE_PAGES_ADD_LINK ||
                                 this.mode == this.MODE_CHANGE_LINK_LABEL ||
+                                this.mode == this.MODE_COPY_TEMPLATE_ADD ||
+                                this.mode == this.MODE_COPY_TEMPLATE_INSERT ||
                                 this.mode == this.MODE_HEADLINE_TEXT" >
     <ccPage v-if="this.pleaseWait==false"
         name = 'ccPage'
@@ -105,13 +107,15 @@ export default {
       MODE_CHANGE_LINK_LABEL:10,
       MODE_COPY_PAGE_ADD_LINK:11,
       MODE_COPY_PAGE_INSERT_LINK:12,
+      MODE_COPY_TEMPLATE_ADD:13,
+      MODE_COPY_TEMPLATE_INSERT:14,
       ADD_LINK:0,
       INSERT_LINK:1,
       pleaseWait:false,
       dialogData:{},
       dialogFields:[],
       perPage:this.getTableHeight(window.innerHeight),
-      selectedPageLink:0,
+      selectedPageLink:-1,
       selectedPageDescription:'',
       selectedPageIsExternal:0,
       selectedPageType:'',
@@ -329,6 +333,9 @@ export default {
         },
         'updateLinkLabel':function(msg, context){
           context.doUpdateLinkLabel(msg, context);
+        },
+        'copyTemplate':function(msg, context){
+          context.doCopyTemplate(msg, context);
         },
 
 
@@ -548,7 +555,7 @@ export default {
       this.availableLinks = this.config.existingData.card_parameters.content.availableLinks;
 
 
-
+      this.selectedPageLink=-1;
       this.ccPageConfig.definition = 'linkEditor';
       this.mode=this.MODE_SHOW_LINKS;
       this.prompt='Existing Links - Click on one to select a link to change';
@@ -682,6 +689,11 @@ export default {
       this.makeTemplateClone(copyTemplateCallback, context);
     },
 
+    doCopyTemplate(msg, context){
+      console.log('in doCopyTemplate-', msg, context);
+      this.getTemplates(this.MODE_COPY_TEMPLATE_ADD);
+    },
+
     getMySpaces(nextMode){
       debugger;
       this.pleaseWait=true;
@@ -703,6 +715,35 @@ export default {
 
 
 //        this.prompt = 'Available Pages - Click on one to change this link'
+        this.pleaseWait=false;
+        this.mode = nextMode;
+        this.reloadKey+=1;
+      }).catch(e=>{
+        console.log(e);
+      });
+    },
+
+
+    getTemplates(nextMode){
+      debugger;
+      this.pleaseWait=true;
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.get(apiPath+'api/shan/availableTemplates?XDEBUG_SESSION_START=15122"', {
+        params:{
+          orgId:this.$store.getters.getOrgId,
+        }
+      }).then(response=> {
+        debugger;
+        console.log('getMySpaces',response);
+        this.ccPageConfig.existingData ={};
+        this.ccPageConfig.existingData.availableTemplates = response.data;
+        this.ccPageConfig.columns = this.loadedDataColumns;
+        this.ccPageConfig.perPage = this.getTableHeight(window.innerHeight);
+        this.ccPageConfig.definition =  'availableTemplates';
+
+
+        this.prompt = 'Available Templates - Click on one to select it'
         this.pleaseWait=false;
         this.mode = nextMode;
         this.reloadKey+=1;
