@@ -314,7 +314,14 @@ export default {
           context.doSaveNewPageInsertLink(msg, context, context.INSERT_LINK);
         },
         'copyThisPageAppendLink':function(msg, context){
-          context.doCopyThisPageAppendLink(msg, context, context.ADD_LINK);
+          debugger;
+          var currentLayoutId = context.$store.getters.getCurrentLayoutId;
+          context.doCopyThisPageAppendLink(msg, context, context.ADD_LINK, currentLayoutId);
+        },
+        'copyThisPageInsertLink':function(msg, context){
+          var targetLayoutId = context.$store.getters.getCurrentLayoutId;
+          debugger;
+          context.doCopyThisPageAppendLink(msg, context, context.INSERT_LINK, targetLayoutId);
         },
         'moveLinkUp':function(msg, context){
           context.doMoveLinkUp(msg, context);
@@ -336,6 +343,12 @@ export default {
         },
         'copyTemplate':function(msg, context){
           context.doCopyTemplate(msg, context);
+        },
+        'copyTemplateAdd':function(msg, context){
+          context.doCopyTemplateAdd(msg, context);
+        },
+        'copyTemplateInsert':function(msg, context){
+          context.doCopyTemplateInsert(msg, context);
         },
 
 
@@ -396,6 +409,7 @@ export default {
       this.availableLinks = context.removeElementByIndex(this.availableLinks, this.selectedPageLink);
       this.ccPageConfig.existingData.availableLinks=this.availableLinks;
       this.ccPageConfig.definition = 'linkEditor';
+      this.selectedPage=-1;
       this.mode=this.MODE_SHOW_LINKS;
       this.prompt='Existing Links - Click on one to select a link to change';
       this.reloadKey+=1;
@@ -409,6 +423,7 @@ export default {
       this.availableLinks = context.shiftObjectTowardsBeginning(this.availableLinks, this.selectedPageLink);
       this.ccPageConfig.existingData.availableLinks=this.availableLinks;
       this.ccPageConfig.definition = 'linkEditor';
+      this.selectedPage=-1;
       this.mode=this.MODE_SHOW_LINKS;
       this.prompt='Existing Links - Click on one to select a link to change';
       this.reloadKey+=1;
@@ -422,6 +437,7 @@ export default {
       this.availableLinks = context.shiftObjectTowardsEnd(this.availableLinks, this.selectedPageLink);
       this.ccPageConfig.existingData.availableLinks=this.availableLinks;
       this.ccPageConfig.definition = 'linkEditor';
+      this.selectedPage=-1;
       this.mode=this.MODE_SHOW_LINKS;
       this.prompt='Existing Links - Click on one to select a link to change';
       this.reloadKey+=1;
@@ -514,6 +530,7 @@ export default {
         console.log('ccPageConfig - 2', this.ccPageConfig);
         this.ccPageConfig.existingData.availableLinks=this.availableLinks;
         this.ccPageConfig.definition = 'linkEditor';
+        this.selectedPage=-1;
         this.mode=this.MODE_SHOW_LINKS;
         this.prompt='Existing Links - Click on one to select a link to change';
         this.reloadKey+=1;
@@ -531,10 +548,21 @@ export default {
         this.ccPageConfig.existingData.availableLinks=this.availableLinks;
         this.ccPageConfig.definition = 'linkEditor';
         this.mode=this.MODE_SHOW_LINKS;
+        this.selectedPage=-1;
         this.prompt='Existing Links - Click on one to select a link to change';
         this.reloadKey+=1;
         console.log('back to show links -', this.mode);
         this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu1','linkEditorMenu']);
+      }else if(this.mode==this.MODE_COPY_TEMPLATE_ADD){
+        console.log('in copy template add-', msg,this.selectedPage);
+        this.dialogData.templateId = msg[1].id;
+        this.dialogData.templateDescription = msg[1].description;
+        this.cmdHandlers['linkEditorMenu'](['setMenu', 'copyTemplateAdd','linkEditorMenu']);
+      }else if(this.mode==this.MODE_COPY_TEMPLATE_INSERT){
+        console.log('in copy template insert-', msg,this.selectedPage);
+        this.dialogData.templateId = msg[1].id;
+        this.dialogData.templateDescription = msg[1].description;
+        this.cmdHandlers['linkEditorMenu'](['setMenu', 'copyTemplateInsert','linkEditorMenu']);
       }
 
     },
@@ -649,10 +677,11 @@ export default {
       this.saveNewPage(context, pageSavedCallback, updateLinkDataCallback);
 
     },
-    doCopyThisPageAppendLink(msg, context, addOrInsert) {
+    doCopyThisPageAppendLink(msg, context, addOrInsert, targetId) {
       debugger;
-      console.log('in copythisPageInsertLink', msg, context);
-      this.targetTemplateId = this.$store.getters.getCurrentLayoutId;
+      console.log('in copythisPageInsertLink', msg, context, targetId);
+//      this.targetTemplateId = this.$store.getters.getCurrentLayoutId;
+      this.targetTemplateId = targetId;
       var copyTemplateCallback = function(layoutId, context){
         console.log('in copythisPageInsertLink',layoutId, context);
         var pageToInsert={};
@@ -691,7 +720,12 @@ export default {
 
     doCopyTemplate(msg, context){
       console.log('in doCopyTemplate-', msg, context);
-      this.getTemplates(this.MODE_COPY_TEMPLATE_ADD);
+      debugger;
+      if(context.selectedPageLink==-1){
+        this.getTemplates(this.MODE_COPY_TEMPLATE_ADD);
+      }else{
+        this.getTemplates(this.MODE_COPY_TEMPLATE_INSERT);
+      }
     },
 
     getMySpaces(nextMode){

@@ -515,6 +515,50 @@ name: "menuDefinitionsNew",
             menuType: 'main'
           }
         }
+        case 'copyTemplateAdd': {
+          console.log('insertCard menu');
+          return {
+            items: [
+              {
+                label:'Cancel',
+                action: 'cancelSelectPage',
+                type: 'mItem'
+              },
+              {
+                label:'Copy This Template',
+                action: 'copyTemplateAdd',
+                type: 'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'pageSetup',
+            style: 'color:blue; font-family: Geneva; font-size: 14px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 14px;',
+            messageStyle: 'margin-left: 40%; color:blue; font-family: Geneva; font-size: 14px;',
+            menuType: 'main'
+          }
+        }
+        case 'copyTemplateInsert': {
+          console.log('insertCard menu');
+          return {
+            items: [
+              {
+                label:'Cancel',
+                action: 'cancelSelectPage',
+                type: 'mItem'
+              },
+              {
+                label:'Copy This Template',
+                action: 'copyTemplateInsert',
+                type: 'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'pageSetup',
+            style: 'color:blue; font-family: Geneva; font-size: 14px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 14px;',
+            messageStyle: 'margin-left: 40%; color:blue; font-family: Geneva; font-size: 14px;',
+            menuType: 'main'
+          }
+        }
         case 'linkEditorSubMenu2':{
           return {
             items: [

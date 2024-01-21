@@ -1227,6 +1227,99 @@ name: "dialogDefinitions",
               menuName:'selectPageCancel',
               fields:[
                 {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Name:',
+                  fieldSize: 40,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageName',
+                  name: 'pageName',
+                  autoFocus: true,
+                  leafComponent: true,
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel: {
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel: {
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+                {
+                  type: "InputField",
+                  hasLabel: true,
+                  fieldLabel: 'Page Description:',
+                  fieldSize: 50,
+                  fieldMaxLength: 60,
+                  fieldIdentifier: 'pageDescription',
+                  name: 'pageDescription',
+                  autoFocus: false,
+                  leafComponent: true,
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px"
+                  },
+                  styleWithLabel: {
+                    display: "grid",
+                    marginTop: "3px",
+                    gridTemplateColumns: "20% 70%",
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  },
+                  styleWithoutLabel: {
+                    fontFamily: "Arial",
+                    fontSize: "medium",
+                    color: "#0a3aff"
+                  }
+                },
+
+                {
+                  type: "vRadioGroup",
+                  hasLabel: "true",
+                  groupLabel: "Permissions:",
+                  orient: "horozontal",
+                  groupName: "permissions",
+                  fieldIdentifier: 'permissions',
+                  name: 'permissions',
+                  componentStyle: {
+                    display: "grid",
+                    gridTemplateColumns: "20% 70%"
+                  },
+                  leafComponent: true,
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                  },
+                  buttonLabelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                  },
+                  radioButtons: [
+                    {
+                      fieldLabel: "Open Access",
+                      val: "open",
+                    },
+                    {
+                      fieldLabel: "Copy Page Permissions (Restricted)",
+                      val: "restricted",
+                    }
+                  ]
+                },
+                {
                   type: 'tableWrapper',
                   perPage:6,
                   name: 'availableTemplates',
@@ -1239,10 +1332,14 @@ name: "dialogDefinitions",
                     },
                     {
                       field: 'description',
-                      label: 'Template'
+//                      label: 'Template'
                     },
                   ],
                 }
+
+
+
+
               ]
             }
           }

@@ -126,6 +126,10 @@ export default {
           thisSelectedItem.width=msg.width;
           break;
         }
+        case 'availableTemplates':{
+          thisSelectedItem.description = msg.description;
+          thisSelectedItem.id=msg.id;
+        }
       }
 
         this.$emit('cevt', ['pageSelected',thisSelectedItem]);

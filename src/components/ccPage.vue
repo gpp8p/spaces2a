@@ -71,7 +71,9 @@ export default {
           console.log('loader present for-', this.dialogComponents[key].name);
           this.dialogComponents[key].fieldValue = this.dialogComponents[key].loader(this.existingData, this.dialogComponents);
         }else{
-          this.dialogComponents[key].fieldValue = this.dialogDefaults[this.dialogComponents[key].name];
+          if(typeof(this.dialogDefaults)!='undefined'){
+            this.dialogComponents[key].fieldValue = this.dialogDefaults[this.dialogComponents[key].name];
+          }
         }
 
  //       console.log('fields-',this.dialogFields);
