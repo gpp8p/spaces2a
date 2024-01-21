@@ -331,7 +331,7 @@ name: "dialogDefinitions",
                 boxShadow: '10px 10px 5px lightslategrey',
               },
               leafComponent: false,
-              menuName: 'dialogSubMenu2',
+//              menuName: 'dialogSubMenu2',
               loader: function (existingData, dialogComponents) {
                 console.log('in copyPage loader -', existingData, dialogComponents);
                 if (typeof (existingData) != 'undefined') {

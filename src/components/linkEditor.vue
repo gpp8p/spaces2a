@@ -268,8 +268,11 @@ export default {
         'createPageAdd':function(msg, context){
           context.doCreatePageAndLinkAdd(msg, context);
         },
-        'copyThisPage': function(msg, context){
-          context.doCopyThisPage(msg, context);
+        'copyThisPageInsert': function(msg, context){
+          context.doCopyThisPageInsert(msg, context);
+        },
+        'copyThisPageAdd':function(msg, context){
+          context.doCopyThisPageAdd(msg, context);
         },
         'addLink': function(msg, context){
           context.doAddLink(msg, context);
@@ -345,10 +348,14 @@ export default {
           context.doCopyTemplate(msg, context);
         },
         'copyTemplateAdd':function(msg, context){
-          context.doCopyTemplateAdd(msg, context);
+          console.log('copyTemplateAdd-', msg, context);
+          var layoutIdToAdd = context.dialogData.templateId;
+          context.doCopyThisPageAppendLink(msg, context, context.ADD_LINK, layoutIdToAdd);
         },
         'copyTemplateInsert':function(msg, context){
-          context.doCopyTemplateInsert(msg, context);
+          console.log('copyTemplateInsert-', msg, context);
+          var layoutIdToInsert = context.dialogData.templateId;
+          context.doCopyThisPageAppendLink(msg, context, context.INSERT_LINK, layoutIdToInsert);
         },
 
 
@@ -375,18 +382,18 @@ export default {
       console.log('in doInsert-', msg, context);
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'newPageInsert','linkEditorMenu']);
     },
-    doCopyThisPage(msg, context){
-      console.log('in CopyThisPage', msg, context);
+    doCopyThisPageInsert(msg, context){
+      console.log('in doCopyThisPageInsert', msg, context);
       this.ccPageConfig.definition = 'copyPage';
       this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu3','linkEditorMenu']);
       this.mode = this.MODE_COPY_PAGE;
       this.prompt='';
       this.reloadKey+=1;
     },
-    doCopyThisPageAddLink(msg, context){
+    doCopyThisPageAdd(msg, context){
       console.log('in CopyThisPage', msg, context);
       this.ccPageConfig.definition = 'copyPage';
-      this.cmdHandlers['linkEditorMenu'](['setMenu', 'linkEditorSubMenu3','linkEditorMenu']);
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'dialogSubMenu2','linkEditorMenu']);
       this.mode = this.MODE_COPY_PAGE_ADD_LINK;
       this.prompt='';
       this.reloadKey+=1;
@@ -677,6 +684,8 @@ export default {
       this.saveNewPage(context, pageSavedCallback, updateLinkDataCallback);
 
     },
+
+
     doCopyThisPageAppendLink(msg, context, addOrInsert, targetId) {
       debugger;
       console.log('in copythisPageInsertLink', msg, context, targetId);

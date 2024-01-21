@@ -334,12 +334,14 @@ name: "menuDefinitionsNew",
 
           }
         }
+
+
         case 'linkEditorSubMenu3':{
           return {
             items: [
               {
                 label:'Do Copy This Page (le1)',
-                action:'copyThisPageDo',
+                action:'copyThisPageInsertLink',
                 type:'mItem'
               },
               {
@@ -401,7 +403,7 @@ name: "menuDefinitionsNew",
               },
               {
                 label:'Copy This Page (le2)',
-                action:'copyThisPage',
+                action:'copyThisPageAdd',
                 type:'mItem'
               },
               {
@@ -476,7 +478,7 @@ name: "menuDefinitionsNew",
               },
               {
                 label:'Copy This Page (le3)',
-                action:'copyThisPage',
+                action:'copyThisPageInsert',
                 type:'mItem'
               },
               {
@@ -525,7 +527,7 @@ name: "menuDefinitionsNew",
                 type: 'mItem'
               },
               {
-                label:'Copy This Template',
+                label:'Copy This Template (add)',
                 action: 'copyTemplateAdd',
                 type: 'mItem'
               }
@@ -547,7 +549,7 @@ name: "menuDefinitionsNew",
                 type: 'mItem'
               },
               {
-                label:'Copy This Template',
+                label:'Copy This Template (insert)',
                 action: 'copyTemplateInsert',
                 type: 'mItem'
               }
