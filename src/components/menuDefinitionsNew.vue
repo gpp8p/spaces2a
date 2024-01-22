@@ -356,7 +356,7 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Add Link Creating New Page',
+                label:'Add Link',
                 action:'newPageLink',
                 type:'mItem'
               },
@@ -365,11 +365,14 @@ name: "menuDefinitionsNew",
                 action:'addLink',
                 type:'mItem'
               },
+/*
               {
                 label:'Add External Link',
                 action:'addExternalLink',
                 type:'mItem'
               },
+
+ */
               {
                 label:'Edit Headline',
                 action:'editHeadline',
@@ -409,6 +412,11 @@ name: "menuDefinitionsNew",
               {
                 label:'Copy Template',
                 action:'copyTemplate',
+                type:'mItem'
+              },
+              {
+                label:'External Link',
+                action:'extLinkAppend',
                 type:'mItem'
               },
               {
@@ -484,6 +492,11 @@ name: "menuDefinitionsNew",
               {
                 label:'Copy Template',
                 action:'copyTemplate',
+                type:'mItem'
+              },
+              {
+                label:'External Link',
+                action:'extLinkInsert',
                 type:'mItem'
               },
               {
@@ -565,7 +578,7 @@ name: "menuDefinitionsNew",
           return {
             items: [
               {
-                label:'Insert Page',
+                label:'Insert Link',
                 action:'insertPage',
                 type:'mItem'
               },
@@ -793,7 +806,49 @@ name: "menuDefinitionsNew",
 
           }
         }
+        case 'extLinkInsertSave':{
+          return {
+            items: [
+              {
+                label:'Save',
+                action: 'extLinkInsertSave',
+                type: 'mItem'
+              },
+              {
+                label:'Cancel',
+                action: 'dismissDialog',
+                type: 'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
 
+          }
+        }
+
+        case 'extLinkAppendSave':{
+          return {
+            items: [
+              {
+                label:'Save',
+                action: 'extLinkAppendSave',
+                type: 'mItem'
+              },
+              {
+                label:'Cancel',
+                action: 'dismissDialog',
+                type: 'mItem'
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+            menuType: 'dialog'
+
+          }
+        }
 
       }
     }

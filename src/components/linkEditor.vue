@@ -357,7 +357,18 @@ export default {
           var layoutIdToInsert = context.dialogData.templateId;
           context.doCopyThisPageAppendLink(msg, context, context.INSERT_LINK, layoutIdToInsert);
         },
-
+        'extLinkInsert':function(msg, context){
+          context.doExtLinkInsert(msg, context);
+        },
+        'extLinkAppend':function(msg, context){
+          context.doExtLinkAppend(msg, context);
+        },
+        'extLinkInsertSave':function(msg, context){
+          context.doExtLinkInsertSave(msg, context);
+        },
+        'extLinkAppendSave':function(msg, context){
+          context.doExtLinkAppendSave(msg, context);
+        },
 
       }
       if(typeof(menuSelection)!='undefined'){
@@ -620,6 +631,21 @@ export default {
       console.log('links updated');
 
     },
+    doExtLinkInsert(msg, context){
+      console.log('in doExtLinkInsert-', msg, context);
+    },
+    doExtLinkAppend(msg, context){
+      console.log('in doExtLinkAppend-', msg, context);
+    },
+    doExtLinkInsertSave(msg, context){
+      console.log('in doExtLinkInsertSave-', msg, context);
+    },
+    doExtLinkAppendSave(msg, context){
+      console.log('in doExtLinkAppendSave-', msg, context);
+    },
+
+
+
     doSaveNewPageInsertLink(msg, context, addOrInsert) {
       console.log('in doSaveNewPageInsertLink-', msg, context);
       var pageSavedCallback = function(layoutId, context, updateLinkDataCallback){
