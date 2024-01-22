@@ -11,6 +11,8 @@
                                 this.mode == this.MODE_CHANGE_LINK_LABEL ||
                                 this.mode == this.MODE_COPY_TEMPLATE_ADD ||
                                 this.mode == this.MODE_COPY_TEMPLATE_INSERT ||
+                                this.mode == this.MODE_EXT_LINK_INSERT ||
+                                this.mode == this.MODE_EXT_LINK_APPEND ||
                                 this.mode == this.MODE_HEADLINE_TEXT" >
     <ccPage v-if="this.pleaseWait==false"
         name = 'ccPage'
@@ -109,6 +111,8 @@ export default {
       MODE_COPY_PAGE_INSERT_LINK:12,
       MODE_COPY_TEMPLATE_ADD:13,
       MODE_COPY_TEMPLATE_INSERT:14,
+      MODE_EXT_LINK_INSERT:15,
+      MODE_EXT_LINK_APPEND:16,
       ADD_LINK:0,
       INSERT_LINK:1,
       pleaseWait:false,
