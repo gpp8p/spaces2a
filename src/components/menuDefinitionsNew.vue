@@ -816,7 +816,7 @@ name: "menuDefinitionsNew",
               },
               {
                 label:'Cancel',
-                action: 'dismissDialog',
+                action: 'returnToLinkEditorMain',
                 type: 'mItem'
               }
             ],
@@ -838,7 +838,7 @@ name: "menuDefinitionsNew",
               },
               {
                 label:'Cancel',
-                action: 'dismissDialog',
+                action: 'returnToLinkEditorMain',
                 type: 'mItem'
               }
             ],

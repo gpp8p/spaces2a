@@ -637,9 +637,19 @@ export default {
     },
     doExtLinkInsert(msg, context){
       console.log('in doExtLinkInsert-', msg, context);
+      this.ccPageConfig.definition = 'extLink';
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'extLinkInsertSave','linkEditorMenu']);
+      this.mode = this.MODE_EXT_LINK_INSERT;
+      this.prompt='Please enter a label and a url for this link';
+      this.reloadKey+=1;
     },
     doExtLinkAppend(msg, context){
       console.log('in doExtLinkAppend-', msg, context);
+      this.ccPageConfig.definition = 'extLink';
+      this.cmdHandlers['linkEditorMenu'](['setMenu', 'extLinkAppendSave','linkEditorMenu']);
+      this.mode = this.MODE_EXT_LINK_APPEND;
+      this.prompt='Please enter a label and a url for this link';
+      this.reloadKey+=1;
     },
     doExtLinkInsertSave(msg, context){
       console.log('in doExtLinkInsertSave-', msg, context);
