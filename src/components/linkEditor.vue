@@ -656,6 +656,17 @@ export default {
     },
     doExtLinkAppendSave(msg, context){
       console.log('in doExtLinkAppendSave-', msg, context);
+      var newLink = {
+        cardId: this.$store.getters.getCardBeingEditedId,
+        is_external: 1,
+        linkDescription: context.dialogData.linkLabel,
+        linkUrl: context.dialogData.linkUrl,
+        type:'U',
+        insertPoint:-1,
+        addInsert:'add'
+
+      }
+      this.addNewLink(newLink);
     },
 
 

@@ -140,7 +140,13 @@ export default {
     updateLinkData(orient, cardTitle, allCardLinks, linksSavedCallback){
       debugger;
       var apiPath = this.$store.getters.getApiBase;
-      var thisCardTitle = cardTitle;
+      var thisCardTitle;
+      if(typeof(cardTitle)=='undefined'){
+        thisCardTitle='';
+      }else{
+        thisCardTitle = cardTitle;
+      }
+
       axios.post(apiPath+'api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
 //      axios.post('http://localhost:8000/api/shan/updateCardLinks?XDEBUG_SESSION_START=17516', {
         orient: orient,
@@ -159,6 +165,36 @@ export default {
       }).catch(function(error) {
         //       debugger;
         alert('returned with an error'+error);
+        console.log(error);
+      });
+
+    },
+
+    addNewLink(newLink){
+      debugger;
+      var urlBase = this.$store.getters.getUrlBase;
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ',apiPath);
+      axios.post(apiPath+'api/shan/addNewLink?XDEBUG_SESSION_START=17516', {
+        org_id: this.$store.getters.getOrgId,
+        layout_id: this.$store.getters.getCurrentLayoutId,
+        card_instance_id:newLink.cardId,
+        is_external:newLink.is_external,
+        description: newLink.linkDescription,
+        linkUrl:newLink.linkUrl,
+        type: newLink.type,
+        insertPoint: newLink.insertPoint,
+        addInsert: newLink.addInsert
+      }).then(response=>
+      {
+        console.log('response imageCard saved', response);
+        if(response.data=='ok'){
+          debugger;
+          console.log('link added',this.content);
+
+
+        }
+      }).catch(function(error) {
         console.log(error);
       });
 
