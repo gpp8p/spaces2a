@@ -159,6 +159,7 @@ export default {
       console.log('doPageSelected-',msg, context);
       debugger;
       context.showDialog=false;
+      context.showLinkEditor=false;
       this.pageConfiguration={}
       this.pageConfiguration.action=this.PAGE_LOAD_DISPLAY;
       this.pageConfiguration.pageId = msg[1];
@@ -276,9 +277,15 @@ export default {
         'configureHeadlineCard': function(msg, context){
           context.doConfigureHeadlineCard(msg, context);
         },
+/*
         'editHeadlineCard': function(msg, context){
           context.doEditHeadlineCard(msg, context);
         },
+*/
+        'editCardWithLinks': function(msg, context){
+          context.doEditCardWithLinks(msg, context);
+        },
+
         'resizeCard':function(msg, context){
           context.doResizeCard(msg, context);
         },
@@ -669,8 +676,17 @@ export default {
       context.showDialog=false;
       this.pageReload+=1;
     },
+/*
     doEditHeadlineCard(msg, context){
       console.log('in switchboard doEditHeadlineCard', msg, context);
+      debugger;
+      this.linkEditorConfiguration.definition = 'linkEditor';
+      this.linkEditorConfiguration.existingData = msg[3];
+      this.showLinkEditor=true;
+    },
+ */
+    doEditCardWithLinks(msg, context){
+      console.log('in switchboard doEditCardWithLinks', msg, context);
       this.linkEditorConfiguration.definition = 'linkEditor';
       this.linkEditorConfiguration.existingData = msg[3];
       this.showLinkEditor=true;

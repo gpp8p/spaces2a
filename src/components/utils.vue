@@ -172,7 +172,7 @@ export default {
 
     addNewLink(newLink){
       debugger;
-      var urlBase = this.$store.getters.getUrlBase;
+//      var urlBase = this.$store.getters.getUrlBase;
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ',apiPath);
       axios.post(apiPath+'api/shan/addNewLink?XDEBUG_SESSION_START=17516', {
@@ -191,6 +191,7 @@ export default {
         if(response.data=='ok'){
           debugger;
           console.log('link added',this.content);
+          this.$emit('cevt',['pageSelected', this.$store.getters.getCurrentLayoutId]);
 
 
         }

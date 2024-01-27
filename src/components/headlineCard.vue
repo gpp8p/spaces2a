@@ -329,7 +329,7 @@ export default {
           var thisCardId = context.config.id;
           console.log('editHeadline menu choice-',context.config);
           store.commit('setCardBeingEditedId', thisCardId);
-          this.$emit('cevt', ['menuItemSelected', 'editHeadlineCard', context.name, context.config ])
+          this.$emit('cevt', ['menuItemSelected', 'editCardWithLinks', context.name, context.config ])
           break;
         }
         default:{
