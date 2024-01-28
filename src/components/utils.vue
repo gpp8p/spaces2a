@@ -1,6 +1,6 @@
 <script>
 import axios from "axios";
-import store from "@/store";
+//import store from "@/store";
 
 export default {
   name: 'utils',
@@ -19,7 +19,8 @@ export default {
       var styleArray = mCss.split(';');
       console.log('styleArray-', styleArray);
       var styleValues= {}
-      for(var s = 1;s<styleArray.length;s++){
+      for(var s = 0;s<styleArray.length;s++){
+//      for(var s = 1;s<styleArray.length;s++){
         var thisStyleElement = styleArray[s].split(':');
 //        debugger;
         //          console.log('thisStyleElement-', thisStyleElement);

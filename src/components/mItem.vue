@@ -3,8 +3,8 @@
     <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_INTERNAL">
       {{this.thisItem.label}}
     </span>
-    <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_EXTERNAL">
-      <a v-bind:href="this.thisItem.linkUrl" target="_blank" >{{this.thisItem.label}}</a>
+    <span  @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_EXTERNAL">
+      <a :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" v-bind:href="this.thisItem.linkUrl" target="_blank" >{{this.thisItem.label}}</a>
     </span>
   </span>
 
@@ -42,7 +42,8 @@ export default {
       this.linkUrl = this.thisItem.linkUrl;
     }
     console.log('itemStyle =',this.itemStyle);
-    console.log('itemLabel - ',this.thisItem.label)
+    console.log('itemLabel - ',this.thisItem.label);
+    console.log('linkType-', this.linkType);
   },
   data(){
     return {
@@ -83,6 +84,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  color: blue;
 }
 </style>
 

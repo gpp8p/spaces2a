@@ -127,7 +127,7 @@ export default {
         thisItem = {
           label:this.config.card_parameters.content.availableLinks[l].description,
           action: "",
-          linkUrl: this.config.card_parameters.content.availableLinks[l].linkUrl,
+          linkUrl: this.config.card_parameters.content.availableLinks[l].link_url,
           type: 'mItem',
           linkType: lType
         }
@@ -450,7 +450,10 @@ export default {
               newStyle = newStyle+"shadow:checked;";
               newStyle= newStyle+"box-shadow:10px 20px 30px black;";
               break;
+            }else{
+              break;
             }
+
           }
           case 'titleStyles_alignmentSelect':{
             newStyle = newStyle+'text-align:'+enteredStyles[thisStyleElements[s]]+';';
