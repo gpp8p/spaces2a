@@ -33,7 +33,7 @@ import vRadioGroup from "../components/vRadioGroup.vue";
 import vBackgroundPicker from "../components/vBackgroundPicker.vue";
 import textLiteral from "../components/textLiteral.vue";
 import vButton from "@/components/vbutton";
-import mySpaces from "../components/mySpaces.vue";
+import mySpaces from "../components/mySpacesPaged.vue";
 import checkbox from "../components/checkbox.vue"
 import cbxSelectColor from "@/components/cbxSelectColor";
 import fontPicker from "@/components/fontPicker";
