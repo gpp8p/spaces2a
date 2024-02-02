@@ -1,15 +1,16 @@
 <template>
-  <span class="tablePlusPager">
+  <span class="tablePlusPager" >
       <tableWrapper
           :cmdObject = "configObject"
           :key = "reloadKey"
           @cevt="handleEvt"
       ></tableWrapper>
     <pagination
-        :totalPages="10"
-        :perPage="10"
-        :currentPage="currentPage"
-        @pagechanged="onPageChange"
+        :totalPages=totalPages
+        :perPage=perPage
+        :key = "reloadKey"
+        :currentPage=currentPage
+        @cevt="handleEvt"
     ></pagination>
   </span>
 </template>
@@ -23,7 +24,7 @@ import pagination from '../components/Pagination.vue';
 import store from "@/store";
 
 export default {
-  name: "mySpaces",
+  name: "mySpacesPaged",
   props: {
     name: {
       type: String,
@@ -42,8 +43,9 @@ export default {
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.configObject = this.cmdObject;
     this.configObject.perPage = this.cmdObject.perPage;
+    this.configObject.isPaginated = false;
     this.countMySpaces();
-    this.getMySpacesPaged();
+//    this.getMySpacesPaged();
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -54,9 +56,13 @@ export default {
       leafComponent: false,
       reloadKey: 0,
       configObject: {},
-      limit: 80,
+      limit: 8,
       offset: 0,
-      spacesCount: 0
+      spacesCount: 0,
+      totalPages:10,
+      perPage:7,
+      dataReady:false,
+      currentPage:1
     }
   },
   methods: {
@@ -112,6 +118,19 @@ export default {
         'pageSelected': function (msg, context) {
           context.doPageSelected(msg, context);
         },
+        'firstPage': function (msg, context) {
+          context.doFirstPage(msg, context);
+        },
+        'previousPage': function (msg, context) {
+          context.doPreviousPage(msg, context);
+        },
+        'nextPage': function (msg, context) {
+          context.doNextPage(msg, context);
+
+        },
+        'lastPage': function (msg, context) {
+          context.doLastPage(msg, context);
+        },
         'default': function (msg, context) {
           console.log('evtHandler in menu  - something else', msg, context);
         }
@@ -137,6 +156,38 @@ export default {
       console.log('doPageSelected-', msg, context);
       this.$emit('cevt', ['pageSelected', msg[1].id]);
     },
+    doFirstPage(msg, context){
+      console.log('doFirstPage-', msg, context);
+      context.currentPage = 1 ;
+      context.offset=1;
+      context.getMySpacesPaged();
+
+    },
+    doPreviousPage(msg, context){
+      console.log('doPreviousPage-', msg, context);
+      if((context.currentPage-1)>0){
+        context.offset=context.offset-context.limit;
+        context.getMySpacesPaged();
+        context.currentPage -=1;
+        context.reloadKey+=1;
+      }
+    },
+    doNextPage(msg, context){
+      console.log('doNextPage-', msg, context);
+      if((context.currentPage+1)<context.totalPages){
+        context.offset=context.offset+context.limit;
+        context.getMySpacesPaged();
+        context.currentPage +=1;
+        context.reloadKey+=1;
+      }
+    },
+    doLastPage(msg, context){
+      console.log('doLastPage-', msg, context);
+      context.currentPage = context.totalPages ;
+      context.offset=((context.totalPages*context.limit)-context.limit);
+      context.getMySpacesPaged();
+
+    },
     getMySpacesPaged() {
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ', apiPath);
@@ -153,6 +204,7 @@ export default {
         console.log('getMySpaces', response);
 //        this.data=response.data;
         this.configObject.fieldValue = response.data;
+        this.configObject.perPage = this.perPage;
         this.reloadKey += 1;
       }).catch(e => {
         console.log(e);
@@ -170,12 +222,14 @@ export default {
       }).then(response => {
         debugger;
         console.log('pages count-',response.data);
-        this.spacesCount = response.data[0].count;
+        this.spacesCount = response.data;
+        this.totalPages = Math.trunc(this.spacesCount/this.perPage);
+        this.getMySpacesPaged();
       }).catch(e => {
         console.log(e);
       });
 
-    }
+    },
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <ul class="pagination">
-    <li class="pagination-item">
+    <li class="pagination-item" v-if="!isInFirstPage">
       <button
           type="button"
           @click="onClickFirstPage"
@@ -10,7 +10,7 @@
       </button>
     </li>
 
-    <li class="pagination-item">
+    <li class="pagination-item" v-if="!isInFirstPage">
       <button
           type="button"
           @click="onClickPreviousPage"
@@ -62,8 +62,10 @@
 </template>
 
 <script>
+import utils from '../components/utils.vue';
 export default {
 name: "Pagination",
+  mixins: [utils],
   props: {
     maxVisibleButtons: {
       type: Number,
@@ -127,19 +129,24 @@ name: "Pagination",
       return this.currentPage === page;
     },
     onClickFirstPage() {
-      this.$emit('pagechanged', 1);
+      this.$emit('cevt',['firstPage']);
+//      this.$emit('pagechanged', 1);
     },
     onClickPreviousPage() {
-      this.$emit('pagechanged', this.currentPage - 1);
+      this.$emit('cevt',['previousPage', this.currentPage - 1]);
+//      this.$emit('pagechanged', this.currentPage - 1);
     },
     onClickPage(page) {
-      this.$emit('pagechanged', page);
+      this.$emit('cevt',['page', this.page]);
+//      this.$emit('pagechanged', page);
     },
     onClickNextPage() {
-      this.$emit('pagechanged', this.currentPage + 1);
+//      this.$emit('pagechanged', this.currentPage + 1);
+      this.$emit('cevt',['nextPage', this.currentPage + 1]);
     },
     onClickLastPage() {
       this.$emit('pagechanged', this.totalPages);
+      this.$emit('cevt',['lastPage', this.totalPages]);
     }
   }
 }

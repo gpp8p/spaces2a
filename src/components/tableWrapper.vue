@@ -41,6 +41,9 @@ export default {
     this.fieldValue = this.cmdObject.fieldValue;
     this.perPage = this.cmdObject.perPage;
     this.columns = this.cmdObject.columns;
+    if(typeof(this.cmdObject.isPaginated)!='undefined'){
+      this.isPaginated = this.cmdObject.isPaginated;
+    }
     console.log(this.name,' is mounted');
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
