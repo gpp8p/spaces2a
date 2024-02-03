@@ -131,6 +131,9 @@ export default {
         'lastPage': function (msg, context) {
           context.doLastPage(msg, context);
         },
+        'page': function (msg, context) {
+          context.doPage(msg, context);
+        },
         'default': function (msg, context) {
           console.log('evtHandler in menu  - something else', msg, context);
         }
@@ -159,7 +162,7 @@ export default {
     doFirstPage(msg, context){
       console.log('doFirstPage-', msg, context);
       context.currentPage = 1 ;
-      context.offset=1;
+      context.offset=0;
       context.getMySpacesPaged();
 
     },
@@ -184,9 +187,16 @@ export default {
     doLastPage(msg, context){
       console.log('doLastPage-', msg, context);
       context.currentPage = context.totalPages ;
-      context.offset=((context.totalPages*context.limit)-context.limit);
+//      context.offset=((context.totalPages*context.limit)-context.limit);
+      context.offset = context.spacesCount-context.limit;
       context.getMySpacesPaged();
 
+    },
+    doPage(msg, context){
+      console.log('in doPage-', msg, context);
+      context.currentPage = msg[1];
+      context.offset = (context.limit*context.currentPage)-context.limit;
+      context.getMySpacesPaged();
     },
     getMySpacesPaged() {
       var apiPath = this.$store.getters.getApiBase;

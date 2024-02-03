@@ -137,7 +137,8 @@ name: "Pagination",
 //      this.$emit('pagechanged', this.currentPage - 1);
     },
     onClickPage(page) {
-      this.$emit('cevt',['page', this.page]);
+      console.log('onClickPage-', page);
+      this.$emit('cevt',['page', page]);
 //      this.$emit('pagechanged', page);
     },
     onClickNextPage() {
