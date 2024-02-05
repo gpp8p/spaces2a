@@ -126,7 +126,9 @@ name: "Pagination",
   },
   methods: {
     isPageActive(page) {
-      return this.currentPage === page;
+//      return this.currentPage === page;
+      return this.currentPage === page+1;
+
     },
     onClickFirstPage() {
       this.$emit('cevt',['firstPage']);
@@ -143,6 +145,7 @@ name: "Pagination",
     },
     onClickNextPage() {
 //      this.$emit('pagechanged', this.currentPage + 1);
+      debugger;
       this.$emit('cevt',['nextPage', this.currentPage + 1]);
     },
     onClickLastPage() {

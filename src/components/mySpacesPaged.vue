@@ -60,9 +60,10 @@ export default {
       offset: 0,
       spacesCount: 0,
       totalPages:10,
-      perPage:7,
+      perPage:8,
       dataReady:false,
-      currentPage:1
+      currentPage:1,
+      lastLimit:0
     }
   },
   methods: {
@@ -177,10 +178,12 @@ export default {
     },
     doNextPage(msg, context){
       console.log('doNextPage-', msg, context);
-      if((context.currentPage+1)<context.totalPages){
+      debugger;
+      if((context.currentPage)<context.totalPages+1){
         context.offset=context.offset+context.limit;
         context.getMySpacesPaged();
         context.currentPage +=1;
+        console.log('doNextPage-',context.offset);
         context.reloadKey+=1;
       }
     },
@@ -233,7 +236,11 @@ export default {
         debugger;
         console.log('pages count-',response.data);
         this.spacesCount = response.data;
-        this.totalPages = Math.trunc(this.spacesCount/this.perPage);
+        this.totalPages = Math.trunc(this.spacesCount/this.limit);
+        if((this.totalPages*this.limit)<this.spacesCount){
+          this.totalPages+=1;
+        }
+        this.lastLimit = this.spacesCount - (this.totalPages * this.limit)
         this.getMySpacesPaged();
       }).catch(e => {
         console.log(e);
