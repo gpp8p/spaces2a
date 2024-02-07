@@ -44,6 +44,7 @@ export default {
     this.configObject = this.cmdObject;
     this.configObject.perPage = this.cmdObject.perPage;
     this.configObject.isPaginated = false;
+    this.limit = this.cmdObject.perPage;
     this.countMySpaces();
 //    this.getMySpacesPaged();
   },
@@ -56,7 +57,7 @@ export default {
       leafComponent: false,
       reloadKey: 0,
       configObject: {},
-      limit: 8,
+      limit: 0,
       offset: 0,
       spacesCount: 0,
       totalPages:10,
@@ -191,7 +192,8 @@ export default {
       console.log('doLastPage-', msg, context);
       context.currentPage = context.totalPages ;
 //      context.offset=((context.totalPages*context.limit)-context.limit);
-      context.offset = context.spacesCount-context.limit;
+//      context.offset = context.spacesCount-context.limit;
+      context.offset = context.spacesCount-context.lastLimit;
       context.getMySpacesPaged();
 
     },
@@ -240,7 +242,7 @@ export default {
         if((this.totalPages*this.limit)<this.spacesCount){
           this.totalPages+=1;
         }
-        this.lastLimit = this.spacesCount - (this.totalPages * this.limit)
+        this.lastLimit = this.limit - ((this.totalPages * this.limit) - this.spacesCount);
         this.getMySpacesPaged();
       }).catch(e => {
         console.log(e);

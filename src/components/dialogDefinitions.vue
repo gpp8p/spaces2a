@@ -1360,10 +1360,15 @@ name: "dialogDefinitions",
               },
               leafComponent: false,
               menuName: 'mySpacesMenu',
+
               fields:[
                 {
                   type: 'mySpaces',
                   perPage: 8,
+                  loader: function (existingData, dialogComponents) {
+                    console.log('in mySpaces loader -', existingData, dialogComponents);
+                    return "";
+                  },
                   name: 'mySpaces',
                   columns: [
                     {
