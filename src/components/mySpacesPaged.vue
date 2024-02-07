@@ -45,7 +45,8 @@ export default {
     this.configObject.perPage = this.cmdObject.perPage;
     this.configObject.isPaginated = false;
     this.limit = this.cmdObject.perPage;
-    this.countMySpaces();
+    this.cmdObject.dataLoader(this);
+//    this.countMySpaces();
 //    this.getMySpacesPaged();
   },
   beforeDestroy() {
@@ -64,7 +65,7 @@ export default {
       perPage:8,
       dataReady:false,
       currentPage:1,
-      lastLimit:0
+      lastLimit:0,
     }
   },
   methods: {
@@ -165,14 +166,16 @@ export default {
       console.log('doFirstPage-', msg, context);
       context.currentPage = 1 ;
       context.offset=0;
-      context.getMySpacesPaged();
+//      context.getMySpacesPaged();
+      this.cmdObject.dataLoader(this);
 
     },
     doPreviousPage(msg, context){
       console.log('doPreviousPage-', msg, context);
       if((context.currentPage-1)>0){
         context.offset=context.offset-context.limit;
-        context.getMySpacesPaged();
+//        context.getMySpacesPaged();
+        this.cmdObject.dataLoader(this);
         context.currentPage -=1;
         context.reloadKey+=1;
       }
@@ -182,7 +185,8 @@ export default {
       debugger;
       if((context.currentPage)<context.totalPages+1){
         context.offset=context.offset+context.limit;
-        context.getMySpacesPaged();
+//        context.getMySpacesPaged();
+        this.cmdObject.dataLoader(this);
         context.currentPage +=1;
         console.log('doNextPage-',context.offset);
         context.reloadKey+=1;
@@ -194,15 +198,18 @@ export default {
 //      context.offset=((context.totalPages*context.limit)-context.limit);
 //      context.offset = context.spacesCount-context.limit;
       context.offset = context.spacesCount-context.lastLimit;
-      context.getMySpacesPaged();
+//      context.getMySpacesPaged();
+      this.cmdObject.dataLoader(this);
 
     },
     doPage(msg, context){
       console.log('in doPage-', msg, context);
       context.currentPage = msg[1];
       context.offset = (context.limit*context.currentPage)-context.limit;
-      context.getMySpacesPaged();
+//      context.getMySpacesPaged();
+      this.cmdObject.dataLoader(this);
     },
+    /*
     getMySpacesPaged() {
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ', apiPath);
@@ -225,6 +232,8 @@ export default {
         console.log(e);
       });
     },
+
+
     countMySpaces() {
       var apiPath = this.$store.getters.getApiBase;
       console.log('apiPath - ', apiPath);
@@ -249,6 +258,8 @@ export default {
       });
 
     },
+
+*/
   }
 }
 </script>

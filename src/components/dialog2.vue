@@ -74,6 +74,7 @@ export default {
     this.dialogStyle = this.dialogFields[this.config.definition].dialogStyle;
     this.dialogComponents = this.dialogFields[this.config.definition].fields;
     console.log('dialog2 components-', this.dialogComponents);
+//  If there is some existing data, check for a loader
     if(typeof(this.config.existingData)!='undefined'){
       this.existingData =  this.config.existingData;
       if(typeof(this.dialogFields[this.config.definition].loader)!='undefined'){
@@ -95,7 +96,12 @@ export default {
             this.dialogComponents[d].fieldValue = this.dialogDefaults[this.dialogComponents[d].fieldIdentifier];
           }
         }
+      }else{
+        if(typeof(this.dialogFields[this.config.definition].loader)!='undefined'){
+          this.dialogFields[this.config.definition].loader(this.existingData, this.dialogComponents);
+        }
       }
+
     }
     debugger;
     try {

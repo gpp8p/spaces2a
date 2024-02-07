@@ -1,6 +1,8 @@
 
 <script>
+import axios from "axios";
 export default {
+
 name: "dialogDefinitions",
   methods: {
     getDialogDefinition(dialogName, componentLoaders){
@@ -1360,15 +1362,86 @@ name: "dialogDefinitions",
               },
               leafComponent: false,
               menuName: 'mySpacesMenu',
+              loader: function (existingData, dialogComponents) {
+                console.log('in mySpaces loader -', existingData, dialogComponents);
+                dialogComponents[0].dataLoader = function(context){
 
+
+                  if(context.spacesCount==0){
+                    console.log('in data loader for mySpaces');
+                    debugger;
+                    var apiPath = context.$store.getters.getApiBase;
+                    console.log('apiPath - ', apiPath);
+                    axios.get(apiPath + 'api/shan/countMySpaces?XDEBUG_SESSION_START=15122"', {
+  //    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+                      params: {
+                        orgId: context.$store.getters.getOrgId,
+                        userId: context.$store.getters.getLoggedInUserId,
+                      }
+                    }).then(response => {
+                      debugger;
+                      console.log('pages count-',response.data);
+                      context.spacesCount = response.data;
+                      context.totalPages = Math.trunc(context.spacesCount/context.limit);
+                      if((context.totalPages*context.limit)<context.spacesCount){
+                        context.totalPages+=1;
+                      }
+                      context.lastLimit = context.limit - ((context.totalPages * context.limit) - context.spacesCount);
+
+                      var apiPath = context.$store.getters.getApiBase;
+                      console.log('apiPath - ', apiPath);
+                      axios.get(apiPath + 'api/shan/getMySpacesPaged?XDEBUG_SESSION_START=15122"', {
+                        //    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+                        params: {
+                          orgId: context.$store.getters.getOrgId,
+                          userId: context.$store.getters.getLoggedInUserId,
+                          limit: context.limit,
+                          offset: context.offset
+                        }
+                      }).then(response => {
+                        debugger;
+                        console.log('getMySpaces', response);
+                        //        context.data=response.data;
+                        context.configObject.fieldValue = response.data;
+                        context.configObject.perPage = context.perPage;
+                        context.reloadKey += 1;
+                      }).catch(e => {
+                        console.log(e);
+                      });
+                    }).catch(e => {
+                      console.log(e);
+                    });
+
+                  }else{
+                    apiPath = context.$store.getters.getApiBase;
+                    console.log('apiPath - ', apiPath);
+                    axios.get(apiPath + 'api/shan/getMySpacesPaged?XDEBUG_SESSION_START=15122"', {
+                      //    axios.get('http://localhost:8000/api/shan/getMySpaces?XDEBUG_SESSION_START=15122"', {
+                      params: {
+                        orgId: context.$store.getters.getOrgId,
+                        userId: context.$store.getters.getLoggedInUserId,
+                        limit: context.limit,
+                        offset: context.offset
+                      }
+                    }).then(response => {
+                      debugger;
+                      console.log('getMySpaces', response);
+                      //        context.data=response.data;
+                      context.configObject.fieldValue = response.data;
+                      context.configObject.perPage = context.perPage;
+                      context.reloadKey += 1;
+                    }).catch(e => {
+                      console.log(e);
+                    });
+                  }
+                }
+
+                return "";
+              },
               fields:[
                 {
                   type: 'mySpaces',
                   perPage: 8,
-                  loader: function (existingData, dialogComponents) {
-                    console.log('in mySpaces loader -', existingData, dialogComponents);
-                    return "";
-                  },
                   name: 'mySpaces',
                   columns: [
                     {
