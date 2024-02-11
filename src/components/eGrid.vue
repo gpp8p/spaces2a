@@ -22,6 +22,7 @@
 import utils from '../components/utils.vue';
 import Cell from "../components/Cell.vue";
 import Headline from "../components/headlineCard.vue";
+import NavigationMenu from "../components/NavigationMenu.vue"
 
 export default {
   name: "eGrid",
@@ -35,7 +36,7 @@ export default {
       required: true
     }
   },
-  components: {Cell, Headline},
+  components: {Cell, Headline, NavigationMenu},
   mixins: [utils],
   mounted(){
 //    debugger;
@@ -111,11 +112,12 @@ export default {
 //          console.log('setCmdHandler in egrid-', msg);
           context.doSetCmdHandler(msg, context);
         },
+        // eslint-disable-next-line no-unused-vars
         'removeCmdHandler': function(msg, context){
-          context.doRemoveCmdHandler(msg, context);
+//          context.doRemoveCmdHandler(msg, context);
         },
         'removePageCmdHandler': function(msg, context){
-//          console.log('evtHandler - a eGrid event', msg, context);
+          console.log('evtHandler - a eGrid event', msg, context);
           this.$emit('cevt', ['removeCmdHandler', msg[1], msg[2]]);
         },
         'cardMounted':function(msg, context){
@@ -157,6 +159,7 @@ export default {
       }
 
     },
+    // eslint-disable-next-line no-unused-vars
     doMouseEvt(msg, context){
 //      console.log('egrid doMouseEvt-', msg, context);
       this.$emit('cevt', msg);

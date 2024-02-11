@@ -542,6 +542,78 @@ export default {
       });
     },
 
+    doConfigureCard(msg, context) {
+      console.log('in sb - doConfigureCard', msg, context);
+      context.dialogConfiguration = {};
+      context.dialogConfiguration.definition = 'configureCard';
+      debugger;
+      var mainStylingCss;
+      var subElementStylingCss;
+      var thisCardSubStyling;
+      mainStylingCss = msg[3].card_parameters.style;
+      console.log('mainStylingCss', mainStylingCss);
+      var thisCardStyling = context.getCardStyling(mainStylingCss);
+
+      if (typeof (msg[3].elementStyles) != 'undefined') {
+        subElementStylingCss = ";" + msg[3].elementStyles.sub[0];
+        thisCardSubStyling = context.getCardStyling(subElementStylingCss);
+      } else {
+        console.log('thisCardStyline-', thisCardStyling);
+        console.log('this background-color ', thisCardStyling['background-color']);
+        console.log('is true-', ((thisCardStyling['background-color'] == '#dbddd0') && (thisCardStyling['backgroundTypeColor'] == 'checked') && (thisCardStyling['color'] == '#0000FF')));
+        console.log('thisCardSubstyling', thisCardSubStyling);
+        if (((thisCardStyling['background-color'] == '#dbddd0') && (thisCardStyling['backgroundTypeColor'] == 'checked') && (thisCardStyling['color'] == '#0000FF'))) {
+          console.log('this is a new card');
+        } else {
+          console.log('not a new card');
+          context.dialogConfiguration.existingData = {
+            cardName: msg[2],
+            cardConfig: msg[3],
+            cardStyles: thisCardStyling,
+            cardSubStyles: thisCardSubStyling
+          };
+        }
+      }
+      context.showDialog = true
+      context.dialogReload += 1;
+    },
+
+    saveCardConfiguration(msg, context){
+//      var currentMainStyles = this.getCardStyling(context.cardCss);
+      var currentGridStyle = this.getCardGridStyle(context.cardCss);
+      var cardConfigurationObject = [];
+      var newCssValues = this.setStyleCss(msg[1], currentGridStyle);
+      context.cardCss = newCssValues[0];
+      context.menuItems.style = newCssValues[1];
+      context.headlineStyle = newCssValues[2];
+      context.headlineOptionsReload+=1;
+      cardConfigurationObject[0]=context.cardId;
+      cardConfigurationObject[1]=newCssValues[3];
+      cardConfigurationObject[2]={};
+      var newSub = [];
+      newSub[0]={
+        elementConfiguration:newCssValues[4],
+        elementName:'sub',
+        elementStyles:newCssValues[5]
+      }
+      cardConfigurationObject[3]=newSub;
+      var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationObject);
+      console.log('jsonCardConfigurationPackage', jsonCardConfigurationPackage);
+      var apiPath = this.$store.getters.getApiBase;
+      console.log('apiPath - ', apiPath);
+
+      axios.post(apiPath+'api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
+//        axios.post('http://localhost:8000/api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
+        cardParams: jsonCardConfigurationPackage,
+      }).then(response=>
+      {
+        console.log(response);
+        this.$emit('cevt',['configurationHasBeenSaved', this.$store.getters.getCurrentLayoutId]);
+      }).catch(function(error) {
+        console.log(error);
+      });
+
+    }
 
 
 

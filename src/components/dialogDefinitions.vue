@@ -1771,7 +1771,7 @@ name: "dialogDefinitions",
                       isSelected: false
                     },
                     {
-                      val: 'navMenuCard',
+                      val: 'NavigationMenu',
                       label: 'Navigation Menu',
                       isDisabled: false,
                       isSelected: false
@@ -2164,11 +2164,12 @@ name: "dialogDefinitions",
           }
         }
 
-
-        case 'configureHeadlineCard':{
+        case 'configureCard':{
+//        case 'configureHeadlineCard':{
 //        case 'configureHeadlineCard': {
           return {
-            configureHeadlineCard: {
+            configureCard: {
+//            configureHeadlineCard: {
               dialogStyle: {
                 position: 'fixed',
                 top: '30%',

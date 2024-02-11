@@ -58,10 +58,14 @@ export default {
   },
   methods:{
     processClick(){
-//      debugger;
+      debugger;
 //      this.$emit('cevt',['menuItemSelected', this.cmdObject.value]);
       if(typeof(this.thisItem.linkType)=='undefined'){
-        this.$emit('cevt',['menuItemSelected',this.thisItem.action, this.name]);
+        if(typeof(this.thisItem.actionMethod)!='undefined'){
+          this.$emit('cevt',['menuItemSelected',this.thisItem.action, this.name,this.thisItem.actionMethod]);
+        }else{
+          this.$emit('cevt',['menuItemSelected',this.thisItem.action, this.name]);
+        }
       }else if(this.thisItem.linkType==this.LINK_INTERNAL){
         this.$emit('cevt',['menuItemSelected',this.thisItem.action, 'internal_link']);
       }else{

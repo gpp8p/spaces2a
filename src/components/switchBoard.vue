@@ -5,9 +5,10 @@
 
 import store from "@/store";
 import axios from "axios";
-
+import utils from '../components/utils.vue';
 export default {
   name: "switchBoard",
+  mixins: [utils],
   methods:{
 
 
@@ -276,6 +277,10 @@ export default {
         },
         'configureHeadlineCard': function(msg, context){
           context.doConfigureHeadlineCard(msg, context);
+        },
+        'configureCard': function(msg, context){
+          debugger;
+          context.doConfigureCard(msg, context);
         },
 /*
         'editHeadlineCard': function(msg, context){
@@ -622,6 +627,15 @@ export default {
             context.showDialog=true;
             context.dialogReload+=1;
 
+            break;
+          }
+          case 'NavigationMenu':{
+            context.newCardParams = msg[1];
+            context.dialogConfiguration={};
+            context.dialogConfiguration.definition='configureHeadlineCard';
+            context.dialogConfiguration.menuOverride='newCardConfigureMenu';
+            context.showDialog=true;
+            context.dialogReload+=1;
             break;
           }
         }

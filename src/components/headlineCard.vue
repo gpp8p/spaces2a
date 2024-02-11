@@ -206,46 +206,7 @@ export default {
       if(msg[2]==this.name){
         console.log('headlineCard doSetValue-',msg, context);
         debugger;
-        var currentMainStyles = this.getCardStyling(this.cardCss);
-        var currentGridStyle = this.getCardGridStyle(this.cardCss);
-        var cardConfigurationObject = [];
-        console.log('gridStyle-', currentGridStyle);
-        console.log('currentMainStyles-', currentMainStyles);
-        console.log('entered styles-', msg[1]);
-        var newCssValues = this.setStyleCss(msg[1], currentGridStyle);
-        this.cardCss = newCssValues[0];
-        this.menuItems.style = newCssValues[1];
-        this.headlineStyle = newCssValues[2];
-        this.headlineOptionsReload+=1;
-        cardConfigurationObject[0]=this.cardId;
-        cardConfigurationObject[1]=newCssValues[3];
-        cardConfigurationObject[2]={};
-        var newSub = [];
-        newSub[0]={
-          elementConfiguration:newCssValues[4],
-          elementName:'sub',
-          elementStyles:newCssValues[5]
-        }
-        cardConfigurationObject[3]=newSub;
-        console.log('cardConfigurationObject-', cardConfigurationObject);
-        var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationObject);
-        console.log('jsonCardConfigurationPackage', jsonCardConfigurationPackage);
-        var apiPath = this.$store.getters.getApiBase;
-        console.log('apiPath - ', apiPath);
-
-        axios.post(apiPath+'api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
-//        axios.post('http://localhost:8000/api/shan/saveCardParameters?XDEBUG_SESSION_START=14252', {
-          cardParams: jsonCardConfigurationPackage,
-        }).then(response=>
-        {
-          console.log(response);
-          this.$emit('cevt',['configurationHasBeenSaved', this.$store.getters.getCurrentLayoutId]);
-        }).catch(function(error) {
-          console.log(error);
-        });
-
-
-
+        this.saveCardConfiguration(msg, context);
       }
 
     },
@@ -301,10 +262,14 @@ export default {
     },
     doMenuMounted(msg, context){
       console.log('in doMenuMounted', msg, context);
-      this.cmdHandlers['headlineCardMenu'](['setMenu', 'headlineCardMenu','headlineCardMenu']);
+      this.cmdHandlers['headlineCardMenu'](['setMenu', 'cardMenu','headlineCardMenu']);
     },
     doMenuItemSelected(msg, context){
       console.log('headlineCard doMenuItemSelected-', msg, context);
+      debugger;
+      if(msg.length>2){
+        msg[3](this);
+      }
       switch(msg[2]){
         case 'internal_link':{
           this.$emit('cevt',['pageSelected', msg[1]]);

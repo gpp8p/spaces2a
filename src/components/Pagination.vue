@@ -105,7 +105,8 @@ name: "Pagination",
       }
 
       // When inbetween
-      return this.currentPage - 1;
+//      return this.currentPage - 1;
+      return this.currentPage;
     },
     pages() {
       const range = [];
@@ -126,8 +127,8 @@ name: "Pagination",
   },
   methods: {
     isPageActive(page) {
-//      return this.currentPage === page;
-      return this.currentPage === page+1;
+      return this.currentPage === page;
+//      return this.currentPage === page+1;
 
     },
     onClickFirstPage() {
