@@ -557,28 +557,29 @@ export default {
       if (typeof (msg[3].elementStyles) != 'undefined') {
         subElementStylingCss = ";" + msg[3].elementStyles.sub[0];
         thisCardSubStyling = context.getCardStyling(subElementStylingCss);
-      } else {
-        console.log('thisCardStyline-', thisCardStyling);
-        console.log('this background-color ', thisCardStyling['background-color']);
-        console.log('is true-', ((thisCardStyling['background-color'] == '#dbddd0') && (thisCardStyling['backgroundTypeColor'] == 'checked') && (thisCardStyling['color'] == '#0000FF')));
-        console.log('thisCardSubstyling', thisCardSubStyling);
-        if (((thisCardStyling['background-color'] == '#dbddd0') && (thisCardStyling['backgroundTypeColor'] == 'checked') && (thisCardStyling['color'] == '#0000FF'))) {
-          console.log('this is a new card');
-        } else {
-          console.log('not a new card');
-          context.dialogConfiguration.existingData = {
-            cardName: msg[2],
-            cardConfig: msg[3],
-            cardStyles: thisCardStyling,
-            cardSubStyles: thisCardSubStyling
-          };
-        }
       }
+      console.log('thisCardStyline-', thisCardStyling);
+      console.log('this background-color ', thisCardStyling['background-color']);
+      console.log('is true-', ((thisCardStyling['background-color'] == '#dbddd0') && (thisCardStyling['backgroundTypeColor'] == 'checked') && (thisCardStyling['color'] == '#0000FF')));
+      console.log('thisCardSubstyling', thisCardSubStyling);
+      if (((thisCardStyling['background-color'] == '#dbddd0') && (thisCardStyling['backgroundTypeColor'] == 'checked') && (thisCardStyling['color'] == '#0000FF'))) {
+        console.log('this is a new card');
+      } else {
+        console.log('not a new card');
+        context.dialogConfiguration.existingData = {
+          cardName: msg[2],
+          cardConfig: msg[3],
+          cardStyles: thisCardStyling,
+          cardSubStyles: thisCardSubStyling
+        };
+      }
+
       context.showDialog = true
       context.dialogReload += 1;
     },
 
     saveCardConfiguration(msg, context){
+      debugger;
 //      var currentMainStyles = this.getCardStyling(context.cardCss);
       var currentGridStyle = this.getCardGridStyle(context.cardCss);
       var cardConfigurationObject = [];

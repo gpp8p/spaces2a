@@ -257,6 +257,7 @@ export default {
 
     },
     doMenuSelection(msg, self){
+      console.log('doMenuSelected in switchboard-', msg, self);
       var evtType = {
         'editPage': function(msg, context){
           context.doEditPage(msg, context);

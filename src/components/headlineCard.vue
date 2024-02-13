@@ -267,40 +267,42 @@ export default {
     doMenuItemSelected(msg, context){
       console.log('headlineCard doMenuItemSelected-', msg, context);
       debugger;
-      if(msg.length>2){
+      if(msg.length>3){
         msg[3](this);
-      }
-      switch(msg[2]){
-        case 'internal_link':{
-          this.$emit('cevt',['pageSelected', msg[1]]);
-          break;
-        }
-        case 'external_link':{
-          break
-        }
-        case 'resizeCard':{
-          console.log('resizeCard-', context);
-          this.$emit('cevt', ['menuItemSelected', 'resizeCard', context.name, context.config ])
-          break;
+      }else{
+        switch(msg[2]){
+          case 'internal_link':{
+            this.$emit('cevt',['pageSelected', msg[1]]);
+            break;
+          }
+          case 'external_link':{
+            break
+          }
+          case 'resizeCard':{
+            console.log('resizeCard-', context);
+            this.$emit('cevt', ['menuItemSelected', 'resizeCard', context.name, context.config ])
+            break;
 
-        }
-        case 'configureHeadlineCard':{
-          console.log('configureHeadline menu choice-',context.config);
-          this.$emit('cevt', ['menuItemSelected', 'configureHeadlineCard', context.name, context.config ])
-          break;
-        }
-        case 'editHeadlineCard':{
-          debugger;
-          var thisCardId = context.config.id;
-          console.log('editHeadline menu choice-',context.config);
-          store.commit('setCardBeingEditedId', thisCardId);
-          this.$emit('cevt', ['menuItemSelected', 'editCardWithLinks', context.name, context.config ])
-          break;
-        }
-        default:{
-          this.$emit('cevt', msg);
+          }
+          case 'configureHeadlineCard':{
+            console.log('configureHeadline menu choice-',context.config);
+            this.$emit('cevt', ['menuItemSelected', 'configureHeadlineCard', context.name, context.config ])
+            break;
+          }
+          case 'editHeadlineCard':{
+            debugger;
+            var thisCardId = context.config.id;
+            console.log('editHeadline menu choice-',context.config);
+            store.commit('setCardBeingEditedId', thisCardId);
+            this.$emit('cevt', ['menuItemSelected', 'editCardWithLinks', context.name, context.config ])
+            break;
+          }
+          default:{
+            this.$emit('cevt', msg);
+          }
         }
       }
+
 
     },
     setStyleCss(enteredStyles, gridStyle){

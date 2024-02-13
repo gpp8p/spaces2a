@@ -1,8 +1,13 @@
 <template>
   <span>
-    <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass">
+    <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass" v-if="this.thisItemDirection===this.HOROZONTAL">
       {{this.itemLabel}}
     </span>
+    <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass" v-if="this.thisItemDirection===this.VERTICAL">
+      {{this.itemLabel}}
+      <BR/>
+    </span>
+
   </span>
 
 </template>
@@ -32,13 +37,22 @@ export default {
     this.itemLabel = this.thisItem[0];
     this.itemValue = this.thisItem[1];
     console.log('itemStyle =',this.itemStyle);
+    if(typeof(this.thisItem.direction)!='undefined'){
+      if (this.thisItem.direction=='V'){
+        this.thisItemDirection=this.VERTICAL;
+      }
+    }
   },
   data(){
     return {
       itemType:0,
       itemStyle:'',
       itemLabel:'',
-      itemValue:''
+      itemValue:'',
+      VERTICAL:1,
+      HOROZONTAL:0,
+      thisItemDirection:0
+
     }
   },
   methods:{

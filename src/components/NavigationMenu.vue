@@ -21,13 +21,31 @@
         </span>
       </span>
     </div>
+    <div v-if="this.cardMode==this.CARD_DISPLAY">
+      <span>
+        <span  v-bind:style='this.headlineStyle'>
+          {{ this.cardTitle }}
+        </span>
+          <span v-if="this.showOptions==true">
+            <menuItemsNew
+                :currentItems="menuItems"
+                :key="headlineOptionsReload"
+                name="headlineCardOptions"
+                @cevt="handleEvt"
+            ></menuItemsNew>
+          </span>
+
+      </span>
+    </div>
+
+
   </span>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
 import Menu from "../components/menuNew.vue";
-import menuItemsNew from "../components/menuItemsNew.vue";
+import menuItemsNew from "../components/menuItemsNewVertical.vue";
 import axios from "axios";
 import store from "@/store";
 
@@ -53,7 +71,88 @@ export default {
     this.$emit('cevt', ['cardMounted','',this.name]);
     console.log('navMenu config-',this.config);
     this.cardCss= this.config.card_parameters.style;
+    if(typeof(this.config.id)!='undefined'){
+      this.cardId = this.config.id;
+    }
+    if(typeof(this.config.id)!='undefined'){
+      this.cardId = this.config.id;
+    }
+    console.log(this.name,'headlineCard is mounted', this.config);
+    this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+    this.$emit('cevt', ['cardMounted','',this.name]);
+//    this.cardCss = this.config.card_parameters.gridCss +'; background-color:'+this.config.card_parameters.backgroundColor.colorSelect+';color:'+this.config.card_parameters.color+';';
+    this.cardCss= this.config.card_parameters.style;
+    console.log('headline card style-', this.cardCss);
+    debugger;
+    console.log('mounting Headline card element styles-', this.config.elementStyles.sub);
+    if (typeof(this.config.elementStyles.sub) === 'undefined'){
+      this.subStyle = '';
+    }else{
+      this.subStyle = this.config.elementStyles;
+    }
+    if(typeof(this.config.card_parameters.content.linkMenuTitle)=='undefined'){
+      this.cardTitle='';
+    }else{
+      this.cardTitle = this.config.card_parameters.content.linkMenuTitle;
+    }
+
+    var cardStyleElements = this.cardCss.split(';');
+    var hd = '';
+    for(var h=1; h < cardStyleElements.length;h++){
+      if(cardStyleElements[h].startsWith('font-size')|cardStyleElements[h].startsWith('font-family')|cardStyleElements[h].startsWith('color')|cardStyleElements[h].startsWith('font-style')|cardStyleElements[h].startsWith('font-weight')){
+        hd = hd+cardStyleElements[h]+';';
+      }
+    }
+    this.headlineStyle = hd.slice(0,-1);
+    debugger;
+    var subElementStyles = this.config.elementStyles.sub[0];
+    console.log('headline subelement styles-',subElementStyles);
+    var hov=this.substituteStyle(subElementStyles, 'color', 'red');
+    this.menuItems = {
+      currentSelectedMenuOption: 'Appearence',
+      style: subElementStyles,
+      hoverStyle: hov,
+      menuType: 'headline',
+      items:[]
+    }
+    for(var l=0;l<this.config.card_parameters.content.availableLinks.length; l++){
+      console.log('link-',this.config.card_parameters.content.availableLinks[l]);
+      this.showOptions=true;
+      var lType=0;
+      if(this.config.card_parameters.content.availableLinks[l].isExternal){
+        lType = this.LINK_EXTERNAL;
+      }else{
+        lType = this.LINK_INTERNAL;
+      }
+      debugger;
+      if(lType==this.LINK_INTERNAL){
+        var thisItem = {
+          label:this.config.card_parameters.content.availableLinks[l].description,
+          action: this.config.card_parameters.content.availableLinks[l].layout_link_to,
+          type: 'mItem',
+          linkType: lType,
+          direction:'V'
+        }
+        if(typeof (this.config.card_parameters.content.availableLinks[l].layout_link_to)!='undefined'){
+          this.menuItems.items.push(thisItem);
+        }
+      }else{
+        thisItem = {
+          label:this.config.card_parameters.content.availableLinks[l].description,
+          action: "",
+          linkUrl: this.config.card_parameters.content.availableLinks[l].link_url,
+          type: 'mItem',
+          linkType: lType,
+          direction:'V'
+        }
+        if(typeof (this.config.card_parameters.content.availableLinks[l].layout_link_to)!='undefined'){
+          this.menuItems.items.push(thisItem);
+        }
+      }
+
+    }
   },
+
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
   },
@@ -183,7 +282,7 @@ export default {
     doMenuItemSelected(msg, context){
       console.log('headlineCard doMenuItemSelected-', msg, context);
       debugger;
-      if(msg.length>2){
+      if(msg.length>3){
         msg[3](this);
       }else{
         switch(msg[2]){

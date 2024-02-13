@@ -1,10 +1,23 @@
 <template>
   <span>
-    <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_INTERNAL">
-      {{this.thisItem.label}}
+    <span v-if="this.thisItemDirection==this.HOROZONTAL">
+      <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_INTERNAL">
+        {{this.thisItem.label}}
+      </span>
+      <span  @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_EXTERNAL">
+        <a :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" v-bind:href="this.thisItem.linkUrl" target="_blank" >{{this.thisItem.label}}</a>
+      </span>
     </span>
-    <span  @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_EXTERNAL">
-      <a :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" v-bind:href="this.thisItem.linkUrl" target="_blank" >{{this.thisItem.label}}</a>
+    <span v-if="this.thisItemDirection==this.VERTICAL" class="vspace">
+      <span  :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" @click="processClick" class="itemClass"  v-if="this.linkType==this.LINK_INTERNAL">
+        <li>{{this.thisItem.label}}</li>
+      </span>
+      <span  @click="processClick" class="itemClass" v-if="this.linkType==this.LINK_EXTERNAL">
+        <li>
+          <a :style="itemStyle"  @mouseover="hoverStyle" @mouseleave="normalStyle" v-bind:href="this.thisItem.linkUrl" target="_blank" >{{this.thisItem.label}}</a>
+        </li>
+      </span>
+
     </span>
   </span>
 
@@ -41,6 +54,12 @@ export default {
       this.linkType = this.thisItem.linkType;
       this.linkUrl = this.thisItem.linkUrl;
     }
+    if(typeof(this.thisItem.direction)!='undefined'){
+      debugger;
+      if (this.thisItem.direction=='V'){
+        this.thisItemDirection=this.VERTICAL;
+      }
+    }
     console.log('itemStyle =',this.itemStyle);
     console.log('itemLabel - ',this.thisItem.label);
     console.log('linkType-', this.linkType);
@@ -53,7 +72,11 @@ export default {
       linkUrl:'',
       itemStyle:'',
       itemLabel:'',
-      itemValue:''
+      itemValue:'',
+      VERTICAL:1,
+      HOROZONTAL:0,
+      thisItemDirection:0,
+
     }
   },
   methods:{
@@ -89,6 +112,9 @@ export default {
 a {
   text-decoration: none;
   color: blue;
+}
+.vspace {
+  margin-top: 10px;
 }
 </style>
 
