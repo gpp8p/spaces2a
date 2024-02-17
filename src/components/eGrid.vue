@@ -22,7 +22,8 @@
 import utils from '../components/utils.vue';
 import Cell from "../components/Cell.vue";
 import Headline from "../components/headlineCard.vue";
-import NavigationMenu from "../components/NavigationMenu.vue"
+import NavigationMenu from "../components/NavigationMenu.vue";
+import RichText from "../components/RichText.vue";
 
 export default {
   name: "eGrid",
@@ -36,7 +37,7 @@ export default {
       required: true
     }
   },
-  components: {Cell, Headline, NavigationMenu},
+  components: {Cell, Headline, NavigationMenu, RichText},
   mixins: [utils],
   mounted(){
 //    debugger;
