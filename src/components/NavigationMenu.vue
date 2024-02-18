@@ -74,9 +74,6 @@ export default {
     if(typeof(this.config.id)!='undefined'){
       this.cardId = this.config.id;
     }
-    if(typeof(this.config.id)!='undefined'){
-      this.cardId = this.config.id;
-    }
     console.log(this.name,'headlineCard is mounted', this.config);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.$emit('cevt', ['cardMounted','',this.name]);

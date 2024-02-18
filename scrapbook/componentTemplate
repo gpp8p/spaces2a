@@ -106,7 +106,19 @@ export default {
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
     }
-
+    doMenuItemSelected(msg, context){
+      console.log('headlineCard doMenuItemSelected-', msg, context);
+      debugger;
+      if(msg.length>3){
+        msg[3](this);
+      }else{
+        switch(msg[2]){
+          default:{
+            this.$emit('cevt', msg);
+          }
+        }
+      }
+    },
 
 
   }

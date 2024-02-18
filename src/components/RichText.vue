@@ -1,17 +1,23 @@
 <template>
+
   <div :style="cardCss">
-      <span style="background-color: yellow; color: blue; font-size: medium; padding-bottom: 3px;" v-if="this.cardMode==this.CARD_EDIT" >
+      <span style="background-color: yellow; color: blue; font-size: medium; padding-bottom: 3px;" v-if="this.mode==this.CARD_EDIT" class="editCardClass">
         <Menu
             name="cardMenu"
             @cevt="handleEvt"
         ></Menu>
       </span>
-
   </div>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
+import Menu from "../components/menuNew.vue";
+import store from "@/store";
+//import menuItemsNew from "../components/menuItemsNewVertical.vue";
+//import axios from "axios";
+//import store from "@/store";
+
 
 export default {
   name: "RichText",
@@ -26,11 +32,12 @@ export default {
     }
 
   },
-  components: {},
+  components: {Menu},
   mixins: [utils],
   mounted(){
-    console.log(this.name,' is mounted');
+    console.log(this.name,' is mounted', this.config);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+    this.$emit('cevt', ['cardMounted','',this.name]);
     this.cardCss= this.config.card_parameters.style;
   },
   beforeDestroy() {
@@ -61,7 +68,11 @@ export default {
         var cmdType ={
           'default': function(context, args){
             console.log('cmdHandler in dummy - something else', args, context);
-          }
+          },
+          'setCardMode':function(args, context){
+            self.doSetCardMode(args, context);
+          },
+
           /*  example
                     'setCardMode':function(args, context){
                       self.doSetCardMode(args, context);
@@ -88,7 +99,16 @@ export default {
       }
     },
 // put do cmds here
+    doMenuMounted(msg, context){
+      console.log('in doMenuMounted', msg, context);
+      this.cmdHandlers['cardMenu'](['setMenu', 'cardMenuRt','cardMenu']);
+    },
 
+    doSetCardMode(msg, context){
+//      debugger;
+      this.mode=this.CARD_EDIT
+      console.log('in doSetCardMode', msg, context);
+    },
 //event handler
     evtOpt(msg){
       console.log('evtOpt in menu', msg);
@@ -104,6 +124,14 @@ export default {
         },
         'removeCmdHandler': function(msg, context){
           context.doRemoveCmdHandler(msg, context);
+        },
+        'menuMounted': function(msg, context){
+          //console.log('evtHandler - a menu event', msg);
+          context.doMenuMounted(msg, context);
+        },
+        'menuItemSelected': function(msg, context){
+          //console.log('evtHandler - a menu event', msg);
+          context.doMenuItemSelected(msg, context);
         },
         'default': function(msg, context){
           console.log('evtHandler in menu  - something else', msg, context);
@@ -125,8 +153,20 @@ export default {
     doRemoveCmdHandler(msg, context){
       console.log('doRemoveCmdHandler-',msg, context);
       delete(this.cmdHandlers[msg[2]]);
-    }
-
+    },
+    doMenuItemSelected(msg, context){
+      console.log('RichText doMenuItemSelected-', msg, context);
+      debugger;
+      if(msg.length>3){
+        msg[3](this);
+      }else{
+        switch(msg[2]){
+          default:{
+            this.$emit('cevt', msg);
+          }
+        }
+      }
+    },
 
 
   }
@@ -134,6 +174,16 @@ export default {
 </script>
 
 <style scoped>
+.cardEditMenu{
+  height:15%;
+  width:100%;
+  background-color: yellow;
+  color: blue;
+}
+.editCardClass {
+  display: grid;
+  grid-template-rows: 30px 80%;
+}
 .cardStyle {
   height: 100%;
   width: 100%;

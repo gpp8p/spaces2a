@@ -861,7 +861,64 @@ name: "menuDefinitionsNew",
 
           }
         }
+        case 'cardMenuRt':{
+//          debugger;
+          return {
+            items: [
+              {
+                label:'Configure',
+                action: 'configureCard',
+                type: 'mItem',
+                actionMethod: function(context){
+                  console.log('action method for configureCard-', context);
+                  context.$emit('cevt', ['menuItemSelected', 'configureCard', context.name, context.config ])
 
+                }
+              },
+              {
+                label:'Resize/Move',
+                action: 'resizeCard',
+                type: 'mItem',
+                actionMethod: function(context){
+                  console.log('action method for resizeCard-', context);
+                  context.$emit('cevt', ['menuItemSelected', 'resizeCard', context.name, context.config ])
+                }
+              },
+              {
+                label:'Delete',
+                action: 'deleteCard',
+                type: 'mItem',
+                actionMethod: function(context){
+                  console.log('action method for deleteHeadlineCard-', context);
+                }
+              },
+              {
+                label:'Edit',
+                action: 'editard',
+                type: 'mItem',
+                actionMethod: function(context){
+                  console.log('action method for editCard-', context);
+                  var thisCardId = context.config.id;
+                  console.log('editHeadline menu choice-',context.config);
+                  store.commit('setCardBeingEditedId', thisCardId);
+                  context.$emit('cevt', ['menuItemSelected', 'editCardWithText', context.name, context.config ])
+                }
+              },
+              {
+                label:'Exit',
+                action: 'cardExitEdit',
+                type: 'mItem',
+                actionMethod: function(context){
+                  console.log('action method for cardExitEdit-', context);
+                }
+              }
+            ],
+            currentSelectedMenuOption: 'Appearence',
+            style: 'color:blue; font-family: Geneva; font-size: 10px;',
+            hoverStyle: 'color:red; font-family: Geneva; font-size: 10px;',
+
+          }
+        }
 
         case 'configureNewCardMenu':{
           return {
