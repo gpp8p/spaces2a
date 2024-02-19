@@ -7,6 +7,9 @@
             @cevt="handleEvt"
         ></Menu>
       </span>
+    <span style="background-color: #7588e7; color: #f3bf04; font-size: medium; padding-bottom: 3px;" v-if="this.mode==this.SHOW_TEXT" class="editCardClass">
+      search feature here....
+    </span>
   </div>
 </template>
 

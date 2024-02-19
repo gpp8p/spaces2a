@@ -283,6 +283,10 @@ export default {
           debugger;
           context.doConfigureCard(msg, context);
         },
+        'configureRtCard': function(msg, context){
+          debugger;
+          context.doConfigureRtCard(msg, context);
+        },
 /*
         'editHeadlineCard': function(msg, context){
           context.doEditHeadlineCard(msg, context);

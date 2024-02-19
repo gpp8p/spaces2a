@@ -867,11 +867,11 @@ name: "menuDefinitionsNew",
             items: [
               {
                 label:'Configure',
-                action: 'configureCard',
+                action: 'configureRtCard',
                 type: 'mItem',
                 actionMethod: function(context){
                   console.log('action method for configureCard-', context);
-                  context.$emit('cevt', ['menuItemSelected', 'configureCard', context.name, context.config ])
+                  context.$emit('cevt', ['menuItemSelected', 'configureRtCard', context.name, context.config ])
 
                 }
               },

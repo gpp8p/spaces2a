@@ -2637,6 +2637,248 @@ name: "dialogDefinitions",
           }
 
         }
+        case 'configureRtCard':{
+          return {
+            configureRtCard: {
+//            configureHeadlineCard: {
+              dialogStyle: {
+                position: 'fixed',
+                top: '30%',
+                left: '30%',
+                height: '40vh',
+                width: '50vw',
+                backgroundColor: 'lavender',
+                color: 'blue',
+                borderRadius: '10px',
+                boxShadow: '10px 10px 5px lightslategrey',
+              },
+              leafComponent: false,
+              menuName: 'dialogSubMenu3',
+              loader: function(existingData, dialogComponents){
+                console.log('loading headline card config existing data-', existingData );
+                console.log('componentLoaders-',componentLoaders);
+//                debugger;
+                if(typeof(existingData)!='undefined'){
+                  for(var d = 0; d<dialogComponents.length; d++){
+                    if(typeof(dialogComponents[d].loader)!='undefined'){
+                      console.log('loading a field-', dialogComponents[d]);
+                      console.log('loading existing data headline-', existingData);
+                      var loadedVal = dialogComponents[d].loader(existingData.cardStyles);
+                      dialogComponents[d].fieldValue = loadedVal
+                      if(typeof(existingData.cardSubStyles)!='undefined'){
+                        loadedVal = dialogComponents[d].loader(existingData.cardSubStyles);
+                        dialogComponents[d].subElementValue = loadedVal;
+                      }
+                      console.log('existingValue is', loadedVal);
+                    }
+                  }
+                }
+              },
+              fields: [
+                {
+                  type: "vBackgroundPicker",
+                  fieldLabel: "Background:",
+                  hasLabel: "true",
+                  leafComponent: true,
+                  loader:function(styleElements){
+                    return componentLoaders.background(styleElements);
+                  },
+                  labelStyle: {
+                    color: "blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'background',
+                  name: "cardBackground",
+                  styles: {
+                    componentStyle: {
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                    backGroundRadioGroupStyle: {
+                      type: "vRadioGroup",
+                      hasLabel: "false",
+                      orient: "horozontal",
+                      groupName: "backgroundType",
+                      leafComponent: true,
+                      labelStyle: {
+                        color: "blue",
+                        fontFamily: "Candara",
+                        fontSize: "12px",
+                      },
+                      buttonLabelStyle: {
+                        color: "blue",
+                        fontFamily: "Candara",
+                        fontSize: "12px",
+                      },
+                      radioButtons: [
+                        {
+                          fieldLabel: "Color",
+                          val: "color",
+                        },
+                        {
+                          fieldLabel: "Image",
+                          val: "image",
+                        },
+                        {
+                          fieldLabel: "Transparent",
+                          val: "transparent",
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  type: "checkbox",
+                  fieldLabel: "Shadow:",
+                  hasLabel: true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'shadow',
+                  name: "shadow",
+                  loader: function(styleElements){
+                    //                   debugger;
+                    if(typeof(styleElements['shadow'])!='undefined'){
+                      if(styleElements['shadow']=='checked'){
+                        return 'yes';
+                      }else{
+                        return 'no';
+                      }
+                    }else{
+                      return 'no';
+                    }
+                  },
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                  }
+                },
+                {
+                  type: "checkbox",
+                  fieldLabel: "Rnd.Corners:",
+                  hasLabel: true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'roundIncluded',
+                  loader: function(styleElements){
+//                    debugger;
+                    if(typeof(styleElements['roundIncluded'])!='undefined'){
+                      if(styleElements['roundIncluded']=='checked'){
+                        return 'yes';
+                      }else{
+                        return 'no';
+                      }
+                    }else{
+                      return 'no';
+                    }
+                  },
+                  name: "roundIncluded",
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                  }
+                },
+                {
+                  type: "checkbox",
+                  fieldLabel: "Include Search:",
+                  hasLabel: true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  fieldIdentifier: 'includeSearch',
+                  name: "includeSearch",
+                  loader: function(styleElements){
+                    //                   debugger;
+                    if(typeof(styleElements['includeSearch'])!='undefined'){
+                      if(styleElements['includeSearch']=='checked'){
+                        return 'yes';
+                      }else{
+                        return 'no';
+                      }
+                    }else{
+                      return 'no';
+                    }
+                  },
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                  }
+                },
+                {
+                  type: "cbxSelectColor",
+                  fieldLabel: "Borders:",
+                  hasLabel: true,
+                  leafComponent: true,
+                  labelStyle:{
+                    color:"blue",
+                    fontFamily: "Candara",
+                    fontSize: "12px",
+                    marginTop: "7px"
+                  },
+                  selectOptions:[
+                    {
+                      val: 'thin',
+                      label: 'Small',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                    {
+                      val: 'medium',
+                      label: 'Medium',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                    {
+                      val: 'thick',
+                      label: 'Large',
+                      isDisabled: false,
+                      isSelected: false
+                    },
+                  ],
+                  loader: function(styleElements){
+                    return componentLoaders.borders(styleElements);
+                  },
+
+                  fieldIdentifier: 'borders',
+                  name: "borders",
+                  styles:{
+                    componentStyle:{
+                      display: "grid",
+                      gridTemplateColumns: "20% 80%",
+                      marginTop: "7px"
+                    },
+                  }
+                }
+              ]
+            }
+          }
+        }
+
         case 'login':{
           return {
             login:{

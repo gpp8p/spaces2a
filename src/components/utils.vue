@@ -541,6 +541,31 @@ export default {
         return "error:"+error;
       });
     },
+    doConfigureRtCard(msg, context){
+      console.log('in sb - doConfigureCard', msg, context);
+      context.dialogConfiguration = {};
+      context.dialogConfiguration.definition = 'configureRtCard';
+      debugger;
+      var mainStylingCss;
+      mainStylingCss = msg[3].card_parameters.style;
+      console.log('mainStylingCss', mainStylingCss);
+      var thisCardStyling = context.getCardStyling(mainStylingCss);
+      console.log('thisCardStyline-', thisCardStyling);
+      console.log('this background-color ', thisCardStyling['background-color']);
+      console.log('is true-', ((thisCardStyling['background-color'] == '#dbddd0') && (thisCardStyling['backgroundTypeColor'] == 'checked') && (thisCardStyling['color'] == '#0000FF')));
+      if (((thisCardStyling['background-color'] == '#dbddd0') && (thisCardStyling['backgroundTypeColor'] == 'checked') && (thisCardStyling['color'] == '#0000FF'))) {
+        console.log('this is a new card');
+      } else {
+        console.log('not a new card');
+        context.dialogConfiguration.existingData = {
+          cardName: msg[2],
+          cardConfig: msg[3],
+          cardStyles: thisCardStyling
+        };
+      }
+      context.showDialog = true
+      context.dialogReload += 1;
+    },
 
     doConfigureCard(msg, context) {
       console.log('in sb - doConfigureCard', msg, context);
