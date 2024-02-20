@@ -75,12 +75,9 @@ export default {
           'setCardMode':function(args, context){
             self.doSetCardMode(args, context);
           },
-
-          /*  example
-                    'setCardMode':function(args, context){
-                      self.doSetCardMode(args, context);
-                    }
-          */
+          'setValue':function(args, context){
+            self.doSetValue(args, context);
+          },
         }
         if(typeof(cmdType)!='undefined'){
           try {
@@ -169,6 +166,15 @@ export default {
           }
         }
       }
+    },
+    doSetValue(msg, context){
+      debugger;
+      if(msg[2]==this.name){
+        console.log('RichText card doSetValue-',msg, context);
+        debugger;
+        this.saveCardConfiguration(msg, context);
+      }
+
     },
 
 

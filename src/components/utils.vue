@@ -382,6 +382,13 @@ export default {
             }
             break;
           }
+          case 'includeSearch':{
+            if(enteredStyles[thisStyleElements[s]]=='yes'){
+              newTitleStyleElements['includeSearch']="includeSearch:checked;";
+              newStyle = newStyle+"includeSearch:checked;";
+            }
+            break;
+          }
           case 'roundIncluded':{
 //            debugger;
             if(enteredStyles[thisStyleElements[s]]=='yes'){
@@ -610,19 +617,22 @@ export default {
       var cardConfigurationObject = [];
       var newCssValues = this.setStyleCss(msg[1], currentGridStyle);
       context.cardCss = newCssValues[0];
-      context.menuItems.style = newCssValues[1];
-      context.headlineStyle = newCssValues[2];
-      context.headlineOptionsReload+=1;
+      if(context.config.card_component != 'RichText'){
+        context.menuItems.style = newCssValues[1];
+        context.headlineStyle = newCssValues[2];
+        var newSub = [];
+        newSub[0]={
+          elementConfiguration:newCssValues[4],
+          elementName:'sub',
+          elementStyles:newCssValues[5]
+        }
+        cardConfigurationObject[3]=newSub;
+        context.headlineOptionsReload+=1;
+      }
       cardConfigurationObject[0]=context.cardId;
       cardConfigurationObject[1]=newCssValues[3];
       cardConfigurationObject[2]={};
-      var newSub = [];
-      newSub[0]={
-        elementConfiguration:newCssValues[4],
-        elementName:'sub',
-        elementStyles:newCssValues[5]
-      }
-      cardConfigurationObject[3]=newSub;
+
       var jsonCardConfigurationPackage = JSON.stringify(cardConfigurationObject);
       console.log('jsonCardConfigurationPackage', jsonCardConfigurationPackage);
       var apiPath = this.$store.getters.getApiBase;

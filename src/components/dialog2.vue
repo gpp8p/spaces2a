@@ -231,7 +231,7 @@ export default {
           context.doRemoveCmdHandler(msg, context);
         },
         'fieldInput': function(msg, context){
-//          debugger;
+          debugger;
           context.doFieldInput(msg, context);
         },
         'default': function(msg, context){
