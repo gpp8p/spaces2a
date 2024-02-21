@@ -618,8 +618,18 @@ export default {
       var newCssValues = this.setStyleCss(msg[1], currentGridStyle);
       context.cardCss = newCssValues[0];
       if(context.config.card_component != 'RichText'){
-        context.menuItems.style = newCssValues[1];
-        context.headlineStyle = newCssValues[2];
+        if(typeof(newCssValues[1])!='undefined'){
+          context.menuItems.style = newCssValues[1];
+        }else{
+          context.menuItems.style = "";
+        }
+  //      context.menuItems.style = newCssValues[1];
+        if(typeof(newCssValues[2])!='undefined'){
+          context.headlineStyle = newCssValues[2];
+        }else{
+          context.headlineStyle = "";
+        }
+//        context.headlineStyle = newCssValues[2];
         var newSub = [];
         newSub[0]={
           elementConfiguration:newCssValues[4],
@@ -628,6 +638,8 @@ export default {
         }
         cardConfigurationObject[3]=newSub;
         context.headlineOptionsReload+=1;
+      }else{
+        cardConfigurationObject[3]=[];
       }
       cardConfigurationObject[0]=context.cardId;
       cardConfigurationObject[1]=newCssValues[3];

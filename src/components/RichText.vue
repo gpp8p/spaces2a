@@ -7,7 +7,7 @@
             @cevt="handleEvt"
         ></Menu>
       </span>
-    <span style="background-color: #7588e7; color: #f3bf04; font-size: medium; padding-bottom: 3px;" v-if="this.mode==this.SHOW_TEXT" class="editCardClass">
+    <span style="background-color: #7588e7; color: #f3bf04; font-size: medium; padding-bottom: 3px;" v-if="this.mode==this.SHOW_TEXT && this.showSearch==true" class="editCardClass">
       search feature here....
     </span>
   </div>
@@ -42,6 +42,12 @@ export default {
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.$emit('cevt', ['cardMounted','',this.name]);
     this.cardCss= this.config.card_parameters.style;
+    if(typeof(this.config.id)!='undefined'){
+      this.cardId = this.config.id;
+    }
+    if(this.cardCss.includes('includeSearch:checked')){
+      this.showSearch=true;
+    }
   },
   beforeDestroy() {
     this.$emit('cevt', ['removeCmdHandler', this.handleCmd, this.name]);
@@ -58,6 +64,8 @@ export default {
       CARD_EDIT:5,
       SEARCH:6,
       mode: 0,
+      cardId:0,
+      showSearch: false,
     }
   },
   methods:{
