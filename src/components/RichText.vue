@@ -1,22 +1,28 @@
 <template>
 
-  <div :style="cardCss">
-      <span style="background-color: yellow; color: blue; font-size: medium; padding-bottom: 3px;" v-if="this.mode==this.CARD_EDIT" class="editCardClass">
+  <div :style="cardCss" class="cardBody  scrollbar-hidden">
+      <span class="editCardClass cardHeader" v-if="this.mode==this.CARD_EDIT" >
         <Menu
             name="cardMenu"
             @cevt="handleEvt"
         ></Menu>
       </span>
-    <span style="background-color: #7588e7; color: #f3bf04; font-size: medium; padding-bottom: 3px;" v-if="this.mode==this.SHOW_TEXT && this.showSearch==true" class="editCardClass">
+    <span class="editCardClass searchBoxStyle" v-if="this.mode==this.SHOW_TEXT && this.showSearch==true" >
       search feature here....
     </span>
+
+      <span v-if="this.mode==this.SHOW_TEXT"  v-html="this.cardText" >
+      </span>
+
+
+
   </div>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
 import Menu from "../components/menuNew.vue";
-import store from "@/store";
+//import store from "@/store";
 //import menuItemsNew from "../components/menuItemsNewVertical.vue";
 //import axios from "axios";
 //import store from "@/store";
@@ -38,15 +44,20 @@ export default {
   components: {Menu},
   mixins: [utils],
   mounted(){
+    debugger;
     console.log(this.name,' is mounted', this.config);
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
     this.$emit('cevt', ['cardMounted','',this.name]);
     this.cardCss= this.config.card_parameters.style;
+    console.log("rt style-", this.cardCss);
     if(typeof(this.config.id)!='undefined'){
       this.cardId = this.config.id;
     }
     if(this.cardCss.includes('includeSearch:checked')){
       this.showSearch=true;
+    }
+    if(typeof(this.config.card_parameters.content.cardText)!='undefined'){
+      this.cardText =  this.config.card_parameters.content.cardText;
     }
   },
   beforeDestroy() {
@@ -66,6 +77,8 @@ export default {
       mode: 0,
       cardId:0,
       showSearch: false,
+      cardText:'',
+
     }
   },
   methods:{
@@ -201,12 +214,21 @@ export default {
   display: grid;
   grid-template-rows: 30px 80%;
 }
+.cardBody {
+  height: 100%;
+  scrollbar-width:none;
+  font-family: "Times New Roman";
+  overflow: auto;
+  padding-left: 5px;
+}
+.textAreaDisplay {
+  margin-left: 2%;
+}
+
 .cardStyle {
   height: 100%;
   width: 100%;
-  overflow: auto;
-  scrollbar-width:none;
-
+  font-family: "Times New Roman";
 }
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
@@ -218,7 +240,7 @@ export default {
   scrollbar-width: none; /* Firefox */
 }
 
-.cardHeader {
+.cardHead {
   color: blue;
   height: 6%;
   background-color: #fff722;
@@ -227,13 +249,26 @@ export default {
   font-style: normal;
   font-weight: bold;
 }
-.cardBody {
-  height: 90%;
-  margin:10px;
-  scrollbar-width:none;
-
+.editCardClass {
+  display: grid;
+  grid-template-rows: 30px 80%;
+}
+.cardHeader {
+  background-color: yellow;
+  color: blue;
+  font-size: medium;
+  padding-bottom: 3px;
 
 }
+
+.searchBoxStyle {
+  background-color: #7588e7;
+  color: #f3bf04;
+  font-size: medium;
+  padding-bottom: 3px;
+
+}
+
 
 .cardFooter {
   height: 5%;
@@ -242,6 +277,7 @@ export default {
   margin-right: auto;
   text-align: center
 }
+
 
 
 </style>

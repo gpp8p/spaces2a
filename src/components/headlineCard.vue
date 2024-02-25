@@ -519,9 +519,9 @@ export default {
   color: blue;
 }
 .editCardClass {
-  display: grid;
-  grid-template-rows: 30px 80%;
-}
+   display: grid;
+   grid-template-rows: 30px 80%;
+ }
 
 .center {
   display: flex;
