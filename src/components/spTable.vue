@@ -1,13 +1,18 @@
 <template>
   <span>
     <table class="styled-table">
-      <tr>
+      <tr class="headerClass">
         <th :style="thisColumn.columnStyle" v-for="(thisColumn, index) in this.styledColumns"
             :key="index"
         >
           <span  v-if="thisColumn.visible">{{thisColumn.label}}</span>
         </th>
       </tr>
+        <tr v-for="(row, rowIndex) in this.data" :key="rowIndex">
+          <td v-for="(cell, cellIndex) in row" :key="cellIndex">
+            {{ cell }}
+          </td>
+        </tr>
     </table>
   </span>
 </template>
@@ -65,7 +70,10 @@ export default {
         columnStyle:columnStyle,
         visible:columnVisible
       }
-      this.styledColumns.push(thisStyledColumn);
+      if(columnVisible){
+        this.styledColumns.push(thisStyledColumn);
+      }
+
     }
 
   },
@@ -176,12 +184,11 @@ export default {
 
 <style scoped>
 .styled-table {
-  border-collapse: collapse;
-  margin: 25px 0;
+  border: 2px;
   font-size: 0.9em;
   font-family: sans-serif;
   width: 100%;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
 }
 .styled-table thead tr {
   background-color: #009879;
@@ -190,8 +197,16 @@ export default {
 }
 .styled-table th,
 .styled-table td {
-  padding: 12px 15px;
+  padding-top:15px;
+  text-align: left;
 }
+.styled-table tr:hover {
+  background-color: #4AAE9B;
+}
+.headerClass:hover {
+  background-color: #0a3aff;
+}
+
 .styled-table tbody tr {
   border-bottom: 1px solid #dddddd;
 }
