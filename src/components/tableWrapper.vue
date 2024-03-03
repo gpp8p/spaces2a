@@ -1,25 +1,21 @@
 <template>
     <span class="myspaceWrapper">
-      <o-table :data="fieldValue"
+     <sp-table :data="fieldValue"
+               :key="this.tableReload"
                :columns="columns"
                bordered="true"
                :selected.sync="selected"
                :paginated="isPaginated"
-               :per-page="perPage"
-               :current-page.sync="currentPage"
-               :pagination-simple="isPaginationSimple"
-               :pagination-position="paginationPosition"
-               aria-next-label="Next page"
-               aria-previous-label="Previous page"
-               aria-page-label="Page"
-               aria-current-label="Current page"
+               :perPage="perPage"
                @update:selected="spaceSelected"
-               focusable> </o-table>
+               focusable> </sp-table>
+
     </span>
 </template>
 
 <script>
 import utils from '../components/utils.vue';
+import spTable from '../components/spTable.vue';
 
 
 export default {
@@ -34,7 +30,7 @@ export default {
       required: true
     }
   },
-  components: {},
+  components: {spTable},
   mixins: [utils],
   mounted(){
     debugger;
@@ -45,6 +41,7 @@ export default {
       this.isPaginated = this.cmdObject.isPaginated;
     }
     console.log(this.name,' is mounted');
+    this.tableReload+=1;
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
   },
   beforeDestroy() {
@@ -65,7 +62,8 @@ export default {
       nxtPage: 'Next Page',
       selected:'',
       columns:[],
-      fieldValue:[]
+      fieldValue:[],
+      tableReload:0
     }
   },
   methods:{

@@ -1,11 +1,13 @@
 <template>
   <span>
     <table class="styled-table">
-      <th v-for="(thisColumn, index) in this.styledColumns"
-        :key="index"
+      <tr>
+        <th :style="thisColumn.columnStyle" v-for="(thisColumn, index) in this.styledColumns"
+            :key="index"
         >
-        <span :style="thisColumn.columnStyle" v-if="thisColumn.visible">{{thisColumn.label}}</span>
-      </th>
+          <span  v-if="thisColumn.visible">{{thisColumn.label}}</span>
+        </th>
+      </tr>
     </table>
   </span>
 </template>
@@ -14,12 +16,8 @@
 import utils from '../components/utils.vue';
 
 export default {
-  name: "menu",
+  name: "sptable",
   props:{
-    name:{
-      type: String,
-      required: true
-    },
     data :{
       type: Array,
       required: true
@@ -42,11 +40,14 @@ export default {
     }
 
   },
+
   components: {},
   mixins: [utils],
   mounted(){
-    console.log(this.name,' is mounted');
+    console.log('spTable is mounted-', this.data, this.columns, this.bordered, this.paginated, this.perPage);
+    debugger;
     this.$emit('cevt', ['setCmdHandler', this.handleCmd, this.name]);
+    console.log('sptable columns', this.columns);
     for(var c=0;c<this.columns.length;c++){
       var columnIsNumeric = false;
       if(typeof(this.columns[c].numeric)!='undefined'){
@@ -179,7 +180,7 @@ export default {
   margin: 25px 0;
   font-size: 0.9em;
   font-family: sans-serif;
-  min-width: 400px;
+  width: 100%;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 .styled-table thead tr {

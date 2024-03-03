@@ -1447,26 +1447,30 @@ name: "dialogDefinitions",
                     {
                       field: 'id',
                       label: 'ID',
-                      width: '10',
+                      width: '10%',
                       numeric: true
                     },
                     {
                       field: 'menu_label',
-                      label: 'Name'
+                      label: 'Name',
+                      width: '30%'
                     },
                     {
                       field: 'description',
-                      label: 'Description'
+                      label: 'Description',
+                      width: '30%',
 
                     },
 
                     {
                       field: 'height',
-                      label: 'Height'
+                      label: 'Height',
+                      width: '10%',
                     },
                     {
                       field: 'width',
-                      label: 'Width'
+                      label: 'Width',
+                      width: '10%'
                     }
                   ],
                 }
