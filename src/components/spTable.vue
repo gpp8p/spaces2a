@@ -74,11 +74,22 @@ export default {
         columnStyle:columnStyle,
         visible:columnVisible
       }
+      console.log('thisStyledColumns-', thisStyledColumn);
       if(columnVisible){
         this.styledColumns.push(thisStyledColumn);
       }
-
     }
+    for(var d=0; d<this.data.length;d++){
+      var styledRow=[];
+      var thisRow = this.data[d];
+      for(var s=0;s<this.styledColumns.length;s++){
+        if(this.styledColumns[s].visible){
+          styledRow.push(thisRow[this.styledColumns[s].field]);
+        }
+      }
+      this.styledData.push(styledRow);
+    }
+
 
   },
   beforeDestroy() {
@@ -89,6 +100,7 @@ export default {
       cmdHandlers:{},
       leafComponent: false,
       styledColumns:[],
+      styledData:[],
     }
   },
   methods:{
