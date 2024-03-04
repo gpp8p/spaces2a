@@ -1,18 +1,22 @@
 <template>
   <span>
     <table class="styled-table">
-      <tr class="headerClass">
-        <th :style="thisColumn.columnStyle" v-for="(thisColumn, index) in this.styledColumns"
-            :key="index"
-        >
-          <span  v-if="thisColumn.visible">{{thisColumn.label}}</span>
-        </th>
-      </tr>
-        <tr v-for="(row, rowIndex) in this.data" :key="rowIndex">
+      <thead class="headerClass">
+        <tr>
+          <th :style="thisColumn.columnStyle" v-for="(thisColumn, index) in this.styledColumns"
+              :key="index"
+          >
+            <span  v-if="thisColumn.visible">{{thisColumn.label}}</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr v-for="(row, rowIndex) in this.data" :key="rowIndex">
           <td v-for="(cell, cellIndex) in row" :key="cellIndex">
             {{ cell }}
           </td>
         </tr>
+      </tbody>
     </table>
   </span>
 </template>
@@ -191,7 +195,7 @@ export default {
 
 }
 .styled-table thead tr {
-  background-color: #009879;
+  background-color: #0a3ae7;
   color: #ffffff;
   text-align: left;
 }
@@ -203,17 +207,13 @@ export default {
 .styled-table tr:hover {
   background-color: #4AAE9B;
 }
-.headerClass:hover {
-  background-color: #0a3aff;
-}
+
 
 .styled-table tbody tr {
   border-bottom: 1px solid #dddddd;
 }
 
-.styled-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
+
 
 .styled-table tbody tr:last-of-type {
   border-bottom: 2px solid #009879;
