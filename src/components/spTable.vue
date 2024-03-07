@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-       <tr v-for="(row, rowIndex) in this.data" :key="rowIndex">
+       <tr v-for="(row, rowIndex) in this.styledData" :key="rowIndex" @click="rowSelected(rowIndex)">
           <td v-for="(cell, cellIndex) in row" :key="cellIndex">
             {{ cell }}
           </td>
@@ -169,6 +169,11 @@ export default {
           this.$emit('cevt', msg);
         }
       }
+    },
+    rowSelected(msg){
+      debugger;
+      console.log("rowSelected-", this.data[msg]);
+      this.$emit('selected', this.data[msg]);
     },
     doSetCmdHandler(msg, context){
 //      debugger;

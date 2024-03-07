@@ -1448,7 +1448,8 @@ name: "dialogDefinitions",
                       field: 'id',
                       label: 'ID',
                       width: '10%',
-                      numeric: true
+                      numeric: true,
+                      visible: true
                     },
                     {
                       field: 'menu_label',

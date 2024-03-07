@@ -7,7 +7,7 @@
                :selected.sync="selected"
                :paginated="isPaginated"
                :perPage="perPage"
-               @update:selected="spaceSelected"
+               @selected="spaceSelected"
                focusable> </sp-table>
 
     </span>
